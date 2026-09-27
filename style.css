@@ -85,3 +85,400 @@ body.dark-mode .project {
 body.dark-mode a {
   color: #f1eee8;
 }
+/* =========================
+   GAYRİMENKULLER
+========================= */
+
+.properties {
+  padding: 14vh 5vw;
+  background: #eeeae2;
+  color: #171716;
+}
+
+.properties-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+  align-items: end;
+  margin: 8vh 0 6vh;
+}
+
+.properties-intro h2 {
+  margin: 0;
+  font: 400 clamp(42px, 6vw, 82px) 'Playfair Display', serif;
+  line-height: .95;
+}
+
+.properties-intro h2 em {
+  font-style: italic;
+}
+
+.properties-intro > p {
+  max-width: 480px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.property-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.property-card {
+  background: #f7f4ee;
+  overflow: hidden;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.property-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 45px rgba(0,0,0,.08);
+}
+
+.property-card-image {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #d8d1c5;
+}
+
+.property-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s ease;
+}
+
+.property-card:hover .property-card-image img {
+  transform: scale(1.04);
+}
+
+.property-badge {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  padding: 7px 11px;
+  background: #171716;
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.property-card-content {
+  padding: 25px;
+}
+
+.property-type {
+  margin: 0 0 8px;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: .6;
+}
+
+.property-card h3 {
+  margin: 0 0 8px;
+  font: 400 28px 'Playfair Display', serif;
+}
+
+.property-location {
+  margin: 0 0 20px;
+  opacity: .65;
+}
+
+.property-price {
+  display: block;
+  margin-bottom: 18px;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.property-mini-facts,
+.property-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.property-tag {
+  display: inline-block;
+  padding: 7px 10px;
+  background: rgba(0,0,0,.05);
+  font-size: 12px;
+}
+
+.property-detail-button {
+  width: 100%;
+  margin-top: 22px;
+  padding: 14px 18px;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: .25s ease;
+}
+
+.property-detail-button:hover {
+  background: #171716;
+  color: #fff;
+}
+
+.property-empty,
+.property-loading {
+  padding: 50px 0;
+  opacity: .6;
+}
+
+
+/* =========================
+   GAYRİMENKUL DETAY MODALI
+========================= */
+
+.property-modal[hidden] {
+  display: none;
+}
+
+.property-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.property-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+}
+
+.property-modal-content {
+  position: relative;
+  width: min(1100px, 92vw);
+  margin: 5vh auto;
+  background: #eeeae2;
+  color: #171716;
+  z-index: 2;
+}
+
+.property-modal-x {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  z-index: 5;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,.75);
+  color: white;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.property-detail-gallery {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 4px;
+  background: #171716;
+}
+
+.property-detail-gallery img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+}
+
+.property-detail-gallery img:first-child {
+  grid-row: span 2;
+  height: 604px;
+}
+
+.property-no-image {
+  min-height: 300px;
+  display: grid;
+  place-items: center;
+  color: white;
+}
+
+.property-detail-content {
+  padding: 45px;
+}
+
+.property-detail-content h2 {
+  margin: 5px 0 10px;
+  font: 400 clamp(34px, 5vw, 60px) 'Playfair Display', serif;
+}
+
+.property-detail-location {
+  margin: 0 0 25px;
+  opacity: .65;
+}
+
+.property-detail-price {
+  margin-bottom: 30px;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.property-facts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: 30px;
+  border-top: 1px solid rgba(0,0,0,.15);
+  border-bottom: 1px solid rgba(0,0,0,.15);
+}
+
+.property-facts > div {
+  padding: 18px 10px;
+  border-right: 1px solid rgba(0,0,0,.1);
+}
+
+.property-facts small {
+  display: block;
+  margin-bottom: 5px;
+  opacity: .55;
+}
+
+.property-facts strong {
+  font-size: 15px;
+}
+
+.property-extras {
+  margin-bottom: 30px;
+}
+
+.property-extras p {
+  margin-top: 18px;
+  line-height: 1.8;
+}
+
+.property-description {
+  margin-bottom: 30px;
+}
+
+.property-description h3 {
+  margin-bottom: 10px;
+  font: 500 20px 'Playfair Display', serif;
+}
+
+.property-description p {
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+.property-whatsapp {
+  display: inline-block;
+  padding: 15px 22px;
+  background: #171716;
+  color: white;
+  text-decoration: none;
+}
+
+
+/* =========================
+   DARK MODE
+========================= */
+
+body.dark-mode .properties {
+  background: #171716;
+  color: #eeeae2;
+}
+
+body.dark-mode .property-card {
+  background: #222220;
+}
+
+body.dark-mode .property-tag {
+  background: rgba(255,255,255,.08);
+}
+
+body.dark-mode .property-detail-button:hover {
+  background: #eeeae2;
+  color: #171716;
+}
+
+body.dark-mode .property-modal-content {
+  background: #171716;
+  color: #eeeae2;
+}
+
+body.dark-mode .property-facts {
+  border-color: rgba(255,255,255,.15);
+}
+
+body.dark-mode .property-facts > div {
+  border-color: rgba(255,255,255,.1);
+}
+
+body.dark-mode .property-whatsapp {
+  background: #eeeae2;
+  color: #171716;
+}
+
+
+/* =========================
+   MOBİL
+========================= */
+
+@media (max-width: 800px) {
+
+  .properties-intro {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .property-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .property-detail-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .property-detail-gallery img:first-child {
+    grid-column: span 2;
+    grid-row: auto;
+    height: 320px;
+  }
+
+  .property-detail-gallery img {
+    height: 180px;
+  }
+
+  .property-detail-content {
+    padding: 30px 22px;
+  }
+
+  .property-facts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .property-facts > div:nth-child(2n) {
+    border-right: 0;
+  }
+
+}
+
+@media (max-width: 500px) {
+
+  .property-detail-gallery {
+    display: block;
+  }
+
+  .property-detail-gallery img,
+  .property-detail-gallery img:first-child {
+    height: 260px;
+  }
+
+  .property-card h3 {
+    font-size: 24px;
+  }
+
+}
