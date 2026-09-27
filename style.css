@@ -46,7 +46,7 @@ body.dark-mode .project {
 .theme-toggle {
   position: fixed;
   top: 22px;
-  right: 90px;
+  right: 25px;
   z-index: 1000;
   border: 1px solid currentColor;
   background: transparent;
