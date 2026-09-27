@@ -7,3 +7,39 @@
 /* Protected portfolio management page */
 .admin-body{min-height:100vh}.admin-header{height:78px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #aaa59c}.admin-header a{text-decoration:none;font-size:12px}.admin-logo{color:#171716}.admin-main{width:min(900px,calc(100% - 48px));margin:70px auto 100px}.admin-main h1{font:400 clamp(48px,7vw,78px)/1 'Playfair Display',Georgia,serif;letter-spacing:-.045em;margin:0 0 14px}.admin-lede{max-width:560px;line-height:1.7;color:#6b6962;margin-bottom:35px}.admin-card{background:#e4dfd5;padding:28px;display:grid;gap:18px;max-width:620px}.admin-card h2,.admin-topline h2{font:400 27px 'Playfair Display',Georgia,serif;margin:0}.admin-card label{display:grid;gap:7px;font-size:10px;letter-spacing:.1em;text-transform:uppercase}.admin-card input{border:0;border-bottom:1px solid #aaa59c;background:transparent;padding:11px 0;font:14px 'DM Sans',sans-serif;color:#171716;letter-spacing:normal;text-transform:none}.admin-card small{line-height:1.55;color:#706e67}.admin-card button,.admin-project button{justify-self:start;border:0;background:#171716;color:#eeeae2;padding:14px 18px;font:12px 'DM Sans',sans-serif;cursor:pointer}.admin-card button:hover,.admin-project button:hover{background:#444}.admin-notice{padding:20px;background:#e4dfd5;line-height:1.7;margin:24px 0}.admin-topline{display:flex;align-items:center;justify-content:space-between;margin:50px 0 18px}.button-quiet{border:1px solid #99958b;background:transparent;padding:10px 14px;cursor:pointer}.admin-status{min-height:20px;font-size:12px;color:#68665f}.admin-projects{display:grid;gap:12px;margin-top:26px}.admin-project{display:grid;grid-template-columns:100px 1fr auto;gap:18px;align-items:center;padding:12px;border-top:1px solid #c8c2b8}.admin-project img{width:100px;height:75px;object-fit:cover}.admin-project p{font-size:12px;color:#716f68;margin:6px 0 0}.admin-project button{padding:10px 14px}.portfolio-empty{grid-column:1/-1;color:#77756e;font:italic 24px 'Playfair Display',Georgia,serif}.live-project .project-image{display:block;height:auto;object-fit:cover}.contact-bottom{flex-wrap:wrap}
 @media(max-width:700px){.admin-main{margin:46px auto 70px}.admin-card{padding:21px}.admin-project{grid-template-columns:76px 1fr auto;gap:10px}.admin-project img{width:76px;height:64px}.admin-project button{padding:9px}}
+/* Koyu tema */
+body.dark-mode {
+  background: #171717;
+  color: #f1eee8;
+}
+
+body.dark-mode .nav {
+  background: #171717;
+}
+
+body.dark-mode .nav a,
+body.dark-mode .logo,
+body.dark-mode .hero-copy,
+body.dark-mode .section-head,
+body.dark-mode .project-info,
+body.dark-mode .statement,
+body.dark-mode .services,
+body.dark-mode .contact {
+  color: #f1eee8;
+}
+
+body.dark-mode .statement-text,
+body.dark-mode .service-list p,
+body.dark-mode .contact-intro,
+body.dark-mode .contact-details {
+  color: #c8c5be;
+}
+
+body.dark-mode .services,
+body.dark-mode .contact {
+  background: #171717;
+}
+
+body.dark-mode .project {
+  background: #222222;
+}
