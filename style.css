@@ -482,3 +482,205 @@ body.dark-mode .property-whatsapp {
   }
 
 }
+/* ================================
+   GAYRİMENKUL DETAY MODALI
+   ================================ */
+
+.property-modal[hidden] {
+  display: none !important;
+}
+
+.property-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow-y: auto;
+  padding: 40px 20px;
+  background: rgba(20, 20, 20, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.property-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.28);
+  z-index: -1;
+}
+
+.property-modal-box {
+  position: relative;
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  background: #ffffff;
+  color: #171717;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+}
+
+.property-modal-x {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 20;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: #111;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+.property-modal-x:hover {
+  background: #f0f0f0;
+}
+
+.property-detail {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  min-height: 500px;
+}
+
+.property-detail-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3px;
+  background: #eeeeee;
+  align-content: start;
+}
+
+.property-detail-gallery img {
+  display: block;
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+}
+
+.property-detail-content {
+  padding: 45px 40px;
+  background: #ffffff;
+}
+
+.property-detail-content h1 {
+  margin: 8px 0 10px;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.05;
+  color: #111111;
+}
+
+.property-detail-content p {
+  color: #555555;
+  line-height: 1.7;
+}
+
+.property-detail-content .property-type {
+  color: #777777;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.property-detail-content .property-location {
+  margin-bottom: 20px;
+}
+
+.property-detail-content .property-price {
+  margin: 20px 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #111111;
+}
+
+.property-detail-facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 25px 0;
+}
+
+.property-detail-fact {
+  padding: 13px 14px;
+  border: 1px solid #e7e7e7;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.property-detail-fact strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #111111;
+}
+
+.property-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.property-detail-tag {
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: #f1f1f1;
+  color: #333333;
+  font-size: 13px;
+}
+
+.property-detail-description {
+  margin-top: 25px;
+}
+
+.property-detail-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 25px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  background: #1f1f1f;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.property-detail-whatsapp:hover {
+  opacity: 0.9;
+}
+
+/* Detay açıkken ana sayfa kesinlikle kaymasın */
+body.property-modal-open {
+  overflow: hidden !important;
+}
+
+/* Mobil */
+@media (max-width: 800px) {
+  .property-modal {
+    padding: 15px;
+  }
+
+  .property-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .property-detail-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .property-detail-gallery img {
+    height: 240px;
+  }
+
+  .property-detail-content {
+    padding: 30px 22px;
+  }
+
+  .property-detail-facts {
+    grid-template-columns: 1fr 1fr;
+  }
+}
