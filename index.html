@@ -1,20 +1,32 @@
+```html
 <!doctype html>
 <html lang="tr">
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#b8d8e8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <meta
+    name="theme-color"
+    content="#b8d8e8"
+  >
 
   <meta
     name="description"
-    content="Sivora Mimarlık Ofisi — mimarlık, iç mekân ve gayrimenkul. Zerafetin izinde tasarım."
+    content="Sivora Mimarlık Ofisi. Mimarlık, iç mekân ve seçkin gayrimenkul projeleri."
   >
 
-  <title>Sivora Mimarlık Ofisi — Zerafetin izinde tasarım</title>
+  <title>Sivora Mimarlık Ofisi | Zerafetin İzinde Tasarım</title>
 
-  <!-- SİVORA FAVICON -->
-  <link rel="icon" type="image/png" href="sivora-favicon.png">
+  <link
+    rel="icon"
+    type="image/png"
+    href="sivora-favicon.png"
+  >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,607 +37,707 @@
   >
 
   <link rel="stylesheet" href="style.css">
-
 </head>
+
 
 <body>
 
-<!-- =========================
-     HEADER
-========================= -->
+  <!-- =====================================================
+       NAVIGATION
+  ====================================================== -->
 
-<header class="nav">
-
-  <a class="logo" href="#anasayfa">
-    SVR <span>· SİVORA MİMARLIK OFİSİ</span>
-  </a>
-
-  <button
-    class="theme-toggle"
-    id="theme-toggle"
-    aria-label="Tema değiştir"
-  >
-    🌙
-  </button>
-
-  <nav id="navlinks">
-
-    <a href="#projeler">Projeler</a>
-
-    <a href="#gayrimenkuller">Gayrimenkuller</a>
-
-    <a href="#yaklasim">Yaklaşım</a>
-
-    <a href="#hizmetler">Hizmetler</a>
-
-    <a href="#iletisim" class="nav-cta">
-      İletişim ↗
-    </a>
-
-  </nav>
-
-  <button
-    class="menu"
-    id="menu"
-    aria-label="Menüyü aç"
-    aria-expanded="false"
-  >
-    ☰
-  </button>
-
-</header>
-
-
-<!-- =========================
-     ANA İÇERİK
-========================= -->
-
-<main>
-
-<!-- =========================
-     HERO
-========================= -->
-
-<section class="hero" id="anasayfa">
-
-  <div
-    class="hero-image"
-    aria-hidden="true"
-  ></div>
-
-  <div class="hero-copy">
-
-    <p class="eyebrow">
-      Sivora Mimarlık Ofisi · İstanbul
-    </p>
-
-    <h1>
-      Mekânın<br>
-      <em>karakteri.</em>
-    </h1>
-
-    <p class="intro">
-      Mimarlık ve gayrimenkulü bir araya getirerek
-      yaşama değer katan mekânlar tasarlıyoruz.
-    </p>
+  <header class="nav">
 
     <a
-      class="arrow-link"
-      href="#projeler"
+      class="logo"
+      href="#anasayfa"
+      aria-label="Sivora Mimarlık ana sayfa"
     >
-      Çalışmalarımızı keşfedin
-      <span>↘</span>
+      SVR
+      <span>· SİVORA MİMARLIK OFİSİ</span>
     </a>
 
-  </div>
 
-  <div class="hero-meta">
+    <nav id="navlinks">
 
-    <span>Mimarlık</span>
+      <a href="#projeler">
+        Projeler
+      </a>
 
-    <span>İç mekân</span>
+      <a href="#gayrimenkuller">
+        Gayrimenkuller
+      </a>
 
-    <span>Gayrimenkul</span>
+      <a href="#yaklasim">
+        Yaklaşım
+      </a>
 
-  </div>
-
-</section>
-
-
-<!-- =========================
-     PROJELER
-========================= -->
-
-<section
-  class="projects"
-  id="projeler"
->
-
-  <div class="section-head">
-
-    <span>
-      01 / Seçili çalışmalar
-    </span>
-
-    <span>
-      Fikirden mekâna
-    </span>
-
-  </div>
-
-  <div
-    class="project-grid"
-    id="project-grid"
-  >
-
-    <article class="project large">
-
-      <div
-        class="project-image image-1"
-        role="img"
-        aria-label="Doğal tonlarda modern mimari iç mekân"
-      ></div>
-
-      <div class="project-info">
-
-        <span>01</span>
-
-        <div>
-
-          <h2>
-            Işığın izinde
-          </h2>
-
-          <p>
-            Temsili görsel · Mimari
-          </p>
-
-        </div>
-
-      </div>
-
-    </article>
-
-
-    <article class="project">
-
-      <div
-        class="project-image image-2"
-        role="img"
-        aria-label="Modern ve yalın bir yaşam alanı"
-      ></div>
-
-      <div class="project-info">
-
-        <span>02</span>
-
-        <div>
-
-          <h2>
-            Sade yaşam
-          </h2>
-
-          <p>
-            Temsili görsel · İç mekân
-          </p>
-
-        </div>
-
-      </div>
-
-    </article>
-
-
-    <article class="project">
-
-      <div
-        class="project-image image-3"
-        role="img"
-        aria-label="Özenli detaylarla tasarlanmış iç mekân"
-      ></div>
-
-      <div class="project-info">
-
-        <span>03</span>
-
-        <div>
-
-          <h2>
-            Detayda denge
-          </h2>
-
-          <p>
-            Temsili görsel · Konut
-          </p>
-
-        </div>
-
-      </div>
-
-    </article>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     GAYRİMENKULLER
-========================= -->
-
-<section
-  class="properties"
-  id="gayrimenkuller"
->
-
-  <div class="section-head">
-
-    <span>
-      02 / Gayrimenkuller
-    </span>
-
-    <span>
-      Sivora seçkisi
-    </span>
-
-  </div>
-
-  <div class="properties-intro">
-
-    <div>
-
-      <p class="eyebrow">
-        Satılık · Kiralık
-      </p>
-
-      <h2>
-        Yeni bir<br>
-        <em>adres.</em>
-      </h2>
-
-    </div>
-
-    <p>
-      Seçili gayrimenkulleri inceleyin.
-      Detaylı bilgi ve yerinde görüşme için
-      bizimle iletişime geçebilirsiniz.
-    </p>
-
-  </div>
-
-  <div
-    class="property-grid"
-    id="property-grid"
-  >
-
-    <p class="property-loading">
-      Gayrimenkuller yükleniyor...
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     YAKLAŞIM
-========================= -->
-
-<section
-  class="statement"
-  id="yaklasim"
->
-
-  <p class="eyebrow">
-    03 / Yaklaşımımız
-  </p>
-
-  <h2>
-    İyi tasarım, yalnızca güzel görünen değil;
-    <em>iyi hissettiren</em> bir mekân yaratır.
-  </h2>
-
-  <div class="statement-text">
-
-    Sivora’da her işe önce dinleyerek başlıyoruz.
-    İhtiyaçları, yeri ve hayalleri anlamlandırıyor;
-    zamana dayanıklı, işlevli ve kendine özgü
-    çözümler geliştiriyoruz.
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     HİZMETLER
-========================= -->
-
-<section
-  class="services"
-  id="hizmetler"
->
-
-  <div>
-
-    <p class="eyebrow">
-      04 / Neler yapıyoruz
-    </p>
-
-    <h2>
-      Birlikte<br>
-      şekillendirelim.
-    </h2>
-
-  </div>
-
-  <div class="service-list">
-
-    <article>
-
-      <span>01</span>
-
-      <div>
-
-        <strong>
-          Mimari tasarım
-        </strong>
-
-        <p>
-          Fikir, proje ve uygulama aşamalarında
-          mimari tasarım desteği.
-        </p>
-
-      </div>
-
-    </article>
-
-
-    <article>
-
-      <span>02</span>
-
-      <div>
-
-        <strong>
-          İç mekân
-        </strong>
-
-        <p>
-          Günlük yaşama uyumlu, yalın ve işlevsel
-          iç mekân çözümleri.
-        </p>
-
-      </div>
-
-    </article>
-
-
-    <article>
-
-      <span>03</span>
-
-      <div>
-
-        <strong>
-          Gayrimenkul
-        </strong>
-
-        <p>
-          Alım, satım ve doğru mülkü değerlendirme
-          süreçlerinde danışmanlık.
-        </p>
-
-      </div>
-
-    </article>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     İLETİŞİM
-========================= -->
-
-<section
-  class="contact"
-  id="iletisim"
->
-
-  <div class="contact-top">
-
-    <div>
-
-      <p class="eyebrow">
-        05 / İletişim
-      </p>
-
-      <h2>
-        Bir merhaba<br>
-        yeter.
-      </h2>
+      <a href="#hizmetler">
+        Hizmetler
+      </a>
 
       <a
-        class="contact-link"
-        href="https://wa.me/905532217532?text=Merhaba%2C%20Sivora%20Mimarl%C4%B1k%20Ofisi%20ile%20projem%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum."
-        target="_blank"
-        rel="noopener"
+        href="#iletisim"
+        class="nav-cta"
       >
-        WhatsApp’tan yazın
-        <span>↗</span>
+        İletişim ↗
       </a>
 
-    </div>
+    </nav>
 
-    <p class="contact-intro">
-
-      Projenizi, aradığınız mülkü veya
-      aklınızdaki fikri konuşalım.
-      Size yardımcı olmaktan memnuniyet duyarız.
-
-    </p>
-
-  </div>
-
-
-  <div class="contact-details">
-
-    <div>
-
-      <small>
-        İletişim
-      </small>
-
-      Mimar Mesut Sivri<br>
-
-      <a href="tel:+905532217532">
-        +90 553 221 75 32
-      </a>
-
-    </div>
-
-
-    <div>
-
-      <small>
-        Adres
-      </small>
-
-      Mustafa Kemal Marmaray İstasyonu<br>
-
-      İstasyon Caddesi No: 31,
-      Daire: 42–43<br>
-
-      34303 Küçükçekmece / İstanbul
-
-    </div>
-
-  </div>
-
-
-  <div class="contact-bottom">
-
-    <span>
-      © <span id="year"></span>
-      Sivora Mimarlık Ofisi
-    </span>
-
-    <span>
-      Zerafetin izinde Tasarım
-    </span>
-
-    <a href="admin.html">
-      Yönetim ↗
-    </a>
-
-    <a href="#anasayfa">
-      Başa dön ↑
-    </a>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<!-- =====================================================
-     GAYRİMENKUL DETAY PENCERESİ
-===================================================== -->
-
-<div
-  class="property-modal"
-  id="property-modal"
-  hidden
->
-
-  <!-- Arka plana tıklayınca kapatır -->
-
-  <div
-    class="property-modal-backdrop"
-    id="property-modal-close"
-  ></div>
-
-
-  <!-- Detay kutusu -->
-
-  <div
-    class="property-modal-box"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Gayrimenkul detayları"
-  >
-
-    <!-- Kapatma butonu -->
 
     <button
+      class="theme-toggle"
+      id="theme-toggle"
       type="button"
-      class="property-modal-x"
-      id="property-modal-x"
-      aria-label="Kapat"
+      aria-label="Tema değiştir"
     >
-      ×
+      🌙
     </button>
 
 
-    <div id="property-detail"></div>
+    <button
+      class="menu"
+      id="menu"
+      type="button"
+      aria-label="Menüyü aç"
+      aria-expanded="false"
+    >
+      ☰
+    </button>
+
+  </header>
+
+
+
+  <main>
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section
+      class="hero"
+      id="anasayfa"
+    >
+
+      <div
+        class="hero-image"
+        aria-hidden="true"
+      ></div>
+
+
+      <div class="hero-copy">
+
+        <p class="eyebrow">
+          Sivora Mimarlık Ofisi · İstanbul
+        </p>
+
+
+        <h1>
+          Mekânın
+          <br>
+          <em>karakteri.</em>
+        </h1>
+
+
+        <p class="intro">
+          Mimarlık ve gayrimenkulü bir araya getirerek
+          yaşama değer katan mekânlar tasarlıyoruz.
+        </p>
+
+
+        <a
+          class="arrow-link"
+          href="#projeler"
+        >
+          Çalışmalarımızı keşfet
+          <span>↓</span>
+        </a>
+
+      </div>
+
+
+      <div class="hero-meta">
+
+        <span>
+          Mimarlık
+        </span>
+
+        <span>
+          İç mekân
+        </span>
+
+        <span>
+          Gayrimenkul
+        </span>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         PROJECTS
+    ====================================================== -->
+
+    <section
+      class="projects"
+      id="projeler"
+    >
+
+      <div class="section-head">
+
+        <span>
+          01 / Seçili çalışmalar
+        </span>
+
+        <span>
+          Fikirden mekâna
+        </span>
+
+      </div>
+
+
+      <div
+        class="project-grid"
+        id="project-grid"
+      >
+
+        <!--
+          Supabase'den projeler geldiğinde
+          public-projects.js bu alanı otomatik doldurur.
+        -->
+
+        <article class="project large">
+
+          <img
+            class="project-image"
+            src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=85"
+            alt="Modern mimari iç mekân"
+            loading="lazy"
+          >
+
+          <div class="project-info">
+
+            <span>
+              01
+            </span>
+
+            <div>
+
+              <h2>
+                Modern Yaşam
+              </h2>
+
+              <p>
+                İstanbul · Konut
+              </p>
+
+            </div>
+
+          </div>
+
+        </article>
+
+
+        <article class="project">
+
+          <img
+            class="project-image"
+            src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=85"
+            alt="Minimalist iç mekân tasarımı"
+            loading="lazy"
+          >
+
+          <div class="project-info">
+
+            <span>
+              02
+            </span>
+
+            <div>
+
+              <h2>
+                Sessiz Form
+              </h2>
+
+              <p>
+                İstanbul · İç mekân
+              </p>
+
+            </div>
+
+          </div>
+
+        </article>
+
+
+        <article class="project">
+
+          <img
+            class="project-image"
+            src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=85"
+            alt="Çağdaş mimari proje"
+            loading="lazy"
+          >
+
+          <div class="project-info">
+
+            <span>
+              03
+            </span>
+
+            <div>
+
+              <h2>
+                Doğal Doku
+              </h2>
+
+              <p>
+                İstanbul · Villa
+              </p>
+
+            </div>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         REAL ESTATE
+    ====================================================== -->
+
+    <section
+      class="properties"
+      id="gayrimenkuller"
+    >
+
+      <div class="section-head">
+
+        <span>
+          02 / Gayrimenkuller
+        </span>
+
+        <span>
+          Sivora seçkisi
+        </span>
+
+      </div>
+
+
+      <div class="properties-intro">
+
+        <h2>
+          Yeni bir
+          <br>
+          <em>adres.</em>
+        </h2>
+
+
+        <p>
+          Özenle seçilmiş satılık ve kiralık gayrimenkulleri
+          mimari bakış açımızla değerlendiriyor,
+          doğru mekânı doğru insanla buluşturuyoruz.
+        </p>
+
+      </div>
+
+
+      <!--
+        public-properties.js
+        Supabase'deki gayrimenkulleri buraya getirir.
+      -->
+
+      <div
+        class="property-grid"
+        id="property-grid"
+      >
+
+        <p class="property-loading">
+          Gayrimenkuller yükleniyor...
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         APPROACH
+    ====================================================== -->
+
+    <section
+      class="statement"
+      id="yaklasim"
+    >
+
+      <p class="eyebrow">
+        03 / Yaklaşımımız
+      </p>
+
+
+      <h2>
+        İyi tasarım,
+        yalnızca güzel görünen değil;
+        <em>iyi hissettiren</em>
+        bir mekân yaratır.
+      </h2>
+
+
+      <p class="statement-text">
+        Sivora'da her projeyi yalnızca bir yapı olarak değil,
+        içinde yaşanacak bir deneyim olarak ele alıyoruz.
+        Malzeme, ışık, oran ve işlevi birlikte düşünerek
+        zamana karşı değerini koruyan mekânlar oluşturuyoruz.
+      </p>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         SERVICES
+    ====================================================== -->
+
+    <section
+      class="services"
+      id="hizmetler"
+    >
+
+      <div>
+
+        <p class="eyebrow">
+          04 / Neler yapıyoruz
+        </p>
+
+
+        <h2>
+          Birlikte
+          <br>
+          şekillendirelim.
+        </h2>
+
+      </div>
+
+
+      <div class="service-list">
+
+        <article>
+
+          <span>
+            01
+          </span>
+
+          <div>
+
+            <strong>
+              Mimari tasarım
+            </strong>
+
+            <p>
+              Konut, villa ve ticari projeler için
+              konseptten uygulamaya kadar bütüncül
+              mimari tasarım hizmetleri.
+            </p>
+
+          </div>
+
+        </article>
+
+
+        <article>
+
+          <span>
+            02
+          </span>
+
+          <div>
+
+            <strong>
+              İç mekân
+            </strong>
+
+            <p>
+              Malzeme, ışık, renk ve mobilyayı bir araya
+              getirerek karakter sahibi iç mekânlar
+              tasarlıyoruz.
+            </p>
+
+          </div>
+
+        </article>
+
+
+        <article>
+
+          <span>
+            03
+          </span>
+
+          <div>
+
+            <strong>
+              Gayrimenkul
+            </strong>
+
+            <p>
+              Seçkin gayrimenkulleri mimari bakış açısıyla
+              değerlendiriyor ve doğru yatırım kararına
+              yardımcı oluyoruz.
+            </p>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         CONTACT
+    ====================================================== -->
+
+    <section
+      class="contact"
+      id="iletisim"
+    >
+
+      <div class="contact-top">
+
+        <div>
+
+          <p class="eyebrow">
+            05 / İletişim
+          </p>
+
+
+          <h2>
+            Bir merhaba
+            <br>
+            yeter.
+          </h2>
+
+
+          <p class="contact-intro">
+            Yeni bir proje, gayrimenkul veya
+            iş birliği fikriniz varsa
+            konuşalım.
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <a
+            class="contact-link"
+            href="https://wa.me/905532217532?text=Merhaba%2C%20Sivora%20Mimarl%C4%B1k%20Ofisi%20ile%20projem%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum."
+            target="_blank"
+            rel="noopener"
+          >
+            WhatsApp
+            <span>↗</span>
+          </a>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="contact-details">
+
+        <div>
+
+          <small>
+            Telefon
+          </small>
+
+          <a
+            href="tel:+905532217532"
+            style="text-decoration:none;"
+          >
+            +90 553 221 75 32
+          </a>
+
+        </div>
+
+
+        <div>
+
+          <small>
+            Konum
+          </small>
+
+          Mustafa Kemal Marmaray İstasyonu
+          <br>
+          İstasyon Caddesi No: 31,
+          Daire: 42–43
+          <br>
+          34303 Küçükçekmece / İstanbul
+
+        </div>
+
+
+        <div>
+
+          <small>
+            Çalışma
+          </small>
+
+          Mimarlık
+          <br>
+          İç mekân
+          <br>
+          Gayrimenkul
+
+        </div>
+
+      </div>
+
+
+
+      <div class="contact-bottom">
+
+        <span>
+          © <span id="year"></span>
+          Sivora Mimarlık Ofisi
+        </span>
+
+
+        <span>
+          Zerafetin izinde Tasarım
+        </span>
+
+
+        <a
+          href="admin.html"
+          style="text-decoration:none;"
+        >
+          Yönetim ↗
+        </a>
+
+
+        <a
+          href="#anasayfa"
+          style="text-decoration:none;"
+        >
+          Başa dön ↑
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =====================================================
+       PROPERTY DETAIL MODAL
+  ====================================================== -->
+
+  <div
+    class="property-modal"
+    id="property-modal"
+    hidden
+  >
+
+    <div
+      class="property-modal-backdrop"
+      id="property-modal-close"
+    ></div>
+
+
+    <div
+      class="property-modal-box"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Gayrimenkul detayları"
+    >
+
+      <button
+        type="button"
+        class="property-modal-x"
+        id="property-modal-x"
+        aria-label="Kapat"
+      >
+        ×
+      </button>
+
+
+      <div id="property-detail"></div>
+
+    </div>
 
   </div>
 
-</div>
 
 
-<!-- =========================
-     WHATSAPP BUTONU
-========================= -->
+  <!-- =====================================================
+       FLOATING WHATSAPP
+  ====================================================== -->
 
-<a
-  class="wa-float"
-  href="https://wa.me/905532217532?text=Merhaba%2C%20Sivora%20Mimarl%C4%B1k%20Ofisi%20ile%20projem%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum."
-  target="_blank"
-  rel="noopener"
-  aria-label="WhatsApp üzerinden Sivora ile iletişime geçin"
->
-
-  <svg
-    width="25"
-    height="25"
-    viewBox="0 0 24 24"
-    fill="none"
-    aria-hidden="true"
+  <a
+    class="wa-float"
+    href="https://wa.me/905532217532?text=Merhaba%2C%20Sivora%20Mimarl%C4%B1k%20Ofisi%20ile%20projem%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum."
+    target="_blank"
+    rel="noopener"
+    aria-label="WhatsApp ile iletişime geç"
   >
 
-    <path
-      d="M20.5 11.7a8.4 8.4 0 0 1-12.4 7.4L3 20l.9-5a8.4 8.4 0 1 1 16.6-3.3Z"
-      stroke="white"
-      stroke-width="1.7"
-    />
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
 
-    <path
-      d="M8.4 7.8c.3-.6.6-.6.9-.6h.4c.2 0 .4 0 .5.4l.7 1.7c.1.3.1.5-.1.7l-.5.6c-.2.2-.2.4 0 .7.5.9 1.2 1.6 2.1 2.1.3.2.5.2.7-.1l.7-.8c.2-.2.4-.3.7-.2l1.6.8c.3.2.4.3.4.5 0 .3-.2 1-.7 1.3-.5.4-1.2.6-1.9.5-1.1-.2-2.4-.8-3.7-2-1.1-1-2-2.4-2.2-3.5-.2-.8.1-1.6.4-2.1Z"
-      fill="white"
-    />
+      <path
+        d="M20.52 3.48A11.86 11.86 0 0 0 12.08 0C5.52 0 .18 5.34.18 11.9c0 2.1.55 4.15 1.6 5.96L.1 24l6.28-1.64a11.9 11.9 0 0 0 5.69 1.45h.01c6.55 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.46-8.43Z"
+        fill="currentColor"
+      />
 
-  </svg>
+      <path
+        d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.74-1.64-2.03-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.22 3.07.15.2 2.1 3.21 5.1 4.5.71.31 1.26.49 1.69.63.71.23 1.35.2 1.86.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.28.17-1.41-.07-.12-.27-.2-.57-.35Z"
+        fill="#fff"
+      />
 
-</a>
+    </svg>
+
+  </a>
 
 
-<!-- =========================
-     JAVASCRIPT
-========================= -->
 
-<script src="supabase-config.js"></script>
+  <!-- =====================================================
+       SCRIPTS
+  ====================================================== -->
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
 
-<script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="public-projects.js"></script>
+  <script src="script.js"></script>
 
-<script src="public-properties.js"></script>
+  <script src="public-projects.js"></script>
+
+  <script src="public-properties.js"></script>
 
 </body>
+
 </html>
+```
