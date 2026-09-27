@@ -1,220 +1,342 @@
-(() => {
-  const configured =
-    window.SIVORA_SUPABASE_URL &&
-    window.SIVORA_SUPABASE_ANON_KEY &&
-    !window.SIVORA_SUPABASE_URL.includes('SUPABASE_') &&
-    !window.SIVORA_SUPABASE_ANON_KEY.includes('SUPABASE_') &&
-    window.supabase;
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#eeeae2">
+<title>Yönetim | Sivora Mimarlık</title>
 
-  const setup = document.getElementById('setup-needed');
-  const login = document.getElementById('login-form');
-  const dashboard = document.getElementById('dashboard');
-  const status = document.getElementById('admin-status');
-  const cards = document.getElementById('admin-projects');
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 
-  if (!configured) {
-    setup.hidden = false;
-    login.hidden = true;
-    return;
-  }
+<link rel="stylesheet" href="style.css">
+</head>
 
-  const db = window.supabase.createClient(
-    window.SIVORA_SUPABASE_URL,
-    window.SIVORA_SUPABASE_ANON_KEY
-  );
+<body class="admin-body">
 
-  const setStatus = (message) => {
-    status.textContent = message;
-  };
+<header class="admin-header">
+  <a class="logo admin-logo" href="index.html">
+    SVR <span>· SİVORA MİMARLIK OFİSİ</span>
+  </a>
+  <a href="index.html">← Siteye dön</a>
+</header>
 
-  const refresh = async () => {
-    const { data, error } = await db
-      .from('projects')
-      .select('id,title,location,image_url,storage_path,created_at')
-      .order('created_at', { ascending: false });
+<main class="admin-main">
 
-    if (error) {
-      setStatus('Projeler yüklenemedi: ' + error.message);
-      return;
-    }
+<p class="eyebrow">Sivora · Yönetim paneli</p>
 
-    cards.replaceChildren();
+<h1>Yönetim</h1>
 
-    (data || []).forEach(project => {
-      const row = document.createElement('article');
-      row.className = 'admin-project';
+<p class="admin-lede">
+  Mimarlık projelerini ve gayrimenkul ilanlarını buradan yönetebilirsin.
+</p>
 
-      const image = document.createElement('img');
-      image.src = project.image_url;
-      image.alt = project.title;
+<section id="setup-needed" class="admin-notice" hidden>
+  <strong>Bağlantı kurulmadı.</strong><br>
+  Önce Supabase bağlantısını kontrol et.
+</section>
 
-      const detail = document.createElement('div');
+<form id="login-form" class="admin-card">
+  <h2>Yönetici girişi</h2>
 
-      const title = document.createElement('strong');
-      title.textContent = project.title;
+  <label>
+    E-posta
+    <input type="email" name="email" autocomplete="username" required>
+  </label>
 
-      const location = document.createElement('p');
-      location.textContent = project.location;
+  <label>
+    Şifre
+    <input type="password" name="password" autocomplete="current-password" required>
+  </label>
 
-      detail.append(title, location);
+  <button type="submit">Giriş yap</button>
+</form>
 
-      const remove = document.createElement('button');
-      remove.type = 'button';
-      remove.textContent = 'Sil';
+<section id="dashboard" hidden>
 
-      remove.addEventListener('click', async () => {
-        if (!window.confirm('Bu proje galeriden kaldırılsın mı?')) {
-          return;
-        }
+  <div class="admin-topline">
+    <h2>Yönetim</h2>
+    <button type="button" class="button-quiet" id="logout">
+      Çıkış yap
+    </button>
+  </div>
 
-        const { error: fileError } = await db.storage
-          .from('projects')
-          .remove([project.storage_path]);
 
-        if (fileError) {
-          setStatus('Fotoğraf silinemedi: ' + fileError.message);
-          return;
-        }
+  <!-- MİMARLIK PROJELERİ -->
 
-        const { error: rowError } = await db
-          .from('projects')
-          .delete()
-          .eq('id', project.id);
+  <section class="admin-card">
 
-        if (rowError) {
-          setStatus('Proje silinemedi: ' + rowError.message);
-          return;
-        }
+    <h2>Yeni mimarlık projesi</h2>
 
-        setStatus('Proje silindi.');
-        refresh();
-      });
+    <form id="project-form">
 
-      row.append(image, detail, remove);
-      cards.append(row);
-    });
-  };
+      <label>
+        Proje adı
+        <input
+          name="title"
+          maxlength="100"
+          required
+          placeholder="Örn. Bahçeli konut"
+        >
+      </label>
 
-  const loadSession = async () => {
-    const { data } = await db.auth.getSession();
+      <label>
+        Konum / adres
+        <input
+          name="location"
+          maxlength="180"
+          required
+          placeholder="Örn. Küçükçekmece, İstanbul"
+        >
+      </label>
 
-    const signedIn = !!data.session;
+      <label>
+        Proje fotoğrafı
+        <input
+          name="image"
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          required
+        >
+      </label>
 
-    login.hidden = signedIn;
-    dashboard.hidden = !signedIn;
+      <small>
+        JPG, PNG veya WebP; en fazla 5 MB.
+      </small>
 
-    if (signedIn) {
-      refresh();
-    }
-  };
+      <button type="submit">
+        Projeyi yayımla
+      </button>
 
-  login.addEventListener('submit', async event => {
-    event.preventDefault();
+    </form>
 
-    const form = new FormData(login);
+  </section>
 
-    const email = form.get('email');
-    const password = form.get('password');
 
-    setStatus('Giriş yapılıyor...');
+  <!-- GAYRİMENKUL -->
 
-    const { error } = await db.auth.signInWithPassword({
-      email,
-      password
-    });
+  <section class="admin-card">
 
-    if (error) {
-      alert('GİRİŞ HATASI:\n\n' + error.message);
-      setStatus('Giriş başarısız.');
-      return;
-    }
+    <h2>Yeni gayrimenkul ilanı</h2>
 
-    login.reset();
+    <form id="property-form">
 
-    setStatus('Giriş başarılı.');
-    await loadSession();
-  });
+      <label>
+        İlan başlığı
+        <input
+          name="ilan_basligi"
+          maxlength="150"
+          required
+          placeholder="Örn. Modern 3+1 Daire"
+        >
+      </label>
 
-  document.getElementById('logout').addEventListener('click', async () => {
-    await db.auth.signOut();
-    setStatus('Çıkış yapıldı.');
-    loadSession();
-  });
+      <label>
+        İlan türü
+        <select name="ilan_turu" required>
+          <option value="">Seçiniz</option>
+          <option value="Satılık">Satılık</option>
+          <option value="Kiralık">Kiralık</option>
+        </select>
+      </label>
 
-  document.getElementById('project-form').addEventListener('submit', async event => {
-    event.preventDefault();
+      <label>
+        Gayrimenkul türü
+        <select name="gayrimenkul_turu" required>
+          <option value="">Seçiniz</option>
+          <option value="Daire">Daire</option>
+          <option value="Villa">Villa</option>
+          <option value="Müstakil Ev">Müstakil Ev</option>
+          <option value="Arsa">Arsa</option>
+          <option value="İşyeri">İşyeri</option>
+          <option value="Ofis">Ofis</option>
+          <option value="Dükkan">Dükkan</option>
+          <option value="Diğer">Diğer</option>
+        </select>
+      </label>
 
-    const form = new FormData(event.currentTarget);
-    const file = form.get('image');
+      <label>
+        Konum
+        <input
+          name="konum"
+          maxlength="180"
+          required
+          placeholder="Örn. Konstanz, Almanya"
+        >
+      </label>
 
-    const { data: userData } = await db.auth.getUser();
+      <label>
+        Fiyat
+        <input
+          name="fiyat"
+          type="number"
+          step="0.01"
+          min="0"
+          required
+          placeholder="8500000"
+        >
+      </label>
 
-    if (!userData.user) {
-      setStatus('Oturum kapandı; yeniden giriş yap.');
-      loadSession();
-      return;
-    }
+      <label>
+        Para birimi
+        <select name="para_birimi" required>
+          <option value="EUR">Euro (€)</option>
+          <option value="TRY">Türk Lirası (₺)</option>
+          <option value="USD">Dolar ($)</option>
+          <option value="CHF">İsviçre Frangı (CHF)</option>
+        </select>
+      </label>
 
-    if (
-      !file ||
-      !['image/jpeg', 'image/png', 'image/webp'].includes(file.type) ||
-      file.size > 5 * 1024 * 1024
-    ) {
-      setStatus('JPG, PNG veya WebP biçiminde 5 MB’tan küçük bir fotoğraf seç.');
-      return;
-    }
+      <label>
+        Brüt m²
+        <input
+          name="brut_m2"
+          type="number"
+          step="0.01"
+          min="0"
+          placeholder="145"
+        >
+      </label>
 
-    setStatus('Fotoğraf yükleniyor...');
+      <label>
+        Net m²
+        <input
+          name="net_m2"
+          type="number"
+          step="0.01"
+          min="0"
+          placeholder="125"
+        >
+      </label>
 
-    const ext =
-      file.type === 'image/jpeg'
-        ? 'jpg'
-        : file.type.split('/')[1];
+      <label>
+        Oda sayısı
+        <input
+          name="oda_sayisi"
+          placeholder="3+1"
+        >
+      </label>
 
-    const path =
-      userData.user.id +
-      '/' +
-      crypto.randomUUID() +
-      '.' +
-      ext;
+      <label>
+        Banyo sayısı
+        <input
+          name="banyo_sayisi"
+          type="number"
+          min="0"
+          placeholder="2"
+        >
+      </label>
 
-    const { error: uploadError } = await db.storage
-      .from('projects')
-      .upload(path, file, {
-        contentType: file.type,
-        upsert: false
-      });
+      <label>
+        Kat
+        <input
+          name="kat"
+          placeholder="5. Kat"
+        >
+      </label>
 
-    if (uploadError) {
-      setStatus('Fotoğraf yüklenemedi: ' + uploadError.message);
-      return;
-    }
+      <label>
+        Bina yaşı
+        <input
+          name="bina_yasi"
+          type="number"
+          min="0"
+          placeholder="8"
+        >
+      </label>
 
-    const { data: publicData } = db.storage
-      .from('projects')
-      .getPublicUrl(path);
+      <label>
+        Isıtma
+        <input
+          name="isitma"
+          placeholder="Kombi"
+        >
+      </label>
 
-    const { error } = await db
-      .from('projects')
-      .insert({
-        owner_id: userData.user.id,
-        title: String(form.get('title')).trim(),
-        location: String(form.get('location')).trim(),
-        image_url: publicData.publicUrl,
-        storage_path: path
-      });
+      <label>
+        Balkon
+        <select name="balkon">
+          <option value="false">Yok</option>
+          <option value="true">Var</option>
+        </select>
+      </label>
 
-    if (error) {
-      await db.storage.from('projects').remove([path]);
-      setStatus('Proje kaydedilemedi: ' + error.message);
-      return;
-    }
+      <label>
+        Otopark
+        <select name="otopark">
+          <option value="false">Yok</option>
+          <option value="true">Var</option>
+        </select>
+      </label>
 
-    event.currentTarget.reset();
+      <label>
+        Özellikler
+        <input
+          name="ozellikler"
+          placeholder="Asansör, teras, bahçe, otopark..."
+        >
+      </label>
 
-    setStatus('Proje yayımlandı.');
-    refresh();
-  });
+      <label>
+        Detaylı açıklama
+        <textarea
+          name="aciklama"
+          rows="7"
+          placeholder="Gayrimenkul hakkında detaylı açıklama..."
+        ></textarea>
+      </label>
 
-  loadSession();
-})();
+      <label>
+        Gayrimenkul fotoğrafları
+        <input
+          name="fotograflar"
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          multiple
+          required
+        >
+      </label>
+
+      <small>
+        Birden fazla fotoğraf seçebilirsin. JPG, PNG veya WebP.
+        Her fotoğraf en fazla 5 MB.
+      </small>
+
+      <button type="submit">
+        Gayrimenkulü yayımla
+      </button>
+
+    </form>
+
+  </section>
+
+
+  <p id="admin-status" class="admin-status" role="status"></p>
+
+
+  <!-- PROJELER -->
+
+  <section>
+    <h2>Yayınlanan mimarlık projeleri</h2>
+    <div id="admin-projects" class="admin-projects"></div>
+  </section>
+
+
+  <!-- GAYRİMENKULLER -->
+
+  <section>
+    <h2>Yayınlanan gayrimenkuller</h2>
+    <div id="admin-properties" class="admin-projects"></div>
+  </section>
+
+</section>
+
+</main>
+
+<script src="supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="admin.js"></script>
+
+</body>
+</html>
