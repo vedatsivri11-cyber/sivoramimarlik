@@ -43,3 +43,45 @@ body.dark-mode .contact {
 body.dark-mode .project {
   background: #222222;
 }
+.theme-toggle {
+  position: fixed;
+  top: 22px;
+  right: 90px;
+  z-index: 1000;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.dark-mode {
+  background: #171717;
+  color: #f1eee8;
+}
+
+body.dark-mode .nav {
+  background: #171717;
+}
+
+body.dark-mode .projects,
+body.dark-mode .statement,
+body.dark-mode .services,
+body.dark-mode .contact {
+  background: #171717;
+  color: #f1eee8;
+}
+
+body.dark-mode .project {
+  background: #222;
+}
+
+body.dark-mode a {
+  color: #f1eee8;
+}
