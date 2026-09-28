@@ -15,10 +15,9 @@
 
 <style>
 
-/* =========================================================
-   SIVORA ÜST MENÜ
-   Aşağı inerken gizlenir / yukarı çıkarken görünür
-========================================================= */
+/* =====================================================
+   ÜST MENÜ
+===================================================== */
 
 #site-nav{
   position:fixed;
@@ -46,7 +45,10 @@
   pointer-events:none;
 }
 
-/* LOGO ALANI */
+
+/* =====================================================
+   LOGO
+===================================================== */
 
 #site-nav .logo{
   display:flex;
@@ -85,12 +87,16 @@
   opacity:.68;
 }
 
-/* NAV */
+
+/* =====================================================
+   MENÜ
+===================================================== */
 
 #site-nav nav{
   display:flex;
   align-items:center;
   gap:30px;
+  margin-left:auto;
 }
 
 #site-nav nav a{
@@ -98,29 +104,42 @@
   text-decoration:none;
 }
 
-/* TEMA BUTONU */
+
+/* =====================================================
+   AYDINLIK / KARANLIK BUTONU
+===================================================== */
 
 #theme-toggle{
   width:58px;
   height:30px;
-  margin-left:22px;
+
+  /* İLETİŞİM İLE BUTON ARASINDAKİ BOŞLUK */
+  margin-left:42px;
+
+  margin-right:8px;
+
   border:1px solid currentColor;
   border-radius:30px;
+
   background:transparent;
+
   cursor:pointer;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   padding:0;
-  transition:.3s ease;
-  font-size:14px;
+
+  flex-shrink:0;
+
+  transition:
+    .3s ease;
 }
 
 #theme-toggle:hover{
-  transform:scale(1.05);
+  transform:scale(1.06);
 }
-
-/* TEMA İKONLARI */
 
 .theme-sun{
   display:inline-block;
@@ -130,7 +149,10 @@
   display:none;
 }
 
-/* MOBİL */
+
+/* =====================================================
+   MOBİL
+===================================================== */
 
 @media(max-width:900px){
 
@@ -154,9 +176,12 @@
   }
 
   #theme-toggle{
-    margin-left:10px;
+    margin-left:20px;
+    margin-right:5px;
   }
+
 }
+
 
 @media(max-width:700px){
 
@@ -182,12 +207,15 @@
 
   #theme-toggle{
     margin-left:auto;
+    margin-right:10px;
   }
+
 }
 
-/* =========================================================
+
+/* =====================================================
    AYDINLIK MOD
-========================================================= */
+===================================================== */
 
 body.sivora-light{
   background:#f4f1ea !important;
@@ -197,8 +225,12 @@ body.sivora-light{
 body.sivora-light #site-nav{
   background:rgba(248,246,241,.96) !important;
   color:#171717 !important;
-  box-shadow:0 8px 30px rgba(0,0,0,.08);
-  border-bottom:1px solid rgba(0,0,0,.08);
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.08);
+
+  border-bottom:
+    1px solid rgba(0,0,0,.08);
 }
 
 body.sivora-light #site-nav nav a{
@@ -222,7 +254,10 @@ body.sivora-light #theme-toggle{
   background:#eee9df;
 }
 
-/* Aydınlık modda ana içerik */
+
+/* =====================================================
+   AYDINLIK MOD İÇERİK
+===================================================== */
 
 body.sivora-light .projects,
 body.sivora-light .properties,
@@ -260,14 +295,17 @@ body.sivora-light .property-loading{
   color:#555 !important;
 }
 
-/* =========================================================
+
+/* =====================================================
    KARANLIK MOD
-========================================================= */
+===================================================== */
 
 body.sivora-dark #site-nav{
   background:rgba(17,17,17,.94);
   color:#fff;
-  box-shadow:0 8px 30px rgba(0,0,0,.25);
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,.25);
 }
 
 body.sivora-dark #site-nav nav a{
@@ -279,9 +317,10 @@ body.sivora-dark #theme-toggle{
   background:#242424;
 }
 
-/* =========================================================
-   TEMA GEÇİŞİ
-========================================================= */
+
+/* =====================================================
+   GEÇİŞ
+===================================================== */
 
 body,
 section,
@@ -298,12 +337,19 @@ section,
 </style>
 </head>
 
+
 <body class="sivora-dark">
+
+
+<!-- =====================================================
+     ÜST MENÜ
+===================================================== -->
 
 <header class="nav" id="site-nav">
 
-  <!-- LOGO + SİVORA MİMARLIK + SLOGAN -->
-  <a class="logo" href="#anasayfa" aria-label="Sivora Mimarlık">
+  <a class="logo"
+     href="#anasayfa"
+     aria-label="Sivora Mimarlık">
 
     <img
       src="svr-logo-transparent.png"
@@ -311,36 +357,67 @@ section,
     >
 
     <span class="sivora-brand">
-      <span class="sivora-brand-name">SİVORA MİMARLIK</span>
-      <span class="sivora-brand-slogan">ZERAFETİN İZİNDE</span>
+
+      <span class="sivora-brand-name">
+        SİVORA MİMARLIK
+      </span>
+
+      <span class="sivora-brand-slogan">
+        ZERAFETİN İZİNDE
+      </span>
+
     </span>
 
   </a>
 
 
-  <!-- MENÜ -->
   <nav id="navlinks">
-    <a href="#projeler">Projeler</a>
-    <a href="#gayrimenkuller">Gayrimenkuller</a>
-    <a href="#yaklasim">Yaklaşım</a>
-    <a href="#hizmetler">Hizmetler</a>
-    <a href="#iletisim">İletişim</a>
+
+    <a href="#projeler">
+      Projeler
+    </a>
+
+    <a href="#gayrimenkuller">
+      Gayrimenkuller
+    </a>
+
+    <a href="#yaklasim">
+      Yaklaşım
+    </a>
+
+    <a href="#hizmetler">
+      Hizmetler
+    </a>
+
+    <a href="#iletisim">
+      İletişim
+    </a>
+
   </nav>
 
 
   <!-- AYDINLIK / KARANLIK -->
+
   <button
     class="theme-toggle"
     id="theme-toggle"
     type="button"
     aria-label="Aydınlık ve karanlık mod"
   >
-    <span class="theme-sun">☀</span>
-    <span class="theme-moon">☾</span>
+
+    <span class="theme-sun">
+      ☀
+    </span>
+
+    <span class="theme-moon">
+      ☾
+    </span>
+
   </button>
 
 
   <!-- MOBİL MENÜ -->
+
   <button
     class="menu"
     id="menu"
@@ -354,7 +431,9 @@ section,
 </header>
 
 
+
 <main>
+
 
 <!-- =====================================================
      HERO
@@ -380,18 +459,33 @@ section,
       yaşama değer katan, zamansız mekânlar tasarlıyoruz.
     </p>
 
-    <a class="arrow-link" href="#projeler">
+    <a
+      class="arrow-link"
+      href="#projeler"
+    >
       Çalışmalarımızı keşfedin
       <span>↘</span>
     </a>
 
   </div>
 
+
   <div class="hero-meta">
-    <span>Mimarlık</span>
-    <span>İç Mekân</span>
-    <span>Gayrimenkul</span>
+
+    <span>
+      Mimarlık
+    </span>
+
+    <span>
+      İç Mekân
+    </span>
+
+    <span>
+      Gayrimenkul
+    </span>
+
   </div>
+
 
   <div class="hero-scroll">
     SCROLL ↓
@@ -400,29 +494,54 @@ section,
 </section>
 
 
+
 <!-- =====================================================
      PROJELER
 ===================================================== -->
 
-<section class="projects" id="projeler">
+<section
+  class="projects"
+  id="projeler"
+>
 
   <div class="section-head">
-    <span>01 / Seçili çalışmalar</span>
-    <span>Fikirden mekâna</span>
+
+    <span>
+      01 / Seçili çalışmalar
+    </span>
+
+    <span>
+      Fikirden mekâna
+    </span>
+
   </div>
 
-  <div class="project-grid" id="project-grid">
+
+  <div
+    class="project-grid"
+    id="project-grid"
+  >
 
     <article class="project large">
 
       <div class="project-image image-1"></div>
 
       <div class="project-info">
-        <span>01</span>
+
+        <span>
+          01
+        </span>
 
         <div>
-          <h2>Işığın izinde</h2>
-          <p>Temsili görsel · Mimari</p>
+
+          <h2>
+            Işığın izinde
+          </h2>
+
+          <p>
+            Temsili görsel · Mimari
+          </p>
+
         </div>
 
       </div>
@@ -435,11 +554,21 @@ section,
       <div class="project-image image-2"></div>
 
       <div class="project-info">
-        <span>02</span>
+
+        <span>
+          02
+        </span>
 
         <div>
-          <h2>Sade yaşam</h2>
-          <p>Temsili görsel · İç mekân</p>
+
+          <h2>
+            Sade yaşam
+          </h2>
+
+          <p>
+            Temsili görsel · İç mekân
+          </p>
+
         </div>
 
       </div>
@@ -452,11 +581,21 @@ section,
       <div class="project-image image-3"></div>
 
       <div class="project-info">
-        <span>03</span>
+
+        <span>
+          03
+        </span>
 
         <div>
-          <h2>Detayda denge</h2>
-          <p>Temsili görsel · Konut</p>
+
+          <h2>
+            Detayda denge
+          </h2>
+
+          <p>
+            Temsili görsel · Konut
+          </p>
+
         </div>
 
       </div>
@@ -468,16 +607,28 @@ section,
 </section>
 
 
+
 <!-- =====================================================
      GAYRİMENKULLER
 ===================================================== -->
 
-<section class="properties" id="gayrimenkuller">
+<section
+  class="properties"
+  id="gayrimenkuller"
+>
 
   <div class="section-head">
-    <span>02 / Gayrimenkuller</span>
-    <span>Seçili portföy</span>
+
+    <span>
+      02 / Gayrimenkuller
+    </span>
+
+    <span>
+      Seçili portföy
+    </span>
+
   </div>
+
 
   <div class="properties-intro">
 
@@ -494,6 +645,7 @@ section,
 
     </div>
 
+
     <p>
       Satılık ve kiralık gayrimenkuller ile
       portföyümüzdeki seçili fırsatları inceleyin.
@@ -501,7 +653,11 @@ section,
 
   </div>
 
-  <div class="property-grid" id="property-grid">
+
+  <div
+    class="property-grid"
+    id="property-grid"
+  >
 
     <p class="property-loading">
       Gayrimenkuller yükleniyor…
@@ -512,21 +668,34 @@ section,
 </section>
 
 
+
 <!-- =====================================================
      YAKLAŞIM
 ===================================================== -->
 
-<section class="statement" id="yaklasim">
+<section
+  class="statement"
+  id="yaklasim"
+>
 
   <div class="statement-top">
-    <span>03 / Yaklaşımımız</span>
-    <span>01—03</span>
+
+    <span>
+      03 / Yaklaşımımız
+    </span>
+
+    <span>
+      01—03
+    </span>
+
   </div>
+
 
   <h2>
     İyi tasarım, yalnızca güzel görünen değil;
     <em>iyi hissettiren</em> bir mekân yaratır.
   </h2>
+
 
   <div class="statement-text">
 
@@ -540,11 +709,15 @@ section,
 </section>
 
 
+
 <!-- =====================================================
      HİZMETLER
 ===================================================== -->
 
-<section class="services" id="hizmetler">
+<section
+  class="services"
+  id="hizmetler"
+>
 
   <div>
 
@@ -564,11 +737,15 @@ section,
 
     <article>
 
-      <span>01</span>
+      <span>
+        01
+      </span>
 
       <div>
 
-        <strong>Mimari tasarım</strong>
+        <strong>
+          Mimari tasarım
+        </strong>
 
         <p>
           Fikir, proje ve uygulama aşamalarında
@@ -582,11 +759,15 @@ section,
 
     <article>
 
-      <span>02</span>
+      <span>
+        02
+      </span>
 
       <div>
 
-        <strong>İç mekân</strong>
+        <strong>
+          İç mekân
+        </strong>
 
         <p>
           Günlük yaşama uyumlu, yalın ve işlevsel
@@ -600,11 +781,15 @@ section,
 
     <article>
 
-      <span>03</span>
+      <span>
+        03
+      </span>
 
       <div>
 
-        <strong>Gayrimenkul</strong>
+        <strong>
+          Gayrimenkul
+        </strong>
 
         <p>
           Alım, satım ve doğru mülkü değerlendirme
@@ -620,11 +805,15 @@ section,
 </section>
 
 
+
 <!-- =====================================================
      İLETİŞİM
 ===================================================== -->
 
-<section class="contact" id="iletisim">
+<section
+  class="contact"
+  id="iletisim"
+>
 
   <div class="contact-top">
 
@@ -639,21 +828,30 @@ section,
         <em>yeter.</em>
       </h2>
 
+
       <a
         class="contact-link"
         href="https://wa.me/905532217532?text=Merhaba%2C%20Sivora%20Mimarl%C4%B1k%20Ofisi%20ile%20projem%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum."
         target="_blank"
         rel="noopener"
       >
+
         WhatsApp’tan yazın
-        <span>↗</span>
+
+        <span>
+          ↗
+        </span>
+
       </a>
 
     </div>
 
+
     <p class="contact-intro">
+
       Projenizi, aradığınız mülkü veya aklınızdaki
       fikri konuşalım.
+
     </p>
 
   </div>
@@ -663,7 +861,9 @@ section,
 
     <div>
 
-      <small>İletişim</small>
+      <small>
+        İletişim
+      </small>
 
       Mimar Mesut Sivri<br>
 
@@ -676,7 +876,9 @@ section,
 
     <div>
 
-      <small>Ofis Adresi</small>
+      <small>
+        Ofis Adresi
+      </small>
 
       Kanarya Mahallesi<br>
       Dr. Sadık Ahmet Caddesi No: 147<br>
@@ -690,9 +892,11 @@ section,
   <div class="contact-bottom legal-footer">
 
     <span>
+
       © <span id="year"></span>
       SİVORA MİMARLIK OFİSİ —
       TÜM HAKLARI SAKLIDIR.
+
     </span>
 
 
@@ -727,8 +931,9 @@ section,
 </main>
 
 
+
 <!-- =====================================================
-     GAYRİMENKUL DETAY MODALI
+     GAYRİMENKUL MODALI
 ===================================================== -->
 
 <div
@@ -742,6 +947,7 @@ section,
     data-close-property
   ></div>
 
+
   <div class="property-modal-box">
 
     <button
@@ -753,6 +959,7 @@ section,
       ×
     </button>
 
+
     <div
       id="property-detail"
       class="property-detail"
@@ -761,6 +968,7 @@ section,
   </div>
 
 </div>
+
 
 
 <!-- =====================================================
@@ -798,8 +1006,9 @@ section,
 </a>
 
 
+
 <!-- =====================================================
-     SCRIPTLER
+     SUPABASE
 ===================================================== -->
 
 <script src="supabase-config.js"></script>
@@ -813,17 +1022,21 @@ section,
 <script src="public-properties.js"></script>
 
 
-<!-- GAYRİMENKUL MODAL -->
+
+<!-- =====================================================
+     GAYRİMENKUL MODAL KAPATMA
+===================================================== -->
+
 <script>
 
-(function () {
+(function(){
 
-  function closePropertyModal() {
+  function closePropertyModal(){
 
     var modal =
       document.getElementById("property-modal");
 
-    if (!modal) return;
+    if(!modal) return;
 
     modal.hidden = true;
 
@@ -832,37 +1045,47 @@ section,
   }
 
 
-  document.addEventListener("click", function (event) {
+  document.addEventListener(
+    "click",
+    function(event){
 
-    var closeButton =
-      event.target.closest("[data-close-property]");
+      var closeButton =
+        event.target.closest(
+          "[data-close-property]"
+        );
 
-    if (closeButton) {
+      if(closeButton){
 
-      closePropertyModal();
+        closePropertyModal();
 
-    }
-
-  });
-
-
-  document.addEventListener("keydown", function (event) {
-
-    if (event.key === "Escape") {
-
-      closePropertyModal();
+      }
 
     }
+  );
 
-  });
+
+  document.addEventListener(
+    "keydown",
+    function(event){
+
+      if(event.key === "Escape"){
+
+        closePropertyModal();
+
+      }
+
+    }
+  );
 
 })();
 
 </script>
 
 
+
 <!-- =====================================================
-     ÜST MENÜ KAYBOLMA / GERİ GELME
+     AŞAĞI İNİNCE MENÜ GİZLE
+     YUKARI ÇIKINCA MENÜ GÖSTER
 ===================================================== -->
 
 <script>
@@ -872,9 +1095,10 @@ section,
   const nav =
     document.getElementById("site-nav");
 
-  if (!nav) return;
+  if(!nav) return;
 
-  let lastY = window.scrollY;
+  let lastY =
+    window.scrollY;
 
   const threshold = 12;
 
@@ -883,24 +1107,35 @@ section,
     "scroll",
     function(){
 
-      const y = window.scrollY;
+      const y =
+        window.scrollY;
 
 
-      if (y <= 20) {
+      if(y <= 20){
 
-        nav.classList.remove("nav-hidden");
-
-      }
-
-      else if (y > lastY + threshold) {
-
-        nav.classList.add("nav-hidden");
+        nav.classList.remove(
+          "nav-hidden"
+        );
 
       }
 
-      else if (y < lastY - threshold) {
+      else if(
+        y > lastY + threshold
+      ){
 
-        nav.classList.remove("nav-hidden");
+        nav.classList.add(
+          "nav-hidden"
+        );
+
+      }
+
+      else if(
+        y < lastY - threshold
+      ){
+
+        nav.classList.remove(
+          "nav-hidden"
+        );
 
       }
 
@@ -908,12 +1143,15 @@ section,
       lastY = y;
 
     },
-    {passive:true}
+    {
+      passive:true
+    }
   );
 
 })();
 
 </script>
+
 
 
 <!-- =====================================================
@@ -925,16 +1163,22 @@ section,
 (function(){
 
   const button =
-    document.getElementById("theme-toggle");
+    document.getElementById(
+      "theme-toggle"
+    );
 
-  if (!button) return;
+  if(!button) return;
 
 
   const sun =
-    button.querySelector(".theme-sun");
+    button.querySelector(
+      ".theme-sun"
+    );
 
   const moon =
-    button.querySelector(".theme-moon");
+    button.querySelector(
+      ".theme-moon"
+    );
 
 
   function applyTheme(theme){
@@ -948,19 +1192,24 @@ section,
       isLight
     );
 
+
     document.body.classList.toggle(
       "sivora-dark",
       !isLight
     );
 
 
-    if (sun && moon) {
+    if(sun && moon){
 
       sun.style.display =
-        isLight ? "none" : "inline-block";
+        isLight
+          ? "none"
+          : "inline-block";
 
       moon.style.display =
-        isLight ? "inline-block" : "none";
+        isLight
+          ? "inline-block"
+          : "none";
 
     }
 
@@ -973,12 +1222,22 @@ section,
     );
 
 
-    document
-      .querySelector('meta[name="theme-color"]')
-      ?.setAttribute(
-        "content",
-        isLight ? "#f4f1ea" : "#151515"
+    const metaTheme =
+      document.querySelector(
+        'meta[name="theme-color"]'
       );
+
+
+    if(metaTheme){
+
+      metaTheme.setAttribute(
+        "content",
+        isLight
+          ? "#f4f1ea"
+          : "#151515"
+      );
+
+    }
 
 
     localStorage.setItem(
@@ -990,16 +1249,18 @@ section,
 
 
   const savedTheme =
-    localStorage.getItem("sivora-theme");
+    localStorage.getItem(
+      "sivora-theme"
+    );
 
 
-  if (savedTheme) {
+  if(savedTheme){
 
     applyTheme(savedTheme);
 
   }
 
-  else {
+  else{
 
     applyTheme("dark");
 
@@ -1017,7 +1278,9 @@ section,
 
 
       applyTheme(
-        isLight ? "dark" : "light"
+        isLight
+          ? "dark"
+          : "light"
       );
 
     }
@@ -1028,15 +1291,21 @@ section,
 </script>
 
 
-<!-- YIL -->
+
+<!-- =====================================================
+     YIL
+===================================================== -->
+
 <script>
 
 (function(){
 
   const year =
-    document.getElementById("year");
+    document.getElementById(
+      "year"
+    );
 
-  if (year) {
+  if(year){
 
     year.textContent =
       new Date().getFullYear();
