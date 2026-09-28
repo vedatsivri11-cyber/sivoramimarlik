@@ -3,352 +3,366 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#ffffff">
-
-<meta name="description"
-content="Sivora Mimarlık Ofisi — Mimarlık, iç mekân ve gayrimenkul.">
-
-<title>Sivora Mimarlık Ofisi</title>
+<meta name="theme-color" content="#151515">
+<meta name="description" content="Sivora Mimarlık Ofisi — Mimarlık, iç mekân ve gayrimenkul.">
+<title>Sivora Mimarlık Ofisi — Zerafetin İzinde</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="style.css">
 
 <style>
 
-/* =====================================================
-   SİVORA ÜST MENÜ
-   ===================================================== */
+/* =========================================================
+   SIVORA ÜST MENÜ
+   Aşağı inerken gizlenir / yukarı çıkarken görünür
+========================================================= */
 
-.site-header{
+#site-nav{
   position:fixed;
   top:0;
   left:0;
-  width:100%;
-  height:86px;
-  z-index:9999;
+  right:0;
+  z-index:1000;
 
   display:flex;
   align-items:center;
-  justify-content:space-between;
-
-  padding:0 42px;
-
-  background:rgba(25,25,25,.96);
-  border-bottom:1px solid rgba(255,255,255,.10);
-
-  box-shadow:0 5px 25px rgba(0,0,0,.10);
-
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
 
   transition:
-    transform .35s ease,
-    box-shadow .35s ease,
-    background .35s ease;
+    transform .38s ease,
+    opacity .28s ease,
+    background .3s ease,
+    color .3s ease,
+    box-shadow .3s ease;
+
+  will-change:transform;
 }
 
-
-/* AŞAĞI KAYDIRINCA GİZLE */
-
-.site-header.hide{
-  transform:translateY(-100%);
+#site-nav.nav-hidden{
+  transform:translateY(-110%);
+  opacity:0;
+  pointer-events:none;
 }
 
+/* LOGO ALANI */
 
-/* YUKARI KAYDIRINCA GÖSTER */
-
-.site-header.show{
-  transform:translateY(0);
-}
-
-
-/* =====================================================
-   LOGO
-   ===================================================== */
-
-.site-brand{
+#site-nav .logo{
   display:flex;
   align-items:center;
+  gap:14px;
   text-decoration:none;
-  height:100%;
 }
 
-.sivora-logo{
-  width:115px;
-  height:64px;
-
-  object-fit:contain;
-  object-position:center;
-
+#site-nav .logo img{
   display:block;
+  width:auto;
+  height:58px;
+  max-width:125px;
+  object-fit:contain;
 }
 
+.sivora-brand{
+  display:flex;
+  flex-direction:column;
+  line-height:1.05;
+  white-space:nowrap;
+}
 
-/* =====================================================
-   MENÜ
-   ===================================================== */
+.sivora-brand-name{
+  font-family:"DM Sans",sans-serif;
+  font-size:16px;
+  font-weight:600;
+  letter-spacing:2.5px;
+}
 
-.site-nav{
+.sivora-brand-slogan{
+  margin-top:6px;
+  font-family:"DM Sans",sans-serif;
+  font-size:9px;
+  letter-spacing:3px;
+  opacity:.68;
+}
+
+/* NAV */
+
+#site-nav nav{
   display:flex;
   align-items:center;
-  gap:34px;
+  gap:30px;
 }
 
-.site-nav a{
-  position:relative;
-
-  color:#f5f1e8;
-
-  text-decoration:none;
-
-  font-size:14px;
-  font-weight:400;
-
-  letter-spacing:.3px;
-
+#site-nav nav a{
   white-space:nowrap;
-
-  transition:
-    color .25s ease,
-    opacity .25s ease;
+  text-decoration:none;
 }
 
-.site-nav a:hover{
-  opacity:.65;
-}
-
-
-/* ALT ÇİZGİ */
-
-.site-nav a::after{
-  content:"";
-
-  position:absolute;
-
-  left:0;
-  bottom:-9px;
-
-  width:0;
-  height:1px;
-
-  background:#c8a35b;
-
-  transition:width .25s ease;
-}
-
-.site-nav a:hover::after{
-  width:100%;
-}
-
-
-/* =====================================================
-   MOBİL MENÜ BUTONU
-   ===================================================== */
-
-.site-menu{
-  display:none;
-
-  border:0;
-  background:none;
-
-  font-size:28px;
-
-  cursor:pointer;
-
-  color:#f5f1e8;
-}
-
-
-/* =====================================================
-   SAYFA ÜST BOŞLUĞU
-   ===================================================== */
-
-body{
-  padding-top:86px;
-}
-
-
-/* =====================================================
-   ESKİ TEMA BUTONU GİZLİ
-   ===================================================== */
+/* TEMA BUTONU */
 
 #theme-toggle{
-  display:none !important;
+  width:58px;
+  height:30px;
+  margin-left:22px;
+  border:1px solid currentColor;
+  border-radius:30px;
+  background:transparent;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  transition:.3s ease;
+  font-size:14px;
 }
 
+#theme-toggle:hover{
+  transform:scale(1.05);
+}
 
-/* =====================================================
-   MOBİL
-   ===================================================== */
+/* TEMA İKONLARI */
+
+.theme-sun{
+  display:inline-block;
+}
+
+.theme-moon{
+  display:none;
+}
+
+/* MOBİL */
 
 @media(max-width:900px){
 
-  .site-header{
-    height:72px;
-    padding:0 20px;
+  #site-nav .logo img{
+    height:48px;
+    max-width:100px;
   }
 
-  body{
-    padding-top:72px;
+  .sivora-brand-name{
+    font-size:13px;
+    letter-spacing:2px;
   }
 
-  .sivora-logo{
-    width:92px;
-    height:56px;
+  .sivora-brand-slogan{
+    font-size:7px;
+    letter-spacing:2px;
   }
 
-  .site-nav{
-
-    display:none;
-
-    position:absolute;
-
-    top:72px;
-    left:0;
-
-    width:100%;
-
-    background:#191919;
-
-    flex-direction:column;
-
-    align-items:flex-start;
-
-    gap:0;
-
-    padding:8px 25px 20px;
-
-    border-bottom:1px solid rgba(255,255,255,.12);
-
+  #site-nav nav{
+    gap:16px;
   }
 
-  .site-nav.open{
-    display:flex;
+  #theme-toggle{
+    margin-left:10px;
   }
-
-  .site-nav a{
-
-    width:100%;
-
-    padding:16px 0;
-
-    border-bottom:1px solid rgba(255,255,255,.08);
-
-  }
-
-  .site-menu{
-    display:block;
-  }
-
 }
 
+@media(max-width:700px){
 
-/* =====================================================
-   MOBİL MENÜ AÇILINCA
-   ===================================================== */
-
-@media(min-width:901px){
-
-  .site-menu{
-    display:none !important;
+  #site-nav{
+    flex-wrap:wrap;
   }
 
+  #site-nav nav{
+    display:none;
+  }
+
+  #site-nav .logo img{
+    height:45px;
+  }
+
+  .sivora-brand-name{
+    font-size:12px;
+  }
+
+  .sivora-brand-slogan{
+    font-size:7px;
+  }
+
+  #theme-toggle{
+    margin-left:auto;
+  }
+}
+
+/* =========================================================
+   AYDINLIK MOD
+========================================================= */
+
+body.sivora-light{
+  background:#f4f1ea !important;
+  color:#171717 !important;
+}
+
+body.sivora-light #site-nav{
+  background:rgba(248,246,241,.96) !important;
+  color:#171717 !important;
+  box-shadow:0 8px 30px rgba(0,0,0,.08);
+  border-bottom:1px solid rgba(0,0,0,.08);
+}
+
+body.sivora-light #site-nav nav a{
+  color:#171717 !important;
+}
+
+body.sivora-light #site-nav nav a:hover{
+  color:#a27c35 !important;
+}
+
+body.sivora-light .sivora-brand-name{
+  color:#171717;
+}
+
+body.sivora-light .sivora-brand-slogan{
+  color:#8c6b31;
+}
+
+body.sivora-light #theme-toggle{
+  color:#171717;
+  background:#eee9df;
+}
+
+/* Aydınlık modda ana içerik */
+
+body.sivora-light .projects,
+body.sivora-light .properties,
+body.sivora-light .statement,
+body.sivora-light .services,
+body.sivora-light .contact{
+  background:#f4f1ea !important;
+  color:#171717 !important;
+}
+
+body.sivora-light .section-head,
+body.sivora-light .statement-top,
+body.sivora-light .service-list,
+body.sivora-light .contact-details,
+body.sivora-light .contact-bottom{
+  color:#171717 !important;
+}
+
+body.sivora-light .section-head,
+body.sivora-light .statement-top{
+  border-color:rgba(0,0,0,.15) !important;
+}
+
+body.sivora-light .service-list article{
+  border-color:rgba(0,0,0,.15) !important;
+}
+
+body.sivora-light .service-list p,
+body.sivora-light .contact-intro,
+body.sivora-light .statement-text{
+  color:#555 !important;
+}
+
+body.sivora-light .property-loading{
+  color:#555 !important;
+}
+
+/* =========================================================
+   KARANLIK MOD
+========================================================= */
+
+body.sivora-dark #site-nav{
+  background:rgba(17,17,17,.94);
+  color:#fff;
+  box-shadow:0 8px 30px rgba(0,0,0,.25);
+}
+
+body.sivora-dark #site-nav nav a{
+  color:#fff;
+}
+
+body.sivora-dark #theme-toggle{
+  color:#fff;
+  background:#242424;
+}
+
+/* =========================================================
+   TEMA GEÇİŞİ
+========================================================= */
+
+body,
+section,
+#site-nav,
+.service-list article,
+.contact-details,
+.project-info{
+  transition:
+    background-color .35s ease,
+    color .35s ease,
+    border-color .35s ease;
 }
 
 </style>
 </head>
 
+<body class="sivora-dark">
 
-<body>
+<header class="nav" id="site-nav">
 
-
-<!-- =====================================================
-     SİVORA ÜST MENÜ
-     ===================================================== -->
-
-<header class="site-header show" id="site-header">
-
-
-  <!-- SENİN YÜKLEDİĞİN LOGO -->
-
-  <a
-    class="site-brand"
-    href="#anasayfa"
-    aria-label="Sivora Mimarlık">
+  <!-- LOGO + SİVORA MİMARLIK + SLOGAN -->
+  <a class="logo" href="#anasayfa" aria-label="Sivora Mimarlık">
 
     <img
       src="svr-logo-transparent.png"
-      alt="SİVORA MİMARLIK"
-      class="sivora-logo">
+      alt="SVR SİVORA MİMARLIK"
+    >
+
+    <span class="sivora-brand">
+      <span class="sivora-brand-name">SİVORA MİMARLIK</span>
+      <span class="sivora-brand-slogan">ZERAFETİN İZİNDE</span>
+    </span>
 
   </a>
 
 
   <!-- MENÜ -->
-
-  <nav
-    class="site-nav"
-    id="site-nav">
-
-    <a href="#projeler">
-      Projeler
-    </a>
-
-    <a href="#gayrimenkuller">
-      Gayrimenkuller
-    </a>
-
-    <a href="#yaklasim">
-      Yaklaşım
-    </a>
-
-    <a href="#hizmetler">
-      Hizmetler
-    </a>
-
-    <a href="#iletisim">
-      İletişim
-    </a>
-
+  <nav id="navlinks">
+    <a href="#projeler">Projeler</a>
+    <a href="#gayrimenkuller">Gayrimenkuller</a>
+    <a href="#yaklasim">Yaklaşım</a>
+    <a href="#hizmetler">Hizmetler</a>
+    <a href="#iletisim">İletişim</a>
   </nav>
 
 
-  <!-- MOBİL MENÜ -->
-
+  <!-- AYDINLIK / KARANLIK -->
   <button
-    class="site-menu"
-    id="site-menu"
+    class="theme-toggle"
+    id="theme-toggle"
     type="button"
-    aria-label="Menüyü aç"
-    aria-expanded="false">
-
-    ☰
-
+    aria-label="Aydınlık ve karanlık mod"
+  >
+    <span class="theme-sun">☀</span>
+    <span class="theme-moon">☾</span>
   </button>
 
+
+  <!-- MOBİL MENÜ -->
+  <button
+    class="menu"
+    id="menu"
+    type="button"
+    aria-label="Menüyü aç"
+    aria-expanded="false"
+  >
+    ☰
+  </button>
 
 </header>
 
 
-
 <main>
 
-
 <!-- =====================================================
-     ANA SAYFA
-     ===================================================== -->
+     HERO
+===================================================== -->
 
-<section
-  class="hero"
-  id="anasayfa">
-
+<section class="hero" id="anasayfa">
 
   <div class="hero-overlay"></div>
-
 
   <div class="hero-copy">
 
@@ -356,103 +370,64 @@ body{
       Sivora Mimarlık Ofisi · İstanbul
     </p>
 
-
     <h1>
       Mekânın<br>
       <em>karakteri.</em>
     </h1>
-
 
     <p class="intro">
       Mimarlık ve gayrimenkulü bir araya getirerek
       yaşama değer katan, zamansız mekânlar tasarlıyoruz.
     </p>
 
-
-    <a
-      class="arrow-link"
-      href="#projeler">
-
+    <a class="arrow-link" href="#projeler">
       Çalışmalarımızı keşfedin
-
       <span>↘</span>
-
     </a>
 
   </div>
 
-
   <div class="hero-meta">
-
     <span>Mimarlık</span>
-
     <span>İç Mekân</span>
-
     <span>Gayrimenkul</span>
-
   </div>
-
 
   <div class="hero-scroll">
     SCROLL ↓
   </div>
 
-
 </section>
-
 
 
 <!-- =====================================================
      PROJELER
-     ===================================================== -->
+===================================================== -->
 
-<section
-  class="projects"
-  id="projeler">
-
+<section class="projects" id="projeler">
 
   <div class="section-head">
-
-    <span>
-      01 / Seçili çalışmalar
-    </span>
-
-    <span>
-      Fikirden mekâna
-    </span>
-
+    <span>01 / Seçili çalışmalar</span>
+    <span>Fikirden mekâna</span>
   </div>
 
-
-  <div
-    class="project-grid"
-    id="project-grid">
-
+  <div class="project-grid" id="project-grid">
 
     <article class="project large">
 
       <div class="project-image image-1"></div>
 
       <div class="project-info">
-
         <span>01</span>
 
         <div>
-
-          <h2>
-            Işığın izinde
-          </h2>
-
-          <p>
-            Temsili görsel · Mimari
-          </p>
-
+          <h2>Işığın izinde</h2>
+          <p>Temsili görsel · Mimari</p>
         </div>
 
       </div>
 
     </article>
-
 
 
     <article class="project">
@@ -460,25 +435,16 @@ body{
       <div class="project-image image-2"></div>
 
       <div class="project-info">
-
         <span>02</span>
 
         <div>
-
-          <h2>
-            Sade yaşam
-          </h2>
-
-          <p>
-            Temsili görsel · İç mekân
-          </p>
-
+          <h2>Sade yaşam</h2>
+          <p>Temsili görsel · İç mekân</p>
         </div>
 
       </div>
 
     </article>
-
 
 
     <article class="project">
@@ -486,63 +452,40 @@ body{
       <div class="project-image image-3"></div>
 
       <div class="project-info">
-
         <span>03</span>
 
         <div>
-
-          <h2>
-            Detayda denge
-          </h2>
-
-          <p>
-            Temsili görsel · Konut
-          </p>
-
+          <h2>Detayda denge</h2>
+          <p>Temsili görsel · Konut</p>
         </div>
 
       </div>
 
     </article>
 
-
   </div>
 
 </section>
 
 
-
 <!-- =====================================================
      GAYRİMENKULLER
-     ===================================================== -->
+===================================================== -->
 
-<section
-  class="properties"
-  id="gayrimenkuller">
-
+<section class="properties" id="gayrimenkuller">
 
   <div class="section-head">
-
-    <span>
-      02 / Gayrimenkuller
-    </span>
-
-    <span>
-      Seçili portföy
-    </span>
-
+    <span>02 / Gayrimenkuller</span>
+    <span>Seçili portföy</span>
   </div>
 
-
   <div class="properties-intro">
-
 
     <div>
 
       <p class="eyebrow">
         Sivora Gayrimenkul
       </p>
-
 
       <h2>
         Doğru mülk,<br>
@@ -551,19 +494,14 @@ body{
 
     </div>
 
-
     <p>
       Satılık ve kiralık gayrimenkuller ile
       portföyümüzdeki seçili fırsatları inceleyin.
     </p>
 
-
   </div>
 
-
-  <div
-    class="property-grid"
-    id="property-grid">
+  <div class="property-grid" id="property-grid">
 
     <p class="property-loading">
       Gayrimenkuller yükleniyor…
@@ -571,75 +509,48 @@ body{
 
   </div>
 
-
 </section>
-
 
 
 <!-- =====================================================
      YAKLAŞIM
-     ===================================================== -->
+===================================================== -->
 
-<section
-  class="statement"
-  id="yaklasim">
-
+<section class="statement" id="yaklasim">
 
   <div class="statement-top">
-
-    <span>
-      03 / Yaklaşımımız
-    </span>
-
-    <span>
-      01—03
-    </span>
-
+    <span>03 / Yaklaşımımız</span>
+    <span>01—03</span>
   </div>
 
-
   <h2>
-
-    İyi tasarım,
-    yalnızca güzel görünen değil;
-
-    <em>
-      iyi hissettiren
-    </em>
-
-    bir mekân yaratır.
-
+    İyi tasarım, yalnızca güzel görünen değil;
+    <em>iyi hissettiren</em> bir mekân yaratır.
   </h2>
-
 
   <div class="statement-text">
 
     Sivora’da her işe önce dinleyerek başlıyoruz.
     İhtiyaçları, yeri ve hayalleri anlamlandırıyor;
-    zamana dayanıklı, işlevli ve kendine özgü çözümler geliştiriyoruz.
+    zamana dayanıklı, işlevli ve kendine özgü
+    çözümler geliştiriyoruz.
 
   </div>
-
 
 </section>
 
 
-
 <!-- =====================================================
      HİZMETLER
-     ===================================================== -->
+===================================================== -->
 
-<section
-  class="services"
-  id="hizmetler">
-
+<section class="services" id="hizmetler">
 
   <div>
 
     <p class="eyebrow">
       04 / Neler yapıyoruz
     </p>
-
 
     <h2>
       Birlikte<br>
@@ -651,16 +562,13 @@ body{
 
   <div class="service-list">
 
-
     <article>
 
       <span>01</span>
 
       <div>
 
-        <strong>
-          Mimari tasarım
-        </strong>
+        <strong>Mimari tasarım</strong>
 
         <p>
           Fikir, proje ve uygulama aşamalarında
@@ -672,26 +580,22 @@ body{
     </article>
 
 
-
     <article>
 
       <span>02</span>
 
       <div>
 
-        <strong>
-          İç mekân
-        </strong>
+        <strong>İç mekân</strong>
 
         <p>
-          Günlük yaşama uyumlu,
-          yalın ve işlevsel iç mekân çözümleri.
+          Günlük yaşama uyumlu, yalın ve işlevsel
+          iç mekân çözümleri.
         </p>
 
       </div>
 
     </article>
-
 
 
     <article>
@@ -700,37 +604,29 @@ body{
 
       <div>
 
-        <strong>
-          Gayrimenkul
-        </strong>
+        <strong>Gayrimenkul</strong>
 
         <p>
-          Alım, satım ve doğru mülkü
-          değerlendirme süreçlerinde danışmanlık.
+          Alım, satım ve doğru mülkü değerlendirme
+          süreçlerinde danışmanlık.
         </p>
 
       </div>
 
     </article>
 
-
   </div>
 
 </section>
 
 
-
 <!-- =====================================================
      İLETİŞİM
-     ===================================================== -->
+===================================================== -->
 
-<section
-  class="contact"
-  id="iletisim">
-
+<section class="contact" id="iletisim">
 
   <div class="contact-top">
-
 
     <div>
 
@@ -738,48 +634,36 @@ body{
         05 / İletişim
       </p>
 
-
       <h2>
         Bir merhaba<br>
         <em>yeter.</em>
       </h2>
 
-
       <a
         class="contact-link"
         href="https://wa.me/905532217532?text=Merhaba%2C%20Sivora%20Mimarl%C4%B1k%20Ofisi%20ile%20projem%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum."
         target="_blank"
-        rel="noopener">
-
+        rel="noopener"
+      >
         WhatsApp’tan yazın
-
         <span>↗</span>
-
       </a>
 
     </div>
 
-
     <p class="contact-intro">
-
-      Projenizi, aradığınız mülkü veya
-      aklınızdaki fikri konuşalım.
-
+      Projenizi, aradığınız mülkü veya aklınızdaki
+      fikri konuşalım.
     </p>
-
 
   </div>
 
 
-
   <div class="contact-details">
-
 
     <div>
 
-      <small>
-        İletişim
-      </small>
+      <small>İletişim</small>
 
       Mimar Mesut Sivri<br>
 
@@ -792,160 +676,131 @@ body{
 
     <div>
 
-      <small>
-        Ofis Adresi
-      </small>
+      <small>Ofis Adresi</small>
 
       Kanarya Mahallesi<br>
-
       Dr. Sadık Ahmet Caddesi No: 147<br>
-
       Küçükçekmece / İstanbul
 
     </div>
 
-
   </div>
 
 
-
-  <!-- YASAL -->
-
   <div class="contact-bottom legal-footer">
 
-
     <span>
-
       © <span id="year"></span>
-
-      SİVORA MİMARLIK OFİSİ
-      — TÜM HAKLARI SAKLIDIR.
-
+      SİVORA MİMARLIK OFİSİ —
+      TÜM HAKLARI SAKLIDIR.
     </span>
 
 
     <div class="legal-links">
 
-
       <a href="yasal.html">
         KVKK Aydınlatma Metni
       </a>
-
 
       <a href="yasal.html#gizlilik">
         Gizlilik ve Kişisel Verilerin Korunması
       </a>
 
-
       <a href="yasal.html#cerez">
         Çerez Politikası
       </a>
-
 
       <a href="yasal.html#kullanim">
         Kullanım Koşulları
       </a>
 
-
       <a href="yasal.html#basvuru">
         İlgili Kişi Başvurusu
       </a>
 
-
     </div>
 
-
   </div>
-
 
 </section>
 
 </main>
 
 
-
 <!-- =====================================================
-     GAYRİMENKUL DETAY PENCERESİ
-     ===================================================== -->
+     GAYRİMENKUL DETAY MODALI
+===================================================== -->
 
 <div
   class="property-modal"
   id="property-modal"
-  hidden>
-
+  hidden
+>
 
   <div
     class="property-modal-backdrop"
-    data-close-property>
-  </div>
-
+    data-close-property
+  ></div>
 
   <div class="property-modal-box">
-
 
     <button
       class="property-modal-x"
       type="button"
       data-close-property
-      aria-label="Kapat">
-
+      aria-label="Kapat"
+    >
       ×
-
     </button>
-
 
     <div
       id="property-detail"
-      class="property-detail">
-    </div>
-
+      class="property-detail"
+    ></div>
 
   </div>
-
 
 </div>
 
 
-
 <!-- =====================================================
      WHATSAPP
-     ===================================================== -->
+===================================================== -->
 
 <a
   class="wa-float"
   href="https://wa.me/905532217532?text=Merhaba%2C%20Sivora%20Mimarl%C4%B1k%20Ofisi%20ile%20projem%20hakk%C4%B1nda%20g%C3%B6r%C3%BC%C5%9Fmek%20istiyorum."
   target="_blank"
   rel="noopener"
-  aria-label="WhatsApp">
+  aria-label="WhatsApp"
+>
 
+<svg
+  width="25"
+  height="25"
+  viewBox="0 0 24 24"
+  fill="none"
+>
 
-  <svg
-    width="25"
-    height="25"
-    viewBox="0 0 24 24"
-    fill="none">
+<path
+  d="M20.5 11.7a8.4 8.4 0 0 1-12.4 7.4L3 20l.9-5a8.4 8.4 0 1 1 16.6-3.3Z"
+  stroke="white"
+  stroke-width="1.7"
+/>
 
+<path
+  d="M8.4 7.8c.3-.6.6-.6.9-.6h.4c.2 0 .4 0 .5.4l.7 1.7c.1.3.1.5-.1.7l-.5.6c-.2.2-.2.4 0 .7.5.9 1.2 1.6 2.1 2.1.3.2.5.2.7-.1l.7-.8c.2-.2.4-.3.7-.2l1.6.8c.3.2.4.3.4.5 0 .3-.2 1-.7 1.3-.5.4-1.2.6-1.9.5-1.1-.2-2.4-.8-3.7-2-1.1-1-2-2.4-2.2-3.5-.2-.8.1-1.6.4-2.1Z"
+  fill="white"
+/>
 
-    <path
-      d="M20.5 11.7a8.4 8.4 0 0 1-12.4 7.4L3 20l.9-5a8.4 8.4 0 1 1 16.6-3.3Z"
-      stroke="white"
-      stroke-width="1.7"/>
-
-
-    <path
-      d="M8.4 7.8c.3-.6.6-.6.9-.6h.4c.2 0 .4 0 .5.4l.7 1.7c.1.3.1.5-.1.7l-.5.6c-.2.2-.2.4 0 .7.5.9 1.2 1.6 2.1 2.1.3.2.5.2.7-.1l.7-.8c.2-.2.4-.3.7-.2l1.6.8c.3.2.4.3.4.5 0 .3-.2 1-.7 1.3-.5.4-1.2.6-1.9.5-1.1-.2-2.4-.8-3.7-2-1.1-1-2-2.4-2.2-3.5-.2-.8.1-1.6.4-2.1Z"
-      fill="white"/>
-
-  </svg>
-
+</svg>
 
 </a>
 
 
-
 <!-- =====================================================
-     SİVORA SİSTEMLERİ
-     ===================================================== -->
+     SCRIPTLER
+===================================================== -->
 
 <script src="supabase-config.js"></script>
 
@@ -958,254 +813,235 @@ body{
 <script src="public-properties.js"></script>
 
 
+<!-- GAYRİMENKUL MODAL -->
+<script>
+
+(function () {
+
+  function closePropertyModal() {
+
+    var modal =
+      document.getElementById("property-modal");
+
+    if (!modal) return;
+
+    modal.hidden = true;
+
+    document.body.style.overflow = "";
+
+  }
+
+
+  document.addEventListener("click", function (event) {
+
+    var closeButton =
+      event.target.closest("[data-close-property]");
+
+    if (closeButton) {
+
+      closePropertyModal();
+
+    }
+
+  });
+
+
+  document.addEventListener("keydown", function (event) {
+
+    if (event.key === "Escape") {
+
+      closePropertyModal();
+
+    }
+
+  });
+
+})();
+
+</script>
+
 
 <!-- =====================================================
-     ÜST MENÜ + SCROLL SİSTEMİ
-     ===================================================== -->
+     ÜST MENÜ KAYBOLMA / GERİ GELME
+===================================================== -->
 
 <script>
 
 (function(){
 
-  var header =
-    document.getElementById("site-header");
-
-  var mobileButton =
-    document.getElementById("site-menu");
-
-  var nav =
+  const nav =
     document.getElementById("site-nav");
 
+  if (!nav) return;
 
-  var lastScroll =
-    window.pageYOffset || 0;
+  let lastY = window.scrollY;
 
-
-  var ticking = false;
-
-
-
-  /* =========================================
-     AŞAĞI / YUKARI SCROLL
-     ========================================= */
-
-  function handleScroll(){
-
-
-    var currentScroll =
-      window.pageYOffset ||
-      document.documentElement.scrollTop;
-
-
-    /* Sayfanın en üstündeyse menü görünür */
-
-    if(currentScroll <= 20){
-
-      header.classList.remove("hide");
-
-      header.classList.add("show");
-
-      lastScroll =
-        currentScroll;
-
-      return;
-
-    }
-
-
-    /* AŞAĞI */
-
-    if(currentScroll > lastScroll){
-
-      header.classList.remove("show");
-
-      header.classList.add("hide");
-
-    }
-
-
-    /* YUKARI */
-
-    else if(currentScroll < lastScroll){
-
-      header.classList.remove("hide");
-
-      header.classList.add("show");
-
-    }
-
-
-    lastScroll =
-      currentScroll;
-
-  }
-
+  const threshold = 12;
 
 
   window.addEventListener(
     "scroll",
     function(){
 
-
-      if(!ticking){
-
-
-        window.requestAnimationFrame(
-          function(){
+      const y = window.scrollY;
 
 
-            handleScroll();
+      if (y <= 20) {
 
-
-            ticking =
-              false;
-
-
-          }
-        );
-
-
-        ticking =
-          true;
+        nav.classList.remove("nav-hidden");
 
       }
 
+      else if (y > lastY + threshold) {
+
+        nav.classList.add("nav-hidden");
+
+      }
+
+      else if (y < lastY - threshold) {
+
+        nav.classList.remove("nav-hidden");
+
+      }
+
+
+      lastY = y;
 
     },
     {passive:true}
   );
 
-
-
-  /* =========================================
-     MOBİL MENÜ
-     ========================================= */
-
-  if(mobileButton && nav){
-
-
-    mobileButton.addEventListener(
-      "click",
-      function(){
-
-
-        var open =
-          nav.classList.toggle("open");
-
-
-        mobileButton.setAttribute(
-          "aria-expanded",
-          open ? "true" : "false"
-        );
-
-
-      }
-    );
-
-
-
-    nav.querySelectorAll("a")
-      .forEach(
-        function(link){
-
-
-          link.addEventListener(
-            "click",
-            function(){
-
-
-              nav.classList.remove("open");
-
-
-              mobileButton.setAttribute(
-                "aria-expanded",
-                "false"
-              );
-
-
-            }
-          );
-
-
-        }
-      );
-
-
-  }
-
-
 })();
 
+</script>
 
 
-/* =====================================================
-   GAYRİMENKUL PENCERESİ KAPATMA
-   ===================================================== */
+<!-- =====================================================
+     AYDINLIK / KARANLIK MOD
+===================================================== -->
+
+<script>
 
 (function(){
 
+  const button =
+    document.getElementById("theme-toggle");
 
-  function closePropertyModal(){
-
-
-    var modal =
-      document.getElementById("property-modal");
+  if (!button) return;
 
 
-    if(!modal)
-      return;
+  const sun =
+    button.querySelector(".theme-sun");
+
+  const moon =
+    button.querySelector(".theme-moon");
 
 
-    modal.hidden =
-      true;
+  function applyTheme(theme){
+
+    const isLight =
+      theme === "light";
 
 
-    document.body.style.overflow =
-      "";
+    document.body.classList.toggle(
+      "sivora-light",
+      isLight
+    );
 
+    document.body.classList.toggle(
+      "sivora-dark",
+      !isLight
+    );
+
+
+    if (sun && moon) {
+
+      sun.style.display =
+        isLight ? "none" : "inline-block";
+
+      moon.style.display =
+        isLight ? "inline-block" : "none";
+
+    }
+
+
+    button.setAttribute(
+      "aria-label",
+      isLight
+        ? "Karanlık moda geç"
+        : "Aydınlık moda geç"
+    );
+
+
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute(
+        "content",
+        isLight ? "#f4f1ea" : "#151515"
+      );
+
+
+    localStorage.setItem(
+      "sivora-theme",
+      theme
+    );
 
   }
 
 
+  const savedTheme =
+    localStorage.getItem("sivora-theme");
 
-  document.addEventListener(
+
+  if (savedTheme) {
+
+    applyTheme(savedTheme);
+
+  }
+
+  else {
+
+    applyTheme("dark");
+
+  }
+
+
+  button.addEventListener(
     "click",
-    function(event){
+    function(){
 
-
-      var closeButton =
-        event.target.closest(
-          "[data-close-property]"
+      const isLight =
+        document.body.classList.contains(
+          "sivora-light"
         );
 
 
-      if(closeButton){
-
-        closePropertyModal();
-
-      }
-
+      applyTheme(
+        isLight ? "dark" : "light"
+      );
 
     }
   );
 
+})();
+
+</script>
 
 
-  document.addEventListener(
-    "keydown",
-    function(event){
+<!-- YIL -->
+<script>
 
+(function(){
 
-      if(event.key === "Escape"){
+  const year =
+    document.getElementById("year");
 
-        closePropertyModal();
+  if (year) {
 
-      }
+    year.textContent =
+      new Date().getFullYear();
 
-
-    }
-  );
-
+  }
 
 })();
 
