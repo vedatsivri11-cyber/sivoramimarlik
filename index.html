@@ -642,6 +642,66 @@
 
 </style>
 
+<style>
+
+.about-sivora{
+  padding:14vh 5vw;
+  border-top:1px solid rgba(170,165,156,.28);
+  border-bottom:1px solid rgba(170,165,156,.18);
+}
+.about-sivora-inner{max-width:1400px;margin:0 auto}
+.about-sivora-head{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:40px;margin-bottom:75px;
+}
+.about-sivora-label,.about-sivora-index{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+}
+.about-sivora-label{opacity:.58}
+.about-sivora-index{opacity:.42}
+.about-sivora-main{
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);
+  gap:9vw;align-items:end;
+}
+.about-sivora-title h2{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:clamp(48px,6vw,86px);font-weight:400;
+  line-height:.98;letter-spacing:-.04em;margin:0;
+}
+.about-sivora-title h2 em{font-style:italic}
+.about-sivora-copy{max-width:500px}
+.about-sivora-copy p{font-size:15px;line-height:1.85;opacity:.68;margin:0}
+.about-sivora-divider{width:52px;height:1px;background:#b9975b;margin:30px 0}
+.about-sivora-values{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  margin-top:90px;border-top:1px solid rgba(170,165,156,.32);
+}
+.about-sivora-value{padding:35px 35px 10px 0}
+.about-sivora-value+.about-sivora-value{
+  border-left:1px solid rgba(170,165,156,.32);padding-left:35px;
+}
+.about-sivora-value span{
+  display:block;font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;opacity:.45;margin-bottom:24px;
+}
+.about-sivora-value h3{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:31px;font-weight:400;margin:0 0 15px;
+}
+.about-sivora-value p{max-width:520px;font-size:14px;line-height:1.75;opacity:.62;margin:0}
+@media(max-width:800px){
+  .about-sivora{padding:11vh 5vw}
+  .about-sivora-head{margin-bottom:50px}
+  .about-sivora-main{grid-template-columns:1fr;gap:38px}
+  .about-sivora-title h2{font-size:46px}
+  .about-sivora-values{grid-template-columns:1fr;margin-top:60px}
+  .about-sivora-value{padding:28px 0}
+  .about-sivora-value+.about-sivora-value{
+    border-left:0;border-top:1px solid rgba(170,165,156,.32);padding-left:0
+  }
+}
+
+</style>
 </head>
 
 
@@ -1314,22 +1374,73 @@
 </section>
 
 
-<!-- HAKKIMIZDA / VİZYONUMUZ / MİSYONUMUZ -->
-<section class="about-sivora" id="hakkimizda">
-  <div class="about-sivora-top"><span>05 / Hakkımızda</span><span>SİVORA MİMARLIK</span></div>
-  <div class="about-sivora-grid">
-    <div class="about-sivora-title"><p class="eyebrow">Hakkımızda</p><h2>Yaşama değer katan,<br><em>zamansız mekânlar.</em></h2></div>
-    <div class="about-sivora-text"><p>Sivora Mimarlık; mimarlık, iç mekân ve gayrimenkul alanlarını bir araya getirerek estetik, işlevsel ve değer üreten çözümler sunar.</p><p>Her projede bulunduğu yeri, ihtiyaçları ve yaşam biçimini dikkate alıyor; tasarım ile doğru yatırım anlayışını aynı çatı altında buluşturuyoruz.</p></div>
-  </div>
-  <div class="about-sivora-cards">
-    <article><span>01</span><h3>Vizyonumuz</h3><p>Modern mimarlık anlayışını doğru yatırım ve gayrimenkul danışmanlığıyla birleştirerek kalıcı ve nitelikli yaşam alanları oluşturmak.</p></article>
-    <article><span>02</span><h3>Misyonumuz</h3><p>İhtiyaçları doğru analiz etmek, estetik ve işlevselliği bir araya getirmek ve müşterilerimize şeffaf, güvenilir ve profesyonel bir süreç sunmak.</p></article>
-  </div>
-</section>
+
 
 <!-- =========================================================
      İLETİŞİM
 ========================================================= -->
+
+
+<!-- =========================================================
+     05 / HAKKIMIZDA
+========================================================= -->
+<section class="about-sivora" id="hakkimizda">
+  <div class="about-sivora-inner">
+
+    <div class="about-sivora-head">
+      <span class="about-sivora-label">05 / Hakkımızda</span>
+      <span class="about-sivora-index">SİVORA MİMARLIK</span>
+    </div>
+
+    <div class="about-sivora-main">
+      <div class="about-sivora-title">
+        <h2>
+          Mekâna değer,<br>
+          <em>yaşama karakter.</em>
+        </h2>
+      </div>
+
+      <div class="about-sivora-copy">
+        <p>
+          SİVORA MİMARLIK; mimari tasarım, gayrimenkul ve kentsel dönüşüm
+          alanlarını bir araya getirerek estetik, işlev ve doğru yatırım
+          anlayışını aynı çatı altında buluşturur.
+        </p>
+
+        <div class="about-sivora-divider"></div>
+
+        <p>
+          Her projeye bulunduğu yeri, ihtiyacı ve yaşam biçimini anlayarak
+          başlıyor; zamana karşı değerini koruyan, sade ve nitelikli
+          çözümler geliştiriyoruz.
+        </p>
+      </div>
+    </div>
+
+    <div class="about-sivora-values">
+      <div class="about-sivora-value">
+        <span>01 / Vizyonumuz</span>
+        <h3>Kalıcı değer üreten mekânlar.</h3>
+        <p>
+          Çağdaş mimarlık anlayışıyla çevresine değer katan,
+          işlevini uzun yıllar koruyan ve kullanıcılarıyla bağ kuran
+          yaşam alanları tasarlamak.
+        </p>
+      </div>
+
+      <div class="about-sivora-value">
+        <span>02 / Misyonumuz</span>
+        <h3>Doğru analiz, doğru çözüm.</h3>
+        <p>
+          Her projeyi ihtiyaç, bütçe, konum ve kullanım açısından
+          doğru değerlendirerek; şeffaf, güvenilir ve profesyonel
+          bir süreç sunmak.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <section
   class="contact"
