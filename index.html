@@ -105,23 +105,16 @@
   <div class="contact-bottom legal-footer">
     <span>© <span id="year"></span> SİVORA MİMARLIK OFİSİ — TÜM HAKLARI SAKLIDIR.</span>
     <div class="legal-links">
-      <a href="#" data-legal="kvkk">KVKK Aydınlatma Metni</a>
-      <a href="#" data-legal="gizlilik">Gizlilik ve Kişisel Verilerin Korunması</a>
-      <a href="#" data-legal="cerez">Çerez Politikası</a>
-      <a href="#" data-legal="kullanim">Kullanım Koşulları</a>
+      <a href="yasal.html">KVKK Aydınlatma Metni</a>
+      <a href="yasal.html#gizlilik">Gizlilik ve Kişisel Verilerin Korunması</a>
+      <a href="yasal.html#cerez">Çerez Politikası</a>
+      <a href="yasal.html#kullanim">Kullanım Koşulları</a>
+      <a href="yasal.html#basvuru">İlgili Kişi Başvurusu</a>
     </div>
   </div>
 </section>
 </main>
 
-<div class="legal-modal" id="legal-modal" hidden>
-  <div class="legal-backdrop" data-close-legal></div>
-  <div class="legal-box" role="dialog" aria-modal="true" aria-labelledby="legal-title">
-    <button class="legal-close" type="button" data-close-legal aria-label="Kapat">×</button>
-    <h2 id="legal-title">Bilgilendirme</h2>
-    <div id="legal-content"></div>
-  </div>
-</div>
 
 <div class="property-modal" id="property-modal" hidden>
   <div class="property-modal-backdrop" data-close-property></div>
@@ -157,26 +150,6 @@
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape") closePropertyModal();
   });
-})();
-</script>
-<script>
-(function(){
-  var modal=document.getElementById("legal-modal");
-  var title=document.getElementById("legal-title");
-  var content=document.getElementById("legal-content");
-  var data={
-    kvkk:{title:"KVKK Aydınlatma Metni",html:"<p>Bu metin, Sivora Mimarlık Ofisi ile iletişim kuran kişilerin kişisel verilerinin işlenmesine ilişkin genel bilgilendirme amacıyla hazırlanmıştır.</p><h3>İşlenen veriler</h3><p>Ad, soyad, telefon, e-posta, iletişim mesajları ve talep kapsamında paylaşılan bilgiler işlenebilir.</p><h3>İşleme amacı</h3><p>İletişim taleplerinin yanıtlanması, hizmet süreçlerinin yürütülmesi, gayrimenkul taleplerinin değerlendirilmesi ve yasal yükümlülüklerin yerine getirilmesi.</p><h3>Başvuru</h3><p>KVKK kapsamındaki talepleriniz için Sivora Mimarlık Ofisi ile iletişim kanallarından başvurabilirsiniz.</p>"},
-    gizlilik:{title:"Gizlilik ve Kişisel Verilerin Korunması",html:"<p>Sivora Mimarlık Ofisi, ziyaretçilerin ve iletişim kuran kişilerin paylaştığı bilgilerin gizliliğine önem verir.</p><h3>Bilgilerin kullanımı</h3><p>Paylaşılan bilgiler yalnızca talebinizin karşılanması, iletişim kurulması ve hizmet süreçlerinin yürütülmesi amacıyla kullanılacaktır.</p><h3>Güvenlik</h3><p>Kişisel bilgilerin yetkisiz erişime karşı korunması için makul teknik ve idari tedbirler uygulanır.</p><h3>Üçüncü kişiler</h3><p>Yasal zorunluluklar dışında kişisel bilgileriniz izniniz olmadan üçüncü taraflarla paylaşılmaz.</p>"},
-    cerez:{title:"Çerez Politikası",html:"<p>Bu internet sitesinde kullanıcı deneyimini geliştirmek ve sitenin temel işlevlerini sağlamak amacıyla teknik çerezler veya benzeri teknolojiler kullanılabilir.</p><h3>Çerezlerin amacı</h3><p>Site işlevlerinin çalışması, tercihlerin hatırlanması ve güvenliğin desteklenmesi.</p><h3>Çerezleri yönetme</h3><p>Tarayıcı ayarlarınız üzerinden çerezleri engelleyebilir veya silebilirsiniz. Bazı çerezleri kapatmanız sitenin bazı işlevlerini etkileyebilir.</p>"},
-    kullanim:{title:"Kullanım Koşulları",html:"<p>Bu web sitesindeki içerikler Sivora Mimarlık Ofisi hakkında bilgilendirme amacı taşır.</p><h3>İçerik</h3><p>Proje, gayrimenkul ve hizmet bilgilerinin güncelliği değişebilir. İlanlardaki fiyat, özellik ve müsaitlik bilgileri iletişim sırasında teyit edilmelidir.</p><h3>Fikri mülkiyet</h3><p>Site tasarımı, metinler, görseller ve diğer içerikler, aksi belirtilmedikçe Sivora Mimarlık Ofisi'ne veya ilgili hak sahiplerine aittir.</p><h3>İletişim</h3><p>Siteyi kullanarak iletişim kanallarını yasalara ve iyi niyet kurallarına uygun şekilde kullanmayı kabul etmiş olursunuz.</p>"}
-  };
-  function close(){if(!modal)return;modal.hidden=true;document.body.style.overflow="";}
-  document.addEventListener("click",function(e){
-    var link=e.target.closest&&e.target.closest("[data-legal]");
-    if(link){e.preventDefault();var item=data[link.getAttribute("data-legal")];if(item){title.textContent=item.title;content.innerHTML=item.html;modal.hidden=false;document.body.style.overflow="hidden";}}
-    if(e.target.closest&&e.target.closest("[data-close-legal]")){close();}
-  });
-  document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});
 })();
 </script>
 </body>
