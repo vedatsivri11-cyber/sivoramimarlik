@@ -35,7 +35,6 @@
   ========================= */
 
   const refreshProjects = async () => {
-
     const { data, error } = await db
       .from('projects')
       .select(`
@@ -48,64 +47,69 @@
         photos,
         created_at
       `)
-      .order('created_at', {
-        ascending: false
-      });
+      .order('created_at', { ascending: false });
 
     if (error) {
-      setStatus(
-        'Projeler yüklenemedi: ' +
-        error.message
-      );
+      setStatus('Projeler yüklenemedi: ' + error.message);
       return;
     }
 
     cards.replaceChildren();
 
     (data || []).forEach(project => {
+      const row = document.createElement('article');
+      row.className = 'admin-project';
 
-      const row =
-        document.createElement('article');
+      /* PROJE FOTOĞRAFLARI */
 
-      row.className =
-        'admin-project';
+      let photos = [];
 
+      if (Array.isArray(project.photos)) {
+        photos = project.photos;
+      } else if (typeof project.photos === 'string') {
+        try {
+          photos = JSON.parse(project.photos || '[]');
+        } catch {
+          photos = [];
+        }
+      }
 
-      /* =========================
-         FOTOĞRAF
-      ========================= */
+      /* Eski sistemdeki tek fotoğrafı da destekle */
 
-      const image =
-        document.createElement('img');
+      if (!photos.length && project.image_url) {
+        photos = [
+          {
+            url: project.image_url,
+            path: project.storage_path
+          }
+        ];
+      }
+
+      const image = document.createElement('img');
 
       image.src =
-        project.image_url || '';
+        photos[0]?.url ||
+        project.image_url ||
+        '';
 
       image.alt =
-        project.title || 'Proje';
+        project.title ||
+        'Proje';
 
 
-      /* =========================
-         DETAY
-      ========================= */
+      /* PROJE BİLGİLERİ */
 
-      const detail =
-        document.createElement('div');
+      const detail = document.createElement('div');
 
-
-      const title =
-        document.createElement('strong');
+      const title = document.createElement('strong');
 
       title.textContent =
         project.title || '';
 
-
-      const location =
-        document.createElement('p');
+      const location = document.createElement('p');
 
       location.textContent =
         project.location || '';
-
 
       detail.append(
         title,
@@ -116,61 +120,35 @@
       /* AÇIKLAMA */
 
       if (project.description) {
-
         const description =
           document.createElement('p');
 
         description.textContent =
           project.description;
 
-        detail.append(
-          description
-        );
+        detail.append(description);
       }
 
 
       /* FOTOĞRAF SAYISI */
 
-      let photoCount = 0;
-
-      if (
-        Array.isArray(project.photos)
-      ) {
-
-        photoCount =
-          project.photos.length;
-
-      } else if (
-        project.image_url
-      ) {
-
-        photoCount = 1;
-      }
-
-
-      if (photoCount > 0) {
-
-        const photosInfo =
+      if (photos.length > 1) {
+        const photoCount =
           document.createElement('small');
 
-        photosInfo.textContent =
-          `${photoCount} fotoğraf`;
+        photoCount.textContent =
+          `${photos.length} fotoğraf`;
 
-        detail.append(
-          photosInfo
-        );
+        detail.append(photoCount);
       }
 
 
-      /* =========================
-         SİL BUTONU
-      ========================= */
+      /* SİL BUTONU */
 
       const remove =
         document.createElement('button');
 
-      remove.type =
-        'button';
+      remove.type = 'button';
 
       remove.textContent =
         'Sil';
@@ -182,79 +160,44 @@
 
           if (
             !window.confirm(
-              'Bu proje ve bütün fotoğrafları galeriden kaldırılsın mı?'
+              'Bu proje galeriden kaldırılsın mı?'
             )
           ) {
             return;
           }
 
 
-          setStatus(
-            'Proje siliniyor...'
-          );
+          /* TÜM FOTOĞRAFLARIN PATH'LERİ */
+
+          const paths = photos
+            .map(photo => photo?.path)
+            .filter(Boolean);
 
 
-          /* =========================
-             TÜM FOTOĞRAF YOLLARINI BUL
-          ========================= */
-
-          let pathsToDelete = [];
-
-
-          if (
-            Array.isArray(project.photos)
-          ) {
-
-            pathsToDelete =
-              project.photos
-                .map(photo => {
-
-                  if (
-                    typeof photo === 'string'
-                  ) {
-                    return null;
-                  }
-
-                  return photo?.path || null;
-                })
-                .filter(Boolean);
-          }
-
-
-          /* ESKİ PROJELER */
+          /* Eski storage_path varsa ekle */
 
           if (
             project.storage_path &&
-            !pathsToDelete.includes(
-              project.storage_path
-            )
+            !paths.includes(project.storage_path)
           ) {
-
-            pathsToDelete.push(
+            paths.push(
               project.storage_path
             );
           }
 
 
-          /* =========================
-             FOTOĞRAFLARI SİL
-          ========================= */
+          /* FOTOĞRAFLARI SİL */
 
-          if (
-            pathsToDelete.length
-          ) {
+          if (paths.length) {
 
             const {
               error: fileError
             } = await db.storage
               .from('projects')
-              .remove(
-                pathsToDelete
-              );
+              .remove(paths);
 
 
             if (fileError) {
-
               setStatus(
                 'Fotoğraflar silinemedi: ' +
                 fileError.message
@@ -265,23 +208,17 @@
           }
 
 
-          /* =========================
-             VERİTABANI KAYDINI SİL
-          ========================= */
+          /* VERİTABANI KAYDINI SİL */
 
           const {
             error: rowError
           } = await db
             .from('projects')
             .delete()
-            .eq(
-              'id',
-              project.id
-            );
+            .eq('id', project.id);
 
 
           if (rowError) {
-
             setStatus(
               'Proje silinemedi: ' +
               rowError.message
@@ -292,12 +229,10 @@
 
 
           setStatus(
-            'Proje ve fotoğrafları silindi.'
+            'Proje silindi.'
           );
 
-
           refreshProjects();
-
         }
       );
 
@@ -308,9 +243,7 @@
         remove
       );
 
-      cards.append(
-        row
-      );
+      cards.append(row);
     });
   };
 
@@ -326,7 +259,10 @@
     }
 
 
-    const { data, error } = await db
+    const {
+      data,
+      error
+    } = await db
       .from('properties')
       .select(`
         id,
@@ -374,22 +310,24 @@
     (data || []).forEach(property => {
 
       const row =
-        document.createElement('article');
+        document.createElement(
+          'article'
+        );
 
       row.className =
         'admin-project';
 
 
-      let photos = [];
+      /* FOTOĞRAFLAR */
 
+      let photos = [];
 
       try {
 
-        photos =
-          JSON.parse(
-            property.fotograflar ||
-            '[]'
-          );
+        photos = JSON.parse(
+          property.fotograflar ||
+          '[]'
+        );
 
       } catch {
 
@@ -398,12 +336,12 @@
 
 
       const image =
-        document.createElement('img');
+        document.createElement(
+          'img'
+        );
 
 
-      if (
-        photos.length > 0
-      ) {
+      if (photos.length > 0) {
 
         image.src =
           photos[0];
@@ -415,33 +353,46 @@
         'Gayrimenkul';
 
 
+      /* BİLGİLER */
+
       const detail =
-        document.createElement('div');
+        document.createElement(
+          'div'
+        );
 
 
       const title =
-        document.createElement('strong');
+        document.createElement(
+          'strong'
+        );
 
       title.textContent =
-        property.ilan_basligi;
+        property.ilan_basligi ||
+        '';
 
 
       const type =
-        document.createElement('p');
+        document.createElement(
+          'p'
+        );
 
       type.textContent =
         `${property.ilan_turu || ''} · ${property.gayrimenkul_turu || ''}`;
 
 
       const location =
-        document.createElement('p');
+        document.createElement(
+          'p'
+        );
 
       location.textContent =
         property.konum || '';
 
 
       const price =
-        document.createElement('p');
+        document.createElement(
+          'p'
+        );
 
 
       const formattedPrice =
@@ -468,8 +419,12 @@
       );
 
 
+      /* SİL BUTONU */
+
       const remove =
-        document.createElement('button');
+        document.createElement(
+          'button'
+        );
 
       remove.type =
         'button';
@@ -524,7 +479,6 @@
 
 
           refreshProperties();
-
         }
       );
 
@@ -535,12 +489,8 @@
         remove
       );
 
-      propertyCards.append(
-        row
-      );
-
+      propertyCards.append(row);
     });
-
   };
 
 
@@ -553,7 +503,6 @@
     await refreshProjects();
 
     await refreshProperties();
-
   };
 
 
@@ -563,8 +512,9 @@
 
   const loadSession = async () => {
 
-    const { data } =
-      await db.auth.getSession();
+    const {
+      data
+    } = await db.auth.getSession();
 
 
     const signedIn =
@@ -579,11 +529,8 @@
 
 
     if (signedIn) {
-
       refresh();
-
     }
-
   };
 
 
@@ -631,7 +578,6 @@
           error.message
         );
 
-
         setStatus(
           'Giriş başarısız.'
         );
@@ -649,7 +595,6 @@
 
 
       await loadSession();
-
     }
   );
 
@@ -673,13 +618,13 @@
 
 
         loadSession();
-
       }
     );
 
 
   /* =========================
      PROJE EKLEME
+     ÇOKLU FOTOĞRAF
   ========================= */
 
   document
@@ -698,9 +643,13 @@
 
 
         const files =
-          form.getAll(
-            'images'
-          );
+          form.getAll('images')
+            .filter(
+              file =>
+                file &&
+                file instanceof File &&
+                file.size > 0
+            );
 
 
         const {
@@ -720,22 +669,7 @@
         }
 
 
-        /* =========================
-           FOTOĞRAFLARI KONTROL ET
-        ========================= */
-
-        const validFiles =
-          files.filter(
-            file =>
-              file &&
-              file instanceof File &&
-              file.size > 0
-          );
-
-
-        if (
-          !validFiles.length
-        ) {
+        if (!files.length) {
 
           setStatus(
             'En az bir proje fotoğrafı seç.'
@@ -752,8 +686,10 @@
         ];
 
 
+        /* FOTOĞRAF KONTROLÜ */
+
         for (
-          const file of validFiles
+          const file of files
         ) {
 
           if (
@@ -763,7 +699,7 @@
           ) {
 
             setStatus(
-              `"${file.name}" için sadece JPG, PNG veya WebP kullanılabilir.`
+              'Sadece JPG, PNG veya WebP fotoğraflar kullanabilirsin.'
             );
 
             return;
@@ -781,34 +717,34 @@
 
             return;
           }
-
         }
 
 
-        /* =========================
-           FOTOĞRAFLARI YÜKLE
-        ========================= */
-
         setStatus(
-          `${validFiles.length} fotoğraf yükleniyor...`
+          `${files.length} proje fotoğrafı yükleniyor...`
         );
 
 
         const uploadedPhotos = [];
 
+        const uploadedPaths = [];
+
+
+        /* FOTOĞRAFLARI YÜKLE */
 
         for (
           let i = 0;
-          i < validFiles.length;
+          i < files.length;
           i++
         ) {
 
           const file =
-            validFiles[i];
+            files[i];
 
 
           const ext =
-            file.type === 'image/jpeg'
+            file.type ===
+            'image/jpeg'
               ? 'jpg'
               : file.type.split('/')[1];
 
@@ -841,27 +777,29 @@
           if (uploadError) {
 
             if (
-              uploadedPhotos.length
+              uploadedPaths.length
             ) {
 
               await db.storage
                 .from('projects')
                 .remove(
-                  uploadedPhotos.map(
-                    photo =>
-                      photo.path
-                  )
+                  uploadedPaths
                 );
             }
 
 
             setStatus(
-              `"${file.name}" yüklenemedi: ` +
+              'Fotoğraf yüklenemedi: ' +
               uploadError.message
             );
 
             return;
           }
+
+
+          uploadedPaths.push(
+            path
+          );
 
 
           const {
@@ -874,26 +812,21 @@
 
 
           uploadedPhotos.push({
-
             url:
               publicData.publicUrl,
 
             path:
               path
-
           });
 
 
           setStatus(
-            `${i + 1} / ${validFiles.length} fotoğraf yüklendi...`
+            `${i + 1}/${files.length} fotoğraf yüklendi...`
           );
-
         }
 
 
-        /* =========================
-           PROJEYİ VERİTABANINA KAYDET
-        ========================= */
+        /* PROJEYİ VERİTABANINA KAYDET */
 
         const {
           error
@@ -904,30 +837,23 @@
             owner_id:
               userData.user.id,
 
-
             title:
               String(
-                form.get(
-                  'title'
-                ) || ''
+                form.get('title') ||
+                ''
               ).trim(),
-
 
             location:
               String(
-                form.get(
-                  'location'
-                ) || ''
+                form.get('location') ||
+                ''
               ).trim(),
-
 
             description:
               String(
-                form.get(
-                  'description'
-                ) || ''
+                form.get('description') ||
+                ''
               ).trim(),
-
 
             /* İLK FOTOĞRAF */
 
@@ -935,35 +861,23 @@
               uploadedPhotos[0]?.url ||
               null,
 
-
-            /* İLK FOTOĞRAFIN YOLU */
-
             storage_path:
               uploadedPhotos[0]?.path ||
               null,
-
 
             /* TÜM FOTOĞRAFLAR */
 
             photos:
               uploadedPhotos
-
           });
 
-
-        /* =========================
-           KAYIT HATALIYSA
-        ========================= */
 
         if (error) {
 
           await db.storage
             .from('projects')
             .remove(
-              uploadedPhotos.map(
-                photo =>
-                  photo.path
-              )
+              uploadedPaths
             );
 
 
@@ -976,20 +890,15 @@
         }
 
 
-        /* =========================
-           BAŞARILI
-        ========================= */
-
         event.currentTarget.reset();
 
 
         setStatus(
-          `Proje yayımlandı. ${uploadedPhotos.length} fotoğraf yüklendi.`
+          'Proje başarıyla yayımlandı.'
         );
 
 
         refreshProjects();
-
       }
     );
 
@@ -1053,9 +962,7 @@
           );
 
 
-        if (
-          !validFiles.length
-        ) {
+        if (!validFiles.length) {
 
           setStatus(
             'En az bir gayrimenkul fotoğrafı seç.'
@@ -1101,7 +1008,6 @@
 
             return;
           }
-
         }
 
 
@@ -1169,7 +1075,7 @@
         }
 
 
-        /* FOTOĞRAFLARI YÜKLE */
+        /* GAYRİMENKUL FOTOĞRAFLARINI YÜKLE */
 
         setStatus(
           `${validFiles.length} fotoğraf yükleniyor...`
@@ -1192,7 +1098,8 @@
 
 
           const ext =
-            file.type === 'image/jpeg'
+            file.type ===
+            'image/jpeg'
               ? 'jpg'
               : file.type.split('/')[1];
 
@@ -1209,9 +1116,7 @@
           const {
             error: uploadError
           } = await db.storage
-            .from(
-              'property-images'
-            )
+            .from('property-images')
             .upload(
               path,
               file,
@@ -1232,9 +1137,7 @@
             ) {
 
               await db.storage
-                .from(
-                  'property-images'
-                )
+                .from('property-images')
                 .remove(
                   uploadedPaths
                 );
@@ -1258,9 +1161,7 @@
           const {
             data: publicData
           } = db.storage
-            .from(
-              'property-images'
-            )
+            .from('property-images')
             .getPublicUrl(
               path
             );
@@ -1274,44 +1175,33 @@
           setStatus(
             `${i + 1}/${validFiles.length} fotoğraf yüklendi...`
           );
-
         }
 
 
-        /* =========================
-           VERİTABANINA KAYDET
-        ========================= */
+        /* VERİTABANINA KAYDET */
 
         const propertyData = {
 
           ilan_basligi:
             ilanBasligi,
 
-
           ilan_turu:
             ilanTuru,
-
 
           gayrimenkul_turu:
             gayrimenkulTuru,
 
-
           konum:
             konum,
-
 
           fiyat:
             Number(fiyat),
 
-
           para_birimi:
             paraBirimi,
 
-
           brut_m2:
-            form.get(
-              'brut_m2'
-            )
+            form.get('brut_m2')
               ? Number(
                   form.get(
                     'brut_m2'
@@ -1319,11 +1209,8 @@
                 )
               : null,
 
-
           net_m2:
-            form.get(
-              'net_m2'
-            )
+            form.get('net_m2')
               ? Number(
                   form.get(
                     'net_m2'
@@ -1331,14 +1218,12 @@
                 )
               : null,
 
-
           oda_sayisi:
             String(
               form.get(
                 'oda_sayisi'
               ) || ''
             ).trim(),
-
 
           banyo_sayisi:
             form.get(
@@ -1351,14 +1236,12 @@
                 )
               : null,
 
-
           kat:
             String(
               form.get(
                 'kat'
               ) || ''
             ).trim(),
-
 
           bina_yasi:
             form.get(
@@ -1371,7 +1254,6 @@
                 )
               : null,
 
-
           isitma:
             String(
               form.get(
@@ -1379,18 +1261,15 @@
               ) || ''
             ).trim(),
 
-
           balkon:
             form.get(
               'balkon'
             ) === 'true',
 
-
           otopark:
             form.get(
               'otopark'
             ) === 'true',
-
 
           aciklama:
             String(
@@ -1399,7 +1278,6 @@
               ) || ''
             ).trim(),
 
-
           ozellikler:
             String(
               form.get(
@@ -1407,34 +1285,28 @@
               ) || ''
             ).trim(),
 
-
           fotograflar:
             JSON.stringify(
               photoUrls
             )
-
         };
 
 
         const {
           error: insertError
         } = await db
-          .from(
-            'properties'
-          )
+          .from('properties')
           .insert(
             propertyData
           );
 
 
-        /* KAYIT BAŞARISIZSA FOTOĞRAFLARI TEMİZLE */
+        /* KAYIT BAŞARISIZSA FOTOĞRAFLARI SİL */
 
         if (insertError) {
 
           await db.storage
-            .from(
-              'property-images'
-            )
+            .from('property-images')
             .remove(
               uploadedPaths
             );
@@ -1460,10 +1332,8 @@
 
 
         refreshProperties();
-
       }
     );
-
   }
 
 
