@@ -1,684 +1,164 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#eeeae2">
-
-  <title>Yönetim | Sivora Mimarlık</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap"
-    rel="stylesheet"
-  >
-
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eeeae2">
+<title>Yönetim | Sivora Mimarlık</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.admin-section-title{margin:55px 0 18px;font:400 30px "Playfair Display",Georgia,serif}
+.admin-published-title{margin:55px 0 18px;padding-top:20px;border-top:1px solid #c8c2b8;font:400 30px "Playfair Display",Georgia,serif}
+.admin-property-grid{display:grid;gap:12px}
+.admin-property-card{display:grid;grid-template-columns:110px 1fr auto;gap:18px;align-items:center;padding:12px;border-top:1px solid #c8c2b8}
+.admin-property-card img{width:110px;height:82px;object-fit:cover}
+.admin-project-actions{display:flex;flex-wrap:wrap;gap:8px}
+.admin-project-actions button{justify-self:auto}
+.admin-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:760px}
+.admin-form-grid .full{grid-column:1/-1}
+.admin-form-grid label{display:grid;gap:7px;font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.admin-form-grid input,.admin-form-grid select,.admin-form-grid textarea{border:0;border-bottom:1px solid #aaa59c;background:transparent;padding:11px 0;font:14px "DM Sans",sans-serif;color:#171716}
+.admin-form-grid textarea{min-height:110px;resize:vertical}
+.admin-form-grid button{grid-column:1/-1;justify-self:start}
+@media(max-width:700px){
+.admin-form-grid{grid-template-columns:1fr}
+.admin-form-grid .full{grid-column:auto}
+.admin-property-card{grid-template-columns:76px 1fr}
+.admin-property-card .admin-project-actions{grid-column:1/-1}
+.admin-property-card img{width:76px;height:64px}
+}
+</style>
 </head>
-
 <body class="admin-body">
 
 <header class="admin-header">
-  <a class="logo admin-logo" href="index.html">
-    SVR <span>· SİVORA MİMARLIK OFİSİ</span>
-  </a>
-
-  <a href="index.html">← Siteye dön</a>
+<a class="logo admin-logo" href="index.html">SVR <span>· SİVORA MİMARLIK OFİSİ</span></a>
+<a href="index.html">← Siteye dön</a>
 </header>
 
 <main class="admin-main">
+<p class="eyebrow">Sivora · Portföy yönetimi</p>
+<h1>Yönetim Paneli</h1>
+<p class="admin-lede">Projeleri ve gayrimenkulleri buradan yayımla, düzenle ve yönet.</p>
+
+<section id="setup-needed" class="admin-notice" hidden>
+<strong>Bağlantı kurulmadı.</strong><br>
+Supabase bağlantısını kontrol et.
+</section>
+
+<form id="login-form" class="admin-card">
+<h2>Yönetici girişi</h2>
+<label>E-posta<input type="email" name="email" autocomplete="username" required></label>
+<label>Şifre<input type="password" name="password" autocomplete="current-password" required></label>
+<button type="submit">Giriş yap</button>
+</form>
+
+<section id="dashboard" hidden>
+
+<div class="admin-topline">
+<h2>Portföy Yönetimi</h2>
+<button type="button" class="button-quiet" id="logout">Çıkış yap</button>
+</div>
+
+<h2 class="admin-section-title">Proje ekle</h2>
+
+<form id="project-form" class="admin-card">
+<label>Proje adı<input name="title" maxlength="100" required placeholder="Örn. Bahçeli Konut"></label>
+<label>Konum / adres<input name="location" maxlength="180" required placeholder="Örn. Küçükçekmece, İstanbul"></label>
+<label>Açıklama<textarea name="description" placeholder="Proje açıklaması"></textarea></label>
+<label>Proje fotoğrafları<input name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple required></label>
+<small>JPG, PNG veya WebP; her fotoğraf en fazla 5 MB.</small>
+<button type="submit">Projeyi yayımla</button>
+</form>
+
+<h2 class="admin-published-title">Yayınlanan Projeler</h2>
+<div id="admin-projects" class="admin-projects"></div>
+
+<h2 class="admin-section-title">Gayrimenkul ekle</h2>
+
+<form id="property-form" class="admin-card admin-form-grid">
+
+<label>İlan başlığı<input name="ilan_basligi" maxlength="180" required placeholder="Örn. 3+1 Sıfır Daire"></label>
+
+<label>İlan türü
+<select name="ilan_turu" required>
+<option value="">Seçiniz</option>
+<option value="Satılık">Satılık</option>
+<option value="Kiralık">Kiralık</option>
+</select>
+</label>
+
+<label>Gayrimenkul türü
+<select name="gayrimenkul_turu" required>
+<option value="">Seçiniz</option>
+<option value="Daire">Daire</option>
+<option value="Villa">Villa</option>
+<option value="Müstakil Ev">Müstakil Ev</option>
+<option value="Arsa">Arsa</option>
+<option value="Dükkan">Dükkan</option>
+<option value="Ofis">Ofis</option>
+<option value="Bina">Bina</option>
+<option value="İşyeri">İşyeri</option>
+</select>
+</label>
+
+<label>Konum<input name="konum" maxlength="220" required placeholder="Örn. Küçükçekmece / İstanbul"></label>
+<label>Fiyat<input name="fiyat" type="number" min="0" step="0.01" required></label>
+
+<label>Para birimi
+<select name="para_birimi">
+<option value="TL">TL</option>
+<option value="EUR">EUR</option>
+<option value="USD">USD</option>
+</select>
+</label>
+
+<label>Brüt m²<input name="brut_m2" type="number" min="0" step="0.01"></label>
+<label>Net m²<input name="net_m2" type="number" min="0" step="0.01"></label>
+<label>Oda sayısı<input name="oda_sayisi" placeholder="3+1"></label>
+<label>Banyo sayısı<input name="banyo_sayisi" type="number" min="0"></label>
+<label>Kat<input name="kat" placeholder="5. Kat"></label>
+<label>Bina yaşı<input name="bina_yasi" type="number" min="0"></label>
+<label>Isıtma<input name="isitma" placeholder="Kombi / Merkezi / Klima"></label>
+
+<label>Balkon
+<select name="balkon">
+<option value="false">Yok</option>
+<option value="true">Var</option>
+</select>
+</label>
+
+<label>Otopark
+<select name="otopark">
+<option value="false">Yok</option>
+<option value="true">Var</option>
+</select>
+</label>
+
+<label class="full">Açıklama<textarea name="aciklama"></textarea></label>
+<label class="full">Özellikler<textarea name="ozellikler" placeholder="Örn. Asansör, balkon, otopark, site içi..."></textarea></label>
+
+<label class="full">Gayrimenkul fotoğrafları
+<input name="fotograflar" type="file" accept="image/jpeg,image/png,image/webp" multiple required>
+</label>
 
-  <p class="eyebrow">Sivora · Portföy yönetimi</p>
+<small class="full">JPG, PNG veya WebP; her fotoğraf en fazla 5 MB.</small>
+<button type="submit">Gayrimenkulü yayımla</button>
+</form>
 
-  <h1>Yönetim Paneli</h1>
+<h2 class="admin-published-title">Yayınlanan Gayrimenkuller</h2>
+<div id="admin-properties" class="admin-projects admin-property-grid"></div>
 
-  <p class="admin-lede">
-    Projeleri ve gayrimenkul ilanlarını buradan yönetebilirsin.
-  </p>
+<p id="admin-status" class="admin-status" role="status"></p>
 
-
-  <!-- =========================
-       SUPABASE UYARI
-  ========================= -->
-
-  <section id="setup-needed" class="admin-notice" hidden>
-
-    <strong>Bağlantı kurulmadı.</strong><br>
-
-    Önce SETUP.md dosyasındaki Supabase adımlarını tamamlayıp
-    supabase-config.js dosyasını doldur.
-
-  </section>
-
-
-  <!-- =========================
-       GİRİŞ
-  ========================= -->
-
-  <form id="login-form" class="admin-card">
-
-    <h2>Yönetici girişi</h2>
-
-    <label>
-      E-posta
-
-      <input
-        type="email"
-        name="email"
-        autocomplete="username"
-        required
-      >
-    </label>
-
-
-    <label>
-      Şifre
-
-      <input
-        type="password"
-        name="password"
-        autocomplete="current-password"
-        required
-      >
-    </label>
-
-
-    <button type="submit">
-      Giriş yap
-    </button>
-
-  </form>
-
-
-  <!-- =========================
-       YÖNETİM PANELİ
-  ========================= -->
-
-  <section id="dashboard" hidden>
-
-
-    <!-- =========================
-         ÜST BAR
-    ========================= -->
-
-    <div class="admin-topline">
-
-      <h2>Portföy yönetimi</h2>
-
-      <button
-        type="button"
-        class="button-quiet"
-        id="logout"
-      >
-        Çıkış yap
-      </button>
-
-    </div>
-
-
-    <!-- =========================
-         PROJE EKLEME
-         ÇOKLU FOTOĞRAF
-    ========================= -->
-
-    <section>
-
-      <h2>Mimarlık Projesi Ekle</h2>
-
-      <form
-        id="project-form"
-        class="admin-card"
-      >
-
-        <label>
-
-          Proje adı
-
-          <input
-            name="title"
-            maxlength="100"
-            required
-            placeholder="Örn. Bahçeli konut"
-          >
-
-        </label>
-
-
-        <label>
-
-          Konum / adres
-
-          <input
-            name="location"
-            maxlength="180"
-            required
-            placeholder="Örn. Küçükçekmece, İstanbul"
-          >
-
-        </label>
-
-
-        <label>
-
-          Proje açıklaması
-
-          <textarea
-            name="description"
-            rows="6"
-            maxlength="3000"
-            placeholder="Projenin mimari yaklaşımını, tasarım kararlarını ve proje kapsamını yazın."
-          ></textarea>
-
-        </label>
-
-
-        <label>
-
-          Proje fotoğrafları
-
-          <input
-            name="images"
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            multiple
-            required
-          >
-
-        </label>
-
-
-        <small>
-          Birden fazla fotoğraf seçebilirsin.
-          JPG, PNG veya WebP; her fotoğraf en fazla 5 MB.
-        </small>
-
-
-        <button type="submit">
-          Projeyi yayımla
-        </button>
-
-      </form>
-
-    </section>
-
-
-    <!-- =========================
-         GAYRİMENKUL EKLEME
-    ========================= -->
-
-    <section>
-
-      <h2>Gayrimenkul Ekle</h2>
-
-      <form
-        id="property-form"
-        class="admin-card"
-      >
-
-
-        <!-- İLAN BAŞLIĞI -->
-
-        <label>
-
-          İlan başlığı
-
-          <input
-            name="ilan_basligi"
-            maxlength="200"
-            required
-            placeholder="Örn. Satılık 3+1 Sıfır Daire"
-          >
-
-        </label>
-
-
-        <!-- İLAN TÜRÜ -->
-
-        <label>
-
-          İlan türü
-
-          <select
-            name="ilan_turu"
-            required
-          >
-
-            <option value="">
-              Seçiniz
-            </option>
-
-            <option value="Satılık">
-              Satılık
-            </option>
-
-            <option value="Kiralık">
-              Kiralık
-            </option>
-
-          </select>
-
-        </label>
-
-
-        <!-- GAYRİMENKUL TÜRÜ -->
-
-        <label>
-
-          Gayrimenkul türü
-
-          <select
-            name="gayrimenkul_turu"
-            required
-          >
-
-            <option value="">
-              Seçiniz
-            </option>
-
-            <option value="Daire">
-              Daire
-            </option>
-
-            <option value="Villa">
-              Villa
-            </option>
-
-            <option value="Müstakil Ev">
-              Müstakil Ev
-            </option>
-
-            <option value="Arsa">
-              Arsa
-            </option>
-
-            <option value="Dükkan">
-              Dükkan
-            </option>
-
-            <option value="Ofis">
-              Ofis
-            </option>
-
-            <option value="Bina">
-              Bina
-            </option>
-
-            <option value="İşyeri">
-              İşyeri
-            </option>
-
-          </select>
-
-        </label>
-
-
-        <!-- KONUM -->
-
-        <label>
-
-          Konum
-
-          <input
-            name="konum"
-            maxlength="300"
-            required
-            placeholder="Örn. Küçükçekmece / İstanbul"
-          >
-
-        </label>
-
-
-        <!-- FİYAT -->
-
-        <label>
-
-          Fiyat
-
-          <input
-            name="fiyat"
-            type="number"
-            min="0"
-            step="0.01"
-            required
-            placeholder="Örn. 4800000"
-          >
-
-        </label>
-
-
-        <!-- PARA BİRİMİ -->
-
-        <label>
-
-          Para birimi
-
-          <select name="para_birimi">
-
-            <option value="EUR">
-              EUR
-            </option>
-
-            <option value="TRY" selected>
-              TL
-            </option>
-
-            <option value="USD">
-              USD
-            </option>
-
-            <option value="GBP">
-              GBP
-            </option>
-
-          </select>
-
-        </label>
-
-
-        <!-- BRÜT M2 -->
-
-        <label>
-
-          Brüt m²
-
-          <input
-            name="brut_m2"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="Örn. 120"
-          >
-
-        </label>
-
-
-        <!-- NET M2 -->
-
-        <label>
-
-          Net m²
-
-          <input
-            name="net_m2"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="Örn. 100"
-          >
-
-        </label>
-
-
-        <!-- ODA SAYISI -->
-
-        <label>
-
-          Oda sayısı
-
-          <input
-            name="oda_sayisi"
-            maxlength="50"
-            placeholder="Örn. 3+1"
-          >
-
-        </label>
-
-
-        <!-- BANYO -->
-
-        <label>
-
-          Banyo sayısı
-
-          <input
-            name="banyo_sayisi"
-            type="number"
-            min="0"
-            step="1"
-            placeholder="Örn. 2"
-          >
-
-        </label>
-
-
-        <!-- KAT -->
-
-        <label>
-
-          Kat
-
-          <input
-            name="kat"
-            maxlength="100"
-            placeholder="Örn. 5. Kat"
-          >
-
-        </label>
-
-
-        <!-- BİNA YAŞI -->
-
-        <label>
-
-          Bina yaşı
-
-          <input
-            name="bina_yasi"
-            type="number"
-            min="0"
-            step="1"
-            placeholder="Örn. 2"
-          >
-
-        </label>
-
-
-        <!-- ISITMA -->
-
-        <label>
-
-          Isıtma
-
-          <select name="isitma">
-
-            <option value="">
-              Seçiniz
-            </option>
-
-            <option value="Merkezi Sistem">
-              Merkezi Sistem
-            </option>
-
-            <option value="Kombi">
-              Kombi
-            </option>
-
-            <option value="Yerden Isıtma">
-              Yerden Isıtma
-            </option>
-
-            <option value="Klima">
-              Klima
-            </option>
-
-            <option value="Elektrikli">
-              Elektrikli
-            </option>
-
-            <option value="Diğer">
-              Diğer
-            </option>
-
-          </select>
-
-        </label>
-
-
-        <!-- BALKON -->
-
-        <label>
-
-          Balkon
-
-          <select name="balkon">
-
-            <option value="false">
-              Yok
-            </option>
-
-            <option value="true">
-              Var
-            </option>
-
-          </select>
-
-        </label>
-
-
-        <!-- OTOPARK -->
-
-        <label>
-
-          Otopark
-
-          <select name="otopark">
-
-            <option value="false">
-              Yok
-            </option>
-
-            <option value="true">
-              Var
-            </option>
-
-          </select>
-
-        </label>
-
-
-        <!-- AÇIKLAMA -->
-
-        <label>
-
-          Açıklama
-
-          <textarea
-            name="aciklama"
-            rows="7"
-            maxlength="5000"
-            placeholder="Gayrimenkul hakkında detaylı açıklama..."
-          ></textarea>
-
-        </label>
-
-
-        <!-- ÖZELLİKLER -->
-
-        <label>
-
-          Özellikler
-
-          <textarea
-            name="ozellikler"
-            rows="6"
-            maxlength="3000"
-            placeholder="Örn. Site içerisinde, asansör, ebeveyn banyosu, çift balkon..."
-          ></textarea>
-
-        </label>
-
-
-        <!-- GAYRİMENKUL FOTOĞRAFLARI -->
-
-        <label>
-
-          Gayrimenkul fotoğrafları
-
-          <input
-            name="fotograflar"
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            multiple
-            required
-          >
-
-        </label>
-
-
-        <small>
-
-          Birden fazla fotoğraf seçebilirsin.
-          JPG, PNG veya WebP; her fotoğraf en fazla 5 MB.
-
-        </small>
-
-
-        <button type="submit">
-
-          Gayrimenkulü yayımla
-
-        </button>
-
-      </form>
-
-    </section>
-
-
-    <!-- =========================
-         DURUM MESAJI
-    ========================= -->
-
-    <p
-      id="admin-status"
-      class="admin-status"
-      role="status"
-    ></p>
-
-
-    <!-- =========================
-         PROJELER
-    ========================= -->
-
-    <section>
-
-      <h2>Yayınlanan Projeler</h2>
-
-      <div
-        id="admin-projects"
-        class="admin-projects"
-      ></div>
-
-    </section>
-
-
-    <!-- =========================
-         GAYRİMENKULLER
-    ========================= -->
-
-    <section>
-
-      <h2>Yayınlanan Gayrimenkuller</h2>
-
-      <div
-        id="admin-properties"
-        class="admin-projects"
-      ></div>
-
-    </section>
-
-
-  </section>
-
+</section>
 </main>
 
-
 <script src="supabase-config.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="admin.js"></script>
-
 </body>
 </html>
