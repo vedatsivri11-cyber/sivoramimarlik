@@ -733,20 +733,39 @@
   }
 }
 
-</style>
 
-<style>
+
 /* =========================================================
-   DİL SEÇİMİ — BAYRAKLI
+   MENÜ LİNKLERİ — BÖLÜMLERE TAM VE DOĞRU KAYDIRMA
 ========================================================= */
-.language-switcher{margin-left:28px;display:flex;align-items:center;gap:5px;flex-shrink:0;position:relative;z-index:1100}
-.language-switcher button{border:0;background:transparent;color:inherit;padding:4px 5px;display:flex;align-items:center;gap:4px;font:500 10px "DM Sans",Arial,sans-serif;letter-spacing:.08em;cursor:pointer;opacity:.55;transition:all .2s ease}
-.language-switcher button:hover,.language-switcher button.active{opacity:1;color:#b9975b}
-.language-switcher .flag{font-size:15px;line-height:1}
-.language-switcher .lang-code{font-size:9px;letter-spacing:.08em}
-.language-switcher .divider{opacity:.25;font-size:9px}
-@media(max-width:950px){.language-switcher{margin-left:12px;gap:2px}.language-switcher button{padding:4px 3px}.language-switcher .lang-code{display:none}.language-switcher .flag{font-size:16px}}
-@media(max-width:800px){.language-switcher{margin-left:8px}.language-switcher .flag{font-size:15px}#theme-wrapper{margin-left:12px}}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 105px;
+}
+
+#anasayfa,
+#projeler,
+#gayrimenkuller,
+#yaklasim,
+#hizmetler,
+#hakkimizda,
+#iletisim {
+  scroll-margin-top: 105px;
+}
+
+@media (max-width: 800px) {
+  html { scroll-padding-top: 85px; }
+  #anasayfa,
+  #projeler,
+  #gayrimenkuller,
+  #yaklasim,
+  #hizmetler,
+  #hakkimizda,
+  #iletisim {
+    scroll-margin-top: 85px;
+  }
+}
+
 </style>
 </head>
 
@@ -817,15 +836,7 @@
   </nav>
 
 
-  <div class="language-switcher" id="language-switcher" aria-label="Dil seçimi">
-<button type="button" data-lang="tr" class="active" aria-label="Türkçe"><span class="flag">🇹🇷</span><span class="lang-code">TR</span></button>
-<span class="divider">/</span>
-<button type="button" data-lang="en" aria-label="English"><span class="flag">🇬🇧</span><span class="lang-code">EN</span></button>
-<span class="divider">/</span>
-<button type="button" data-lang="de" aria-label="Deutsch"><span class="flag">🇩🇪</span><span class="lang-code">DE</span></button>
-</div>
-
-<div id="theme-wrapper">
+  <div id="theme-wrapper">
 
     <button
       id="theme-toggle"
@@ -1970,36 +1981,64 @@
 </script>
 
 
+<!-- =========================================================
+     MENÜ ANCHOR DÜZELTMESİ
+     Sabit header yüksekliğini hesaba katar;
+     tıklanan bölüm başlığın altında doğru konuma gelir.
+========================================================= -->
 <script>
-(function(){
-"use strict";
-const KEY="sivora-language";
-const D={
-tr:{
-"Projeler":"Projeler","Gayrimenkuller":"Gayrimenkuller","Yaklaşım":"Yaklaşım","Hizmetler":"Hizmetler","İletişim":"İletişim",
-"Sivora Mimarlık Ofisi · İstanbul":"Sivora Mimarlık Ofisi · İstanbul","Mekânın":"Mekânın","karakteri.":"karakteri.",
-"Mimarlık ve gayrimenkulü bir araya getirerek yaşama değer katan, zamansız mekânlar tasarlıyoruz.":"Mimarlık ve gayrimenkulü bir araya getirerek yaşama değer katan, zamansız mekânlar tasarlıyoruz.",
-"Çalışmalarımızı keşfedin":"Çalışmalarımızı keşfedin","Mimarlık":"Mimarlık","İç Mekân":"İç Mekân","Gayrimenkul":"Gayrimenkul","SCROLL ↓":"SCROLL ↓",
-"01 / Seçili çalışmalar":"01 / Seçili çalışmalar","Fikirden mekâna":"Fikirden mekâna","Işığın izinde":"Işığın izinde","Temsili görsel · Mimari":"Temsili görsel · Mimari","Sade yaşam":"Sade yaşam","Temsili görsel · İç mekân":"Temsili görsel · İç mekân","Detayda denge":"Detayda denge","Temsili görsel · Konut":"Temsili görsel · Konut",
-"02 / Gayrimenkuller":"02 / Gayrimenkuller","Seçili portföy":"Seçili portföy","Sivora Gayrimenkul":"Sivora Gayrimenkul","Doğru mülk,":"Doğru mülk,","doğru değer.":"doğru değer.","Satılık ve kiralık gayrimenkuller ile portföyümüzdeki seçili fırsatları inceleyin.":"Satılık ve kiralık gayrimenkuller ile portföyümüzdeki seçili fırsatları inceleyin.","Gayrimenkuller yükleniyor…":"Gayrimenkuller yükleniyor…",
-"03 / Yaklaşımımız":"03 / Yaklaşımımız","İyi tasarım, yalnızca güzel görünen değil;":"İyi tasarım, yalnızca güzel görünen değil;","iyi hissettiren":"iyi hissettiren","bir mekân yaratır.":"bir mekân yaratır.","Sivora’da her işe önce dinleyerek başlıyoruz. İhtiyaçları, yeri ve hayalleri anlamlandırıyor; zamana dayanıklı, işlevli ve kendine özgü çözümler geliştiriyoruz.":"Sivora’da her işe önce dinleyerek başlıyoruz. İhtiyaçları, yeri ve hayalleri anlamlandırıyor; zamana dayanıklı, işlevli ve kendine özgü çözümler geliştiriyoruz.",
-"04 / Hizmetlerimiz":"04 / Hizmetlerimiz","Doğru yatırım,":"Doğru yatırım,","doğru mimarlık.":"doğru mimarlık.","Gayrimenkulden kentsel dönüşüme, yatırım sürecinin her aşamasında uzman ekibimizle yanınızdayız.":"Gayrimenkulden kentsel dönüşüme, yatırım sürecinin her aşamasında uzman ekibimizle yanınızdayız.","Kentsel Dönüşüm":"Kentsel Dönüşüm","Yapınızın mevcut durumunu değerlendiriyor, kentsel dönüşüm sürecini mimarlık farkıyla yönetiyoruz.":"Yapınızın mevcut durumunu değerlendiriyor, kentsel dönüşüm sürecini mimarlık farkıyla yönetiyoruz.","Arsa":"Arsa","Yatırımlık, konut ve ticari arsaları değerlendiriyor; doğru yatırım fırsatlarını bulmanıza yardımcı oluyoruz.":"Yatırımlık, konut ve ticari arsaları değerlendiriyor; doğru yatırım fırsatlarını bulmanıza yardımcı oluyoruz.","Dükkân":"Dükkân","Satılık ve kiralık ticari gayrimenkulleri lokasyon, kullanım ve yatırım potansiyeli açısından değerlendiriyoruz.":"Satılık ve kiralık ticari gayrimenkulleri lokasyon, kullanım ve yatırım potansiyeli açısından değerlendiriyoruz.","Kiralık & Satılık Daireler":"Kiralık & Satılık Daireler","İhtiyacınıza uygun konutları doğru lokasyon, özellik ve değer analiziyle sunuyoruz.":"İhtiyacınıza uygun konutları doğru lokasyon, özellik ve değer analiziyle sunuyoruz.","Mimarlık & Proje":"Mimarlık & Proje","Tasarım, proje, uygulama ve kentsel dönüşüm süreçlerinde profesyonel mimari destek sağlıyoruz.":"Tasarım, proje, uygulama ve kentsel dönüşüm süreçlerinde profesyonel mimari destek sağlıyoruz.","Uzman Ekip":"Uzman Ekip","Profesyonel yaklaşım":"Profesyonel yaklaşım","Yerinde İnceleme":"Yerinde İnceleme","Detaylı değerlendirme":"Detaylı değerlendirme","Hızlı ve Güvenilir Sonuç":"Hızlı ve Güvenilir Sonuç","Doğru çözümler":"Doğru çözümler",
-"05 / Hakkımızda":"05 / Hakkımızda","Mekâna değer,":"Mekâna değer,","yaşama karakter.":"yaşama karakter.","SİVORA MİMARLIK; mimari tasarım, gayrimenkul ve kentsel dönüşüm alanlarını bir araya getirerek estetik, işlev ve doğru yatırım anlayışını aynı çatı altında buluşturur.":"SİVORA MİMARLIK; mimari tasarım, gayrimenkul ve kentsel dönüşüm alanlarını bir araya getirerek estetik, işlev ve doğru yatırım anlayışını aynı çatı altında buluşturur.","Her projeye bulunduğu yeri, ihtiyacı ve yaşam biçimini anlayarak başlıyor; zamana karşı değerini koruyan, sade ve nitelikli çözümler geliştiriyoruz.":"Her projeye bulunduğu yeri, ihtiyacı ve yaşam biçimini anlayarak başlıyor; zamana karşı değerini koruyan, sade ve nitelikli çözümler geliştiriyoruz.","01 / Vizyonumuz":"01 / Vizyonumuz","Kalıcı değer üreten mekânlar.":"Kalıcı değer üreten mekânlar.","Çağdaş mimarlık anlayışıyla çevresine değer katan, işlevini uzun yıllar koruyan ve kullanıcılarıyla bağ kuran yaşam alanları tasarlamak.":"Çağdaş mimarlık anlayışıyla çevresine değer katan, işlevini uzun yıllar koruyan ve kullanıcılarıyla bağ kuran yaşam alanları tasarlamak.","02 / Misyonumuz":"02 / Misyonumuz","Doğru analiz, doğru çözüm.":"Doğru analiz, doğru çözüm.","Her projeyi ihtiyaç, bütçe, konum ve kullanım açısından doğru değerlendirerek; şeffaf, güvenilir ve profesyonel bir süreç sunmak.":"Her projeyi ihtiyaç, bütçe, konum ve kullanım açısından doğru değerlendirerek; şeffaf, güvenilir ve profesyonel bir süreç sunmak.",
-"06 / İletişim":"06 / İletişim","Bir merhaba":"Bir merhaba","yeter.":"yeter.","WhatsApp’tan yazın":"WhatsApp’tan yazın","Projenizi, aradığınız mülkü veya aklınızdaki fikri konuşalım.":"Projenizi, aradığınız mülkü veya aklınızdaki fikri konuşalım.","İletişim":"İletişim","Ofis Adresi":"Ofis Adresi","KVKK Aydınlatma Metni":"KVKK Aydınlatma Metni","Gizlilik ve Kişisel Verilerin Korunması":"Gizlilik ve Kişisel Verilerin Korunması","Çerez Politikası":"Çerez Politikası","Kullanım Koşulları":"Kullanım Koşulları","İlgili Kişi Başvurusu":"İlgili Kişi Başvurusu","SİVORA MİMARLIK OFİSİ":"SİVORA MİMARLIK OFİSİ","— TÜM HAKLARI SAKLIDIR.":"— TÜM HAKLARI SAKLIDIR."
-},
-en:{
-"Projeler":"Projects","Gayrimenkuller":"Properties","Yaklaşım":"Approach","Hizmetler":"Services","İletişim":"Contact","Sivora Mimarlık Ofisi · İstanbul":"Sivora Architecture Office · Istanbul","Mekânın":"The character","karakteri.":"of space.","Mimarlık ve gayrimenkulü bir araya getirerek yaşama değer katan, zamansız mekânlar tasarlıyoruz.":"We bring architecture and real estate together to create timeless spaces that add value to life.","Çalışmalarımızı keşfedin":"Explore our work","Mimarlık":"Architecture","İç Mekân":"Interior","Gayrimenkul":"Real Estate","SCROLL ↓":"SCROLL ↓","01 / Seçili çalışmalar":"01 / Selected work","Fikirden mekâna":"From idea to space","Işığın izinde":"In pursuit of light","Temsili görsel · Mimari":"Representative image · Architecture","Sade yaşam":"Simple living","Temsili görsel · İç mekân":"Representative image · Interior","Detayda denge":"Balance in detail","Temsili görsel · Konut":"Representative image · Residential","02 / Gayrimenkuller":"02 / Properties","Seçili portföy":"Selected portfolio","Sivora Gayrimenkul":"Sivora Real Estate","Doğru mülk,":"The right property,","doğru değer.":"the right value.","Satılık ve kiralık gayrimenkuller ile portföyümüzdeki seçili fırsatları inceleyin.":"Explore selected properties for sale and rent in our portfolio.","Gayrimenkuller yükleniyor…":"Loading properties…","03 / Yaklaşımımız":"03 / Our approach","İyi tasarım, yalnızca güzel görünen değil;":"Good design is not only about what looks beautiful;","iyi hissettiren":"it is about creating spaces that","bir mekân yaratır.":"feel good.","Sivora’da her işe önce dinleyerek başlıyoruz. İhtiyaçları, yeri ve hayalleri anlamlandırıyor; zamana dayanıklı, işlevli ve kendine özgü çözümler geliştiriyoruz.":"At Sivora, every project begins with listening. We understand needs, place and aspirations, then develop timeless, functional and distinctive solutions.","04 / Hizmetlerimiz":"04 / Our services","Doğru yatırım,":"The right investment,","doğru mimarlık.":"the right architecture.","Gayrimenkulden kentsel dönüşüme, yatırım sürecinin her aşamasında uzman ekibimizle yanınızdayız.":"From real estate to urban transformation, our expert team is with you at every stage of the investment process.","Kentsel Dönüşüm":"Urban Transformation","Yapınızın mevcut durumunu değerlendiriyor, kentsel dönüşüm sürecini mimarlık farkıyla yönetiyoruz.":"We assess your building and manage the urban transformation process with an architectural approach.","Arsa":"Land","Yatırımlık, konut ve ticari arsaları değerlendiriyor; doğru yatırım fırsatlarını bulmanıza yardımcı oluyoruz.":"We evaluate investment, residential and commercial land and help you find the right opportunities.","Dükkân":"Commercial Property","Satılık ve kiralık ticari gayrimenkulleri lokasyon, kullanım ve yatırım potansiyeli açısından değerlendiriyoruz.":"We evaluate commercial properties for sale and rent by location, use and investment potential.","Kiralık & Satılık Daireler":"Apartments for Rent & Sale","İhtiyacınıza uygun konutları doğru lokasyon, özellik ve değer analiziyle sunuyoruz.":"We present suitable homes through location, feature and value analysis.","Mimarlık & Proje":"Architecture & Project","Tasarım, proje, uygulama ve kentsel dönüşüm süreçlerinde profesyonel mimari destek sağlıyoruz.":"We provide professional architectural support for design, project, implementation and urban transformation.","Uzman Ekip":"Expert Team","Profesyonel yaklaşım":"Professional approach","Yerinde İnceleme":"On-site Review","Detaylı değerlendirme":"Detailed assessment","Hızlı ve Güvenilir Sonuç":"Fast & Reliable Results","Doğru çözümler":"Right solutions","05 / Hakkımızda":"05 / About Us","Mekâna değer,":"Value to space,","yaşama karakter.":"character to life.","SİVORA MİMARLIK; mimari tasarım, gayrimenkul ve kentsel dönüşüm alanlarını bir araya getirerek estetik, işlev ve doğru yatırım anlayışını aynı çatı altında buluşturur.":"SIVORA ARCHITECTURE brings architectural design, real estate and urban transformation together under one roof, combining aesthetics, function and sound investment principles.","Her projeye bulunduğu yeri, ihtiyacı ve yaşam biçimini anlayarak başlıyor; zamana karşı değerini koruyan, sade ve nitelikli çözümler geliştiriyoruz.":"We begin every project by understanding its place, needs and way of life, creating simple, high-quality solutions designed to retain their value over time.","01 / Vizyonumuz":"01 / Our Vision","Kalıcı değer üreten mekânlar.":"Spaces that create lasting value.","Çağdaş mimarlık anlayışıyla çevresine değer katan, işlevini uzun yıllar koruyan ve kullanıcılarıyla bağ kuran yaşam alanları tasarlamak.":"To design living spaces that add value to their surroundings, remain functional for years and build a connection with their users.","02 / Misyonumuz":"02 / Our Mission","Doğru analiz, doğru çözüm.":"The right analysis, the right solution.","Her projeyi ihtiyaç, bütçe, konum ve kullanım açısından doğru değerlendirerek; şeffaf, güvenilir ve profesyonel bir süreç sunmak.":"To evaluate every project according to needs, budget, location and use, providing a transparent, reliable and professional process.","06 / İletişim":"06 / Contact","Bir merhaba":"Just say hello","yeter.":"and that's enough.","WhatsApp’tan yazın":"Message us on WhatsApp","Projenizi, aradığınız mülkü veya aklınızdaki fikri konuşalım.":"Let's talk about your project, the property you are looking for, or your idea.","Ofis Adresi":"Office Address","KVKK Aydınlatma Metni":"Privacy Notice","Gizlilik ve Kişisel Verilerin Korunması":"Privacy & Data Protection","Çerez Politikası":"Cookie Policy","Kullanım Koşulları":"Terms of Use","İlgili Kişi Başvurusu":"Data Subject Request","SİVORA MİMARLIK OFİSİ":"SIVORA ARCHITECTURE OFFICE","— TÜM HAKLARI SAKLIDIR.":"— ALL RIGHTS RESERVED."
-},
-de:{}
-};
-D.de={}; Object.keys(D.en).forEach(k=>D.de[k]=D.en[k]);
-Object.assign(D.de,{"Projeler":"Projekte","Gayrimenkuller":"Immobilien","Yaklaşım":"Ansatz","Hizmetler":"Leistungen","İletişim":"Kontakt","Sivora Mimarlık Ofisi · İstanbul":"Sivora Architekturbüro · Istanbul","Mekânın":"Der Charakter","karakteri.":"des Raumes.","Mimarlık":"Architektur","İç Mekân":"Innenraum","Gayrimenkul":"Immobilien","Çalışmalarımızı keşfedin":"Unsere Arbeiten entdecken","01 / Seçili çalışmalar":"01 / Ausgewählte Projekte","Fikirden mekâna":"Von der Idee zum Raum","Işığın izinde":"Im Zeichen des Lichts","Sade yaşam":"Schlichtes Wohnen","Detayda denge":"Balance im Detail","02 / Gayrimenkuller":"02 / Immobilien","Seçili portföy":"Ausgewähltes Portfolio","Sivora Gayrimenkul":"Sivora Immobilien","Doğru mülk,":"Die richtige Immobilie,","doğru değer.":"der richtige Wert.","Satılık ve kiralık gayrimenkuller ile portföyümüzdeki seçili fırsatları inceleyin.":"Entdecken Sie ausgewählte Immobilien zum Verkauf und zur Miete.","Gayrimenkuller yükleniyor…":"Immobilien werden geladen…","03 / Yaklaşımımız":"03 / Unser Ansatz","İyi tasarım, yalnızca güzel görünen değil;":"Gutes Design bedeutet nicht nur, schön auszusehen;","iyi hissettiren":"es schafft Räume, die sich","bir mekân yaratır.":"gut anfühlen.","04 / Hizmetlerimiz":"04 / Unsere Leistungen","Doğru yatırım,":"Die richtige Investition,","doğru mimarlık.":"die richtige Architektur.","Kentsel Dönüşüm":"Stadtentwicklung","Arsa":"Grundstücke","Dükkân":"Gewerbeimmobilien","Kiralık & Satılık Daireler":"Miet- & Kaufwohnungen","Mimarlık & Proje":"Architektur & Projekt","Uzman Ekip":"Expertenteam","Profesyonel yaklaşım":"Professioneller Ansatz","Yerinde İnceleme":"Vor-Ort-Besichtigung","Detaylı değerlendirme":"Detaillierte Bewertung","Hızlı ve Güvenilir Sonuç":"Schnelles & zuverlässiges Ergebnis","Doğru çözümler":"Passende Lösungen","05 / Hakkımızda":"05 / Über uns","Mekâna değer,":"Wert für Räume,","yaşama karakter.":"Charakter für das Leben.","01 / Vizyonumuz":"01 / Unsere Vision","Kalıcı değer üreten mekânlar.":"Räume mit dauerhaftem Wert.","02 / Misyonumuz":"02 / Unsere Mission","Doğru analiz, doğru çözüm.":"Die richtige Analyse, die richtige Lösung.","06 / İletişim":"06 / Kontakt","Bir merhaba":"Ein Hallo","yeter.":"genügt.","WhatsApp’tan yazın":"Über WhatsApp schreiben","Ofis Adresi":"Büroadresse","KVKK Aydınlatma Metni":"Datenschutzhinweis","Gizlilik ve Kişisel Verilerin Korunması":"Datenschutz","Çerez Politikası":"Cookie-Richtlinie","Kullanım Koşulları":"Nutzungsbedingungen","İlgili Kişi Başvurusu":"Betroffenenanfrage","SİVORA MİMARLIK OFİSİ":"SIVORA ARCHITEKTURBÜRO","— TÜM HAKLARI SAKLIDIR.":"— ALLE RECHTE VORBEHALTEN."});
-const originals=new WeakMap(); let busy=false;
-function leafs(root){return [...root.querySelectorAll("body *")].filter(e=>e.children.length===0&&!e.closest(".language-switcher")&&e.tagName!=="SCRIPT"&&e.tagName!=="STYLE");}
-function apply(lang){if(busy)return; busy=true; document.documentElement.lang=lang; const dict=D[lang]; leafs(document).forEach(e=>{if(!originals.has(e)) originals.set(e,e.textContent); const o=originals.get(e); const key=o.trim(); if(dict[key]!==undefined){let v=dict[key]; if(o!==e.textContent && o.includes(key)){e.textContent=o.replace(key,v)}else e.textContent=v;} else if(lang==="tr"&&originals.has(e)){e.textContent=o;}}); document.querySelectorAll(".language-switcher button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang)); localStorage.setItem(KEY,lang); busy=false;}
-function init(){const sw=document.getElementById("language-switcher"); sw.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>apply(b.dataset.lang))); const saved=localStorage.getItem(KEY)||"tr"; apply(saved); const grids=[document.getElementById("project-grid"),document.getElementById("property-grid")].filter(Boolean); new MutationObserver(()=>{if(!busy)setTimeout(()=>apply(localStorage.getItem(KEY)||"tr"),50)}).observe(document.body,{childList:true,subtree:true});}
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+(function () {
+  function getHeaderHeight() {
+    const header = document.getElementById("site-nav");
+    return header ? header.getBoundingClientRect().height : 0;
+  }
+
+  function goToTarget(target) {
+    if (!target) return;
+
+    const headerHeight = getHeaderHeight();
+    const extraGap = window.innerWidth <= 800 ? 14 : 20;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - extraGap;
+
+    window.scrollTo({
+      top: Math.max(0, top),
+      behavior: "smooth"
+    });
+  }
+
+  document.addEventListener("click", function (event) {
+    const link = event.target.closest('#site-nav a[href^="#"], .hero a[href^="#"]');
+    if (!link) return;
+
+    const selector = link.getAttribute("href");
+    if (!selector || selector === "#") return;
+
+    const target = document.querySelector(selector);
+    if (!target) return;
+
+    event.preventDefault();
+    history.pushState(null, "", selector);
+    goToTarget(target);
+
+    const menu = document.getElementById("menu");
+    const navlinks = document.getElementById("navlinks");
+    if (menu) menu.setAttribute("aria-expanded", "false");
+    if (navlinks) navlinks.classList.remove("open", "active", "show");
+  });
+
+  window.addEventListener("load", function () {
+    if (window.location.hash) {
+      const target = document.querySelector(window.location.hash);
+      if (target) {
+        setTimeout(function () {
+          goToTarget(target);
+        }, 80);
+      }
+    }
+  });
 })();
 </script>
+
+
 </body>
 </html>
