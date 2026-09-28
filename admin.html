@@ -32,18 +32,30 @@
 
   <p class="eyebrow">Sivora · Portföy yönetimi</p>
 
-  <h1>Proje ekle</h1>
+  <h1>Yönetim Paneli</h1>
 
   <p class="admin-lede">
-    Giriş yaptıktan sonra proje fotoğrafları, adı, açıklaması
-    ve herkese açık konum bilgisini ekleyebilirsin.
+    Projeleri ve gayrimenkul ilanlarını buradan yönetebilirsin.
   </p>
 
+
+  <!-- =========================
+       SUPABASE UYARI
+  ========================= -->
+
   <section id="setup-needed" class="admin-notice" hidden>
+
     <strong>Bağlantı kurulmadı.</strong><br>
+
     Önce SETUP.md dosyasındaki Supabase adımlarını tamamlayıp
     supabase-config.js dosyasını doldur.
+
   </section>
+
+
+  <!-- =========================
+       GİRİŞ
+  ========================= -->
 
   <form id="login-form" class="admin-card">
 
@@ -51,6 +63,7 @@
 
     <label>
       E-posta
+
       <input
         type="email"
         name="email"
@@ -59,8 +72,10 @@
       >
     </label>
 
+
     <label>
       Şifre
+
       <input
         type="password"
         name="password"
@@ -69,6 +84,7 @@
       >
     </label>
 
+
     <button type="submit">
       Giriş yap
     </button>
@@ -76,11 +92,20 @@
   </form>
 
 
+  <!-- =========================
+       YÖNETİM PANELİ
+  ========================= -->
+
   <section id="dashboard" hidden>
+
+
+    <!-- =========================
+         ÜST BAR
+    ========================= -->
 
     <div class="admin-topline">
 
-      <h2>Portföy projeleri</h2>
+      <h2>Portföy yönetimi</h2>
 
       <button
         type="button"
@@ -93,68 +118,517 @@
     </div>
 
 
-    <form id="project-form" class="admin-card">
+    <!-- =========================
+         PROJE EKLEME
+         ÇOKLU FOTOĞRAF
+    ========================= -->
 
-      <label>
-        Proje adı
-        <input
-          name="title"
-          maxlength="100"
-          required
-          placeholder="Örn. Bahçeli konut"
-        >
-      </label>
+    <section>
 
+      <h2>Mimarlık Projesi Ekle</h2>
 
-      <label>
-        Konum / adres
-        <input
-          name="location"
-          maxlength="180"
-          required
-          placeholder="Örn. Küçükçekmece, İstanbul"
-        >
-      </label>
+      <form
+        id="project-form"
+        class="admin-card"
+      >
 
+        <label>
 
-      <label>
-        Proje açıklaması
+          Proje adı
 
-        <textarea
-          name="description"
-          rows="6"
-          maxlength="3000"
-          placeholder="Projenin mimari yaklaşımını, tasarım kararlarını ve proje kapsamını yazın."
-        ></textarea>
+          <input
+            name="title"
+            maxlength="100"
+            required
+            placeholder="Örn. Bahçeli konut"
+          >
 
-      </label>
+        </label>
 
 
-      <label>
-        Proje fotoğrafları
+        <label>
 
-        <input
-          name="images"
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          multiple
-          required
-        >
-      </label>
+          Konum / adres
 
+          <input
+            name="location"
+            maxlength="180"
+            required
+            placeholder="Örn. Küçükçekmece, İstanbul"
+          >
 
-      <small>
-        Birden fazla fotoğraf seçebilirsin.
-        JPG, PNG veya WebP; her fotoğraf en fazla 5 MB.
-      </small>
+        </label>
 
 
-      <button type="submit">
-        Projeyi yayımla
-      </button>
+        <label>
 
-    </form>
+          Proje açıklaması
 
+          <textarea
+            name="description"
+            rows="6"
+            maxlength="3000"
+            placeholder="Projenin mimari yaklaşımını, tasarım kararlarını ve proje kapsamını yazın."
+          ></textarea>
+
+        </label>
+
+
+        <label>
+
+          Proje fotoğrafları
+
+          <input
+            name="images"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+            required
+          >
+
+        </label>
+
+
+        <small>
+          Birden fazla fotoğraf seçebilirsin.
+          JPG, PNG veya WebP; her fotoğraf en fazla 5 MB.
+        </small>
+
+
+        <button type="submit">
+          Projeyi yayımla
+        </button>
+
+      </form>
+
+    </section>
+
+
+    <!-- =========================
+         GAYRİMENKUL EKLEME
+    ========================= -->
+
+    <section>
+
+      <h2>Gayrimenkul Ekle</h2>
+
+      <form
+        id="property-form"
+        class="admin-card"
+      >
+
+
+        <!-- İLAN BAŞLIĞI -->
+
+        <label>
+
+          İlan başlığı
+
+          <input
+            name="ilan_basligi"
+            maxlength="200"
+            required
+            placeholder="Örn. Satılık 3+1 Sıfır Daire"
+          >
+
+        </label>
+
+
+        <!-- İLAN TÜRÜ -->
+
+        <label>
+
+          İlan türü
+
+          <select
+            name="ilan_turu"
+            required
+          >
+
+            <option value="">
+              Seçiniz
+            </option>
+
+            <option value="Satılık">
+              Satılık
+            </option>
+
+            <option value="Kiralık">
+              Kiralık
+            </option>
+
+          </select>
+
+        </label>
+
+
+        <!-- GAYRİMENKUL TÜRÜ -->
+
+        <label>
+
+          Gayrimenkul türü
+
+          <select
+            name="gayrimenkul_turu"
+            required
+          >
+
+            <option value="">
+              Seçiniz
+            </option>
+
+            <option value="Daire">
+              Daire
+            </option>
+
+            <option value="Villa">
+              Villa
+            </option>
+
+            <option value="Müstakil Ev">
+              Müstakil Ev
+            </option>
+
+            <option value="Arsa">
+              Arsa
+            </option>
+
+            <option value="Dükkan">
+              Dükkan
+            </option>
+
+            <option value="Ofis">
+              Ofis
+            </option>
+
+            <option value="Bina">
+              Bina
+            </option>
+
+            <option value="İşyeri">
+              İşyeri
+            </option>
+
+          </select>
+
+        </label>
+
+
+        <!-- KONUM -->
+
+        <label>
+
+          Konum
+
+          <input
+            name="konum"
+            maxlength="300"
+            required
+            placeholder="Örn. Küçükçekmece / İstanbul"
+          >
+
+        </label>
+
+
+        <!-- FİYAT -->
+
+        <label>
+
+          Fiyat
+
+          <input
+            name="fiyat"
+            type="number"
+            min="0"
+            step="0.01"
+            required
+            placeholder="Örn. 4800000"
+          >
+
+        </label>
+
+
+        <!-- PARA BİRİMİ -->
+
+        <label>
+
+          Para birimi
+
+          <select name="para_birimi">
+
+            <option value="EUR">
+              EUR
+            </option>
+
+            <option value="TRY" selected>
+              TL
+            </option>
+
+            <option value="USD">
+              USD
+            </option>
+
+            <option value="GBP">
+              GBP
+            </option>
+
+          </select>
+
+        </label>
+
+
+        <!-- BRÜT M2 -->
+
+        <label>
+
+          Brüt m²
+
+          <input
+            name="brut_m2"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="Örn. 120"
+          >
+
+        </label>
+
+
+        <!-- NET M2 -->
+
+        <label>
+
+          Net m²
+
+          <input
+            name="net_m2"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="Örn. 100"
+          >
+
+        </label>
+
+
+        <!-- ODA SAYISI -->
+
+        <label>
+
+          Oda sayısı
+
+          <input
+            name="oda_sayisi"
+            maxlength="50"
+            placeholder="Örn. 3+1"
+          >
+
+        </label>
+
+
+        <!-- BANYO -->
+
+        <label>
+
+          Banyo sayısı
+
+          <input
+            name="banyo_sayisi"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="Örn. 2"
+          >
+
+        </label>
+
+
+        <!-- KAT -->
+
+        <label>
+
+          Kat
+
+          <input
+            name="kat"
+            maxlength="100"
+            placeholder="Örn. 5. Kat"
+          >
+
+        </label>
+
+
+        <!-- BİNA YAŞI -->
+
+        <label>
+
+          Bina yaşı
+
+          <input
+            name="bina_yasi"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="Örn. 2"
+          >
+
+        </label>
+
+
+        <!-- ISITMA -->
+
+        <label>
+
+          Isıtma
+
+          <select name="isitma">
+
+            <option value="">
+              Seçiniz
+            </option>
+
+            <option value="Merkezi Sistem">
+              Merkezi Sistem
+            </option>
+
+            <option value="Kombi">
+              Kombi
+            </option>
+
+            <option value="Yerden Isıtma">
+              Yerden Isıtma
+            </option>
+
+            <option value="Klima">
+              Klima
+            </option>
+
+            <option value="Elektrikli">
+              Elektrikli
+            </option>
+
+            <option value="Diğer">
+              Diğer
+            </option>
+
+          </select>
+
+        </label>
+
+
+        <!-- BALKON -->
+
+        <label>
+
+          Balkon
+
+          <select name="balkon">
+
+            <option value="false">
+              Yok
+            </option>
+
+            <option value="true">
+              Var
+            </option>
+
+          </select>
+
+        </label>
+
+
+        <!-- OTOPARK -->
+
+        <label>
+
+          Otopark
+
+          <select name="otopark">
+
+            <option value="false">
+              Yok
+            </option>
+
+            <option value="true">
+              Var
+            </option>
+
+          </select>
+
+        </label>
+
+
+        <!-- AÇIKLAMA -->
+
+        <label>
+
+          Açıklama
+
+          <textarea
+            name="aciklama"
+            rows="7"
+            maxlength="5000"
+            placeholder="Gayrimenkul hakkında detaylı açıklama..."
+          ></textarea>
+
+        </label>
+
+
+        <!-- ÖZELLİKLER -->
+
+        <label>
+
+          Özellikler
+
+          <textarea
+            name="ozellikler"
+            rows="6"
+            maxlength="3000"
+            placeholder="Örn. Site içerisinde, asansör, ebeveyn banyosu, çift balkon..."
+          ></textarea>
+
+        </label>
+
+
+        <!-- GAYRİMENKUL FOTOĞRAFLARI -->
+
+        <label>
+
+          Gayrimenkul fotoğrafları
+
+          <input
+            name="fotograflar"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+            required
+          >
+
+        </label>
+
+
+        <small>
+
+          Birden fazla fotoğraf seçebilirsin.
+          JPG, PNG veya WebP; her fotoğraf en fazla 5 MB.
+
+        </small>
+
+
+        <button type="submit">
+
+          Gayrimenkulü yayımla
+
+        </button>
+
+      </form>
+
+    </section>
+
+
+    <!-- =========================
+         DURUM MESAJI
+    ========================= -->
 
     <p
       id="admin-status"
@@ -163,10 +637,37 @@
     ></p>
 
 
-    <div
-      id="admin-projects"
-      class="admin-projects"
-    ></div>
+    <!-- =========================
+         PROJELER
+    ========================= -->
+
+    <section>
+
+      <h2>Yayınlanan Projeler</h2>
+
+      <div
+        id="admin-projects"
+        class="admin-projects"
+      ></div>
+
+    </section>
+
+
+    <!-- =========================
+         GAYRİMENKULLER
+    ========================= -->
+
+    <section>
+
+      <h2>Yayınlanan Gayrimenkuller</h2>
+
+      <div
+        id="admin-properties"
+        class="admin-projects"
+      ></div>
+
+    </section>
+
 
   </section>
 
