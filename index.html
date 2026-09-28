@@ -733,40 +733,98 @@
   }
 }
 
+</style>
 
 
+<style>
 /* =========================================================
-   MENÜ LİNKLERİ — BÖLÜMLERE TAM VE DOĞRU KAYDIRMA
+   DİL SEÇİCİ
 ========================================================= */
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 105px;
+
+.language-switcher{
+  margin-left:28px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-shrink:0;
+  font-size:10px;
+  letter-spacing:.12em;
 }
 
-#anasayfa,
-#projeler,
-#gayrimenkuller,
-#yaklasim,
-#hizmetler,
-#hakkimizda,
-#iletisim {
-  scroll-margin-top: 105px;
+.language-switcher button{
+  border:0;
+  background:transparent;
+  color:inherit;
+  padding:4px 2px;
+  font-family:"DM Sans",Arial,sans-serif;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.12em;
+  cursor:pointer;
+  opacity:.62;
+  transition:opacity .2s ease,color .2s ease;
 }
 
-@media (max-width: 800px) {
-  html { scroll-padding-top: 85px; }
-  #anasayfa,
-  #projeler,
-  #gayrimenkuller,
-  #yaklasim,
-  #hizmetler,
-  #hakkimizda,
-  #iletisim {
-    scroll-margin-top: 85px;
+.language-switcher button:hover,
+.language-switcher button.active{
+  opacity:1;
+  color:#b9975b;
+}
+
+.language-switcher span{
+  opacity:.28;
+  font-size:9px;
+}
+
+.language-switcher .flag{
+  opacity:1;
+  font-size:14px;
+  line-height:1;
+  margin-right:2px;
+}
+
+.language-switcher button.active{
+  font-weight:700;
+}
+
+@media(max-width:950px){
+  .language-switcher{
+    margin-left:18px;
   }
 }
 
+@media(max-width:800px){
+  .language-switcher{
+    margin-left:10px;
+    gap:4px;
+  }
+
+  .language-switcher button{
+    font-size:9px;
+    font-weight:700;
+    padding:3px 1px;
+  }
+
+  .language-switcher .flag{
+    font-size:12px;
+  }
+
+  .language-switcher span{
+    font-size:8px;
+  }
+}
 </style>
+
+<style>
+/* Dil seçimi mevcut üst menüye eklenir; arka plan ve ana tasarım değiştirilmez. */
+#site-nav{display:flex;align-items:center;}
+#site-nav .language-switcher{margin-left:28px;}
+@media(max-width:800px){
+  #site-nav .language-switcher{margin-left:8px;}
+  #site-nav nav{gap:12px;}
+}
+</style>
+
 </head>
 
 
@@ -834,6 +892,15 @@ html {
     </a>
 
   </nav>
+
+
+  <div class="language-switcher" id="language-switcher" aria-label="Dil seçimi">
+    <button type="button" data-lang="tr" class="active"><span class="flag">🇹🇷</span> TR</button>
+    <span>/</span>
+    <button type="button" data-lang="en"><span class="flag">🇬🇧</span> EN</button>
+    <span>/</span>
+    <button type="button" data-lang="de"><span class="flag">🇩🇪</span> DE</button>
+  </div>
 
 
   <div id="theme-wrapper">
@@ -1738,6 +1805,244 @@ html {
 
 
 <!-- =========================================================
+     TÜRKÇE / ENGLISH / DEUTSCH DİL SİSTEMİ
+========================================================= -->
+
+<script>
+
+/* SIVORA — Türkçe / English / Deutsch */
+
+(() => {
+  const KEY = "sivora-language";
+  const LANGS = ["tr", "en", "de"];
+
+  const T = {
+    en: {
+      "SİVORA MİMARLIK & GAYRİMENKUL":"SIVORA ARCHITECTURE & REAL ESTATE",
+      "ZERAFETİN İZİNDE":"DESIGN IN PURSUIT OF ELEGANCE",
+      "GAYRİMENKUL":"REAL ESTATE",
+      "Projeler":"Projects","Gayrimenkuller":"Real Estate","Yaklaşım":"Approach",
+      "Hizmetler":"Services","İletişim":"Contact",
+      "Sivora Mimarlık Ofisi · İstanbul":"Sivora Architecture Office · Istanbul",
+      "Mekânın":"The character","karakteri.":"of space.",
+      "Mimarlık ve gayrimenkulü bir araya getirerek yaşama değer katan, zamansız mekânlar tasarlıyoruz.":"We bring architecture and real estate together to create timeless spaces that add value to life.",
+      "Çalışmalarımızı keşfedin":"Discover our work","Mimarlık":"Architecture","İç Mekân":"Interior","Gayrimenkul":"Real Estate",
+      "01 / Seçili çalışmalar":"01 / Selected work","Fikirden mekâna":"From idea to space",
+      "Işığın izinde":"In pursuit of light","Temsili görsel · Mimari":"Representative image · Architecture",
+      "Sade yaşam":"Simple living","Temsili görsel · İç mekân":"Representative image · Interior",
+      "Detayda denge":"Balance in detail","Temsili görsel · Konut":"Representative image · Residential",
+      "02 / Gayrimenkuller":"02 / Real Estate","Seçili portföy":"Selected portfolio",
+      "Sivora Gayrimenkul":"Sivora Real Estate","Doğru mülk,":"The right property,","doğru değer.":"the right value.",
+      "Satılık ve kiralık gayrimenkuller ile portföyümüzdeki seçili fırsatları inceleyin.":"Explore selected properties available for sale and rent in our portfolio.",
+      "03 / Yaklaşımımız":"03 / Our approach",
+      "İyi tasarım, yalnızca güzel görünen değil;":"Good design is not only about what looks beautiful;",
+      "iyi hissettiren":"it is about what feels right","bir mekân yaratır.":"and creates a meaningful space.",
+      "Sivora’da her işe önce dinleyerek başlıyoruz. İhtiyaçları, yeri ve hayalleri anlamlandırıyor; zamana dayanıklı, işlevli ve kendine özgü çözümler geliştiriyoruz.":"At Sivora, every project begins with listening. We understand needs, place and aspirations, then develop enduring, functional and distinctive solutions.",
+      "04 / Neler yapıyoruz":"04 / What we do","Birlikte":"Let's","şekillendirelim.":"shape it together.",
+      "Mimari tasarım":"Architectural design",
+      "Fikir, proje ve uygulama aşamalarında mimari tasarım desteği.":"Architectural design support from concept and planning through implementation.",
+      "İç mekân":"Interior design","Günlük yaşama uyumlu, yalın ve işlevsel iç mekân çözümleri.":"Simple, functional interior solutions designed for everyday life.",
+      "Alım, satım ve doğru mülkü değerlendirme süreçlerinde danışmanlık.":"Consulting for acquisition, sales and evaluating the right property.",
+      "05 / İletişim":"05 / Contact","Bir merhaba":"A simple hello","yeter.":"is enough.",
+      "WhatsApp’tan yazın":"Write on WhatsApp","Projenizi, aradığınız mülkü veya aklınızdaki fikri konuşalım.":"Let's talk about your project, the property you are looking for, or your idea.",
+      "Ofis Adresi":"Office Address","KVKK Aydınlatma Metni":"Personal Data Information",
+      "Gizlilik ve Kişisel Verilerin Korunması":"Privacy & Personal Data Protection",
+      "Çerez Politikası":"Cookie Policy","Kullanım Koşulları":"Terms of Use",
+      "Bilgilendirme":"Information","Kapat":"Close",
+      "Gayrimenkuller yükleniyor…":"Loading properties…","Gayrimenkuller yükleniyor...":"Loading properties...",
+      "İlan bulunamadı.":"No listings found.","Detayları Gör":"View details","Fiyat":"Price","Konum":"Location",
+      "Satılık":"For Sale","Kiralık":"For Rent"
+    },
+    de: {
+      "SİVORA MİMARLIK & GAYRİMENKUL":"SIVORA ARCHITEKTUR & IMMOBILIEN",
+      "ZERAFETİN İZİNDE":"DESIGN AUF DER SUCHE NACH ELEGANZ",
+      "GAYRİMENKUL":"IMMOBILIEN",
+      "Projeler":"Projekte","Gayrimenkuller":"Immobilien","Yaklaşım":"Ansatz",
+      "Hizmetler":"Leistungen","İletişim":"Kontakt",
+      "Sivora Mimarlık Ofisi · İstanbul":"Sivora Architekturbüro · Istanbul",
+      "Mekânın":"Der Charakter","karakteri.":"des Raumes.",
+      "Mimarlık ve gayrimenkulü bir araya getirerek yaşama değer katan, zamansız mekânlar tasarlıyoruz.":"Wir verbinden Architektur und Immobilien und gestalten zeitlose Räume, die dem Leben Wert verleihen.",
+      "Çalışmalarımızı keşfedin":"Unsere Projekte entdecken","Mimarlık":"Architektur","İç Mekân":"Innenraum","Gayrimenkul":"Immobilien",
+      "01 / Seçili çalışmalar":"01 / Ausgewählte Projekte","Fikirden mekâna":"Von der Idee zum Raum",
+      "Işığın izinde":"Auf den Spuren des Lichts","Temsili görsel · Mimari":"Beispielbild · Architektur",
+      "Sade yaşam":"Einfaches Leben","Temsili görsel · İç mekân":"Beispielbild · Innenraum",
+      "Detayda denge":"Balance im Detail","Temsili görsel · Konut":"Beispielbild · Wohnen",
+      "02 / Gayrimenkuller":"02 / Immobilien","Seçili portföy":"Ausgewähltes Portfolio",
+      "Sivora Gayrimenkul":"Sivora Immobilien","Doğru mülk,":"Die richtige Immobilie,","doğru değer.":"der richtige Wert.",
+      "Satılık ve kiralık gayrimenkuller ile portföyümüzdeki seçili fırsatları inceleyin.":"Entdecken Sie ausgewählte Immobilien zum Kauf und zur Miete in unserem Portfolio.",
+      "03 / Yaklaşımımız":"03 / Unser Ansatz",
+      "İyi tasarım, yalnızca güzel görünen değil;":"Gutes Design ist nicht nur das, was schön aussieht;",
+      "iyi hissettiren":"sondern das, was sich richtig anfühlt","bir mekân yaratır.":"und einen besonderen Raum schafft.",
+      "Sivora’da her işe önce dinleyerek başlıyoruz. İhtiyaçları, yeri ve hayalleri anlamlandırıyor; zamana dayanıklı, işlevli ve kendine özgü çözümler geliştiriyoruz.":"Bei Sivora beginnt jedes Projekt mit Zuhören. Wir verstehen Bedürfnisse, Ort und Vorstellungen und entwickeln langlebige, funktionale und individuelle Lösungen.",
+      "04 / Neler yapıyoruz":"04 / Was wir tun","Birlikte":"Lassen Sie uns","şekillendirelim.":"gemeinsam gestalten.",
+      "Mimari tasarım":"Architekturentwurf",
+      "Fikir, proje ve uygulama aşamalarında mimari tasarım desteği.":"Architektonische Unterstützung von der Idee und Planung bis zur Umsetzung.",
+      "İç mekân":"Innenarchitektur","Günlük yaşama uyumlu, yalın ve işlevsel iç mekân çözümleri.":"Klare und funktionale Innenraumlösungen für den Alltag.",
+      "Alım, satım ve doğru mülkü değerlendirme süreçlerinde danışmanlık.":"Beratung bei Kauf, Verkauf und der Bewertung der passenden Immobilie.",
+      "05 / İletişim":"05 / Kontakt","Bir merhaba":"Ein einfaches Hallo","yeter.":"genügt.",
+      "WhatsApp’tan yazın":"Schreiben Sie uns auf WhatsApp","Projenizi, aradığınız mülkü veya aklınızdaki fikri konuşalım.":"Sprechen wir über Ihr Projekt, die Immobilie, die Sie suchen, oder Ihre Idee.",
+      "Ofis Adresi":"Büroadresse","KVKK Aydınlatma Metni":"Informationen zum Datenschutz",
+      "Gizlilik ve Kişisel Verilerin Korunması":"Datenschutz und Schutz personenbezogener Daten",
+      "Çerez Politikası":"Cookie-Richtlinie","Kullanım Koşulları":"Nutzungsbedingungen",
+      "Bilgilendirme":"Information","Kapat":"Schließen",
+      "Gayrimenkuller yükleniyor…":"Immobilien werden geladen…","Gayrimenkuller yükleniyor...":"Immobilien werden geladen...",
+      "İlan bulunamadı.":"Keine Angebote gefunden.","Detayları Gör":"Details ansehen","Fiyat":"Preis","Konum":"Standort",
+      "Satılık":"Zu verkaufen","Kiralık":"Zu vermieten"
+    }
+  };
+
+  const TR = Object.fromEntries(
+    Object.keys(T.en).map(k => [k, k])
+  );
+
+  const original = new WeakMap();
+  let current = "tr";
+  let translating = false;
+
+  function baseText(el) {
+    if (!original.has(el)) original.set(el, el.textContent.trim());
+    return original.get(el);
+  }
+
+  function translate(lang) {
+    if (translating) return;
+    translating = true;
+    current = lang;
+
+    document.querySelectorAll("body *:not(script):not(style):not(.language-switcher):not(.language-switcher *)").forEach(el => {
+      if (el.children.length !== 0) return;
+      const base = baseText(el);
+      const value = lang === "tr" ? base : (T[lang]?.[base] || base);
+      if (el.textContent.trim() !== value) el.textContent = value;
+    });
+
+    document.querySelectorAll("img[alt]").forEach(img => {
+      if (!original.has(img)) original.set(img, img.alt);
+    });
+
+    document.documentElement.lang = lang;
+    document.title =
+      lang === "en" ? "Sivora Architecture Office" :
+      lang === "de" ? "Sivora Architekturbüro" :
+      "Sivora Mimarlık Ofisi";
+
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) {
+      meta.content =
+        lang === "en" ? "Sivora Architecture Office — architecture, interiors and real estate." :
+        lang === "de" ? "Sivora Architekturbüro — Architektur, Innenräume und Immobilien." :
+        "Sivora Mimarlık Ofisi — Mimarlık, iç mekân ve gayrimenkul.";
+    }
+
+    document.querySelectorAll("[data-lang]").forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.lang === lang);
+    });
+
+    localStorage.setItem(KEY, lang);
+    translating = false;
+  }
+
+  function init() {
+    document.querySelectorAll("[data-lang]").forEach(btn => {
+      btn.addEventListener("click", () => translate(btn.dataset.lang));
+    });
+
+    const saved = localStorage.getItem(KEY);
+    translate(LANGS.includes(saved) ? saved : "tr");
+
+    /* Supabase'den sonradan gelen gayrimenkul/proje arayüz metinlerini de çevir */
+    const observer = new MutationObserver(() => {
+      if (current !== "tr" && !translating) {
+        clearTimeout(window.__sivoraLangTimer);
+        window.__sivoraLangTimer = setTimeout(() => translate(current), 80);
+      }
+    });
+
+    observer.observe(document.getElementById("project-grid") || document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    const propertyGrid = document.getElementById("property-grid");
+    if (propertyGrid) {
+      observer.observe(propertyGrid, {childList:true, subtree:true});
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+
+
+</script>
+
+
+<!-- =========================================================
+     MODAL / GALERİ KAPATMA GÜVENLİK KATMANI
+     Mevcut sistemin çalışma mantığını değiştirmez.
+========================================================= -->
+<style>
+.property-modal-x{
+  position:absolute !important;
+  top:14px !important;
+  right:16px !important;
+  z-index:20 !important;
+  width:42px !important;
+  height:42px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border:0 !important;
+  background:transparent !important;
+  color:inherit !important;
+  font-size:34px !important;
+  line-height:1 !important;
+  cursor:pointer !important;
+}
+.property-modal-x:hover{color:#b9975b !important;}
+</style>
+
+<script>
+(function(){
+  function closeAnyProjectLightbox(){
+    var selectors = [
+      '[data-close-project]',
+      '[data-close-lightbox]',
+      '.project-lightbox',
+      '.project-gallery-modal',
+      '.sivora-lightbox',
+      '#project-lightbox',
+      '#project-gallery-modal'
+    ];
+    selectors.forEach(function(selector){
+      document.querySelectorAll(selector).forEach(function(el){
+        if (el.matches('[data-close-project],[data-close-lightbox]')) {
+          var target = el.closest('.project-lightbox,.project-gallery-modal,.sivora-lightbox,#project-lightbox,#project-gallery-modal') || el;
+          if (target) target.hidden = true;
+        } else if (el.classList.contains('project-lightbox') || el.classList.contains('project-gallery-modal') || el.classList.contains('sivora-lightbox') || el.id === 'project-lightbox' || el.id === 'project-gallery-modal') {
+          el.hidden = true;
+          el.style.display = 'none';
+        }
+      });
+    });
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', function(event){
+    var el = event.target.closest && event.target.closest('[data-close-project],[data-close-lightbox],.lightbox-close,.project-lightbox-close,.project-modal-x');
+    if (el) closeAnyProjectLightbox();
+  });
+
+  document.addEventListener('keydown', function(event){
+    if (event.key === 'Escape') closeAnyProjectLightbox();
+  });
+})();
+</script>
+
+<!-- =========================================================
      MODAL KAPATMA
 ========================================================= -->
 
@@ -1978,65 +2283,6 @@ html {
 
 })();
 
-</script>
-
-
-<!-- =========================================================
-     MENÜ ANCHOR DÜZELTMESİ
-     Sabit header yüksekliğini hesaba katar;
-     tıklanan bölüm başlığın altında doğru konuma gelir.
-========================================================= -->
-<script>
-(function () {
-  function getHeaderHeight() {
-    const header = document.getElementById("site-nav");
-    return header ? header.getBoundingClientRect().height : 0;
-  }
-
-  function goToTarget(target) {
-    if (!target) return;
-
-    const headerHeight = getHeaderHeight();
-    const extraGap = window.innerWidth <= 800 ? 14 : 20;
-    const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - extraGap;
-
-    window.scrollTo({
-      top: Math.max(0, top),
-      behavior: "smooth"
-    });
-  }
-
-  document.addEventListener("click", function (event) {
-    const link = event.target.closest('#site-nav a[href^="#"], .hero a[href^="#"]');
-    if (!link) return;
-
-    const selector = link.getAttribute("href");
-    if (!selector || selector === "#") return;
-
-    const target = document.querySelector(selector);
-    if (!target) return;
-
-    event.preventDefault();
-    history.pushState(null, "", selector);
-    goToTarget(target);
-
-    const menu = document.getElementById("menu");
-    const navlinks = document.getElementById("navlinks");
-    if (menu) menu.setAttribute("aria-expanded", "false");
-    if (navlinks) navlinks.classList.remove("open", "active", "show");
-  });
-
-  window.addEventListener("load", function () {
-    if (window.location.hash) {
-      const target = document.querySelector(window.location.hash);
-      if (target) {
-        setTimeout(function () {
-          goToTarget(target);
-        }, 80);
-      }
-    }
-  });
-})();
 </script>
 
 
