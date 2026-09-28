@@ -734,6 +734,71 @@
 }
 
 </style>
+
+
+<style>
+/* =========================================================
+   DİL SEÇİCİ
+========================================================= */
+
+.language-switcher{
+  margin-left:28px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-shrink:0;
+  font-size:10px;
+  letter-spacing:.12em;
+}
+
+.language-switcher button{
+  border:0;
+  background:transparent;
+  color:inherit;
+  padding:4px 2px;
+  font-family:"DM Sans",Arial,sans-serif;
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.12em;
+  cursor:pointer;
+  opacity:.48;
+  transition:opacity .2s ease,color .2s ease;
+}
+
+.language-switcher button:hover,
+.language-switcher button.active{
+  opacity:1;
+  color:#b9975b;
+}
+
+.language-switcher span{
+  opacity:.28;
+  font-size:9px;
+}
+
+@media(max-width:950px){
+  .language-switcher{
+    margin-left:18px;
+  }
+}
+
+@media(max-width:800px){
+  .language-switcher{
+    margin-left:10px;
+    gap:4px;
+  }
+
+  .language-switcher button{
+    font-size:9px;
+    padding:3px 1px;
+  }
+
+  .language-switcher span{
+    font-size:8px;
+  }
+}
+</style>
+
 </head>
 
 
@@ -801,6 +866,15 @@
     </a>
 
   </nav>
+
+
+  <div class="language-switcher" id="language-switcher" aria-label="Dil seçimi">
+    <button type="button" data-lang="tr" class="active">TR</button>
+    <span>/</span>
+    <button type="button" data-lang="en">EN</button>
+    <span>/</span>
+    <button type="button" data-lang="de">DE</button>
+  </div>
 
 
   <div id="theme-wrapper">
@@ -1702,6 +1776,13 @@
 <script src="public-projects.js"></script>
 
 <script src="public-properties.js"></script>
+
+
+<!-- =========================================================
+     TÜRKÇE / ENGLISH / DEUTSCH DİL SİSTEMİ
+========================================================= -->
+
+<script src="language.js"></script>
 
 
 <!-- =========================================================
