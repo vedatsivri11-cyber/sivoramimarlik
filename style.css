@@ -427,3 +427,85 @@ body.dark-mode .legal-box p,body.dark-mode .legal-box li{color:#c8c5be}
   }
 
 }
+/* =========================================================
+   DİL SEÇİCİ - KALIN YAZI
+========================================================= */
+
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: 30px;
+  flex-shrink: 0;
+}
+
+.language-switcher button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+
+  font-family: "DM Sans", Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: .08em;
+
+  padding: 5px 4px;
+
+  cursor: pointer;
+
+  opacity: .75;
+
+  transition:
+    opacity .2s ease,
+    color .2s ease,
+    transform .2s ease;
+}
+
+.language-switcher button:hover {
+  opacity: 1;
+  color: #b9975b;
+  transform: translateY(-1px);
+}
+
+.language-switcher button.active {
+  opacity: 1;
+  color: #b9975b;
+  font-weight: 700;
+}
+
+.language-switcher span {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: .4;
+}
+
+/* BAYRAKLAR */
+.language-switcher .flag {
+  font-size: 17px;
+  line-height: 1;
+  margin-right: 3px;
+}
+
+/* MOBİL */
+@media (max-width: 800px) {
+
+  .language-switcher {
+    margin-left: 10px;
+    gap: 3px;
+  }
+
+  .language-switcher button {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 2px;
+  }
+
+  .language-switcher .flag {
+    font-size: 14px;
+  }
+
+  .language-switcher span {
+    font-size: 9px;
+  }
+}
