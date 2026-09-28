@@ -166,3 +166,14 @@ body.dark-mode .theme-toggle{background:#eeeae2;color:#171717}
 }
 @media(max-width:520px){.contact-details{grid-template-columns:1fr}.nav .logo span{display:none}.theme-toggle{right:58px}.property-modal{padding:10px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+
+
+/* Hukuki footer */
+.legal-footer{align-items:center;gap:22px}
+.legal-links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px 22px}
+.legal-links a{text-decoration:none;color:inherit}
+.legal-links a:hover{text-decoration:underline;text-underline-offset:4px}
+@media(max-width:800px){
+  .legal-footer{align-items:flex-start}
+  .legal-links{justify-content:flex-start;gap:10px 16px}
+}
