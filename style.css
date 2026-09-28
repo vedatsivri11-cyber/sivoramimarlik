@@ -36,7 +36,28 @@ a{color:inherit}
 .image-2{background:url("https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=85") center/cover}
 .image-3{background:url("https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=85") center/cover}
 .project:hover .project-image{transform:scale(.985)}
-.live-project .project-image{height:auto;aspect-ratio:4/5;object-fit:cover}
+.live-project .project-image{
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:16/10;
+  object-fit:cover;
+  cursor:zoom-in;
+  overflow:hidden;
+  transition:transform .7s,opacity .3s;
+}
+@media (min-width:701px){
+  .live-project .project-image{max-height:420px}
+}
+@media (min-width:1000px){
+  .project-grid .live-project:first-child .project-image{max-height:500px}
+}
+@media (max-width:700px){
+  .live-project .project-image{
+    aspect-ratio:16/10;
+    max-height:300px;
+  }
+}
 .project-info{display:grid;grid-template-columns:35px 1fr;gap:10px;padding-top:15px}
 .project-info span,.project-info p{font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.55}
 .project-info h2{font:400 30px "Playfair Display",Georgia,serif;margin:0}
