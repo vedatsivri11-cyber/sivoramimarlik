@@ -331,3 +331,20 @@ body.dark-mode .property-badge{
     padding: 18px;
   }
 }
+
+/* =====================================================
+   YASAL METİNLER
+===================================================== */
+.legal-modal[hidden]{display:none}
+.legal-modal{position:fixed;inset:0;z-index:1100;display:grid;place-items:center;padding:20px}
+.legal-backdrop{position:absolute;inset:0;background:rgba(20,20,18,.76);backdrop-filter:blur(3px)}
+.legal-box{position:relative;z-index:1;width:min(820px,100%);max-height:86vh;overflow:auto;background:#eeeae2;color:#171716;padding:38px 42px;box-shadow:0 25px 80px #0005}
+.legal-close{position:absolute;top:14px;right:14px;width:40px;height:40px;border:1px solid #aaa59c;background:#eeeae2;cursor:pointer;font-size:24px;line-height:1}
+.legal-box h2{font:400 clamp(30px,4vw,48px)/1 "Playfair Display",Georgia,serif;margin:0 45px 22px 0}
+.legal-box h3{font-size:14px;margin:26px 0 8px}
+.legal-box p,.legal-box li{font-size:13px;line-height:1.75;color:#4e4c47}
+.legal-box ul{padding-left:20px}
+body.dark-mode .legal-box{background:#222;color:#f1eee8}
+body.dark-mode .legal-close{background:#222;color:#f1eee8;border-color:#555}
+body.dark-mode .legal-box p,body.dark-mode .legal-box li{color:#c8c5be}
+@media(max-width:700px){.legal-box{padding:30px 22px;max-height:88vh}.legal-box h2{font-size:31px}.legal-box p,.legal-box li{font-size:12px}}
