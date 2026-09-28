@@ -1,22 +1,38 @@
 (() => {
 
   const grid = document.getElementById('property-grid');
+
   if (!grid) return;
+
+
+  /* =========================================================
+     SUPABASE KONTROLÜ
+  ========================================================= */
 
   if (
     !window.SIVORA_SUPABASE_URL ||
     !window.SIVORA_SUPABASE_ANON_KEY ||
     !window.supabase
   ) {
+
     grid.innerHTML =
       '<p class="property-empty">Gayrimenkul sistemi bağlantısı kurulamadı.</p>';
+
     return;
+
   }
 
-  const db = window.supabase.createClient(
-    window.SIVORA_SUPABASE_URL,
-    window.SIVORA_SUPABASE_ANON_KEY
-  );
+
+  const db =
+    window.supabase.createClient(
+      window.SIVORA_SUPABASE_URL,
+      window.SIVORA_SUPABASE_ANON_KEY
+    );
+
+
+  /* =========================================================
+     FOTOĞRAF PARSE
+  ========================================================= */
 
   const parsePhotos = value => {
 
@@ -28,7 +44,8 @@
 
       try {
 
-        const parsed = JSON.parse(value);
+        const parsed =
+          JSON.parse(value);
 
         return Array.isArray(parsed)
           ? parsed
@@ -46,17 +63,30 @@
 
   };
 
+
+  /* =========================================================
+     FİYAT
+  ========================================================= */
+
   const money = (value, currency) => {
 
-    return Number(value || 0).toLocaleString(
-      'tr-TR',
-      {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-      }
-    ) + ' ' + (currency || 'TL');
+    return Number(value || 0)
+      .toLocaleString(
+        'tr-TR',
+        {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        }
+      )
+      + ' '
+      + (currency || 'TL');
 
   };
+
+
+  /* =========================================================
+     ELEMENT YARDIMCISI
+  ========================================================= */
 
   const el = (tag, cls, text) => {
 
@@ -77,47 +107,69 @@
 
 
   /* =========================================================
-     GAYRİMENKUL DETAY MODALI
+     DETAY MODALI
   ========================================================= */
 
   const openModal = property => {
 
     const modal =
-      document.getElementById('property-modal');
+      document.getElementById(
+        'property-modal'
+      );
 
     const detail =
-      document.getElementById('property-detail');
+      document.getElementById(
+        'property-detail'
+      );
+
 
     if (!modal || !detail) {
       return;
     }
 
+
     detail.replaceChildren();
+
 
     const sold =
       property.durum === 'satildi';
 
+
     const photos =
-      parsePhotos(property.fotograflar);
+      parsePhotos(
+        property.fotograflar
+      );
 
 
-    detail.append(
+    /* DURUM */
 
+    const status =
       el(
         'div',
         'property-public-status',
         sold
           ? 'SATILDI'
-          : (property.ilan_turu || 'AKTİF')
-      ),
+          : (
+              property.ilan_turu ||
+              'AKTİF'
+            )
+      );
 
+
+    /* BAŞLIK */
+
+    const title =
       el(
         'h2',
         '',
         property.ilan_basligi ||
         'Gayrimenkul'
-      )
+      );
 
+
+    detail.append(
+      status,
+      title
     );
 
 
@@ -130,6 +182,7 @@
           'div',
           'property-public-gallery'
         );
+
 
       photos.forEach(
         (url, index) => {
@@ -147,7 +200,10 @@
         }
       );
 
-      detail.append(gallery);
+
+      detail.append(
+        gallery
+      );
 
     }
 
@@ -246,11 +302,13 @@
           return;
         }
 
+
         const row =
           el(
             'div',
             'property-public-info-row'
           );
+
 
         row.append(
 
@@ -268,13 +326,18 @@
 
         );
 
-        info.append(row);
+
+        info.append(
+          row
+        );
 
       }
     );
 
 
-    detail.append(info);
+    detail.append(
+      info
+    );
 
 
     /* ÖZELLİKLER */
@@ -349,7 +412,7 @@
 
 
   /* =========================================================
-     GAYRİMENKULLERİ EKRANA BAS
+     GAYRİMENKULLERİ OLUŞTUR
   ========================================================= */
 
   const render = properties => {
@@ -377,8 +440,10 @@
     properties.forEach(
       property => {
 
+
         const sold =
           property.durum === 'satildi';
+
 
         const photos =
           parsePhotos(
@@ -386,14 +451,14 @@
           );
 
 
+        /* KART */
+
         const card =
           el(
             'article',
             'property-card'
           );
 
-
-        /* SATILDI CLASS */
 
         if (sold) {
 
@@ -404,7 +469,9 @@
         }
 
 
-        /* GÖRSEL ALANI */
+        /* =====================================================
+           GÖRSEL ALANI
+        ===================================================== */
 
         const imageBox =
           el(
@@ -413,27 +480,43 @@
           );
 
 
+        /* ÖNEMLİ:
+           SATILDI DAMGASININ DOĞRU KONUMDA
+           DURMASI İÇİN RELATIVE */
+        
+        imageBox.style.position =
+          'relative';
+
+
+        /* RESİM */
+
         if (photos.length) {
 
           const img =
             el('img');
 
+
           img.src =
             photos[0];
+
 
           img.alt =
             property.ilan_basligi ||
             'Gayrimenkul';
 
+
           img.loading =
             'lazy';
 
-          imageBox.append(img);
+
+          imageBox.append(
+            img
+          );
 
         }
 
 
-        /* ÜST ETİKET */
+        /* İLAN TÜRÜ */
 
         imageBox.append(
 
@@ -451,24 +534,30 @@
         );
 
 
-        /* SATILDI DAMGASI */
+        /* =====================================================
+           SATILDI KAŞESİ
+        ===================================================== */
 
         if (sold) {
 
-          imageBox.append(
-
+          const soldStamp =
             el(
               'span',
               'property-sold-stamp',
               'SATILDI'
-            )
+            );
 
+
+          imageBox.append(
+            soldStamp
           );
 
         }
 
 
-        /* İLAN İÇERİĞİ */
+        /* =====================================================
+           İÇERİK
+        ===================================================== */
 
         const content =
           el(
@@ -510,7 +599,9 @@
         );
 
 
-        /* KISA BİLGİLER */
+        /* =====================================================
+           KISA BİLGİLER
+        ===================================================== */
 
         const facts =
           el(
@@ -579,10 +670,14 @@
         }
 
 
-        content.append(facts);
+        content.append(
+          facts
+        );
 
 
-        /* DETAY BUTONU */
+        /* =====================================================
+           DETAY BUTONU
+        ===================================================== */
 
         const button =
           el(
@@ -600,11 +695,21 @@
 
         button.addEventListener(
           'click',
-          () => openModal(property)
+          event => {
+
+            event.stopPropagation();
+
+            openModal(
+              property
+            );
+
+          }
         );
 
 
-        content.append(button);
+        content.append(
+          button
+        );
 
 
         card.append(
@@ -613,7 +718,60 @@
         );
 
 
-        grid.append(card);
+        /* =====================================================
+           RESME TIKLAMA
+        ===================================================== */
+
+        imageBox.style.cursor =
+          'pointer';
+
+
+        imageBox.addEventListener(
+          'click',
+          event => {
+
+            event.stopPropagation();
+
+            openModal(
+              property
+            );
+
+          }
+        );
+
+
+        /* =====================================================
+           KARTIN TAMAMINA TIKLAMA
+        ===================================================== */
+
+        card.style.cursor =
+          'pointer';
+
+
+        card.addEventListener(
+          'click',
+          event => {
+
+            if (
+              event.target.closest(
+                'button'
+              )
+            ) {
+              return;
+            }
+
+
+            openModal(
+              property
+            );
+
+          }
+        );
+
+
+        grid.append(
+          card
+        );
 
       }
     );
@@ -623,137 +781,283 @@
 
   /* =========================================================
      SATILDI TASARIMI
-     MEVCUT SİTE TASARIMINI BOZMAZ
   ========================================================= */
 
   const style =
-    document.createElement('style');
+    document.createElement(
+      'style'
+    );
 
 
   style.textContent = `
 
-    .property-card-sold
-    .property-card-image img {
-
-      filter: grayscale(1);
-
-      opacity: .62;
-
-    }
-
+    /* -----------------------------------------
+       SATILMIŞ İLAN RESMİ
+    ----------------------------------------- */
 
     .property-card-sold
     .property-card-image {
 
-      background: #b8b8b8;
+      position: relative !important;
+
+      overflow: hidden;
+
+      background:
+        #b8b8b8;
 
     }
 
+
+    .property-card-sold
+    .property-card-image img {
+
+      filter:
+        grayscale(1);
+
+      opacity:
+        .55;
+
+    }
+
+
+    /* -----------------------------------------
+       KIRMIZI SATILDI KAŞESİ
+    ----------------------------------------- */
 
     .property-sold-stamp {
 
-      position: absolute;
+      position: absolute !important;
 
-      left: 50%;
+      left: 50% !important;
 
-      top: 50%;
+      top: 50% !important;
 
       transform:
-        translate(-50%, -50%)
-        rotate(-8deg);
+        translate(
+          -50%,
+          -50%
+        )
+        rotate(-10deg) !important;
 
-      z-index: 3;
+      z-index: 20 !important;
 
-      padding: 12px 22px;
+      display: block !important;
 
-      border: 3px solid #fff;
+      width: max-content !important;
 
-      color: #fff;
+      padding:
+        10px 24px !important;
+
+      border:
+        4px solid #b40000 !important;
+
+      color:
+        #b40000 !important;
 
       background:
-        rgba(70,70,70,.82);
+        rgba(
+          255,
+          255,
+          255,
+          .88
+        ) !important;
 
       font-family:
-        "DM Sans",
         Arial,
-        sans-serif;
+        Helvetica,
+        sans-serif !important;
 
       font-size:
         clamp(
-          22px,
-          3vw,
-          38px
+          28px,
+          4vw,
+          52px
+        ) !important;
+
+      line-height:
+        1 !important;
+
+      font-weight:
+        900 !important;
+
+      letter-spacing:
+        .08em !important;
+
+      text-align:
+        center !important;
+
+      white-space:
+        nowrap !important;
+
+      pointer-events:
+        none !important;
+
+      box-shadow:
+        0 2px 10px
+        rgba(
+          0,
+          0,
+          0,
+          .18
         );
 
-      font-weight: 700;
+    }
 
-      letter-spacing: .16em;
 
-      white-space: nowrap;
+    /* -----------------------------------------
+       SATILDI ÜST ETİKETİ
+    ----------------------------------------- */
 
-      pointer-events: none;
+    .property-card-sold
+    .property-badge {
+
+      background:
+        #b40000 !important;
+
+      color:
+        #fff !important;
+
+      font-weight:
+        700 !important;
 
     }
 
 
+    /* -----------------------------------------
+       DETAY MODALINDA SATILDI
+    ----------------------------------------- */
+
+    .property-detail-sold
     .property-public-status {
 
-      display: inline-block;
+      background:
+        #b40000 !important;
 
-      margin-bottom: 12px;
+      color:
+        #fff !important;
 
-      padding: 7px 11px;
-
-      background: #171716;
-
-      color: #fff;
-
-      font-size: 10px;
-
-      font-weight: 700;
-
-      letter-spacing: .12em;
+      font-weight:
+        800 !important;
 
     }
 
+
+    .property-detail-sold
+    .property-public-gallery img {
+
+      filter:
+        grayscale(1);
+
+      opacity:
+        .72;
+
+    }
+
+
+    /* -----------------------------------------
+       RESME TIKLANABİLİR EFEKTİ
+    ----------------------------------------- */
+
+    .property-card-image {
+
+      cursor:
+        pointer;
+
+    }
+
+
+    .property-card-image img {
+
+      transition:
+        transform .35s ease,
+        opacity .35s ease,
+        filter .35s ease;
+
+    }
+
+
+    .property-card:not(.property-card-sold)
+    .property-card-image:hover img {
+
+      transform:
+        scale(1.025);
+
+    }
+
+
+    .property-card-sold
+    .property-card-image:hover
+    .property-sold-stamp {
+
+      transform:
+        translate(
+          -50%,
+          -50%
+        )
+        rotate(-10deg)
+        scale(1.03) !important;
+
+    }
+
+
+    /* -----------------------------------------
+       MODAL GALERİ
+    ----------------------------------------- */
 
     .property-public-gallery {
 
-      display: grid;
+      display:
+        grid;
 
       grid-template-columns:
         repeat(
           2,
-          minmax(0,1fr)
+          minmax(
+            0,
+            1fr
+          )
         );
 
-      gap: 10px;
+      gap:
+        10px;
 
-      margin: 20px 0;
+      margin:
+        20px 0;
 
     }
 
 
     .property-public-gallery img {
 
-      width: 100%;
+      width:
+        100%;
 
-      max-height: 360px;
+      max-height:
+        360px;
 
-      object-fit: cover;
+      object-fit:
+        cover;
 
-      display: block;
+      display:
+        block;
 
     }
 
 
+    /* -----------------------------------------
+       BİLGİLER
+    ----------------------------------------- */
+
     .property-public-info {
 
-      display: grid;
+      display:
+        grid;
 
-      gap: 0;
+      gap:
+        0;
 
-      margin: 20px 0;
+      margin:
+        20px 0;
 
       border-top:
         1px solid
@@ -769,14 +1073,17 @@
 
     .property-public-info-row {
 
-      display: flex;
+      display:
+        flex;
 
       justify-content:
         space-between;
 
-      gap: 20px;
+      gap:
+        20px;
 
-      padding: 11px 0;
+      padding:
+        11px 0;
 
       border-bottom:
         1px solid
@@ -787,48 +1094,85 @@
           .35
         );
 
-      font-size: 12px;
+      font-size:
+        12px;
 
     }
 
 
     .property-public-info-row span {
 
-      opacity: .55;
+      opacity:
+        .55;
 
     }
 
 
     .property-public-info-row strong {
 
-      text-align: right;
+      text-align:
+        right;
 
     }
 
 
-    .property-detail-sold
-    .property-public-gallery img {
+    /* -----------------------------------------
+       MODAL DURUM
+    ----------------------------------------- */
 
-      filter: grayscale(1);
+    .property-public-status {
 
-      opacity: .72;
+      display:
+        inline-block;
+
+      margin-bottom:
+        12px;
+
+      padding:
+        7px 11px;
+
+      background:
+        #171716;
+
+      color:
+        #fff;
+
+      font-size:
+        10px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .12em;
 
     }
 
+
+    /* -----------------------------------------
+       MOBİL
+    ----------------------------------------- */
 
     @media(max-width:600px) {
 
       .property-public-gallery {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+          1fr;
 
       }
 
+
       .property-sold-stamp {
 
-        font-size: 22px;
+        font-size:
+          25px !important;
 
-        padding: 9px 16px;
+        padding:
+          9px 17px !important;
+
+        border-width:
+          3px !important;
 
       }
 
@@ -837,7 +1181,9 @@
   `;
 
 
-  document.head.append(style);
+  document.head.append(
+    style
+  );
 
 
   /* =========================================================
@@ -916,6 +1262,7 @@
         error
       );
 
+
       grid.innerHTML =
         '<p class="property-empty">Gayrimenkuller yüklenemedi. Supabase tablo/izinlerini kontrol edin.</p>';
 
@@ -930,6 +1277,10 @@
 
   };
 
+
+  /* =========================================================
+     BAŞLAT
+  ========================================================= */
 
   load();
 
