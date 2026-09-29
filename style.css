@@ -19,7 +19,7 @@ a{color:inherit}
   padding:20vh 5vw 7vh;
   display:flex;
   align-items:flex-end;
-  background:#161616 url("kentsel-donusum.jpg") center 85% / cover no-repeat;
+  background:#161616 url("kentsel-donusum.jpg") center 95% / cover no-repeat;
 }
 .hero-copy{
   position:relative;
