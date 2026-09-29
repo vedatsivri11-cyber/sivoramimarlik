@@ -1424,7 +1424,235 @@
 
     };
 
+/* =========================================================
+   PROJE DÜZENLE
+========================================================= */
 
+const openProjectEdit =
+  project => {
+
+    const modal =
+      createModal(
+        'Projeyi Düzenle'
+      );
+
+    const form =
+      document.createElement(
+        'form'
+      );
+
+    form.style.display =
+      'grid';
+
+    form.style.gap =
+      '14px';
+
+    const fields = {};
+
+
+    const addField =
+      (
+        labelText,
+        name,
+        value,
+        type = 'text'
+      ) => {
+
+        const label =
+          document.createElement(
+            'label'
+          );
+
+        label.textContent =
+          labelText;
+
+
+        const input =
+          type === 'textarea'
+            ? document.createElement(
+                'textarea'
+              )
+            : document.createElement(
+                'input'
+              );
+
+
+        if (
+          type !== 'textarea'
+        ) {
+
+          input.type =
+            type;
+
+        }
+
+
+        if (
+          type === 'textarea'
+        ) {
+
+          input.rows =
+            5;
+
+        }
+
+
+        input.value =
+          value ?? '';
+
+
+        input.style.width =
+          '100%';
+
+        input.style.boxSizing =
+          'border-box';
+
+        input.style.padding =
+          '10px';
+
+        input.style.marginTop =
+          '5px';
+
+        input.style.border =
+          '1px solid #ddd';
+
+        input.style.borderRadius =
+          '8px';
+
+
+        label.append(
+          input
+        );
+
+        form.append(
+          label
+        );
+
+        fields[name] =
+          input;
+
+      };
+
+
+    addField(
+      'Proje adı',
+      'title',
+      project.title
+    );
+
+
+    addField(
+      'Konum',
+      'location',
+      project.location
+    );
+
+
+    addField(
+      'Açıklama',
+      'description',
+      project.description,
+      'textarea'
+    );
+
+
+    const save =
+      createButton(
+        'Değişiklikleri Kaydet'
+      );
+
+    save.type =
+      'submit';
+
+    save.style.cssText =
+      `
+      background:#111;
+      color:#fff;
+      border:0;
+      padding:12px 18px;
+      border-radius:8px;
+      font-weight:700;
+      cursor:pointer;
+      margin-top:8px;
+      `;
+
+
+    form.append(
+      save
+    );
+
+
+    form.addEventListener(
+      'submit',
+      async event => {
+
+        event.preventDefault();
+
+        save.disabled =
+          true;
+
+        setStatus(
+          'Proje güncelleniyor...'
+        );
+
+
+        const {
+          error
+        } =
+          await db
+            .from('projects')
+            .update({
+
+              title:
+                fields.title.value.trim(),
+
+              location:
+                fields.location.value.trim(),
+
+              description:
+                fields.description.value.trim()
+
+            })
+            .eq(
+              'id',
+              project.id
+            );
+
+
+        if (error) {
+
+          setStatus(
+            'Proje güncellenemedi: ' +
+            error.message
+          );
+
+          save.disabled =
+            false;
+
+          return;
+
+        }
+
+
+        modal.overlay.remove();
+
+
+        setStatus(
+          'Proje başarıyla güncellendi.'
+        );
+
+
+        await refreshProjects();
+
+      }
+    );
+
+
+    modal.content.append(
+      form
+    );
+
+  };
   /* =========================================================
      GAYRİMENKULLER
   ========================================================= */
