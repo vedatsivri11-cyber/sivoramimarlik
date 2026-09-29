@@ -1026,38 +1026,80 @@ body.dark-mode #site-nav .logo-slogan{
 }
 @media (max-width:800px){
 
+ /* =========================================================
+   MOBİL MENÜ — SAĞDAN AÇILAN TAM EKRAN MENÜ
+========================================================= */
+
+@media (max-width:800px){
+
   #site-nav #navlinks{
-    display:none !important;
-    position:absolute !important;
-    top:70px !important;
-    right:18px !important;
+    display:flex !important;
+
+    position:fixed !important;
+
+    top:0 !important;
+    right:-100% !important;
     left:auto !important;
-    width:220px !important;
-    padding:18px 20px !important;
-    background:rgba(20,20,20,.97) !important;
-    border-radius:15px !important;
+
+    width:82vw !important;
+    height:100vh !important;
+
+    margin:0 !important;
+    padding:120px 45px 50px !important;
+
+    background:#151515 !important;
+
     flex-direction:column !important;
-    gap:12px !important;
-    z-index:9999 !important;
-    box-shadow:0 15px 40px rgba(0,0,0,.35) !important;
+    align-items:flex-start !important;
+
+    justify-content:flex-start !important;
+
+    gap:28px !important;
+
+    z-index:9998 !important;
+
+    box-sizing:border-box !important;
+
+    transition:right .4s ease !important;
+
+    box-shadow:-15px 0 45px rgba(0,0,0,.35) !important;
   }
 
+  /* AÇILDIĞINDA SAĞDAN SOLA GELİR */
   #site-nav #navlinks.open{
-    display:flex !important;
+    right:0 !important;
   }
 
   #site-nav #navlinks a{
     display:block !important;
-    width:100% !important;
-    color:#fff !important;
-    padding:8px 0 !important;
-    font-size:15px !important;
+
+    width:auto !important;
+
+    padding:5px 0 !important;
+
+    color:#f4f0e8 !important;
+
+    font-size:21px !important;
+
+    font-weight:400 !important;
+
+    text-decoration:none !important;
+
+    letter-spacing:.03em !important;
   }
 
+  #site-nav #navlinks a:hover{
+    color:#b9975b !important;
+  }
+
+  /* 3 ÇİZGİ / X HER ZAMAN ÜSTTE */
   #site-nav .menu{
     position:relative !important;
+
     z-index:10000 !important;
+
     display:block !important;
+
     cursor:pointer !important;
   }
 
