@@ -764,3 +764,17 @@ body.dark-mode .legal-box p,body.dark-mode .legal-box li{color:#c8c5be}
   gap:80px;
   padding-top:75px;
 }
+/* SIVORA LOGO YAZILARI - DAHA NET */
+#site-nav .logo-title{
+  color:#292929 !important;
+  font-weight:800 !important;
+  letter-spacing:2px;
+  text-shadow:0 1px 1px rgba(255,255,255,.25);
+}
+
+#site-nav .logo-slogan{
+  color:#8a682c !important;
+  font-weight:800 !important;
+  letter-spacing:2px;
+  text-shadow:none;
+}
