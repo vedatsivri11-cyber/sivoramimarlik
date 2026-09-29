@@ -21,6 +21,19 @@ a{color:inherit}
   align-items:flex-end;
   background:#161616 url("kentsel-donusum.jpg") center 15% / cover no-repeat;
 }
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    90deg,
+    rgba(13,13,13,.78) 0%,
+    rgba(13,13,13,.42) 38%,
+    rgba(13,13,13,.08) 68%,
+    rgba(13,13,13,0) 100%
+  );
+  z-index:1;
+}
 .hero-copy{
   position:relative;
   z-index:2;
