@@ -1372,3 +1372,34 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+/* SOSYAL İKONLARI KÜÇÜLT */
+.social-footer .social-svg{
+  width:18px !important;
+  height:18px !important;
+  min-width:18px !important;
+  max-width:18px !important;
+  min-height:18px !important;
+  max-height:18px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex:none !important;
+}
+
+.social-footer .social-svg svg{
+  width:14px !important;
+  height:14px !important;
+  min-width:14px !important;
+  max-width:14px !important;
+  min-height:14px !important;
+  max-height:14px !important;
+  display:block !important;
+  fill:none !important;
+  stroke:currentColor !important;
+  stroke-width:1.5 !important;
+}
+
+.social-footer .social-link{
+  font-size:12px !important;
+  gap:7px !important;
+}
