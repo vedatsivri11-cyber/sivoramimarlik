@@ -1333,3 +1333,60 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+/* SOSYAL MEDYA - ORTALAMA ZORLA */
+
+.social-footer{
+  width:100% !important;
+  display:block !important;
+  text-align:center !important;
+}
+
+.social-footer-wrap{
+  width:100% !important;
+  max-width:1100px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+}
+
+.social-footer-links{
+  width:100% !important;
+  display:flex !important;
+  flex-direction:row !important;
+  justify-content:center !important;
+  align-items:center !important;
+  flex-wrap:nowrap !important;
+  gap:55px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  text-align:center !important;
+}
+
+.social-footer .social-link{
+  display:inline-flex !important;
+  width:auto !important;
+  margin:0 !important;
+  padding:0 !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex:0 0 auto !important;
+}
+
+.social-footer .social-footer-brand{
+  width:100% !important;
+  text-align:center !important;
+}
+
+.social-footer .social-footer-copy{
+  width:100% !important;
+  text-align:center !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+@media(max-width:800px){
+  .social-footer-links{
+    flex-wrap:wrap !important;
+    gap:22px 30px !important;
+  }
+}
