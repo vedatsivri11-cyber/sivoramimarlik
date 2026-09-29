@@ -47,3 +47,77 @@ if (themeToggle) {
   });
 
 }
+/* =========================================================
+   SIVORA MİMARLIK - İLETİŞİM FORMU
+========================================================= */
+
+(function () {
+
+  const contactForm =
+    document.getElementById("contact-form");
+
+  const contactStatus =
+    document.getElementById("contact-status");
+
+  if (!contactForm) return;
+
+  contactForm.addEventListener(
+    "submit",
+    function (event) {
+
+      event.preventDefault();
+
+      const name =
+        document.getElementById("contact-name").value.trim();
+
+      const email =
+        document.getElementById("contact-email").value.trim();
+
+      const phone =
+        document.getElementById("contact-phone").value.trim();
+
+      const subject =
+        document.getElementById("contact-subject").value.trim();
+
+      const message =
+        document.getElementById("contact-message").value.trim();
+
+
+      if (!name || !email || !subject || !message) {
+
+        contactStatus.textContent =
+          "Lütfen gerekli alanları doldurun.";
+
+        return;
+      }
+
+
+      const mailSubject =
+        encodeURIComponent(
+          "SIVORA MİMARLIK - " + subject
+        );
+
+
+      const mailBody =
+        encodeURIComponent(
+          "Ad Soyad: " + name +
+          "\n\n" +
+          "E-posta: " + email +
+          "\n\n" +
+          "Telefon: " + (phone || "-") +
+          "\n\n" +
+          "Mesaj:\n" + message
+        );
+
+
+      window.location.href =
+        "mailto:sivoramimarlik@gmail.com" +
+        "?subject=" +
+        mailSubject +
+        "&body=" +
+        mailBody;
+
+    }
+  );
+
+})();
