@@ -2504,5 +2504,29 @@
 
 })();
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+  var menu = document.getElementById("menu");
+  var nav = document.getElementById("navlinks");
+
+  if (!menu || !nav) return;
+
+  menu.onclick = function(){
+
+    nav.classList.toggle("open");
+
+    if(nav.classList.contains("open")){
+      menu.innerHTML = "✕";
+      menu.setAttribute("aria-expanded", "true");
+    }else{
+      menu.innerHTML = "☰";
+      menu.setAttribute("aria-expanded", "false");
+    }
+
+  };
+
+});
+</script>
 </body>
 </html>
