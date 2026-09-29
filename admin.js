@@ -4153,28 +4153,32 @@ propertyCards.append(
   }
 
 /* =========================================================
-   SAYFA KAPANINCA OTOMATİK ÇIKIŞ
+   ADMIN SAYFASI KAPANINCA OTURUMU YERELDEN TEMİZLE
 ========================================================= */
 
-let autoLogoutStarted = false;
-
-const autoLogout = () => {
-
-  if (autoLogoutStarted) {
-    return;
-  }
-
-  autoLogoutStarted = true;
-
-  db.auth.signOut({
-    scope: 'local'
-  });
-
-};
+const SIVORA_AUTH_STORAGE_KEY =
+  'sb-jfmldtumtnmuhzomujtm-auth-token';
 
 window.addEventListener(
   'pagehide',
-  autoLogout
+  () => {
+
+    try {
+
+      localStorage.removeItem(
+        SIVORA_AUTH_STORAGE_KEY
+      );
+
+    } catch (error) {
+
+      console.warn(
+        'Admin oturumu temizlenemedi:',
+        error
+      );
+
+    }
+
+  }
 );
   /* =========================================================
      BAŞLAT
