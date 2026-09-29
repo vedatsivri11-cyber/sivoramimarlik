@@ -1502,3 +1502,174 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+/* =========================================================
+   KENTSEL DÖNÜŞÜM - GENİŞLETİLMİŞ ALAN
+========================================================= */
+
+.kentsel-donusum-content{
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);
+  gap:90px;
+  align-items:start;
+}
+
+.kentsel-donusum-text h3{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:38px;
+  font-weight:400;
+  margin:0 0 30px;
+}
+
+.kentsel-donusum-text p{
+  max-width:680px;
+  font-size:15px;
+  line-height:1.9;
+  opacity:.68;
+  margin:0 0 22px;
+}
+
+.kentsel-donusum-list{
+  display:grid;
+  grid-template-columns:1fr;
+  border-top:1px solid rgba(170,165,156,.28);
+}
+
+.kentsel-donusum-list > div{
+  display:grid;
+  grid-template-columns:48px 1fr;
+  gap:18px;
+  padding:22px 0;
+  border-bottom:1px solid rgba(170,165,156,.28);
+}
+
+.kentsel-donusum-list strong{
+  font-size:11px;
+  letter-spacing:.12em;
+  opacity:.45;
+}
+
+.kentsel-donusum-list span{
+  font-size:14px;
+  line-height:1.65;
+  opacity:.65;
+}
+
+.kentsel-donusum-list b{
+  display:block;
+  color:inherit;
+  opacity:1;
+  font-weight:500;
+  margin-bottom:4px;
+}
+
+.kentsel-donusum-detail{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  margin-top:90px;
+  border-top:1px solid rgba(170,165,156,.28);
+  border-bottom:1px solid rgba(170,165,156,.28);
+}
+
+.kentsel-donusum-detail > div{
+  padding:38px 35px 40px 0;
+}
+
+.kentsel-donusum-detail > div + div{
+  border-left:1px solid rgba(170,165,156,.28);
+  padding-left:35px;
+}
+
+.kentsel-donusum-detail span{
+  display:block;
+  font-size:10px;
+  letter-spacing:.15em;
+  opacity:.4;
+  margin-bottom:20px;
+}
+
+.kentsel-donusum-detail h4{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:27px;
+  font-weight:400;
+  margin:0 0 15px;
+}
+
+.kentsel-donusum-detail p{
+  font-size:13px;
+  line-height:1.8;
+  opacity:.6;
+  margin:0;
+  max-width:380px;
+}
+
+.kentsel-donusum-note{
+  margin-top:70px;
+  padding:38px 0;
+  border-top:1px solid rgba(170,165,156,.28);
+  display:grid;
+  grid-template-columns:1fr 1.3fr auto;
+  gap:40px;
+  align-items:center;
+}
+
+.kentsel-donusum-note strong{
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:24px;
+  font-weight:400;
+  line-height:1.3;
+}
+
+.kentsel-donusum-note p{
+  font-size:13px;
+  line-height:1.7;
+  opacity:.6;
+  margin:0;
+}
+
+.kentsel-donusum-note a{
+  color:inherit;
+  text-decoration:none;
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+
+.kentsel-donusum-note a:hover{
+  color:#b9975b;
+}
+
+
+@media(max-width:800px){
+
+  .kentsel-donusum-content{
+    grid-template-columns:1fr;
+    gap:50px;
+  }
+
+  .kentsel-donusum-text h3{
+    font-size:32px;
+  }
+
+  .kentsel-donusum-detail{
+    grid-template-columns:1fr;
+    margin-top:60px;
+  }
+
+  .kentsel-donusum-detail > div{
+    padding:28px 0;
+  }
+
+  .kentsel-donusum-detail > div + div{
+    border-left:0;
+    border-top:1px solid rgba(170,165,156,.28);
+    padding-left:0;
+  }
+
+  .kentsel-donusum-note{
+    grid-template-columns:1fr;
+    gap:20px;
+    margin-top:50px;
+  }
+
+}
