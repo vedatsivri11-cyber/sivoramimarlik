@@ -793,3 +793,77 @@ body.dark-mode #site-nav .logo-slogan{
   font-weight:600 !important;
   opacity:1 !important;
 }
+/* =========================================================
+   TELEFON DÜZENİ - LOGO + ANA GÖRSEL
+========================================================= */
+
+@media(max-width:800px){
+
+  /* LOGO */
+  #site-nav{
+    padding:0 5vw !important;
+  }
+
+  #site-nav .logo{
+    gap:10px;
+    max-width:70%;
+  }
+
+  #site-nav .logo img{
+    width:58px !important;
+    height:48px !important;
+    max-width:58px !important;
+    object-fit:contain;
+    flex-shrink:0;
+  }
+
+  #site-nav .logo-text{
+    min-width:0;
+  }
+
+  #site-nav .logo-title{
+    font-size:10px !important;
+    font-weight:800 !important;
+    letter-spacing:1px !important;
+    line-height:1.15;
+    white-space:nowrap;
+  }
+
+  #site-nav .logo-slogan{
+    font-size:6.5px !important;
+    font-weight:700 !important;
+    letter-spacing:1.5px !important;
+    margin-top:5px;
+    white-space:nowrap;
+  }
+
+
+  /* TELEFONDA ANA SAYFA GÖRSELİ */
+
+  .hero{
+    min-height:92vh !important;
+    padding:18vh 7vw 9vh !important;
+    background-position:center center !important;
+    background-size:cover !important;
+  }
+
+  .hero::after{
+    background:linear-gradient(
+      180deg,
+      rgba(13,13,13,.18) 0%,
+      rgba(13,13,13,.12) 45%,
+      rgba(13,13,13,.52) 100%
+    ) !important;
+  }
+
+  .hero-copy{
+    max-width:90% !important;
+    padding-bottom:2vh !important;
+  }
+
+  .hero h1{
+    font-size:clamp(52px,15vw,72px) !important;
+    line-height:.88 !important;
+  }
+
+}
