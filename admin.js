@@ -870,1323 +870,820 @@
 
 
   /* =========================================================
-     PROJE FOTOĞRAFLARI
-  ========================================================= */
+   PROJE FOTOĞRAFLARI
+   SIRALAMA + YENİ FOTOĞRAF EKLEME + SİLME
+========================================================= */
 
-  const openProjectPhotos =
-    (
-      project,
-      photos
-    ) => {
+const openProjectPhotos =
+  (
+    project,
+    photos
+  ) => {
 
-      const modal =
-        createModal(
-          `Proje Fotoğrafları · ${project.title}`
-        );
+    const modal =
+      createModal(
+        `Proje Fotoğrafları · ${project.title}`
+      );
 
+    let currentPhotos =
+      Array.isArray(photos)
+        ? photos.map(photo => {
 
-      const gallery =
-        document.createElement(
-          'div'
-        );
-
-      gallery.style.display =
-        'grid';
-
-      gallery.style.gridTemplateColumns =
-        'repeat(auto-fill,minmax(180px,1fr))';
-
-      gallery.style.gap =
-        '15px';
-
-
-      photos.forEach(
-        (photo,index) => {
-
-          const url =
-            typeof photo === 'string'
-              ? photo
-              : photo.url;
-
-
-          const path =
-            typeof photo === 'object'
-              ? photo.path
-              : null;
-
-
-          const box =
-            document.createElement(
-              'div'
-            );
-
-          box.style.border =
-            '1px solid #ddd';
-
-          box.style.padding =
-            '8px';
-
-
-          const image =
-            document.createElement(
-              'img'
-            );
-
-          image.src =
-            url;
-
-          image.style.width =
-            '100%';
-
-          image.style.height =
-            '160px';
-
-          image.style.objectFit =
-            'cover';
-
-
-          const text =
-            document.createElement(
-              'small'
-            );
-
-          text.textContent =
-            `Fotoğraf ${index + 1}`;
-
-
-          const remove =
-            createButton(
-              'Bu fotoğrafı sil'
-            );
-
-
-          remove.addEventListener(
-            'click',
-            async () => {
-
-              if (
-                !confirm(
-                  'Bu fotoğraf silinsin mi?'
-                )
-              ) {
-                return;
-              }
-
-
-              if (path) {
-
-                await db.storage
-                  .from('projects')
-                  .remove([path]);
-
-              }
-
-
-              const newPhotos =
-                photos.filter(
-                  (_,i) =>
-                    i !== index
-                );
-
-
-              const first =
-                newPhotos[0];
-
-
-              const {
-                error
-              } =
-                await db
-                  .from('projects')
-                  .update({
-
-                    photos:
-                      newPhotos,
-
-                    image_url:
-                      first
-                        ? (
-                            typeof first ===
-                            'string'
-                              ? first
-                              : first.url
-                          )
-                        : null,
-
-                    storage_path:
-                      first?.path ||
-                      null
-
-                  })
-                  .eq(
-                    'id',
-                    project.id
-                  );
-
-
-              if (error) {
-
-                setStatus(
-                  'Fotoğraf güncellenemedi: ' +
-                  error.message
-                );
-
-                return;
-
-              }
-
-
-              modal.overlay.remove();
-
-              setStatus(
-                'Fotoğraf silindi.'
-              );
-
-              refreshProjects();
-
+            if (typeof photo === 'string') {
+              return {
+                url: photo,
+                path: null
+              };
             }
-          );
+
+            return {
+              url: photo?.url || '',
+              path: photo?.path || null
+            };
+
+          }).filter(photo => photo.url)
+        : [];
 
 
-          box.append(
-            image,
-            text,
-            remove
-          );
+    /* =====================================================
+       BİLGİ
+    ===================================================== */
 
-          gallery.append(box);
+    const info =
+      document.createElement('p');
 
+    info.textContent =
+      'Fotoğrafları sürükleyerek veya yukarı-aşağı butonlarıyla sıralayabilirsiniz. 1. fotoğraf kapak fotoğrafı olacaktır.';
+
+    info.style.margin =
+      '0 0 18px 0';
+
+    info.style.padding =
+      '12px 15px';
+
+    info.style.background =
+      '#f5f5f5';
+
+    info.style.border =
+      '1px solid #ddd';
+
+    info.style.fontSize =
+      '13px';
+
+    info.style.lineHeight =
+      '1.5';
+
+
+    /* =====================================================
+       GALERİ
+    ===================================================== */
+
+    const gallery =
+      document.createElement('div');
+
+    gallery.style.display =
+      'grid';
+
+    gallery.style.gridTemplateColumns =
+      'repeat(auto-fill,minmax(180px,1fr))';
+
+    gallery.style.gap =
+      '15px';
+
+
+    /* =====================================================
+       GALERİYİ OLUŞTUR
+    ===================================================== */
+
+    const renderGallery =
+      () => {
+
+        gallery.replaceChildren();
+
+
+        if (!currentPhotos.length) {
+
+          const empty =
+            document.createElement('p');
+
+          empty.textContent =
+            'Fotoğraf bulunmuyor.';
+
+          empty.style.gridColumn =
+            '1 / -1';
+
+          gallery.append(empty);
+
+          return;
         }
-      );
 
 
-      if (!photos.length) {
+        currentPhotos.forEach(
+          (photo,index) => {
 
-        const empty =
-          document.createElement(
-            'p'
-          );
+            const box =
+              document.createElement('div');
 
-        empty.textContent =
-          'Fotoğraf bulunmuyor.';
+            box.draggable =
+              true;
 
-        gallery.append(empty);
+            box.dataset.index =
+              String(index);
 
-      }
+            box.style.border =
+              '1px solid #ddd';
 
+            box.style.padding =
+              '8px';
 
-      modal.content.append(
-        gallery
-      );
+            box.style.background =
+              '#fff';
 
-    };
+            box.style.cursor =
+              'grab';
 
+            box.style.position =
+              'relative';
 
-  /* =========================================================
-     GAYRİMENKULLER
-  ========================================================= */
-
-  const refreshProperties =
-    async () => {
-
-      if (!propertyCards) {
-        return;
-      }
+            box.style.transition =
+              'transform .15s ease, opacity .15s ease';
 
 
-      const {
-        data,
-        error
-      } =
-        await db
-          .from('properties')
-          .select(`
-            id,
-            ilan_basligi,
-            ilan_turu,
-            gayrimenkul_turu,
-            konum,
-            fiyat,
-            para_birimi,
-            brut_m2,
-            net_m2,
-            oda_sayisi,
-            banyo_sayisi,
-            kat,
-            bina_yasi,
-            isitma,
-            balkon,
-            otopark,
-            aciklama,
-            ozellikler,
-            fotograflar,
-            durum
-          `)
-          .order(
-            'id',
-            {
-              ascending: false
+            /* =================================================
+               NUMARA
+            ================================================= */
+
+            const number =
+              document.createElement('div');
+
+            number.textContent =
+              String(index + 1);
+
+            number.style.position =
+              'absolute';
+
+            number.style.left =
+              '12px';
+
+            number.style.top =
+              '12px';
+
+            number.style.zIndex =
+              '3';
+
+            number.style.width =
+              '30px';
+
+            number.style.height =
+              '30px';
+
+            number.style.borderRadius =
+              '50%';
+
+            number.style.background =
+              '#b9975b';
+
+            number.style.color =
+              '#fff';
+
+            number.style.display =
+              'flex';
+
+            number.style.alignItems =
+              'center';
+
+            number.style.justifyContent =
+              'center';
+
+            number.style.fontWeight =
+              '700';
+
+            number.style.fontSize =
+              '14px';
+
+
+            /* =================================================
+               KAPAK
+            ================================================= */
+
+            const cover =
+              document.createElement('div');
+
+            cover.textContent =
+              index === 0
+                ? 'KAPAK FOTOĞRAFI'
+                : '';
+
+            cover.style.position =
+              'absolute';
+
+            cover.style.left =
+              '50%';
+
+            cover.style.bottom =
+              '48px';
+
+            cover.style.transform =
+              'translateX(-50%)';
+
+            cover.style.zIndex =
+              '3';
+
+            cover.style.background =
+              'rgba(0,0,0,.72)';
+
+            cover.style.color =
+              '#fff';
+
+            cover.style.padding =
+              '5px 9px';
+
+            cover.style.fontSize =
+              '10px';
+
+            cover.style.fontWeight =
+              '700';
+
+            cover.style.letterSpacing =
+              '.08em';
+
+            cover.style.whiteSpace =
+              'nowrap';
+
+            cover.style.pointerEvents =
+              'none';
+
+            if (index !== 0) {
+              cover.style.display =
+                'none';
             }
-          );
 
 
-      if (error) {
+            /* =================================================
+               FOTOĞRAF
+            ================================================= */
 
-        setStatus(
-          'Gayrimenkuller yüklenemedi: ' +
-          error.message
-        );
+            const image =
+              document.createElement('img');
 
-        return;
+            image.src =
+              photo.url;
 
-      }
+            image.alt =
+              `Proje fotoğrafı ${index + 1}`;
 
+            image.style.width =
+              '100%';
 
-      propertyCards.replaceChildren();
+            image.style.height =
+              '160px';
 
+            image.style.objectFit =
+              'cover';
 
-      (data || []).forEach(
-        property => {
+            image.style.display =
+              'block';
 
-          const photos =
-            parsePhotos(
-              property.fotograflar
-            );
 
+            /* =================================================
+               YAZI
+            ================================================= */
 
-          const sold =
-            property.durum ===
-            'satildi';
+            const text =
+              document.createElement('small');
 
+            text.textContent =
+              index === 0
+                ? `Fotoğraf ${index + 1} · KAPAK`
+                : `Fotoğraf ${index + 1}`;
 
-          const row =
-            document.createElement(
-              'article'
-            );
+            text.style.display =
+              'block';
 
-          row.className =
-            'admin-project';
+            text.style.margin =
+              '8px 0';
 
+            text.style.fontWeight =
+              '600';
 
-          const image =
-            document.createElement(
-              'img'
-            );
 
-          image.src =
-            photos[0] || '';
+            /* =================================================
+               BUTON ALANI
+            ================================================= */
 
-          image.alt =
-            property.ilan_basligi ||
-            'Gayrimenkul';
+            const buttonArea =
+              document.createElement('div');
 
+            buttonArea.style.display =
+              'flex';
 
-          const detail =
-            document.createElement(
-              'div'
-            );
+            buttonArea.style.gap =
+              '5px';
 
+            buttonArea.style.marginTop =
+              '5px';
 
-          const title =
-            document.createElement(
-              'strong'
-            );
 
-          title.textContent =
-            property.ilan_basligi ||
-            'Gayrimenkul';
+            /* =================================================
+               YUKARI
+            ================================================= */
 
+            const up =
+              createButton('↑');
 
-          const type =
-            document.createElement(
-              'p'
-            );
+            up.type =
+              'button';
 
-          type.textContent =
-            `${property.ilan_turu || ''} · ${property.gayrimenkul_turu || ''}`;
+            up.title =
+              'Yukarı taşı';
 
+            up.style.flex =
+              '1';
 
-          const location =
-            document.createElement(
-              'p'
-            );
+            up.style.fontSize =
+              '18px';
 
-          location.textContent =
-            property.konum ||
-            '';
+            up.disabled =
+              index === 0;
 
 
-          const price =
-            document.createElement(
-              'p'
-            );
+            up.addEventListener(
+              'click',
+              () => {
 
-
-          const formattedPrice =
-            Number(
-              property.fiyat || 0
-            ).toLocaleString(
-              'tr-TR',
-              {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 2
-              }
-            );
-
-
-          price.textContent =
-            `${formattedPrice} ${property.para_birimi || ''}`;
-
-
-          const count =
-            document.createElement(
-              'p'
-            );
-
-          count.textContent =
-            `${photos.length} fotoğraf`;
-
-
-          const statusText =
-            document.createElement(
-              'p'
-            );
-
-          statusText.textContent =
-            sold
-              ? 'DURUM: SATILDI'
-              : 'DURUM: AKTİF';
-
-
-          statusText.style.fontWeight =
-            '700';
-
-          statusText.style.color =
-            sold
-              ? '#777'
-              : '#b9975b';
-
-
-          detail.append(
-            title,
-            type,
-            location,
-            price,
-            count,
-            statusText
-          );
-
-
-          const actions =
-            document.createElement(
-              'div'
-            );
-
-          actions.className =
-            'admin-project-actions';
-
-
-          const edit =
-            createButton(
-              'Düzenle'
-            );
-
-
-          const photosButton =
-            createButton(
-              'Fotoğraflar'
-            );
-
-
-          const statusButton =
-            createButton(
-              sold
-                ? 'Aktif Yap'
-                : 'Satıldı'
-            );
-
-
-          statusButton.style.background =
-            sold
-              ? '#777'
-              : '#b9975b';
-
-          statusButton.style.color =
-            '#fff';
-
-
-          statusButton.style.fontWeight =
-            '700';
-
-
-          /* =================================================
-             SATILDI / AKTİF
-          ================================================= */
-
-          statusButton.addEventListener(
-            'click',
-            async () => {
-
-              const newStatus =
-                sold
-                  ? 'aktif'
-                  : 'satildi';
-
-
-              setStatus(
-                newStatus === 'satildi'
-                  ? 'Gayrimenkul SATILDI olarak işaretleniyor...'
-                  : 'Gayrimenkul AKTİF yapılıyor...'
-              );
-
-
-              const {
-                error:
-                  statusError
-              } =
-                await db
-                  .from('properties')
-                  .update({
-
-                    durum:
-                      newStatus
-
-                  })
-                  .eq(
-                    'id',
-                    property.id
-                  );
-
-
-              if (statusError) {
-
-                setStatus(
-                  'Durum değiştirilemedi: ' +
-                  statusError.message
-                );
-
-                return;
-
-              }
-
-
-              setStatus(
-                newStatus === 'satildi'
-                  ? 'Gayrimenkul SATILDI olarak işaretlendi.'
-                  : 'Gayrimenkul tekrar AKTİF yapıldı.'
-              );
-
-
-              refreshProperties();
-
-            }
-          );
-
-
-          const remove =
-            createButton(
-              'Sil'
-            );
-
-
-          /* =================================================
-             DÜZENLE
-          ================================================= */
-
-          edit.addEventListener(
-            'click',
-            () => {
-
-              openPropertyEdit(
-                property
-              );
-
-            }
-          );
-
-
-          /* =================================================
-             FOTOĞRAFLAR
-          ================================================= */
-
-          photosButton.addEventListener(
-            'click',
-            () => {
-
-              openPropertyPhotos(
-                property,
-                photos
-              );
-
-            }
-          );
-
-
-          /* =================================================
-             SİL
-          ================================================= */
-
-          remove.addEventListener(
-            'click',
-            async () => {
-
-              if (
-                !confirm(
-                  'Bu gayrimenkul ve tüm fotoğrafları tamamen silinsin mi?'
-                )
-              ) {
-                return;
-              }
-
-
-              setStatus(
-                'Gayrimenkul siliniyor...'
-              );
-
-
-              const paths =
-                photos
-                  .map(
-                    url =>
-                      extractStoragePath(
-                        url
-                      )
-                  )
-                  .filter(Boolean);
-
-
-              if (paths.length) {
-
-                const {
-                  error:
-                    storageError
-                } =
-                  await db.storage
-                    .from(
-                      'property-images'
-                    )
-                    .remove(paths);
-
-
-                if (storageError) {
-
-                  setStatus(
-                    'Fotoğraflar silinemedi: ' +
-                    storageError.message
-                  );
-
+                if (index <= 0) {
                   return;
-
                 }
 
+                const temp =
+                  currentPhotos[index - 1];
+
+                currentPhotos[index - 1] =
+                  currentPhotos[index];
+
+                currentPhotos[index] =
+                  temp;
+
+                renderGallery();
+
+                setStatus(
+                  'Fotoğraf sırası değiştirildi. Kaydet butonuna basın.'
+                );
+
               }
+            );
 
 
-              const {
-                error:
-                  deleteError
-              } =
-                await db
-                  .from('properties')
-                  .delete()
-                  .eq(
-                    'id',
-                    property.id
+            /* =================================================
+               AŞAĞI
+            ================================================= */
+
+            const down =
+              createButton('↓');
+
+            down.type =
+              'button';
+
+            down.title =
+              'Aşağı taşı';
+
+            down.style.flex =
+              '1';
+
+            down.style.fontSize =
+              '18px';
+
+            down.disabled =
+              index === currentPhotos.length - 1;
+
+
+            down.addEventListener(
+              'click',
+              () => {
+
+                if (
+                  index >=
+                  currentPhotos.length - 1
+                ) {
+                  return;
+                }
+
+                const temp =
+                  currentPhotos[index + 1];
+
+                currentPhotos[index + 1] =
+                  currentPhotos[index];
+
+                currentPhotos[index] =
+                  temp;
+
+                renderGallery();
+
+                setStatus(
+                  'Fotoğraf sırası değiştirildi. Kaydet butonuna basın.'
+                );
+
+              }
+            );
+
+
+            /* =================================================
+               SİL
+            ================================================= */
+
+            const remove =
+              createButton(
+                'Bu fotoğrafı sil'
+              );
+
+            remove.type =
+              'button';
+
+            remove.style.flex =
+              '2';
+
+
+            remove.addEventListener(
+              'click',
+              async () => {
+
+                if (
+                  !confirm(
+                    'Bu fotoğraf silinsin mi?'
+                  )
+                ) {
+                  return;
+                }
+
+
+                remove.disabled =
+                  true;
+
+                setStatus(
+                  'Fotoğraf siliniyor...'
+                );
+
+
+                try {
+
+                  if (photo.path) {
+
+                    const {
+                      error:
+                        storageError
+                    } =
+                      await db.storage
+                        .from('projects')
+                        .remove([
+                          photo.path
+                        ]);
+
+
+                    if (storageError) {
+                      throw storageError;
+                    }
+
+                  }
+
+
+                  const newPhotos =
+                    currentPhotos.filter(
+                      (_,photoIndex) =>
+                        photoIndex !== index
+                    );
+
+
+                  const first =
+                    newPhotos[0];
+
+
+                  const {
+                    error
+                  } =
+                    await db
+                      .from('projects')
+                      .update({
+
+                        photos:
+                          newPhotos,
+
+                        image_url:
+                          first
+                            ? first.url
+                            : null,
+
+                        storage_path:
+                          first?.path ||
+                          null
+
+                      })
+                      .eq(
+                        'id',
+                        project.id
+                      );
+
+
+                  if (error) {
+                    throw error;
+                  }
+
+
+                  currentPhotos =
+                    newPhotos;
+
+
+                  renderGallery();
+
+
+                  setStatus(
+                    'Fotoğraf silindi.'
                   );
 
 
-              if (deleteError) {
+                  await refreshProjects();
 
-                setStatus(
-                  'Gayrimenkul silinemedi: ' +
-                  deleteError.message
-                );
-
-                return;
-
-              }
-
-
-              setStatus(
-                'Gayrimenkul tamamen silindi.'
-              );
-
-
-              refreshProperties();
-
-            }
-          );
-
-
-          actions.append(
-            edit,
-            photosButton,
-            statusButton,
-            remove
-          );
-
-
-          row.append(
-            image,
-            detail,
-            actions
-          );
-
-
-          propertyCards.append(row);
-
-        }
-      );
-
-    };
-
-
-  /* =========================================================
-     STORAGE PATH
-  ========================================================= */
-
-  const extractStoragePath =
-    url => {
-
-      if (!url) {
-        return null;
-      }
-
-
-      const marker =
-        '/storage/v1/object/public/property-images/';
-
-
-      const index =
-        url.indexOf(marker);
-
-
-      if (index === -1) {
-        return null;
-      }
-
-
-      return decodeURIComponent(
-        url.substring(
-          index + marker.length
-        )
-      );
-
-    };
-
-
-  /* =========================================================
-     GAYRİMENKUL FOTOĞRAFLARI
-  ========================================================= */
-
-  const openPropertyPhotos =
-    (
-      property,
-      photos
-    ) => {
-
-      const modal =
-        createModal(
-          `Gayrimenkul Fotoğrafları · ${property.ilan_basligi}`
-        );
-
-
-      const gallery =
-        document.createElement(
-          'div'
-        );
-
-
-      gallery.style.display =
-        'grid';
-
-      gallery.style.gridTemplateColumns =
-        'repeat(auto-fill,minmax(180px,1fr))';
-
-      gallery.style.gap =
-        '15px';
-
-
-      photos.forEach(
-        (photo,index) => {
-
-          const box =
-            document.createElement(
-              'div'
-            );
-
-          box.style.border =
-            '1px solid #ddd';
-
-          box.style.padding =
-            '8px';
-
-
-          const image =
-            document.createElement(
-              'img'
-            );
-
-          image.src =
-            photo;
-
-          image.style.width =
-            '100%';
-
-          image.style.height =
-            '160px';
-
-          image.style.objectFit =
-            'cover';
-
-
-          const text =
-            document.createElement(
-              'small'
-            );
-
-          text.textContent =
-            `Fotoğraf ${index + 1}`;
-
-
-          const remove =
-            createButton(
-              'Bu fotoğrafı sil'
-            );
-
-
-          remove.addEventListener(
-            'click',
-            async () => {
-
-              if (
-                !confirm(
-                  'Bu fotoğraf silinsin mi?'
-                )
-              ) {
-                return;
-              }
-
-
-              const path =
-                extractStoragePath(
-                  photo
-                );
-
-
-              if (path) {
-
-                const {
-                  error
-                } =
-                  await db.storage
-                    .from(
-                      'property-images'
-                    )
-                    .remove([
-                      path
-                    ]);
-
-
-                if (error) {
+                } catch (error) {
 
                   setStatus(
                     'Fotoğraf silinemedi: ' +
                     error.message
                   );
 
-                  return;
+                  remove.disabled =
+                    false;
 
                 }
 
               }
+            );
 
 
-              const newPhotos =
-                photos.filter(
-                  (_,i) =>
-                    i !== index
+            buttonArea.append(
+              up,
+              down,
+              remove
+            );
+
+
+            /* =================================================
+               SÜRÜKLE BIRAK
+            ================================================= */
+
+            box.addEventListener(
+              'dragstart',
+              event => {
+
+                event.dataTransfer.effectAllowed =
+                  'move';
+
+                event.dataTransfer.setData(
+                  'text/plain',
+                  String(index)
                 );
 
-
-              const {
-                error:
-                  updateError
-              } =
-                await db
-                  .from('properties')
-                  .update({
-
-                    fotograflar:
-                      JSON.stringify(
-                        newPhotos
-                      )
-
-                  })
-                  .eq(
-                    'id',
-                    property.id
-                  );
-
-
-              if (updateError) {
-
-                setStatus(
-                  'İlan güncellenemedi: ' +
-                  updateError.message
-                );
-
-                return;
+                box.style.opacity =
+                  '.45';
 
               }
-
-
-              modal.overlay.remove();
-
-              setStatus(
-                'Fotoğraf silindi.'
-              );
-
-
-              refreshProperties();
-
-            }
-          );
-
-
-          box.append(
-            image,
-            text,
-            remove
-          );
-
-
-          gallery.append(box);
-
-        }
-      );
-
-
-      if (!photos.length) {
-
-        const empty =
-          document.createElement(
-            'p'
-          );
-
-        empty.textContent =
-          'Bu gayrimenkulde fotoğraf bulunmuyor.';
-
-        gallery.append(empty);
-
-      }
-
-
-      modal.content.append(
-        gallery
-      );
-
-    };
-
-
-  /* =========================================================
-     GAYRİMENKUL DÜZENLE
-  ========================================================= */
-
-  const openPropertyEdit =
-    property => {
-
-      const modal =
-        createModal(
-          'Gayrimenkulü Düzenle'
-        );
-
-
-      const form =
-        document.createElement(
-          'form'
-        );
-
-
-      form.style.display =
-        'grid';
-
-      form.style.gap =
-        '12px';
-
-
-      const fields = {};
-
-
-      const addField =
-        (
-          labelText,
-          name,
-          value,
-          type = 'text'
-        ) => {
-
-          const label =
-            document.createElement(
-              'label'
             );
 
-          label.textContent =
-            labelText;
+
+            box.addEventListener(
+              'dragend',
+              () => {
+
+                box.style.opacity =
+                  '1';
+
+              }
+            );
 
 
-          const input =
-            type === 'textarea'
-              ? document.createElement(
-                  'textarea'
-                )
-              : document.createElement(
-                  'input'
+            box.addEventListener(
+              'dragover',
+              event => {
+
+                event.preventDefault();
+
+                event.dataTransfer.dropEffect =
+                  'move';
+
+                box.style.transform =
+                  'scale(1.03)';
+
+              }
+            );
+
+
+            box.addEventListener(
+              'dragleave',
+              () => {
+
+                box.style.transform =
+                  'scale(1)';
+
+              }
+            );
+
+
+            box.addEventListener(
+              'drop',
+              event => {
+
+                event.preventDefault();
+
+                box.style.transform =
+                  'scale(1)';
+
+
+                const fromIndex =
+                  Number(
+                    event.dataTransfer.getData(
+                      'text/plain'
+                    )
+                  );
+
+                const toIndex =
+                  index;
+
+
+                if (
+                  Number.isNaN(fromIndex) ||
+                  fromIndex === toIndex
+                ) {
+                  return;
+                }
+
+
+                const movedPhoto =
+                  currentPhotos.splice(
+                    fromIndex,
+                    1
+                  )[0];
+
+
+                currentPhotos.splice(
+                  toIndex,
+                  0,
+                  movedPhoto
                 );
 
 
-          if (
-            type !== 'textarea'
-          ) {
-            input.type =
-              type;
-          }
+                renderGallery();
 
 
-          if (
-            type === 'textarea'
-          ) {
-            input.rows = 4;
-          }
+                setStatus(
+                  'Fotoğraf sırası değiştirildi. Kaydet butonuna basın.'
+                );
 
-
-          input.value =
-            value ?? '';
-
-
-          input.style.width =
-            '100%';
-
-          input.style.boxSizing =
-            'border-box';
-
-          input.style.padding =
-            '9px';
-
-          input.style.marginTop =
-            '5px';
-
-
-          label.append(input);
-
-          form.append(label);
-
-          fields[name] =
-            input;
-
-        };
-
-
-      addField(
-        'İlan başlığı',
-        'ilan_basligi',
-        property.ilan_basligi
-      );
-
-
-      addField(
-        'İlan türü',
-        'ilan_turu',
-        property.ilan_turu
-      );
-
-
-      addField(
-        'Gayrimenkul türü',
-        'gayrimenkul_turu',
-        property.gayrimenkul_turu
-      );
-
-
-      addField(
-        'Konum',
-        'konum',
-        property.konum
-      );
-
-
-      addField(
-        'Fiyat',
-        'fiyat',
-        property.fiyat,
-        'number'
-      );
-
-
-      addField(
-        'Para birimi',
-        'para_birimi',
-        property.para_birimi
-      );
-
-
-      addField(
-        'Brüt m²',
-        'brut_m2',
-        property.brut_m2,
-        'number'
-      );
-
-
-      addField(
-        'Net m²',
-        'net_m2',
-        property.net_m2,
-        'number'
-      );
-
-
-      addField(
-        'Oda sayısı',
-        'oda_sayisi',
-        property.oda_sayisi
-      );
-
-
-      addField(
-        'Banyo sayısı',
-        'banyo_sayisi',
-        property.banyo_sayisi,
-        'number'
-      );
-
-
-      addField(
-        'Kat',
-        'kat',
-        property.kat
-      );
-
-
-      addField(
-        'Bina yaşı',
-        'bina_yasi',
-        property.bina_yasi,
-        'number'
-      );
-
-
-      addField(
-        'Isıtma',
-        'isitma',
-        property.isitma
-      );
-
-
-      addField(
-        'Açıklama',
-        'aciklama',
-        property.aciklama,
-        'textarea'
-      );
-
-
-      addField(
-        'Özellikler',
-        'ozellikler',
-        property.ozellikler,
-        'textarea'
-      );
-
-
-      const save =
-        createButton(
-          'Değişiklikleri Kaydet'
-        );
-
-      save.type =
-        'submit';
-
-
-      form.append(save);
-
-
-      form.addEventListener(
-        'submit',
-        async event => {
-
-          event.preventDefault();
-
-
-          setStatus(
-            'Gayrimenkul güncelleniyor...'
-          );
-
-
-          const updateData = {
-
-            ilan_basligi:
-              fields.ilan_basligi.value.trim(),
-
-            ilan_turu:
-              fields.ilan_turu.value.trim(),
-
-            gayrimenkul_turu:
-              fields.gayrimenkul_turu.value.trim(),
-
-            konum:
-              fields.konum.value.trim(),
-
-            fiyat:
-              fields.fiyat.value
-                ? Number(
-                    fields.fiyat.value
-                  )
-                : null,
-
-            para_birimi:
-              fields.para_birimi.value.trim(),
-
-            brut_m2:
-              fields.brut_m2.value
-                ? Number(
-                    fields.brut_m2.value
-                  )
-                : null,
-
-            net_m2:
-              fields.net_m2.value
-                ? Number(
-                    fields.net_m2.value
-                  )
-                : null,
-
-            oda_sayisi:
-              fields.oda_sayisi.value.trim(),
-
-            banyo_sayisi:
-              fields.banyo_sayisi.value
-                ? Number(
-                    fields.banyo_sayisi.value
-                  )
-                : null,
-
-            kat:
-              fields.kat.value.trim(),
-
-            bina_yasi:
-              fields.bina_yasi.value
-                ? Number(
-                    fields.bina_yasi.value
-                  )
-                : null,
-
-            isitma:
-              fields.isitma.value.trim(),
-
-            aciklama:
-              fields.aciklama.value.trim(),
-
-            ozellikler:
-              fields.ozellikler.value.trim()
-
-          };
-
-
-          const {
-            error
-          } =
-            await db
-              .from('properties')
-              .update(
-                updateData
-              )
-              .eq(
-                'id',
-                property.id
-              );
-
-
-          if (error) {
-
-            setStatus(
-              'Gayrimenkul güncellenemedi: ' +
-              error.message
+              }
             );
 
-            return;
+
+            box.append(
+              number,
+              cover,
+              image,
+              text,
+              buttonArea
+            );
+
+
+            gallery.append(box);
 
           }
+        );
+
+      };
 
 
-          modal.overlay.remove();
+    /* =====================================================
+       YENİ FOTOĞRAF EKLEME
+    ===================================================== */
 
-          setStatus(
-            'Gayrimenkul güncellendi.'
+    const addArea =
+      document.createElement('div');
+
+    addArea.style.marginTop =
+      '25px';
+
+    addArea.style.padding =
+      '18px';
+
+    addArea.style.border =
+      '1px solid #ddd';
+
+    addArea.style.background =
+      '#fafafa';
+
+
+    const addTitle =
+      document.createElement('strong');
+
+    addTitle.textContent =
+      'Yeni Proje Fotoğrafı Ekle';
+
+    addTitle.style.display =
+      'block';
+
+    addTitle.style.marginBottom =
+      '10px';
+
+
+    const input =
+      document.createElement('input');
+
+    input.type =
+      'file';
+
+    input.multiple =
+      true;
+
+    input.accept =
+      'image/jpeg,image/png,image/webp';
+
+    input.style.width =
+      '100%';
+
+    input.style.marginBottom =
+      '12px';
+
+
+    const selectedInfo =
+      document.createElement('div');
+
+    selectedInfo.style.fontSize =
+      '13px';
+
+    selectedInfo.style.color =
+      '#666';
+
+    selectedInfo.style.marginBottom =
+      '12px';
+
+
+    let selectedFiles =
+      [];
+
+
+    input.addEventListener(
+      'change',
+      () => {
+
+        selectedFiles =
+          Array.from(
+            input.files || []
+          ).filter(
+            file =>
+              file &&
+              file.size > 0
           );
 
 
-          refreshProperties();
+        selectedInfo.textContent =
+          selectedFiles.length
+            ? `${selectedFiles.length} yeni fotoğraf seçildi.`
+            : 'Henüz fotoğraf seçilmedi.';
 
-        }
-      );
-
-
-      modal.content.append(form);
-
-    };
-
-
-  /* =========================================================
-     PROJE FORMU
-  ========================================================= */
-
-  const projectForm =
-    document.getElementById(
-      'project-form'
+      }
     );
 
 
-  if (projectForm) {
+    const uploadButton =
+      createButton(
+        'Yeni Fotoğrafları Ekle'
+      );
 
-    projectForm.addEventListener(
-      'submit',
-      async event => {
+    uploadButton.type =
+      'button';
 
-        event.preventDefault();
+    uploadButton.style.background =
+      '#b9975b';
 
+    uploadButton.style.color =
+      '#fff';
 
-        const form =
-          new FormData(
-            projectForm
-          );
-
-
-        const files =
-          form
-            .getAll('images')
-            .filter(
-              file =>
-                file &&
-                file instanceof File &&
-                file.size > 0
-            );
+    uploadButton.style.fontWeight =
+      '700';
 
 
-        if (!files.length) {
+    uploadButton.addEventListener(
+      'click',
+      async () => {
+
+        if (!selectedFiles.length) {
 
           setStatus(
-            'En az bir proje fotoğrafı seç.'
+            'Önce yeni fotoğrafları seç.'
           );
 
           return;
-
         }
 
 
         const validation =
           validateImageFiles(
-            files
+            selectedFiles
           );
 
 
@@ -2197,7 +1694,6 @@
           );
 
           return;
-
         }
 
 
@@ -2215,733 +1711,322 @@
           );
 
           return;
-
         }
+
+
+        uploadButton.disabled =
+          true;
+
+        input.disabled =
+          true;
+
+
+        setStatus(
+          `${selectedFiles.length} yeni fotoğraf yükleniyor...`
+        );
 
 
         const uploaded =
           [];
 
 
-        setStatus(
-          `${files.length} proje fotoğrafı yükleniyor...`
-        );
+        try {
+
+          for (
+            let i = 0;
+            i < selectedFiles.length;
+            i++
+          ) {
+
+            const file =
+              selectedFiles[i];
 
 
-        for (
-          let i = 0;
-          i < files.length;
-          i++
-        ) {
-
-          const file =
-            files[i];
+            const path =
+              userData.user.id +
+              '/' +
+              crypto.randomUUID() +
+              '.' +
+              makePhotoExt(file);
 
 
-          const path =
-            userData.user.id +
-            '/' +
-            crypto.randomUUID() +
-            '.' +
-            makePhotoExt(file);
-
-
-          const {
-            error:
-              uploadError
-          } =
-            await db.storage
-              .from('projects')
-              .upload(
-                path,
-                file,
-                {
-                  contentType:
-                    file.type,
-                  upsert:
-                    false
-                }
-              );
-
-
-          if (uploadError) {
-
-            if (uploaded.length) {
-
+            const {
+              error:
+                uploadError
+            } =
               await db.storage
                 .from('projects')
-                .remove(
-                  uploaded.map(
-                    item =>
-                      item.path
-                  )
+                .upload(
+                  path,
+                  file,
+                  {
+                    contentType:
+                      file.type,
+
+                    upsert:
+                      false
+                  }
                 );
 
+
+            if (uploadError) {
+              throw uploadError;
             }
 
 
-            setStatus(
-              'Fotoğraf yüklenemedi: ' +
-              uploadError.message
-            );
-
-            return;
-
-          }
-
-
-          const {
-            data:
-              publicData
-          } =
-            db.storage
-              .from('projects')
-              .getPublicUrl(
-                path
-              );
+            const {
+              data:
+                publicData
+            } =
+              db.storage
+                .from('projects')
+                .getPublicUrl(
+                  path
+                );
 
 
-          uploaded.push({
+            uploaded.push({
 
-            url:
-              publicData.publicUrl,
+              url:
+                publicData.publicUrl,
 
-            path
-
-          });
-
-        }
-
-
-        const {
-          error
-        } =
-          await db
-            .from('projects')
-            .insert({
-
-              owner_id:
-                userData.user.id,
-
-              title:
-                String(
-                  form.get('title') ||
-                  ''
-                ).trim(),
-
-              location:
-                String(
-                  form.get('location') ||
-                  ''
-                ).trim(),
-
-              description:
-                String(
-                  form.get('description') ||
-                  ''
-                ).trim(),
-
-              image_url:
-                uploaded[0]?.url ||
-                null,
-
-              storage_path:
-                uploaded[0]?.path ||
-                null,
-
-              photos:
-                uploaded
+              path
 
             });
 
 
-        if (error) {
-
-          await db.storage
-            .from('projects')
-            .remove(
-              uploaded.map(
-                item =>
-                  item.path
-              )
+            setStatus(
+              `${i + 1}/${selectedFiles.length} fotoğraf yüklendi...`
             );
 
+          }
 
-          setStatus(
-            'Proje kaydedilemedi: ' +
-            error.message
-          );
 
-          return;
+          /*
+             YENİ FOTOĞRAFLAR
+             MEVCUT FOTOĞRAFLARIN SONUNA EKLENİR
+          */
 
-        }
+          const newPhotos =
+            [
+              ...currentPhotos,
+              ...uploaded
+            ];
 
 
-        projectForm.reset();
-
-
-        setStatus(
-          'Proje başarıyla yayımlandı.'
-        );
-
-
-        refreshProjects();
-
-      }
-    );
-
-  }
-
-
-  /* =========================================================
-     GAYRİMENKUL EKLEME
-  ========================================================= */
-
-  const propertyForm =
-    document.getElementById(
-      'property-form'
-    );
-
-
-  if (propertyForm) {
-
-    propertyForm.addEventListener(
-      'submit',
-      async event => {
-
-        event.preventDefault();
-
-
-        const form =
-          new FormData(
-            propertyForm
-          );
-
-
-        const files =
-          form
-            .getAll('fotograflar')
-            .filter(
-              file =>
-                file &&
-                file instanceof File &&
-                file.size > 0
-            );
-
-
-        if (!files.length) {
-
-          setStatus(
-            'En az bir gayrimenkul fotoğrafı seç.'
-          );
-
-          return;
-
-        }
-
-
-        const validation =
-          validateImageFiles(
-            files
-          );
-
-
-        if (validation) {
-
-          setStatus(
-            validation
-          );
-
-          return;
-
-        }
-
-
-        const {
-          data:
-            userData
-        } =
-          await db.auth.getUser();
-
-
-        if (!userData.user) {
-
-          setStatus(
-            'Oturum kapandı; yeniden giriş yap.'
-          );
-
-          return;
-
-        }
-
-
-        const ilanBasligi =
-          String(
-            form.get('ilan_basligi') ||
-            ''
-          ).trim();
-
-
-        const ilanTuru =
-          String(
-            form.get('ilan_turu') ||
-            ''
-          ).trim();
-
-
-        const gayrimenkulTuru =
-          String(
-            form.get('gayrimenkul_turu') ||
-            ''
-          ).trim();
-
-
-        const konum =
-          String(
-            form.get('konum') ||
-            ''
-          ).trim();
-
-
-        const fiyat =
-          form.get('fiyat');
-
-
-        const paraBirimi =
-          String(
-            form.get('para_birimi') ||
-            'EUR'
-          );
-
-
-        if (
-          !ilanBasligi ||
-          !ilanTuru ||
-          !gayrimenkulTuru ||
-          !konum ||
-          !fiyat
-        ) {
-
-          setStatus(
-            'Lütfen zorunlu alanları doldur.'
-          );
-
-          return;
-
-        }
-
-
-        const photoUrls =
-          [];
-
-        const uploadedPaths =
-          [];
-
-
-        setStatus(
-          `${files.length} gayrimenkul fotoğrafı yükleniyor...`
-        );
-
-
-        for (
-          let i = 0;
-          i < files.length;
-          i++
-        ) {
-
-          const file =
-            files[i];
-
-
-          const path =
-            'properties/' +
-            userData.user.id +
-            '/' +
-            crypto.randomUUID() +
-            '.' +
-            makePhotoExt(file);
+          const first =
+            newPhotos[0];
 
 
           const {
             error:
-              uploadError
+              updateError
           } =
-            await db.storage
-              .from('property-images')
-              .upload(
-                path,
-                file,
-                {
-                  contentType:
-                    file.type,
-                  upsert:
-                    false
-                }
+            await db
+              .from('projects')
+              .update({
+
+                photos:
+                  newPhotos,
+
+                image_url:
+                  first
+                    ? first.url
+                    : null,
+
+                storage_path:
+                  first?.path ||
+                  null
+
+              })
+              .eq(
+                'id',
+                project.id
               );
 
 
-          if (uploadError) {
+          if (updateError) {
 
-            if (
-              uploadedPaths.length
-            ) {
+            await db.storage
+              .from('projects')
+              .remove(
+                uploaded.map(
+                  item =>
+                    item.path
+                )
+              );
 
-              await db.storage
-                .from('property-images')
-                .remove(
-                  uploadedPaths
-                );
-
-            }
-
-
-            setStatus(
-              'Fotoğraf yüklenemedi: ' +
-              uploadError.message
-            );
-
-            return;
-
+            throw updateError;
           }
 
 
-          uploadedPaths.push(
-            path
-          );
+          currentPhotos =
+            newPhotos;
 
 
-          const {
-            data:
-              publicData
-          } =
-            db.storage
-              .from('property-images')
-              .getPublicUrl(
-                path
-              );
+          selectedFiles =
+            [];
 
 
-          photoUrls.push(
-            publicData.publicUrl
-          );
-
-        }
+          input.value =
+            '';
 
 
-        /* ===================================================
-           GAYRİMENKUL VERİSİ
-
-           YENİ İLANLAR OTOMATİK OLARAK AKTİF
-        =================================================== */
-
-        const propertyData = {
-
-          ilan_basligi:
-            ilanBasligi,
-
-          ilan_turu:
-            ilanTuru,
-
-          gayrimenkul_turu:
-            gayrimenkulTuru,
-
-          konum:
-            konum,
-
-          fiyat:
-            Number(fiyat),
-
-          para_birimi:
-            paraBirimi,
-
-          brut_m2:
-            form.get('brut_m2')
-              ? Number(
-                  form.get('brut_m2')
-                )
-              : null,
-
-          net_m2:
-            form.get('net_m2')
-              ? Number(
-                  form.get('net_m2')
-                )
-              : null,
-
-          oda_sayisi:
-            String(
-              form.get('oda_sayisi') ||
-              ''
-            ).trim(),
-
-          banyo_sayisi:
-            form.get('banyo_sayisi')
-              ? Number(
-                  form.get('banyo_sayisi')
-                )
-              : null,
-
-          kat:
-            String(
-              form.get('kat') ||
-              ''
-            ).trim(),
-
-          bina_yasi:
-            form.get('bina_yasi')
-              ? Number(
-                  form.get('bina_yasi')
-                )
-              : null,
-
-          isitma:
-            String(
-              form.get('isitma') ||
-              ''
-            ).trim(),
-
-          balkon:
-            form.get('balkon') ===
-            'true',
-
-          otopark:
-            form.get('otopark') ===
-            'true',
-
-          aciklama:
-            String(
-              form.get('aciklama') ||
-              ''
-            ).trim(),
-
-          ozellikler:
-            String(
-              form.get('ozellikler') ||
-              ''
-            ).trim(),
-
-          durum:
-            'aktif',
-
-          fotograflar:
-            JSON.stringify(
-              photoUrls
-            )
-
-        };
+          selectedInfo.textContent =
+            '';
 
 
-        const {
-          error:
-            insertError
-        } =
-          await db
-            .from('properties')
-            .insert(
-              propertyData
-            );
-
-
-        if (insertError) {
-
-          await db.storage
-            .from('property-images')
-            .remove(
-              uploadedPaths
-            );
+          renderGallery();
 
 
           setStatus(
-            'Gayrimenkul kaydedilemedi: ' +
-            insertError.message
-          );
-
-          return;
-
-        }
-
-
-        propertyForm.reset();
-
-
-        setStatus(
-          'Gayrimenkul başarıyla yayımlandı.'
-        );
-
-
-        refreshProperties();
-
-      }
-    );
-
-  }
-
-
-  /* =========================================================
-     YENİLE
-  ========================================================= */
-
-  const refresh =
-    async () => {
-
-      await refreshProjects();
-
-      await refreshProperties();
-
-    };
-
-
-  /* =========================================================
-     OTURUM
-  ========================================================= */
-
-  const loadSession =
-    async () => {
-
-      const {
-        data
-      } =
-        await db.auth.getSession();
-
-
-      const signedIn =
-        !!data.session;
-
-
-      if (login) {
-        login.hidden =
-          signedIn;
-      }
-
-
-      if (dashboard) {
-        dashboard.hidden =
-          !signedIn;
-      }
-
-
-      if (signedIn) {
-
-        await refresh();
-
-      }
-
-    };
-
-
-  /* =========================================================
-     GİRİŞ
-  ========================================================= */
-
-  if (login) {
-
-    login.addEventListener(
-      'submit',
-      async event => {
-
-        event.preventDefault();
-
-
-        const form =
-          new FormData(
-            login
+            `${uploaded.length} yeni fotoğraf başarıyla eklendi.`
           );
 
 
-        const email =
-          form.get('email');
+          await refreshProjects();
 
+        } catch (error) {
 
-        const password =
-          form.get('password');
-
-
-        setStatus(
-          'Giriş yapılıyor...'
-        );
-
-
-        const {
-          error
-        } =
-          await db.auth
-            .signInWithPassword({
-
-              email,
-              password
-
-            });
-
-
-        if (error) {
-
-          alert(
-            'GİRİŞ HATASI:\n\n' +
+          setStatus(
+            'Fotoğraf yüklenemedi: ' +
             error.message
           );
 
+        } finally {
 
-          setStatus(
-            'Giriş başarısız.'
-          );
+          uploadButton.disabled =
+            false;
 
-          return;
+          input.disabled =
+            false;
 
         }
-
-
-        login.reset();
-
-
-        setStatus(
-          'Giriş başarılı.'
-        );
-
-
-        loadSession();
 
       }
     );
 
-  }
 
-
-  /* =========================================================
-     ÇIKIŞ
-  ========================================================= */
-
-  const logout =
-    document.getElementById(
-      'logout'
+    addArea.append(
+      addTitle,
+      input,
+      selectedInfo,
+      uploadButton
     );
 
 
-  if (logout) {
+    /* =====================================================
+       SIRAYI KAYDET
+    ===================================================== */
 
-    logout.addEventListener(
+    const saveOrderButton =
+      createButton(
+        'Fotoğraf Sırasını Kaydet'
+      );
+
+    saveOrderButton.type =
+      'button';
+
+    saveOrderButton.style.marginTop =
+      '20px';
+
+    saveOrderButton.style.background =
+      '#111';
+
+    saveOrderButton.style.color =
+      '#fff';
+
+    saveOrderButton.style.fontWeight =
+      '700';
+
+
+    saveOrderButton.addEventListener(
       'click',
       async () => {
 
-        await db.auth.signOut();
+        saveOrderButton.disabled =
+          true;
 
 
         setStatus(
-          'Çıkış yapıldı.'
+          'Fotoğraf sırası kaydediliyor...'
         );
 
 
-        loadSession();
+        try {
+
+          const first =
+            currentPhotos[0];
+
+
+          const {
+            error
+          } =
+            await db
+              .from('projects')
+              .update({
+
+                photos:
+                  currentPhotos,
+
+                image_url:
+                  first
+                    ? first.url
+                    : null,
+
+                storage_path:
+                  first?.path ||
+                  null
+
+              })
+              .eq(
+                'id',
+                project.id
+              );
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          setStatus(
+            'Fotoğraf sırası başarıyla kaydedildi.'
+          );
+
+
+          await refreshProjects();
+
+        } catch (error) {
+
+          setStatus(
+            'Sıralama kaydedilemedi: ' +
+            error.message
+          );
+
+        } finally {
+
+          saveOrderButton.disabled =
+            false;
+
+        }
 
       }
     );
 
-  }
+
+    /* =====================================================
+       MODAL
+    ===================================================== */
+
+    modal.content.append(
+      info,
+      gallery,
+      addArea,
+      saveOrderButton
+    );
 
 
-  /* =========================================================
-     BAŞLAT
-  ========================================================= */
+    renderGallery();
 
-  loadSession();
-
-})();
+  };
