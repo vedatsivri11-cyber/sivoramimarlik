@@ -1104,3 +1104,134 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+/* =========================================================
+   SOSYAL MEDYA ALT BÖLÜMÜ
+========================================================= */
+
+.social-footer{
+  background:#171716;
+  color:#f4f0e8;
+  padding:80px 5vw 0;
+  border-top:1px solid rgba(185,151,91,.35);
+}
+
+.social-footer-inner{
+  max-width:1400px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:50px;
+}
+
+.social-footer-title span{
+  display:block;
+  color:#b9975b;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:3px;
+  margin-bottom:15px;
+}
+
+.social-footer-title h2{
+  margin:0;
+  font-size:42px;
+  font-weight:400;
+  letter-spacing:-1px;
+}
+
+.social-footer-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.social-btn{
+  min-width:145px;
+  height:58px;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:11px;
+
+  border:1px solid rgba(185,151,91,.55);
+  border-radius:4px;
+
+  color:#f4f0e8;
+  text-decoration:none;
+
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:.04em;
+
+  transition:
+    background .25s ease,
+    color .25s ease,
+    border-color .25s ease,
+    transform .25s ease;
+}
+
+.social-icon{
+  color:#b9975b;
+  font-size:22px;
+  font-weight:700;
+  line-height:1;
+}
+
+.social-btn:hover{
+  background:#b9975b;
+  color:#171716;
+  border-color:#b9975b;
+  transform:translateY(-3px);
+}
+
+.social-btn:hover .social-icon{
+  color:#171716;
+}
+
+.social-footer-bottom{
+  max-width:1400px;
+  margin:70px auto 0;
+  padding:22px 0;
+  border-top:1px solid rgba(255,255,255,.10);
+
+  color:rgba(244,240,232,.55);
+  font-size:11px;
+  letter-spacing:1.5px;
+}
+
+/* MOBİL */
+@media(max-width:800px){
+
+  .social-footer{
+    padding:60px 6vw 0;
+  }
+
+  .social-footer-inner{
+    display:block;
+  }
+
+  .social-footer-title h2{
+    font-size:34px;
+  }
+
+  .social-footer-buttons{
+    margin-top:35px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .social-btn{
+    min-width:0;
+    width:100%;
+    box-sizing:border-box;
+  }
+
+  .social-footer-bottom{
+    margin-top:50px;
+    line-height:1.6;
+  }
+
+}
