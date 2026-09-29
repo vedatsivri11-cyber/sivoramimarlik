@@ -2437,6 +2437,72 @@
 
 </script>
 
+<!-- MOBİL MENÜ AÇ / KAPAT -->
+<script>
+(function(){
 
+  const menu =
+    document.getElementById("menu");
+
+  const navlinks =
+    document.getElementById("navlinks");
+
+  if(!menu || !navlinks) return;
+
+  menu.addEventListener("click", function(event){
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const isOpen =
+      navlinks.classList.contains("open");
+
+    if(isOpen){
+
+      navlinks.classList.remove("open");
+
+      menu.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+      menu.textContent = "☰";
+
+    }else{
+
+      navlinks.classList.add("open");
+
+      menu.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
+      menu.textContent = "✕";
+
+    }
+
+  });
+
+  /* Menüden bir bağlantıya basınca kapat */
+  navlinks.addEventListener("click", function(event){
+
+    const link =
+      event.target.closest("a");
+
+    if(!link) return;
+
+    navlinks.classList.remove("open");
+
+    menu.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+    menu.textContent = "☰";
+
+  });
+
+})();
+</script>
 </body>
 </html>
