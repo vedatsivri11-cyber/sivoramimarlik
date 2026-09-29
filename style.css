@@ -737,3 +737,14 @@ body.dark-mode .legal-box p,body.dark-mode .legal-box li{color:#c8c5be}
   }
 
 }
+.contact-details div{
+  font-size:16px;
+  line-height:1.8;
+}
+
+.contact-details small{
+  font-size:11px;
+  letter-spacing:.15em;
+  margin-bottom:10px;
+  opacity:.6;
+}
