@@ -867,3 +867,11 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+/* TELEFON İÇİN ÖZEL KENTSEL DÖNÜŞÜM GÖRSELİ */
+@media (max-width: 800px){
+  .hero{
+    background-image: url("kentsel-donusum-mobil.jpg") !important;
+    background-position: center center !important;
+    background-size: cover !important;
+  }
+}
