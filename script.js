@@ -68,7 +68,7 @@ if (themeToggle) {
     async function (event) {
 
       event.preventDefault();
-
+      console.log("SIVORA FORM ÇALIŞTI");
 
       const name =
         document
