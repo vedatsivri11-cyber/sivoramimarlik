@@ -875,3 +875,61 @@ body.dark-mode #site-nav .logo-slogan{
     background-size: cover !important;
   }
 }
+/* =========================================================
+   MOBİL MENÜ - KOMPAKT VE HERO'NUN ÜZERİNDE
+========================================================= */
+
+@media (max-width: 800px){
+
+  #site-nav{
+    position:absolute !important;
+    top:0 !important;
+    left:0 !important;
+    right:0 !important;
+    z-index:100 !important;
+    background:transparent !important;
+  }
+
+  #site-nav nav{
+    position:absolute !important;
+    top:78px !important;
+    left:5vw !important;
+    right:5vw !important;
+
+    display:none !important;
+
+    padding:18px 22px !important;
+    margin:0 !important;
+
+    background:rgba(20,20,20,.96) !important;
+    border-radius:0 0 18px 18px !important;
+
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    gap:14px !important;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.25) !important;
+  }
+
+  #site-nav nav.active{
+    display:flex !important;
+  }
+
+  #site-nav nav a{
+    display:block !important;
+    padding:5px 0 !important;
+    font-size:15px !important;
+    line-height:1.2 !important;
+  }
+
+  /* Menü açıkken sayfanın boyunu büyütmesin */
+  .hero{
+    position:relative !important;
+    z-index:1 !important;
+  }
+
+  #site-nav .menu{
+    position:relative !important;
+    z-index:110 !important;
+  }
+}
