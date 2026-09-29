@@ -1505,288 +1505,496 @@
             property.durum ===
             'satildi';
 
+const row =
+  document.createElement(
+    'article'
+  );
 
-          const row =
-            document.createElement(
-              'article'
-            );
-
-
-          row.style.cssText =
-            `
-            border:1px solid #ddd;
-            padding:15px;
-            margin-bottom:15px;
-            background:#fff;
-            `;
-
-
-          const title =
-            document.createElement(
-              'h3'
-            );
-
-          title.textContent =
-            property.ilan_basligi ||
-            'İlan';
+row.style.cssText =
+  `
+  display:flex;
+  gap:20px;
+  align-items:stretch;
+  border:1px solid #e3e3e3;
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:18px;
+  background:#fff;
+  box-shadow:0 4px 16px rgba(0,0,0,.06);
+  overflow:hidden;
+  `;
 
 
-          const info =
-            document.createElement(
-              'div'
-            );
+/* =====================================================
+   İLAN FOTOĞRAFI
+===================================================== */
+
+const photoBox =
+  document.createElement(
+    'div'
+  );
+
+photoBox.style.cssText =
+  `
+  width:220px;
+  min-width:220px;
+  height:155px;
+  border-radius:10px;
+  overflow:hidden;
+  background:#f1f1f1;
+  `;
+
+const firstPhoto =
+  photos[0];
+
+const photoUrl =
+  typeof firstPhoto === 'string'
+    ? firstPhoto
+    : firstPhoto?.url;
+
+if (photoUrl) {
+
+  const image =
+    document.createElement(
+      'img'
+    );
+
+  image.src =
+    photoUrl;
+
+  image.alt =
+    property.ilan_basligi ||
+    'Gayrimenkul';
+
+  image.style.cssText =
+    `
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    `;
+
+  photoBox.append(
+    image
+  );
+
+} else {
+
+  photoBox.innerHTML =
+    `
+    <div style="
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#888;
+      font-size:14px;
+      ">
+      Fotoğraf Yok
+    </div>
+    `;
+
+}
 
 
-          info.innerHTML =
-            `
-            <strong>
-              ${escapeHtml(
-                property.konum || ''
-              )}
-            </strong>
-            <br>
-            ${
-              escapeHtml(
-                property.gayrimenkul_turu ||
-                ''
+/* =====================================================
+   İLAN BİLGİLERİ
+===================================================== */
+
+const content =
+  document.createElement(
+    'div'
+  );
+
+content.style.cssText =
+  `
+  flex:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  `;
+
+
+const title =
+  document.createElement(
+    'h3'
+  );
+
+title.textContent =
+  property.ilan_basligi ||
+  'İlan';
+
+title.style.cssText =
+  `
+  margin:0 0 10px 0;
+  font-size:22px;
+  font-weight:700;
+  color:#111;
+  `;
+
+
+const info =
+  document.createElement(
+    'div'
+  );
+
+info.innerHTML =
+  `
+  <div style="
+    font-size:15px;
+    font-weight:600;
+    color:#444;
+    margin-bottom:5px;
+    ">
+    ${escapeHtml(
+      property.konum || ''
+    )}
+  </div>
+
+  <div style="
+    font-size:15px;
+    color:#555;
+    ">
+    ${escapeHtml(
+      property.gayrimenkul_turu ||
+      ''
+    )}
+
+    ${
+      property.fiyat
+        ? `
+          <span style="margin:0 5px;color:#aaa;">
+            ·
+          </span>
+          <strong style="color:#111;">
+            ${escapeHtml(
+              formatPrice(
+                property.fiyat,
+                property.para_birimi ||
+                'TL'
               )
-            }
-            ${
-              property.fiyat
-                ? ' · ' +
-                  escapeHtml(
-                    formatPrice(
-                      property.fiyat,
-                      property.para_birimi ||
-                      'TL'
-                    )
-                  )
-                : ''
-            }
-            `;
-
-
-          const statusBadge =
-            document.createElement(
-              'span'
-            );
-
-
-          statusBadge.textContent =
-            sold
-              ? 'SATILDI'
-              : 'AKTİF';
-
-
-          statusBadge.style.cssText =
-            `
-            display:inline-block;
-            margin-top:10px;
-            padding:5px 10px;
-            background:${
-              sold
-                ? '#777'
-                : '#b9975b'
-            };
-            color:#fff;
-            font-weight:700;
-            border-radius:4px;
-            `;
-
-
-          const actions =
-            document.createElement(
-              'div'
-            );
-
-
-          actions.style.cssText =
-            `
-            display:flex;
-            flex-wrap:wrap;
-            gap:8px;
-            margin-top:15px;
-            `;
-
-
-          const edit =
-            createButton(
-              'Düzenle'
-            );
-
-
-          edit.addEventListener(
-            'click',
-            () => {
-
-              openPropertyEdit(
-                property
-              );
-
-            }
-          );
-
-
-          const photoButton =
-            createButton(
-              `Fotoğraflar (${
-                photos.length
-              })`
-            );
-
-
-          photoButton.addEventListener(
-            'click',
-            () => {
-
-              openPropertyPhotos(
-                property,
-                photos
-              );
-
-            }
-          );
-
-
-          const toggleSold =
-            createButton(
-              sold
-                ? 'Aktif Yap'
-                : 'Satıldı Yap'
-            );
-
-
-          toggleSold.addEventListener(
-            'click',
-            async () => {
-
-              toggleSold.disabled =
-                true;
-
-
-              const newStatus =
-                sold
-                  ? 'aktif'
-                  : 'satildi';
-
-
-              const {
-                error
-              } =
-                await db
-                  .from('properties')
-                  .update({
-                    durum:
-                      newStatus
-                  })
-                  .eq(
-                    'id',
-                    property.id
-                  );
-
-
-              if (error) {
-
-                setStatus(
-                  'Durum değiştirilemedi: ' +
-                  error.message
-                );
-
-                toggleSold.disabled =
-                  false;
-
-                return;
-
-              }
-
-
-              setStatus(
-                newStatus ===
-                'satildi'
-                  ? 'İlan satıldı olarak işaretlendi.'
-                  : 'İlan tekrar aktif yapıldı.'
-              );
-
-
-              await refreshProperties();
-
-            }
-          );
-
-
-          const remove =
-            createButton(
-              'Sil'
-            );
-
-
-          remove.addEventListener(
-            'click',
-            async () => {
-
-              if (
-                !confirm(
-                  'Bu gayrimenkul silinsin mi?'
-                )
-              ) {
-                return;
-              }
-
-
-              const {
-                error
-              } =
-                await db
-                  .from('properties')
-                  .delete()
-                  .eq(
-                    'id',
-                    property.id
-                  );
-
-
-              if (error) {
-
-                setStatus(
-                  'Gayrimenkul silinemedi: ' +
-                  error.message
-                );
-
-                return;
-
-              }
-
-
-              setStatus(
-                'Gayrimenkul silindi.'
-              );
-
-
-              await refreshProperties();
-
-            }
-          );
-
-
-          actions.append(
-            edit,
-            photoButton,
-            toggleSold,
-            remove
-          );
-
-
-          row.append(
-            title,
-            info,
-            statusBadge,
-            actions
-          );
-
-
-          propertyCards.append(
-            row
-          );
+            )}
+          </strong>
+        `
+        : ''
+    }
+  </div>
+  `;
+
+
+/* =====================================================
+   DURUM
+===================================================== */
+
+const statusBadge =
+  document.createElement(
+    'span'
+  );
+
+statusBadge.textContent =
+  sold
+    ? 'SATILDI'
+    : 'AKTİF';
+
+statusBadge.style.cssText =
+  `
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  margin-top:12px;
+  padding:6px 13px;
+  border-radius:20px;
+  background:${
+    sold
+      ? '#6f6f6f'
+      : '#e8f5ed'
+  };
+  color:${
+    sold
+      ? '#fff'
+      : '#247447'
+  };
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.4px;
+  `;
+
+
+/* =====================================================
+   BUTONLAR
+===================================================== */
+
+const actions =
+  document.createElement(
+    'div'
+  );
+
+actions.style.cssText =
+  `
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:18px;
+  `;
+
+
+const styleButton =
+  (
+    button,
+    background,
+    color,
+    border
+  ) => {
+
+    button.style.cssText =
+      `
+      border:1px solid ${
+        border || background
+      };
+      background:${background};
+      color:${color};
+      padding:9px 15px;
+      border-radius:8px;
+      font-size:13px;
+      font-weight:700;
+      cursor:pointer;
+      transition:all .2s ease;
+      `;
+
+    button.addEventListener(
+      'mouseenter',
+      () => {
+        button.style.transform =
+          'translateY(-1px)';
+        button.style.boxShadow =
+          '0 4px 10px rgba(0,0,0,.10)';
+      }
+    );
+
+    button.addEventListener(
+      'mouseleave',
+      () => {
+        button.style.transform =
+          '';
+        button.style.boxShadow =
+          '';
+      }
+    );
+  };
+
+
+/* DÜZENLE */
+
+const edit =
+  createButton(
+    '✎  Düzenle'
+  );
+
+styleButton(
+  edit,
+  '#111',
+  '#fff'
+);
+
+edit.addEventListener(
+  'click',
+  () => {
+
+    openPropertyEdit(
+      property
+    );
+
+  }
+);
+
+
+/* FOTOĞRAFLAR */
+
+const photoButton =
+  createButton(
+    `▣  Fotoğraflar (${photos.length})`
+  );
+
+styleButton(
+  photoButton,
+  '#fff',
+  '#222',
+  '#d7d7d7'
+);
+
+photoButton.addEventListener(
+  'click',
+  () => {
+
+    openPropertyPhotos(
+      property,
+      photos
+    );
+
+  }
+);
+
+
+/* AKTİF / SATILDI */
+
+const toggleSold =
+  createButton(
+    sold
+      ? '✓  Aktif Yap'
+      : '●  Satıldı Yap'
+  );
+
+styleButton(
+  toggleSold,
+  sold
+    ? '#247447'
+    : '#f1f1f1',
+  sold
+    ? '#fff'
+    : '#333',
+  sold
+    ? '#247447'
+    : '#d7d7d7'
+  );
+
+toggleSold.addEventListener(
+  'click',
+  async () => {
+
+    toggleSold.disabled =
+      true;
+
+    const newStatus =
+      sold
+        ? 'aktif'
+        : 'satildi';
+
+    const {
+      error
+    } =
+      await db
+        .from('properties')
+        .update({
+          durum:
+            newStatus
+        })
+        .eq(
+          'id',
+          property.id
+        );
+
+    if (error) {
+
+      setStatus(
+        'Durum değiştirilemedi: ' +
+        error.message
+      );
+
+      toggleSold.disabled =
+        false;
+
+      return;
+
+    }
+
+    setStatus(
+      newStatus ===
+      'satildi'
+        ? 'İlan satıldı olarak işaretlendi.'
+        : 'İlan tekrar aktif yapıldı.'
+    );
+
+    await refreshProperties();
+
+  }
+);
+
+
+/* SİL */
+
+const remove =
+  createButton(
+    '×  Sil'
+  );
+
+styleButton(
+  remove,
+  '#fff',
+  '#b42318',
+  '#e4b4b0'
+);
+
+remove.addEventListener(
+  'click',
+  async () => {
+
+    if (
+      !confirm(
+        'Bu gayrimenkul silinsin mi?'
+      )
+    ) {
+      return;
+    }
+
+    const {
+      error
+    } =
+      await db
+        .from('properties')
+        .delete()
+        .eq(
+          'id',
+          property.id
+        );
+
+    if (error) {
+
+      setStatus(
+        'Gayrimenkul silinemedi: ' +
+        error.message
+      );
+
+      return;
+
+    }
+
+    setStatus(
+      'Gayrimenkul silindi.'
+    );
+
+    await refreshProperties();
+
+  }
+);
+
+
+actions.append(
+  edit,
+  photoButton,
+  toggleSold,
+  remove
+);
+
+
+content.append(
+  title,
+  info,
+  statusBadge,
+  actions
+);
+
+
+row.append(
+  photoBox,
+  content
+);
+
+
+propertyCards.append(
+  row
+);
 
         }
       );
