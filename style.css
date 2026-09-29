@@ -1024,3 +1024,41 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+@media (max-width:800px){
+
+  #site-nav #navlinks{
+    display:none !important;
+    position:absolute !important;
+    top:70px !important;
+    right:18px !important;
+    left:auto !important;
+    width:220px !important;
+    padding:18px 20px !important;
+    background:rgba(20,20,20,.97) !important;
+    border-radius:15px !important;
+    flex-direction:column !important;
+    gap:12px !important;
+    z-index:9999 !important;
+    box-shadow:0 15px 40px rgba(0,0,0,.35) !important;
+  }
+
+  #site-nav #navlinks.open{
+    display:flex !important;
+  }
+
+  #site-nav #navlinks a{
+    display:block !important;
+    width:100% !important;
+    color:#fff !important;
+    padding:8px 0 !important;
+    font-size:15px !important;
+  }
+
+  #site-nav .menu{
+    position:relative !important;
+    z-index:10000 !important;
+    display:block !important;
+    cursor:pointer !important;
+  }
+
+}
