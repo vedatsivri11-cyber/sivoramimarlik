@@ -1136,3 +1136,110 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+/* =========================================================
+   SIVORA SOSYAL MEDYA - TEMİZ BLOK
+========================================================= */
+
+.social-footer{
+  width:100%;
+  background:#171716;
+  color:#f4f0e8;
+  padding:42px 5vw 24px;
+  box-sizing:border-box;
+}
+
+.social-footer-wrap{
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+  text-align:center;
+}
+
+.social-footer-brand{
+  width:100%;
+  text-align:center;
+}
+
+.social-footer-brand span{
+  display:block;
+  color:#b9975b;
+  font-size:9px;
+  letter-spacing:2.5px;
+  margin-bottom:8px;
+}
+
+.social-footer-brand h2{
+  margin:0;
+  font-family:"Playfair Display",Georgia,serif;
+  font-size:28px;
+  font-weight:400;
+}
+
+.social-footer-links{
+  width:100%;
+  margin:28px auto 0;
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  align-items:center;
+  gap:55px;
+}
+
+.social-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  margin:0;
+  padding:0;
+  color:#f4f0e8;
+  text-decoration:none;
+  font-size:11px;
+  letter-spacing:.03em;
+  flex:0 0 auto;
+}
+
+.social-icon-small{
+  width:15px;
+  height:15px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#b9975b;
+  font-size:12px;
+  line-height:1;
+  font-family:Arial,sans-serif;
+  font-weight:600;
+}
+
+.social-link:hover{
+  color:#b9975b;
+}
+
+.social-footer-copy{
+  width:100%;
+  margin:30px auto 0;
+  padding-top:15px;
+  border-top:1px solid rgba(255,255,255,.08);
+  color:rgba(244,240,232,.4);
+  font-size:9px;
+  letter-spacing:1.2px;
+  text-align:center;
+}
+
+@media(max-width:800px){
+
+  .social-footer{
+    padding:35px 6vw 20px;
+  }
+
+  .social-footer-brand h2{
+    font-size:24px;
+  }
+
+  .social-footer-links{
+    flex-wrap:wrap;
+    gap:20px 28px;
+  }
+
+}
