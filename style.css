@@ -27,9 +27,9 @@ a{color:inherit}
   inset:0;
   background:linear-gradient(
     90deg,
-    rgba(13,13,13,.78) 0%,
-    rgba(13,13,13,.42) 38%,
-    rgba(13,13,13,.08) 68%,
+    rgba(13,13,13,.45) 0%,
+    rgba(13,13,13,.20) 38%,
+    rgba(13,13,13,.05) 68%,
     rgba(13,13,13,0) 100%
   );
   z-index:1;
