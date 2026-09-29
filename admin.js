@@ -4152,7 +4152,30 @@ propertyCards.append(
 
   }
 
+/* =========================================================
+   SAYFA KAPANINCA OTOMATİK ÇIKIŞ
+========================================================= */
 
+let autoLogoutStarted = false;
+
+const autoLogout = () => {
+
+  if (autoLogoutStarted) {
+    return;
+  }
+
+  autoLogoutStarted = true;
+
+  db.auth.signOut({
+    scope: 'local'
+  });
+
+};
+
+window.addEventListener(
+  'pagehide',
+  autoLogout
+);
   /* =========================================================
      BAŞLAT
   ========================================================= */
