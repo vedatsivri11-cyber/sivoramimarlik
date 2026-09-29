@@ -425,7 +425,318 @@
 
     };
 
+  /* =========================================================
+     PROJELERİ GETİR
+  ========================================================= */
 
+  const refreshProjects =
+    async () => {
+
+      if (!cards) {
+        return;
+      }
+
+      const {
+        data,
+        error
+      } = await db
+        .from('projects')
+        .select(`
+          id,
+          title,
+          location,
+          description,
+          image_url,
+          storage_path,
+          photos,
+          created_at
+        `)
+        .order(
+          'created_at',
+          {
+            ascending: false
+          }
+        );
+
+      if (error) {
+
+        setStatus(
+          'Projeler yüklenemedi: ' +
+          error.message
+        );
+
+        return;
+      }
+
+      cards.replaceChildren();
+
+      (data || []).forEach(
+        project => {
+
+          const row =
+            document.createElement(
+              'article'
+            );
+
+          row.className =
+            'admin-project';
+
+
+          let photos =
+            parsePhotos(
+              project.photos
+            );
+
+
+          if (
+            !photos.length &&
+            project.image_url
+          ) {
+
+            photos = [
+              {
+                url:
+                  project.image_url,
+
+                path:
+                  project.storage_path ||
+                  null
+              }
+            ];
+
+          }
+
+
+          const image =
+            document.createElement(
+              'img'
+            );
+
+          image.src =
+            photos[0]?.url ||
+            project.image_url ||
+            '';
+
+          image.alt =
+            project.title ||
+            'Proje';
+
+
+          const detail =
+            document.createElement(
+              'div'
+            );
+
+
+          const title =
+            document.createElement(
+              'strong'
+            );
+
+          title.textContent =
+            project.title ||
+            'Proje';
+
+
+          const location =
+            document.createElement(
+              'p'
+            );
+
+          location.textContent =
+            project.location ||
+            '';
+
+
+          const count =
+            document.createElement(
+              'p'
+            );
+
+          count.textContent =
+            `${photos.length} fotoğraf`;
+
+
+          detail.append(
+            title,
+            location,
+            count
+          );
+
+
+          const actions =
+            document.createElement(
+              'div'
+            );
+
+          actions.className =
+            'admin-project-actions';
+
+
+          const edit =
+            createButton(
+              'Düzenle'
+            );
+
+
+          const photoButton =
+            createButton(
+              'Fotoğraflar'
+            );
+
+
+          const remove =
+            createButton(
+              'Sil'
+            );
+
+
+          edit.addEventListener(
+            'click',
+            () => {
+
+              openProjectEdit(
+                project
+              );
+
+            }
+          );
+
+
+          photoButton.addEventListener(
+            'click',
+            () => {
+
+              openProjectPhotos(
+                project,
+                photos
+              );
+
+            }
+          );
+
+
+          remove.addEventListener(
+            'click',
+            async () => {
+
+              if (
+                !confirm(
+                  'Bu proje ve tüm fotoğrafları silinsin mi?'
+                )
+              ) {
+                return;
+              }
+
+
+              setStatus(
+                'Proje siliniyor...'
+              );
+
+
+              const paths =
+                photos
+                  .map(
+                    photo =>
+                      typeof photo ===
+                      'object'
+                        ? photo.path
+                        : null
+                  )
+                  .filter(
+                    Boolean
+                  );
+
+
+              if (paths.length) {
+
+                const {
+                  error:
+                    storageError
+                } =
+                  await db.storage
+                    .from(
+                      'projects'
+                    )
+                    .remove(
+                      paths
+                    );
+
+
+                if (
+                  storageError
+                ) {
+
+                  setStatus(
+                    'Fotoğraflar silinemedi: ' +
+                    storageError.message
+                  );
+
+                  return;
+                }
+
+              }
+
+
+              const {
+                error:
+                  deleteError
+              } =
+                await db
+                  .from(
+                    'projects'
+                  )
+                  .delete()
+                  .eq(
+                    'id',
+                    project.id
+                  );
+
+
+              if (deleteError) {
+
+                setStatus(
+                  'Proje silinemedi: ' +
+                  deleteError.message
+                );
+
+                return;
+              }
+
+
+              setStatus(
+                'Proje silindi.'
+              );
+
+
+              refreshProjects();
+
+            }
+          );
+
+
+          actions.append(
+            edit,
+            photoButton,
+            remove
+          );
+
+
+          row.append(
+            image,
+            detail,
+            actions
+          );
+
+
+          cards.append(
+            row
+          );
+
+        }
+      );
+
+    };
   /* =========================================================
      BURAYA KADAR 1. PARÇA
   ========================================================= */  /* =========================================================
