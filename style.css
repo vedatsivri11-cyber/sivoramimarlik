@@ -12,8 +12,7 @@ a{color:inherit}
 .menu{display:none;background:none;border:0;color:inherit;font-size:22px}
 .theme-toggle{position:fixed;right:24px;top:18px;z-index:1000;width:40px;height:40px;border-radius:50%;border:1px solid currentColor;background:#17171699;color:#fff;cursor:pointer;font-size:17px;backdrop-filter:blur(8px)}
 
-.hero{min-height:100vh;position:relative;overflow:hidden;padding:13vh 5vw 7vh;display:flex;align-items:flex-end;background:#161616 url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2400&q=90") center/cover no-repeat}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0d0d0db5,#0d0d0d28 58%,#0d0d0d12),linear-gradient(0deg,#0d0d0d45,transparent 55%)}
+.hero{min-height:100vh;position:relative;overflow:hidden;padding:13vh 5vw 7vh;display:flex;align-items:flex-end;background:#161616 url("kentsel-donusum.jpg") center/cover no-repeat}.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#0d0d0db5,#0d0d0d28 58%,#0d0d0d12),linear-gradient(0deg,#0d0d0d45,transparent 55%)}
 .hero-copy{position:relative;z-index:2;color:#f4f0e8;max-width:820px;padding-bottom:5vh}
 .eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:10px;margin:0 0 24px}
 .hero h1,.statement h2,.services h2,.contact h2,.properties-intro h2{font-family:"Playfair Display",Georgia,serif;font-weight:400}
