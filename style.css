@@ -748,3 +748,19 @@ body.dark-mode .legal-box p,body.dark-mode .legal-box li{color:#c8c5be}
   margin-bottom:10px;
   opacity:.6;
 }
+/* İLETİŞİM BİLGİLERİ - BÜYÜTÜLDÜ */
+.contact-details div{
+  font-size:20px;
+  line-height:1.9;
+}
+
+.contact-details small{
+  font-size:13px;
+  letter-spacing:.16em;
+  margin-bottom:12px;
+}
+
+.contact-details{
+  gap:80px;
+  padding-top:75px;
+}
