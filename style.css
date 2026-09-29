@@ -994,3 +994,33 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+/* =========================================================
+   MOBİL SVR LOGO — DAHA ZARİF KONUM
+========================================================= */
+
+@media (max-width:800px){
+
+  #site-nav .logo{
+    position:absolute !important;
+    left:24px !important;
+    top:8px !important;
+    z-index:1100 !important;
+  }
+
+  #site-nav .logo img{
+    width:52px !important;
+    height:42px !important;
+    max-width:52px !important;
+    object-fit:contain !important;
+  }
+
+  #site-nav .logo-text{
+    display:none !important;
+  }
+
+  /* Dil seçimini logodan biraz uzaklaştır */
+  #site-nav .language-switcher{
+    margin-left:78px !important;
+  }
+
+}
