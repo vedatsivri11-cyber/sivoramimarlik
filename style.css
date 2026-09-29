@@ -509,3 +509,205 @@ body.dark-mode .legal-box p,body.dark-mode .legal-box li{color:#c8c5be}
     font-size: 9px;
   }
 }
+/* =========================================================
+   SIVORA MİMARLIK - İLETİŞİM BÖLÜMÜ
+========================================================= */
+
+.contact-section {
+  padding: 100px 5%;
+  position: relative;
+}
+
+.contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 70px;
+  align-items: center;
+}
+
+.contact-info {
+  padding-right: 20px;
+}
+
+.contact-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 3px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  opacity: 0.65;
+}
+
+.contact-info h2 {
+  margin: 0 0 20px;
+  font-size: clamp(36px, 5vw, 58px);
+  font-weight: 500;
+  letter-spacing: -1px;
+}
+
+.contact-info p {
+  max-width: 500px;
+  line-height: 1.8;
+  font-size: 15px;
+  opacity: 0.75;
+  margin-bottom: 40px;
+}
+
+.contact-detail {
+  display: grid;
+  gap: 24px;
+}
+
+.contact-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.contact-detail-icon {
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(128,128,128,0.35);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 18px;
+}
+
+.contact-detail-item small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+  opacity: 0.55;
+}
+
+.contact-detail-item strong,
+.contact-detail-item a {
+  font-size: 14px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.contact-detail-item a:hover {
+  text-decoration: underline;
+}
+
+.contact-form-box {
+  padding: 38px;
+  border: 1px solid rgba(128,128,128,0.25);
+  border-radius: 4px;
+  background: rgba(255,255,255,0.025);
+  backdrop-filter: blur(8px);
+}
+
+.contact-form {
+  width: 100%;
+}
+
+.contact-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.contact-field {
+  margin-bottom: 20px;
+}
+
+.contact-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.contact-field input,
+.contact-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 15px;
+  border: 1px solid rgba(128,128,128,0.35);
+  border-radius: 2px;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.25s ease;
+}
+
+.contact-field textarea {
+  resize: vertical;
+  min-height: 145px;
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+  border-color: currentColor;
+}
+
+.contact-field input::placeholder,
+.contact-field textarea::placeholder {
+  opacity: 0.45;
+}
+
+.contact-submit {
+  width: 100%;
+  padding: 16px 24px;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.contact-submit:hover {
+  background: currentColor;
+  color: var(--bg, #111);
+}
+
+.contact-status {
+  margin-top: 15px;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* MOBİL */
+
+@media (max-width: 800px) {
+
+  .contact-section {
+    padding: 70px 20px;
+  }
+
+  .contact-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .contact-info {
+    padding-right: 0;
+  }
+
+  .contact-form-box {
+    padding: 24px;
+  }
+
+  .contact-form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+}
