@@ -48,7 +48,8 @@ if (themeToggle) {
 
 }
 /* =========================================================
-   SIVORA MİMARLIK - İLETİŞİM FORMU
+   SIVORA MİMARLIK
+   İLETİŞİM FORMU - SUPABASE / RESEND
 ========================================================= */
 
 (function () {
@@ -61,29 +62,53 @@ if (themeToggle) {
 
   if (!contactForm) return;
 
+
   contactForm.addEventListener(
     "submit",
-    function (event) {
+    async function (event) {
 
       event.preventDefault();
 
+
       const name =
-        document.getElementById("contact-name").value.trim();
+        document
+          .getElementById("contact-name")
+          .value
+          .trim();
 
       const email =
-        document.getElementById("contact-email").value.trim();
+        document
+          .getElementById("contact-email")
+          .value
+          .trim();
 
       const phone =
-        document.getElementById("contact-phone").value.trim();
+        document
+          .getElementById("contact-phone")
+          .value
+          .trim();
 
       const subject =
-        document.getElementById("contact-subject").value.trim();
+        document
+          .getElementById("contact-subject")
+          .value
+          .trim();
 
       const message =
-        document.getElementById("contact-message").value.trim();
+        document
+          .getElementById("contact-message")
+          .value
+          .trim();
 
 
-      if (!name || !email || !subject || !message) {
+      /* GEREKLİ ALAN KONTROLÜ */
+
+      if (
+        !name ||
+        !email ||
+        !subject ||
+        !message
+      ) {
 
         contactStatus.textContent =
           "Lütfen gerekli alanları doldurun.";
@@ -92,30 +117,105 @@ if (themeToggle) {
       }
 
 
-      const mailSubject =
-        encodeURIComponent(
-          "SIVORA MİMARLIK - " + subject
+      /* BUTONU KİLİTLE */
+
+      const submitButton =
+        contactForm.querySelector(
+          ".contact-submit"
+        );
+
+      if (submitButton) {
+
+        submitButton.disabled = true;
+
+        submitButton.textContent =
+          "GÖNDERİLİYOR...";
+      }
+
+
+      contactStatus.textContent =
+        "Mesajınız gönderiliyor...";
+
+
+      try {
+
+        /* SUPABASE CLIENT */
+
+        const supabaseClient =
+          window.supabase.createClient(
+            window.SIVORA_SUPABASE_URL,
+            window.SIVORA_SUPABASE_ANON_KEY
+          );
+
+
+        /* EDGE FUNCTION */
+
+        const { data, error } =
+          await supabaseClient.functions.invoke(
+            "send-contact-email",
+            {
+              body: {
+                name: name,
+                email: email,
+                phone: phone,
+                subject: subject,
+                message: message
+              }
+            }
+          );
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        if (
+          !data ||
+          data.success !== true
+        ) {
+
+          throw new Error(
+            data?.error ||
+            "Mesaj gönderilemedi."
+          );
+
+        }
+
+
+        /* BAŞARILI */
+
+        contactStatus.textContent =
+          "Mesajınız başarıyla gönderildi. En kısa sürede size dönüş yapacağız.";
+
+
+        contactForm.reset();
+
+
+      } catch (error) {
+
+        console.error(
+          "İletişim formu hatası:",
+          error
         );
 
 
-      const mailBody =
-        encodeURIComponent(
-          "Ad Soyad: " + name +
-          "\n\n" +
-          "E-posta: " + email +
-          "\n\n" +
-          "Telefon: " + (phone || "-") +
-          "\n\n" +
-          "Mesaj:\n" + message
-        );
+        contactStatus.textContent =
+          "Mesaj gönderilemedi. Lütfen daha sonra tekrar deneyin.";
 
 
-      window.location.href =
-        "mailto:sivoramimarlik@gmail.com" +
-        "?subject=" +
-        mailSubject +
-        "&body=" +
-        mailBody;
+      } finally {
+
+        if (submitButton) {
+
+          submitButton.disabled = false;
+
+          submitButton.textContent =
+            "GÖNDER";
+
+        }
+
+      }
 
     }
   );
