@@ -1673,3 +1673,130 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+/* =========================================================
+   KENTSEL DÖNÜŞÜM - TAM GENİŞLİK DÜZENİ
+========================================================= */
+
+.sivora-services-grid{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  width:100% !important;
+  gap:0 !important;
+}
+
+
+/* Kentsel dönüşüm ana içeriği */
+.kentsel-donusum-content{
+  width:100% !important;
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+  gap:80px !important;
+  align-items:start !important;
+}
+
+
+/* Sol taraftaki açıklamalar */
+.kentsel-donusum-text{
+  width:100% !important;
+}
+
+.kentsel-donusum-text h3{
+  font-size:34px !important;
+  margin-bottom:28px !important;
+}
+
+.kentsel-donusum-text p{
+  max-width:700px !important;
+  font-size:16px !important;
+  line-height:1.85 !important;
+}
+
+
+/* Sağ taraftaki süreç listesi */
+.kentsel-donusum-list{
+  width:100% !important;
+}
+
+.kentsel-donusum-list > div{
+  padding:24px 0 !important;
+}
+
+.kentsel-donusum-list span{
+  font-size:16px !important;
+  line-height:1.6 !important;
+}
+
+.kentsel-donusum-list b{
+  font-size:17px !important;
+  margin-bottom:6px !important;
+}
+
+
+/* =========================================================
+   GÜVEN BANDI - TAM GENİŞLİK
+========================================================= */
+
+.sivora-trust{
+  width:100% !important;
+  margin-top:70px !important;
+
+  display:grid !important;
+  grid-template-columns:repeat(3,1fr) !important;
+
+  border-top:1px solid rgba(170,165,156,.45);
+  border-bottom:1px solid rgba(170,165,156,.45);
+}
+
+.sivora-trust-item{
+  min-height:105px !important;
+  padding:28px 35px !important;
+
+  display:flex !important;
+  align-items:center !important;
+
+  gap:20px !important;
+}
+
+.sivora-trust-item strong{
+  font-size:15px !important;
+}
+
+.sivora-trust-item small{
+  font-size:12px !important;
+  margin-top:7px !important;
+}
+
+
+/* =========================================================
+   MOBİL
+========================================================= */
+
+@media(max-width:800px){
+
+  .kentsel-donusum-content{
+    grid-template-columns:1fr !important;
+    gap:45px !important;
+  }
+
+  .kentsel-donusum-text p{
+    font-size:14px !important;
+  }
+
+  .kentsel-donusum-list span{
+    font-size:14px !important;
+  }
+
+  .kentsel-donusum-list b{
+    font-size:15px !important;
+  }
+
+  .sivora-trust{
+    grid-template-columns:1fr !important;
+  }
+
+  .sivora-trust-item{
+    min-height:auto !important;
+    padding:22px 18px !important;
+  }
+
+}
