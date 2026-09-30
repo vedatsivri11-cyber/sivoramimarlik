@@ -1,5 +1,409 @@
 <!doctype html>
 <html lang="tr">
+<style>
+
+/* =====================================================
+   SIVORA ADMIN — TEMA SİSTEMİ
+===================================================== */
+
+:root{
+  --admin-bg:#111111;
+  --admin-card:#181818;
+  --admin-card-2:#202020;
+  --admin-text:#f5f2eb;
+  --admin-muted:#99958e;
+  --admin-border:rgba(255,255,255,.10);
+  --admin-gold:#b9975b;
+  --admin-gold-hover:#d0ad6e;
+  --admin-input:#141414;
+}
+
+
+/* AÇIK TEMA */
+
+body.admin-theme-light{
+
+  --admin-bg:#f3f1ec;
+  --admin-card:#ffffff;
+  --admin-card-2:#f8f7f3;
+  --admin-text:#181818;
+  --admin-muted:#77736d;
+  --admin-border:rgba(0,0,0,.10);
+  --admin-input:#ffffff;
+
+}
+
+
+/* BODY */
+
+.admin-body{
+
+  background:var(--admin-bg) !important;
+  color:var(--admin-text) !important;
+
+  min-height:100vh;
+
+  transition:
+    background .3s ease,
+    color .3s ease;
+
+}
+
+
+/* HEADER */
+
+.admin-header{
+
+  background:var(--admin-card) !important;
+
+  border-bottom:
+    1px solid var(--admin-border);
+
+  transition:
+    background .3s ease,
+    border-color .3s ease;
+
+}
+
+
+.admin-header a{
+
+  color:var(--admin-text);
+
+}
+
+
+/* HEADER SAĞ */
+
+.admin-header-actions{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:14px;
+
+}
+
+
+/* TEMA BUTONU */
+
+.admin-theme-toggle{
+
+  width:42px;
+  height:42px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  border:1px solid var(--admin-border);
+
+  border-radius:50%;
+
+  background:var(--admin-card-2);
+
+  color:var(--admin-text);
+
+  font-size:19px;
+
+  cursor:pointer;
+
+  transition:
+    .25s ease;
+
+}
+
+
+.admin-theme-toggle:hover{
+
+  color:var(--admin-gold);
+
+  border-color:var(--admin-gold);
+
+  transform:rotate(15deg);
+
+}
+
+
+/* SITEYE DÖN */
+
+.admin-site-link{
+
+  color:var(--admin-text) !important;
+
+  text-decoration:none;
+
+  font-size:12px;
+
+  letter-spacing:.04em;
+
+  transition:.25s ease;
+
+}
+
+
+.admin-site-link:hover{
+
+  color:var(--admin-gold) !important;
+
+}
+
+
+/* ANA ALAN */
+
+.admin-main{
+
+  color:var(--admin-text);
+
+}
+
+
+/* LOGIN CARD */
+
+.admin-login-card{
+
+  background:var(--admin-card) !important;
+
+  border:
+    1px solid var(--admin-border) !important;
+
+  color:var(--admin-text);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.18);
+
+  transition:
+    background .3s ease,
+    color .3s ease,
+    border-color .3s ease;
+
+}
+
+
+/* INPUT */
+
+.admin-login-card input,
+.admin-card input,
+.admin-card textarea,
+.admin-card select{
+
+  background:var(--admin-input) !important;
+
+  color:var(--admin-text) !important;
+
+  border:
+    1px solid var(--admin-border) !important;
+
+}
+
+
+.admin-login-card input::placeholder,
+.admin-card input::placeholder,
+.admin-card textarea::placeholder{
+
+  color:var(--admin-muted);
+
+}
+
+
+/* INPUT FOCUS */
+
+.admin-login-card input:focus,
+.admin-card input:focus,
+.admin-card textarea:focus,
+.admin-card select:focus{
+
+  outline:none;
+
+  border-color:
+    var(--admin-gold) !important;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(185,151,91,.10);
+
+}
+
+
+/* DASHBOARD CARD */
+
+.admin-card{
+
+  background:var(--admin-card) !important;
+
+  border:
+    1px solid var(--admin-border) !important;
+
+  color:var(--admin-text);
+
+  transition:
+    background .3s ease,
+    color .3s ease;
+
+}
+
+
+/* TOPLINE */
+
+.admin-topline{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:20px;
+
+}
+
+
+.admin-section-label{
+
+  display:block;
+
+  color:var(--admin-gold);
+
+  font-size:10px;
+
+  letter-spacing:.18em;
+
+  margin-bottom:6px;
+
+}
+
+
+/* ÇIKIŞ */
+
+.admin-logout{
+
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:9px;
+
+  border:1px solid var(--admin-border);
+
+  background:transparent;
+
+  color:var(--admin-text);
+
+  padding:11px 17px;
+
+  border-radius:5px;
+
+  font-size:11px;
+
+  letter-spacing:.08em;
+
+  cursor:pointer;
+
+  transition:.25s ease;
+
+}
+
+
+.admin-logout span{
+
+  font-size:16px;
+
+}
+
+
+.admin-logout:hover{
+
+  color:#fff;
+
+  background:#111;
+
+  border-color:#111;
+
+}
+
+
+body.admin-theme-light .admin-logout:hover{
+
+  color:#fff;
+
+  background:#181818;
+
+  border-color:#181818;
+
+}
+
+
+/* BUTONLAR */
+
+.admin-card button,
+.admin-login-button{
+
+  transition:.25s ease;
+
+}
+
+
+.admin-card button:hover,
+.admin-login-button:hover{
+
+  filter:brightness(1.08);
+
+}
+
+
+/* MOBİL */
+
+@media(max-width:700px){
+
+  .admin-header{
+
+    padding:
+      14px 18px;
+
+  }
+
+
+  .admin-header-actions{
+
+    gap:8px;
+
+  }
+
+
+  .admin-site-link{
+
+    display:none;
+
+  }
+
+
+  .admin-theme-toggle{
+
+    width:38px;
+    height:38px;
+
+  }
+
+
+  .admin-topline{
+
+    align-items:flex-start;
+
+  }
+
+
+  .admin-logout{
+
+    padding:
+      10px 12px;
+
+  }
+
+}
+
+</style>
 <head>
 
 <meta charset="utf-8">
@@ -378,13 +782,37 @@
 }
 
 </style>
-<body class="admin-body">
+<body class="admin-body admin-theme-dark">
 
 <header class="admin-header">
-<a class="logo admin-logo" href="index.html">SVR <span>· SİVORA MİMARLIK OFİSİ</span></a>
-<a href="index.html">← Siteye dön</a>
-</header>
 
+  <a class="logo admin-logo" href="index.html">
+    SVR
+    <span>· SİVORA MİMARLIK OFİSİ</span>
+  </a>
+
+  <div class="admin-header-actions">
+
+    <button
+      type="button"
+      class="admin-theme-toggle"
+      id="admin-theme-toggle"
+      aria-label="Temayı değiştir"
+      title="Temayı değiştir"
+    >
+      ☼
+    </button>
+
+    <a
+      href="index.html"
+      class="admin-site-link"
+    >
+      ← Web Sitesine Dön
+    </a>
+
+  </div>
+
+</header>
 <main class="admin-main">
 <p class="eyebrow">Sivora · Portföy yönetimi</p>
 <h1>Yönetim Paneli</h1>
@@ -504,8 +932,21 @@ Supabase bağlantısını kontrol et.
 <section id="dashboard" hidden>
 
 <div class="admin-topline">
-<h2>Portföy Yönetimi</h2>
-<button type="button" class="button-quiet" id="logout">Çıkış yap</button>
+
+  <div>
+    <span class="admin-section-label">SIVORA MİMARLIK</span>
+    <h2>Portföy Yönetimi</h2>
+  </div>
+
+  <button
+    type="button"
+    class="admin-logout"
+    id="logout"
+  >
+    <span>↪</span>
+    Çıkış Yap
+  </button>
+
 </div>
 
 <h2 class="admin-section-title">Proje ekle</h2>
