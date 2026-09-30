@@ -175,37 +175,238 @@
 
     /* FOTOĞRAFLAR */
 
-    if (photos.length) {
+/* =====================================================
+   PROFESYONEL İLAN FOTOĞRAF GALERİSİ
+===================================================== */
 
-      const gallery =
+if (photos.length) {
+
+  const galleryWrap =
+    el(
+      'div',
+      'property-gallery-wrap'
+    );
+
+
+  /* ANA FOTOĞRAF */
+
+  const mainWrap =
+    el(
+      'div',
+      'property-gallery-main'
+    );
+
+
+  const mainImg =
+    el('img');
+
+  mainImg.src = photos[0];
+
+  mainImg.alt =
+    property.ilan_basligi ||
+    'Gayrimenkul';
+
+
+  mainWrap.append(
+    mainImg
+  );
+
+
+  /* FOTOĞRAF SAYACI */
+
+  const counter =
+    el(
+      'div',
+      'property-gallery-counter',
+      `1 / ${photos.length}`
+    );
+
+
+  mainWrap.append(
+    counter
+  );
+
+
+  /* SOL OK */
+
+  const prev =
+    el(
+      'button',
+      'property-gallery-arrow property-gallery-prev',
+      '‹'
+    );
+
+  prev.type = 'button';
+
+  prev.setAttribute(
+    'aria-label',
+    'Önceki fotoğraf'
+  );
+
+
+  /* SAĞ OK */
+
+  const next =
+    el(
+      'button',
+      'property-gallery-arrow property-gallery-next',
+      '›'
+    );
+
+  next.type = 'button';
+
+  next.setAttribute(
+    'aria-label',
+    'Sonraki fotoğraf'
+  );
+
+
+  mainWrap.append(
+    prev,
+    next
+  );
+
+
+  /* KÜÇÜK FOTOĞRAFLAR */
+
+  const thumbs =
+    el(
+      'div',
+      'property-gallery-thumbs'
+    );
+
+
+  let currentIndex = 0;
+
+
+  const showPhoto = index => {
+
+    if (!photos.length) {
+      return;
+    }
+
+
+    currentIndex =
+      (index + photos.length) %
+      photos.length;
+
+
+    mainImg.src =
+      photos[currentIndex];
+
+
+    mainImg.alt =
+      `${property.ilan_basligi || 'Gayrimenkul'} ${currentIndex + 1}`;
+
+
+    counter.textContent =
+      `${currentIndex + 1} / ${photos.length}`;
+
+
+    thumbs
+      .querySelectorAll('button')
+      .forEach(
+        (button, buttonIndex) => {
+
+          button.classList.toggle(
+            'active',
+            buttonIndex === currentIndex
+          );
+
+        }
+      );
+
+  };
+
+
+  /* THUMBNAILLER */
+
+  photos.forEach(
+    (url, index) => {
+
+      const thumb =
         el(
-          'div',
-          'property-public-gallery'
+          'button',
+          'property-gallery-thumb'
         );
 
+      thumb.type = 'button';
 
-      photos.forEach(
-        (url, index) => {
 
-          const img =
-            el('img');
+      const thumbImg =
+        el('img');
 
-          img.src = url;
+      thumbImg.src = url;
 
-          img.alt =
-            `${property.ilan_basligi || 'Gayrimenkul'} ${index + 1}`;
+      thumbImg.alt =
+        `Fotoğraf ${index + 1}`;
 
-          gallery.append(img);
+
+      thumb.append(
+        thumbImg
+      );
+
+
+      thumb.addEventListener(
+        'click',
+        () => {
+
+          showPhoto(index);
 
         }
       );
 
 
-      detail.append(
-        gallery
+      thumbs.append(
+        thumb
       );
 
     }
+  );
+
+
+  /* OKLAR */
+
+  prev.addEventListener(
+    'click',
+    () => {
+
+      showPhoto(
+        currentIndex - 1
+      );
+
+    }
+  );
+
+
+  next.addEventListener(
+    'click',
+    () => {
+
+      showPhoto(
+        currentIndex + 1
+      );
+
+    }
+  );
+
+
+  galleryWrap.append(
+    mainWrap,
+    thumbs
+  );
+
+
+  detail.append(
+    galleryWrap
+  );
+
+
+  /* İLK FOTOĞRAFI AKTİF YAP */
+
+  showPhoto(0);
+
+}
 
 
     /* BİLGİLER */
