@@ -88,42 +88,124 @@ body.admin-theme-light{
 
 /* TEMA BUTONU */
 
-.admin-theme-toggle{
+/* =========================================
+   SIVORA — AĞIRBAŞLI TEMA SWITCH
+========================================= */
 
-  width:42px;
-  height:42px;
+.admin-theme-switch{
 
   display:flex;
-
   align-items:center;
-  justify-content:center;
+  gap:9px;
+  height:38px;
 
-  border:1px solid var(--admin-border);
+}
 
-  border-radius:50%;
+.theme-label{
 
-  background:var(--admin-card-2);
+  font-size:8px;
+  letter-spacing:.16em;
+  color:#777;
 
-  color:var(--admin-text);
+  transition:.3s ease;
 
-  font-size:19px;
+}
+
+.theme-dark-label{
+  color:#b9975b;
+}
+
+
+.admin-theme-switch button{
+
+  position:relative;
+
+  width:52px;
+  height:27px;
+
+  padding:0;
+
+  border:1px solid rgba(255,255,255,.25);
+
+  border-radius:20px;
+
+  background:#111;
 
   cursor:pointer;
 
   transition:
-    .25s ease;
+    background .35s ease,
+    border-color .35s ease;
 
 }
 
 
-.admin-theme-toggle:hover{
+.theme-switch-knob{
 
-  color:var(--admin-gold);
+  position:absolute;
 
-  border-color:var(--admin-gold);
+  top:4px;
+  left:4px;
 
-  transform:rotate(15deg);
+  width:17px;
+  height:17px;
 
+  border-radius:50%;
+
+  background:#f4f0e8;
+
+  transition:
+    transform .35s cubic-bezier(.4,0,.2,1),
+    background .35s ease;
+
+}
+
+
+/* AÇIK TEMA */
+
+body.admin-theme-light
+.admin-theme-switch button{
+
+  background:#e7e4dd;
+
+  border-color:rgba(0,0,0,.18);
+
+}
+
+
+body.admin-theme-light
+.theme-switch-knob{
+
+  transform:translateX(25px);
+
+  background:#181818;
+
+}
+
+
+body.admin-theme-light
+.theme-dark-label{
+  color:#888;
+}
+
+
+body.admin-theme-light
+.theme-light-label{
+  color:#181818;
+}
+
+
+/* KOYU TEMA */
+
+body.admin-theme-dark
+.theme-dark-label{
+  color:#f4f0e8;
+}
+
+
+body.admin-theme-dark
+.theme-light-label{
+  color:#777;
 }
 
 
@@ -793,15 +875,25 @@ body.admin-theme-light .admin-logout:hover{
 
   <div class="admin-header-actions">
 
-    <button
-      type="button"
-      class="admin-theme-toggle"
-      id="admin-theme-toggle"
-      aria-label="Temayı değiştir"
-      title="Temayı değiştir"
-    >
-      ☼
-    </button>
+    <div class="admin-theme-switch">
+
+  <span class="theme-label theme-dark-label">
+    KOYU
+  </span>
+
+  <button
+    type="button"
+    id="admin-theme-toggle"
+    aria-label="Tema değiştir"
+  >
+    <span class="theme-switch-knob"></span>
+  </button>
+
+  <span class="theme-label theme-light-label">
+    AÇIK
+  </span>
+
+</div>
 
     <a
       href="index.html"
