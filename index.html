@@ -1,5 +1,108 @@
 <!doctype html>
 <html lang="tr">
+
+<style>
+/* =====================================================
+   SIVORA HERO — PREMIUM METİN PANELİ
+===================================================== */
+
+.hero{
+  position:relative;
+}
+
+/* Görseli fazla karartma */
+.hero::after{
+  background:linear-gradient(
+    90deg,
+    rgba(10,10,10,.38) 0%,
+    rgba(10,10,10,.16) 45%,
+    rgba(10,10,10,0) 78%
+  ) !important;
+}
+
+/* Sol taraftaki metin paneli */
+.hero-copy{
+  position:relative;
+  z-index:3;
+  max-width:600px !important;
+
+  padding:38px 48px 42px !important;
+
+  background:rgba(15,15,15,.48);
+
+  border-left:2px solid #b9975b;
+
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+
+  box-sizing:border-box;
+}
+
+/* Üst küçük başlık */
+.hero-copy .eyebrow{
+  font-size:10px !important;
+  letter-spacing:.18em !important;
+  margin-bottom:20px !important;
+  opacity:.72;
+}
+
+/* Ana başlık */
+.hero-copy h1{
+  font-size:clamp(48px,5vw,72px) !important;
+  line-height:.95 !important;
+  margin:0 0 22px !important;
+  letter-spacing:-.035em !important;
+}
+
+/* Açıklama */
+.hero-copy .intro{
+  max-width:470px !important;
+  font-size:14px !important;
+  line-height:1.75 !important;
+  opacity:.72 !important;
+  margin-bottom:28px !important;
+}
+
+/* Çalışmalarımızı keşfedin */
+.hero-copy .arrow-link{
+  font-size:11px !important;
+  letter-spacing:.12em !important;
+}
+
+/* MOBİL */
+@media(max-width:800px){
+
+  .hero::after{
+    background:linear-gradient(
+      180deg,
+      rgba(10,10,10,.05) 20%,
+      rgba(10,10,10,.25) 55%,
+      rgba(10,10,10,.55) 100%
+    ) !important;
+  }
+
+  .hero-copy{
+    max-width:calc(100% - 30px) !important;
+
+    margin:0 15px !important;
+
+    padding:25px 25px 28px !important;
+
+    background:rgba(15,15,15,.48);
+
+    border-left:2px solid #b9975b;
+  }
+
+  .hero-copy h1{
+    font-size:44px !important;
+  }
+
+  .hero-copy .intro{
+    font-size:13px !important;
+    line-height:1.65 !important;
+  }
+}
+</style>      
 <head>
 
 <meta charset="utf-8">
