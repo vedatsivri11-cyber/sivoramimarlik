@@ -1800,3 +1800,23 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+/* =====================================================
+   PROJE GÖRSELLERİ — DAHA KOMPAKT
+===================================================== */
+
+.project-image{
+  aspect-ratio: 16 / 10 !important;
+}
+
+.project.large .project-image{
+  aspect-ratio: 16 / 10 !important;
+}
+
+@media(max-width:700px){
+
+  .project-image,
+  .project.large .project-image{
+    aspect-ratio: 16 / 10 !important;
+  }
+
+}
