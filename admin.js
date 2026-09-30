@@ -4187,3 +4187,103 @@ window.addEventListener(
   loadSession();
 
 })();
+/* =====================================================
+   ADMIN TEMA SİSTEMİ
+===================================================== */
+
+(function(){
+
+  const body =
+    document.body;
+
+  const toggle =
+    document.getElementById(
+      'admin-theme-toggle'
+    );
+
+  if(!body || !toggle) return;
+
+
+  const savedTheme =
+    localStorage.getItem(
+      'sivora-admin-theme'
+    );
+
+
+  if(savedTheme === 'light'){
+
+    body.classList.remove(
+      'admin-theme-dark'
+    );
+
+    body.classList.add(
+      'admin-theme-light'
+    );
+
+    toggle.textContent = '☾';
+
+  }else{
+
+    body.classList.remove(
+      'admin-theme-light'
+    );
+
+    body.classList.add(
+      'admin-theme-dark'
+    );
+
+    toggle.textContent = '☼';
+
+  }
+
+
+  toggle.addEventListener(
+    'click',
+    function(){
+
+      const isLight =
+        body.classList.contains(
+          'admin-theme-light'
+        );
+
+
+      if(isLight){
+
+        body.classList.remove(
+          'admin-theme-light'
+        );
+
+        body.classList.add(
+          'admin-theme-dark'
+        );
+
+        toggle.textContent = '☼';
+
+        localStorage.setItem(
+          'sivora-admin-theme',
+          'dark'
+        );
+
+      }else{
+
+        body.classList.remove(
+          'admin-theme-dark'
+        );
+
+        body.classList.add(
+          'admin-theme-light'
+        );
+
+        toggle.textContent = '☾';
+
+        localStorage.setItem(
+          'sivora-admin-theme',
+          'light'
+        );
+
+      }
+
+    }
+  );
+
+})();
