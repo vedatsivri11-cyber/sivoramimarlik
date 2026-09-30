@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="tr">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#eeeae2">
@@ -32,6 +33,351 @@
 }
 </style>
 </head>
+<style>
+
+/* =====================================================
+   SIVORA ADMIN — GİRİŞ EKRANI
+===================================================== */
+
+.admin-body{
+  min-height:100vh;
+  margin:0;
+
+  background:#151515 !important;
+  color:#f4f0e8;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-family:"DM Sans",Arial,sans-serif;
+}
+
+
+/* HEADER'I GİRİŞTE GİZLE */
+
+.admin-body .admin-header{
+  display:none;
+}
+
+
+/* ANA ALAN */
+
+.admin-body .admin-main{
+  width:100%;
+  max-width:500px;
+
+  margin:0 auto !important;
+  padding:30px 20px;
+
+  box-sizing:border-box;
+}
+
+
+/* ÜSTTEKİ ESKİ BAŞLIKLARI GİZLE */
+
+.admin-body > .admin-main > .eyebrow,
+.admin-body > .admin-main > h1,
+.admin-body > .admin-main > .admin-lede{
+  display:none;
+}
+
+
+/* GİRİŞ KARTI */
+
+.admin-login-card{
+  width:100%;
+
+  padding:48px 46px;
+
+  box-sizing:border-box;
+
+  background:#1d1d1b;
+
+  border:1px solid rgba(185,151,91,.35);
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.45);
+
+  text-align:left;
+}
+
+
+/* LOGO */
+
+.admin-login-logo{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  margin-bottom:28px;
+}
+
+.admin-login-logo img{
+  display:block;
+
+  width:145px;
+  max-width:100%;
+  height:auto;
+}
+
+
+/* BAŞLIK */
+
+.admin-login-title{
+  text-align:center;
+
+  margin-bottom:34px;
+}
+
+.admin-login-title span{
+  display:block;
+
+  margin-bottom:9px;
+
+  color:#b9975b;
+
+  font-size:9px;
+
+  letter-spacing:.22em;
+
+  text-transform:uppercase;
+}
+
+.admin-login-title h1{
+  margin:0 0 10px;
+
+  color:#f4f0e8;
+
+  font-family:"Playfair Display",Georgia,serif;
+
+  font-size:32px;
+
+  font-weight:400;
+
+  letter-spacing:-.02em;
+}
+
+.admin-login-title p{
+  margin:0;
+
+  color:#aaa59c;
+
+  font-size:12px;
+}
+
+
+/* FORM ALANI */
+
+.admin-login-field{
+  margin-bottom:20px;
+}
+
+.admin-login-field label{
+  display:block;
+
+  margin-bottom:8px;
+
+  color:#c8c3b9;
+
+  font-size:10px;
+
+  letter-spacing:.12em;
+
+  text-transform:uppercase;
+}
+
+.admin-login-field input{
+  width:100%;
+
+  height:50px;
+
+  padding:0 15px;
+
+  box-sizing:border-box;
+
+  background:#151515;
+
+  color:#f4f0e8;
+
+  border:1px solid #45433f;
+
+  outline:none;
+
+  font-family:"DM Sans",Arial,sans-serif;
+
+  font-size:13px;
+
+  transition:
+    border-color .25s,
+    background .25s;
+}
+
+.admin-login-field input::placeholder{
+  color:#77736c;
+}
+
+.admin-login-field input:focus{
+  border-color:#b9975b;
+
+  background:#181816;
+}
+
+
+/* BENİ HATIRLA + ŞİFRE */
+
+.admin-login-options{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:20px;
+
+  margin:4px 0 25px;
+}
+
+.remember-me{
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  color:#aaa59c;
+
+  font-size:11px;
+
+  cursor:pointer;
+}
+
+.remember-me input{
+  width:14px;
+  height:14px;
+
+  accent-color:#b9975b;
+
+  cursor:pointer;
+}
+
+.forgot-password{
+  padding:0;
+
+  background:none;
+
+  border:0;
+
+  color:#b9975b;
+
+  font-family:inherit;
+
+  font-size:11px;
+
+  cursor:pointer;
+}
+
+.forgot-password:hover{
+  color:#d1b47c;
+}
+
+
+/* GİRİŞ BUTONU */
+
+.admin-login-button{
+  width:100%;
+
+  height:52px;
+
+  border:1px solid #b9975b;
+
+  background:#b9975b;
+
+  color:#151515;
+
+  font-family:inherit;
+
+  font-size:10px;
+
+  font-weight:600;
+
+  letter-spacing:.16em;
+
+  cursor:pointer;
+
+  transition:
+    background .25s,
+    color .25s;
+}
+
+.admin-login-button:hover{
+  background:#d0b477;
+
+  border-color:#d0b477;
+}
+
+
+/* SITEYE DÖN */
+
+.back-to-site{
+  display:block;
+
+  margin-top:25px;
+
+  text-align:center;
+
+  color:#aaa59c;
+
+  text-decoration:none;
+
+  font-size:11px;
+
+  letter-spacing:.04em;
+}
+
+.back-to-site:hover{
+  color:#f4f0e8;
+}
+
+
+/* DURUM MESAJI */
+
+.admin-login-status{
+  min-height:18px;
+
+  margin:18px 0 0;
+
+  text-align:center;
+
+  color:#aaa59c;
+
+  font-size:11px;
+}
+
+
+/* MOBİL */
+
+@media(max-width:600px){
+
+  .admin-body .admin-main{
+    padding:20px 15px;
+  }
+
+  .admin-login-card{
+    padding:35px 24px;
+  }
+
+  .admin-login-title h1{
+    font-size:28px;
+  }
+
+  .admin-login-options{
+    align-items:flex-start;
+  }
+
+}
+
+</style>
 <body class="admin-body">
 
 <header class="admin-header">
@@ -49,11 +395,110 @@
 Supabase bağlantısını kontrol et.
 </section>
 
-<form id="login-form" class="admin-card">
-<h2>Yönetici girişi</h2>
-<label>E-posta<input type="email" name="email" autocomplete="username" required></label>
-<label>Şifre<input type="password" name="password" autocomplete="current-password" required></label>
-<button type="submit">Giriş yap</button>
+<!-- =====================================================
+     SIVORA YÖNETİCİ GİRİŞİ
+===================================================== -->
+
+<form id="login-form" class="admin-login-card">
+
+  <div class="admin-login-logo">
+    <img
+      src="svr-logo-transparent.png"
+      alt="Sivora Mimarlık"
+    >
+  </div>
+
+  <div class="admin-login-title">
+    <span>SIVORA MİMARLIK</span>
+    <h1>Yönetim Paneli</h1>
+    <p>Portföy yönetimine giriş yapın.</p>
+  </div>
+
+
+  <div class="admin-login-field">
+
+    <label for="admin-email">
+      E-posta
+    </label>
+
+    <input
+      type="email"
+      id="admin-email"
+      name="email"
+      autocomplete="username"
+      placeholder="E-posta adresiniz"
+      required
+    >
+
+  </div>
+
+
+  <div class="admin-login-field">
+
+    <label for="admin-password">
+      Şifre
+    </label>
+
+    <input
+      type="password"
+      id="admin-password"
+      name="password"
+      autocomplete="current-password"
+      placeholder="Şifreniz"
+      required
+    >
+
+  </div>
+
+
+  <div class="admin-login-options">
+
+    <label class="remember-me">
+
+      <input
+        type="checkbox"
+        name="remember"
+        id="remember-me"
+      >
+
+      <span>Beni hatırla</span>
+
+    </label>
+
+
+    <button
+      type="button"
+      class="forgot-password"
+      id="forgot-password"
+    >
+      Şifremi Unuttum
+    </button>
+
+  </div>
+
+
+  <button
+    type="submit"
+    class="admin-login-button"
+  >
+    GİRİŞ YAP
+  </button>
+
+
+  <a
+    href="index.html"
+    class="back-to-site"
+  >
+    ← Web Sitesine Geri Dön
+  </a>
+
+
+  <p
+    id="admin-status"
+    class="admin-login-status"
+    role="status"
+  ></p>
+
 </form>
 
 <section id="dashboard" hidden>
