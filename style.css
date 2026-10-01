@@ -2292,62 +2292,55 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
-/* =========================================================
-   AYDINLIK TEMA - ÜST MENÜ YAZILARI
-========================================================= */
+/* =====================================================
+   SIVORA - AYDINLIK MOD ÜST MENÜ
+===================================================== */
 
-body.sivora-light #navlinks a {
-  color: #222 !important;
+body:not(.dark-mode) #site-nav,
+body:not(.dark-mode) #site-nav a,
+body:not(.dark-mode) #site-nav nav a,
+body:not(.dark-mode) #site-nav .logo-title,
+body:not(.dark-mode) #site-nav .logo-business {
+    color: #222222 !important;
 }
 
-body.sivora-light #navlinks a:hover {
-  color: #b9975b !important;
+body:not(.dark-mode) #site-nav .logo-slogan {
+    color: #b9975b !important;
 }
 
-body.sivora-light .language-switcher button {
-  color: #222 !important;
+body:not(.dark-mode) #site-nav nav a {
+    color: #222222 !important;
+    opacity: 1 !important;
 }
 
-body.sivora-light .language-switcher span {
-  color: #555 !important;
+body:not(.dark-mode) #site-nav nav a:hover {
+    color: #b9975b !important;
 }
 
-body.sivora-light .language-switcher button.active {
-  color: #b9975b !important;
-}
-/* =========================================================
-   SIVORA - AÇIK TEMADA ÜST MENÜ YAZILARI
-   Arka plan ve genel tasarım değiştirilmez.
-========================================================= */
-
-body.sivora-light #site-nav,
-body.sivora-light #site-nav a,
-body.sivora-light #site-nav nav a,
-body.sivora-light #site-nav .logo-title,
-body.sivora-light #site-nav .logo-business {
-  color: #292929 !important;
+body:not(.dark-mode) #site-nav .language-switcher button {
+    color: #222222 !important;
+    opacity: 1 !important;
 }
 
-body.sivora-light #site-nav .logo-slogan {
-  color: #b9975b !important;
+body:not(.dark-mode) #site-nav .language-switcher button.active,
+body:not(.dark-mode) #site-nav .language-switcher button:hover {
+    color: #b9975b !important;
 }
 
-body.sivora-light #site-nav nav a:hover {
-  color: #b9975b !important;
+body:not(.dark-mode) #site-nav .language-switcher > span {
+    color: #222222 !important;
+    opacity: .35 !important;
 }
 
-body.sivora-light #site-nav .language-switcher,
-body.sivora-light #site-nav .language-switcher button {
-  color: #292929 !important;
+body:not(.dark-mode) #site-nav #theme-toggle {
+    color: #222222 !important;
+    border-color: #b9975b !important;
+    background: transparent !important;
 }
 
-body.sivora-light #site-nav .language-switcher button.active {
-  color: #b9975b !important;
-}
-
-body.sivora-light #theme-toggle {
-  color: #292929 !important;
-  border-color: rgba(185,151,91,.65) !important;
+body:not(.dark-mode) #site-nav #theme-toggle:hover {
+    color: #111111 !important;
+    background: #b9975b !important;
 }
 /* =========================================================
    SIVORA GAYRİMENKUL FOTOĞRAF GALERİSİ
