@@ -1868,97 +1868,157 @@ body.dark-mode #site-nav .logo-slogan{
 
 }
 /* =========================================
-   SIVORA HERO - TEMİZ DÜZEN
+   SIVORA HERO - SON TASARIM
 ========================================= */
 
 .hero{
   min-height:100vh !important;
-  position:relative !important;
-  overflow:visible !important;
-  padding:0 !important;
-  display:block !important;
-  background:#161616 !important;
-}
+  height:100vh !important;
 
-/* FOTOĞRAF */
-.hero::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:78vh;
+  position:relative !important;
+  overflow:hidden !important;
+
+  display:flex !important;
+  align-items:flex-end !important;
+  justify-content:flex-start !important;
+
+  padding:0 5vw 8vh !important;
 
   background:
     url("kentsel-donusum.jpg")
-    center center / cover no-repeat;
-
-  z-index:0;
+    center center / cover no-repeat !important;
 }
 
-/* YAZI FOTOĞRAFIN ALTINDA */
-.hero-copy{
-  position:relative !important;
-  z-index:2 !important;
+/* Fotoğrafın üzerine çok hafif karartma */
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
 
-  width:100% !important;
-  max-width:700px !important;
+  background:linear-gradient(
+    90deg,
+    rgba(0,0,0,.42) 0%,
+    rgba(0,0,0,.16) 42%,
+    rgba(0,0,0,0) 72%
+  ) !important;
 
-  margin-top:78vh !important;
+  z-index:1;
+}
 
-  padding:55px 5vw 65px !important;
-
-  background:#161616 !important;
-
-  box-sizing:border-box !important;
+/* Eski overlay'i etkisiz bırak */
+.hero::after{
+  display:none !important;
 }
 
 /* YAZI */
+.hero-copy{
+  position:relative !important;
+  z-index:3 !important;
+
+  width:auto !important;
+  max-width:440px !important;
+
+  margin:0 !important;
+  padding:0 !important;
+
+  background:transparent !important;
+  border:0 !important;
+
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+
+  color:#f4f0e8 !important;
+}
+
+/* Küçük üst yazı */
 .hero-copy .eyebrow{
   font-size:9px !important;
-  margin-bottom:18px !important;
+  letter-spacing:.16em !important;
+  margin:0 0 17px !important;
+  opacity:.75 !important;
 }
 
+/* ANA BAŞLIK */
 .hero-copy h1{
-  font-size:clamp(52px,6vw,82px) !important;
-  line-height:.9 !important;
-  margin:0 0 24px !important;
+  max-width:430px !important;
+
+  font-size:clamp(48px,5vw,70px) !important;
+  line-height:.92 !important;
+
+  letter-spacing:-.045em !important;
+
+  margin:0 0 20px !important;
 }
 
+/* Açıklama */
 .hero-copy .intro{
-  max-width:500px !important;
-  font-size:14px !important;
-  line-height:1.6 !important;
-  margin-bottom:25px !important;
+  max-width:360px !important;
+
+  font-size:13px !important;
+  line-height:1.55 !important;
+
+  margin:0 0 22px !important;
+
+  color:rgba(244,240,232,.82) !important;
 }
 
+/* ÇALIŞMALARIMIZI KEŞFEDİN */
 .hero-copy .arrow-link{
   font-size:10px !important;
+  letter-spacing:.08em !important;
 }
 
 
-/* MOBİL */
+/* =========================================
+   MOBİL
+========================================= */
+
 @media(max-width:800px){
 
   .hero{
-    min-height:100vh !important;
+    min-height:92vh !important;
+    height:92vh !important;
+
+    padding:0 7vw 7vh !important;
+
+    background-image:url("kentsel-donusum-mobil.jpg") !important;
+    background-position:center center !important;
+    background-size:cover !important;
   }
 
   .hero::before{
-    height:70vh;
+    background:linear-gradient(
+      180deg,
+      rgba(0,0,0,.08) 0%,
+      rgba(0,0,0,.12) 45%,
+      rgba(0,0,0,.55) 100%
+    ) !important;
   }
 
   .hero-copy{
-    margin-top:70vh !important;
-    padding:40px 7vw 50px !important;
+    max-width:330px !important;
+  }
+
+  .hero-copy .eyebrow{
+    font-size:8px !important;
+    margin-bottom:13px !important;
   }
 
   .hero-copy h1{
-    font-size:46px !important;
+    font-size:42px !important;
+    line-height:.92 !important;
+    margin-bottom:17px !important;
   }
 
   .hero-copy .intro{
+    max-width:300px !important;
     font-size:12px !important;
-    max-width:320px !important;
+    line-height:1.55 !important;
+    margin-bottom:20px !important;
   }
+
+  .hero-copy .arrow-link{
+    font-size:9px !important;
+  }
+
 }
