@@ -2783,3 +2783,85 @@ html:not(.sivora-dark) #site-nav .logo-slogan {
 html:not(.sivora-dark) #site-nav #theme-toggle {
     color: #111111 !important;
 }
+/* =====================================================
+   SIVORA — DİL AÇILIR MENÜ
+===================================================== */
+
+.language-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.language-current {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    letter-spacing: .08em;
+    cursor: pointer;
+    padding: 8px 4px;
+}
+
+.language-current span {
+    font-size: 14px;
+    transition: transform .2s ease;
+}
+
+.language-dropdown.open .language-current span {
+    transform: rotate(180deg);
+}
+
+.language-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 70px;
+    padding: 6px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.12);
+    box-shadow: 0 12px 30px rgba(0,0,0,.12);
+    display: none;
+    z-index: 9999;
+}
+
+.language-dropdown.open .language-menu {
+    display: block;
+}
+
+.language-menu button {
+    display: block;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #222 !important;
+    padding: 9px 12px;
+    text-align: left;
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    letter-spacing: .08em;
+    cursor: pointer;
+}
+
+.language-menu button:hover {
+    background: #f1eee8;
+    color: #b9975b !important;
+}
+
+/* DARK MOD */
+body.dark-mode .language-menu {
+    background: #222;
+    border-color: rgba(255,255,255,.12);
+}
+
+body.dark-mode .language-menu button {
+    color: #f4f0e8 !important;
+}
+
+body.dark-mode .language-menu button:hover {
+    background: #333;
+    color: #b9975b !important;
+}
