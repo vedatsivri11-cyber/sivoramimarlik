@@ -221,3 +221,99 @@ if (themeToggle) {
   );
 
 })();
+/* =====================================================
+   SIVORA — DİL AÇILIR MENÜ
+===================================================== */
+
+(function () {
+
+    const dropdown =
+        document.getElementById("language-dropdown");
+
+    const current =
+        document.getElementById("language-current");
+
+    const menu =
+        document.getElementById("language-menu");
+
+    if (!current || !menu) return;
+
+    current.addEventListener("click", function (event) {
+
+        event.stopPropagation();
+
+        const parent =
+            current.closest(".language-dropdown");
+
+        if (!parent) return;
+
+        const open =
+            parent.classList.toggle("open");
+
+        current.setAttribute(
+            "aria-expanded",
+            open ? "true" : "false"
+        );
+
+    });
+
+
+    menu.querySelectorAll(
+        "[data-language]"
+    ).forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const language =
+                    button.dataset.language;
+
+                current.innerHTML =
+                    language + " <span>⌄</span>";
+
+                const parent =
+                    current.closest(".language-dropdown");
+
+                if (parent) {
+                    parent.classList.remove("open");
+                }
+
+                current.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                /*
+                 * BURADA MEVCUT DİL SİSTEMİNİZ
+                 * ÇALIŞMAYA DEVAM EDECEK.
+                 *
+                 * Mevcut TR / EN / DE kodunu
+                 * ayrıca değiştirmiyoruz.
+                 */
+            }
+        );
+
+    });
+
+
+    document.addEventListener(
+        "click",
+        function () {
+
+            const parent =
+                current.closest(".language-dropdown");
+
+            if (!parent) return;
+
+            parent.classList.remove("open");
+
+            current.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+    );
+
+})();
