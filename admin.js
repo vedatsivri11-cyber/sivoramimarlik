@@ -179,13 +179,16 @@
 
 
       const box =
-        document.createElement('div');
+  document.createElement('div');
 
-      box.style.background =
-        '#fff';
+box.style.background =
+  '#1d1d1b';
 
-      box.style.width =
-        'min(1100px,94vw)';
+box.style.color =
+  '#f4f0e8';
+
+box.style.width =
+  'min(1100px,94vw)';
 
       box.style.maxHeight =
         '90vh';
