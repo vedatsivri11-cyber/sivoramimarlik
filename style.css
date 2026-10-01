@@ -2292,3 +2292,26 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+/* =========================================================
+   AYDINLIK TEMA - ÜST MENÜ YAZILARI
+========================================================= */
+
+body.sivora-light #navlinks a {
+  color: #222 !important;
+}
+
+body.sivora-light #navlinks a:hover {
+  color: #b9975b !important;
+}
+
+body.sivora-light .language-switcher button {
+  color: #222 !important;
+}
+
+body.sivora-light .language-switcher span {
+  color: #555 !important;
+}
+
+body.sivora-light .language-switcher button.active {
+  color: #b9975b !important;
+}
