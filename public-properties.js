@@ -1487,3 +1487,256 @@ if (photos.length) {
 
 
 })();
+/* =========================================================
+   SIVORA GAYRİMENKUL GALERİ - KESİN CSS
+   Bu CSS doğrudan public-properties.js tarafından yüklenir.
+========================================================= */
+
+(function () {
+
+  const galleryStyle =
+    document.createElement('style');
+
+  galleryStyle.textContent = `
+
+    /* MODAL */
+    .property-modal-box {
+      width: min(1200px, 94vw) !important;
+      max-width: 1200px !important;
+      max-height: 94vh !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+    }
+
+    /* GALERİ */
+    .property-gallery-wrap {
+      width: 100% !important;
+      margin: 20px 0 30px !important;
+    }
+
+    /* BÜYÜK FOTOĞRAF */
+    .property-gallery-main {
+      position: relative !important;
+
+      width: 100% !important;
+      height: 650px !important;
+
+      background: #111 !important;
+
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+
+      overflow: hidden !important;
+    }
+
+    .property-gallery-main > img {
+      width: 100% !important;
+      height: 100% !important;
+
+      display: block !important;
+
+      object-fit: contain !important;
+
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* SAYAC */
+    .property-gallery-counter {
+      position: absolute !important;
+
+      left: 50% !important;
+      bottom: 15px !important;
+
+      transform: translateX(-50%) !important;
+
+      z-index: 20 !important;
+
+      background: rgba(0,0,0,.70) !important;
+      color: #fff !important;
+
+      padding: 6px 12px !important;
+
+      border-radius: 20px !important;
+
+      font-size: 11px !important;
+      line-height: 1 !important;
+    }
+
+    /* OKLAR */
+    .property-gallery-arrow {
+      position: absolute !important;
+
+      top: 50% !important;
+
+      transform: translateY(-50%) !important;
+
+      z-index: 30 !important;
+
+      width: 54px !important;
+      height: 54px !important;
+
+      border-radius: 50% !important;
+
+      border: 1px solid rgba(255,255,255,.5) !important;
+
+      background: rgba(0,0,0,.65) !important;
+
+      color: #fff !important;
+
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+
+      padding: 0 !important;
+
+      font-size: 38px !important;
+      line-height: 1 !important;
+
+      cursor: pointer !important;
+    }
+
+    .property-gallery-prev {
+      left: 20px !important;
+    }
+
+    .property-gallery-next {
+      right: 20px !important;
+    }
+
+    .property-gallery-arrow:hover {
+      background: #b9975b !important;
+      border-color: #b9975b !important;
+      color: #111 !important;
+    }
+
+    /* =====================================================
+       ALT FOTOĞRAF ŞERİDİ
+    ===================================================== */
+
+    .property-gallery-thumbs {
+      display: flex !important;
+
+      flex-direction: row !important;
+
+      flex-wrap: nowrap !important;
+
+      gap: 10px !important;
+
+      width: 100% !important;
+
+      margin-top: 12px !important;
+
+      padding: 4px 2px 10px !important;
+
+      overflow-x: auto !important;
+
+      overflow-y: hidden !important;
+    }
+
+    /* HER THUMBNAIL */
+    .property-gallery-thumb {
+      flex: 0 0 105px !important;
+
+      width: 105px !important;
+      min-width: 105px !important;
+
+      height: 72px !important;
+      min-height: 72px !important;
+
+      padding: 0 !important;
+      margin: 0 !important;
+
+      border: 2px solid transparent !important;
+
+      background: #111 !important;
+
+      overflow: hidden !important;
+
+      cursor: pointer !important;
+
+      display: block !important;
+
+      opacity: .65 !important;
+    }
+
+    /* THUMBNAIL RESMİ */
+    .property-gallery-thumb img {
+      width: 100% !important;
+      height: 100% !important;
+
+      max-width: none !important;
+      max-height: none !important;
+
+      display: block !important;
+
+      object-fit: cover !important;
+
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* AKTİF */
+    .property-gallery-thumb.active {
+      opacity: 1 !important;
+
+      border: 2px solid #b9975b !important;
+    }
+
+    /* HOVER */
+    .property-gallery-thumb:hover {
+      opacity: 1 !important;
+    }
+
+    /* =====================================================
+       MOBİL
+    ===================================================== */
+
+    @media (max-width: 700px) {
+
+      .property-modal {
+        padding: 10px !important;
+      }
+
+      .property-modal-box {
+        width: 96vw !important;
+        max-width: 96vw !important;
+      }
+
+      .property-gallery-main {
+        height: 52vh !important;
+        min-height: 300px !important;
+      }
+
+      .property-gallery-arrow {
+        width: 44px !important;
+        height: 44px !important;
+
+        font-size: 30px !important;
+      }
+
+      .property-gallery-prev {
+        left: 10px !important;
+      }
+
+      .property-gallery-next {
+        right: 10px !important;
+      }
+
+      .property-gallery-thumb {
+        flex-basis: 82px !important;
+
+        width: 82px !important;
+        min-width: 82px !important;
+
+        height: 58px !important;
+      }
+
+    }
+
+  `;
+
+  document.head.appendChild(galleryStyle);
+
+})();
