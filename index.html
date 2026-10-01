@@ -1,6 +1,205 @@
 <!doctype html>
 <html lang="tr">
 <head>
+<style>
+
+/* =========================================
+   SIVORA HERO - ESKİ HALİ
+========================================= */
+
+.hero{
+  min-height:100vh !important;
+  height:100vh !important;
+
+  position:relative !important;
+  overflow:hidden !important;
+
+  display:flex !important;
+  align-items:flex-end !important;
+  justify-content:flex-start !important;
+
+  padding:0 5vw 8vh !important;
+
+  background:
+    url("kentsel-donusum.jpg")
+    center center / cover no-repeat !important;
+}
+
+
+/* FOTOĞRAF ÜZERİ HAFİF KARARTMA */
+
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:linear-gradient(
+    90deg,
+    rgba(0,0,0,.42) 0%,
+    rgba(0,0,0,.16) 42%,
+    rgba(0,0,0,0) 72%
+  ) !important;
+
+  z-index:1;
+}
+
+
+/* ESKİ OVERLAY KAPALI */
+
+.hero::after{
+  display:none !important;
+}
+
+
+/* YAZI */
+
+.hero-copy{
+  position:relative !important;
+  z-index:3 !important;
+
+  width:auto !important;
+  max-width:440px !important;
+
+  margin:0 !important;
+  padding:0 !important;
+
+  background:transparent !important;
+  border:0 !important;
+
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+
+  color:#f4f0e8 !important;
+}
+
+
+/* ÜST KÜÇÜK YAZI */
+
+.hero-copy .eyebrow{
+  font-size:9px !important;
+  letter-spacing:.16em !important;
+  margin:0 0 17px !important;
+  opacity:.75 !important;
+}
+
+
+/* ANA BAŞLIK */
+
+.hero-copy h1{
+  max-width:430px !important;
+
+  font-size:clamp(48px,5vw,70px) !important;
+  line-height:.92 !important;
+
+  letter-spacing:-.045em !important;
+
+  margin:0 0 20px !important;
+}
+
+
+/* AÇIKLAMA */
+
+.hero-copy .intro{
+  max-width:360px !important;
+
+  font-size:13px !important;
+  line-height:1.55 !important;
+
+  margin:0 0 22px !important;
+
+  color:rgba(244,240,232,.82) !important;
+}
+
+
+/* ALT KATEGORİLER */
+
+.hero-meta{
+  position:absolute !important;
+
+  right:5vw !important;
+  bottom:7vh !important;
+
+  top:auto !important;
+
+  z-index:3 !important;
+
+  color:#fff !important;
+
+  display:flex !important;
+  gap:28px !important;
+
+  font-size:10px !important;
+  text-transform:uppercase !important;
+  letter-spacing:.12em !important;
+}
+
+
+/* SCROLL */
+
+.hero-scroll{
+  position:absolute !important;
+
+  right:5vw !important;
+  top:50% !important;
+
+  z-index:3 !important;
+
+  color:#fff !important;
+
+  writing-mode:vertical-rl;
+
+  font-size:9px !important;
+  letter-spacing:.16em !important;
+
+  opacity:.65 !important;
+}
+
+
+/* =========================================
+   MOBİL - ESKİ HALİ
+========================================= */
+
+@media(max-width:800px){
+
+  .hero{
+    min-height:88vh !important;
+    height:88vh !important;
+
+    padding:15vh 6vw 8vh !important;
+
+    background:
+      url("kentsel-donusum.jpg")
+      center center / cover no-repeat !important;
+  }
+
+  .hero::before{
+    background:linear-gradient(
+      180deg,
+      rgba(0,0,0,.12) 0%,
+      rgba(0,0,0,.20) 55%,
+      rgba(0,0,0,.42) 100%
+    ) !important;
+  }
+
+  .hero-copy{
+    max-width:90% !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+
+  .hero-copy h1{
+    font-size:clamp(58px,15vw,78px) !important;
+    line-height:.88 !important;
+  }
+
+  .hero-meta,
+  .hero-scroll{
+    display:none !important;
+  }
+
+}
+
+</style>
 
 <meta charset="utf-8">
 
