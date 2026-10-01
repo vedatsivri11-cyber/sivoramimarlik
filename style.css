@@ -2264,3 +2264,26 @@ body.dark-mode #site-nav .logo-slogan{
     font-size:10px !important;
   }
 }
+/* =========================================
+   HERO GÖRSELİNİ AŞAĞI AL
+========================================= */
+
+@media (min-width:801px){
+
+  .hero::before{
+    top:90px !important;
+    bottom:0 !important;
+    height:auto !important;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(0,0,0,.42) 0%,
+        rgba(0,0,0,.16) 42%,
+        rgba(0,0,0,0) 72%
+      ),
+      url("kentsel-donusum.jpg")
+      center center / cover no-repeat !important;
+  }
+
+}
