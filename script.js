@@ -317,3 +317,194 @@ if (themeToggle) {
     );
 
 })();
+/* =========================================================
+   SIVORA - DİL SEÇİM DROPDOWN
+========================================================= */
+
+(function () {
+
+    const languageBox =
+        document.getElementById("language-switcher");
+
+    if (!languageBox) return;
+
+    const buttons =
+        languageBox.querySelectorAll("[data-lang]");
+
+    if (!buttons.length) return;
+
+
+    /* Mevcut yapıyı dropdown görünümüne hazırla */
+
+    languageBox.classList.add("language-dropdown");
+
+
+    /* Mevcut aktif dili bul */
+
+    let activeButton =
+        languageBox.querySelector(
+            "[data-lang].active"
+        );
+
+    if (!activeButton) {
+        activeButton = buttons[0];
+    }
+
+
+    /* Ana butonu oluştur */
+
+    const currentLanguage =
+        document.createElement("button");
+
+    currentLanguage.type = "button";
+
+    currentLanguage.className =
+        "language-current";
+
+    currentLanguage.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+    currentLanguage.innerHTML =
+        activeButton.innerHTML +
+        ' <span class="language-arrow">⌄</span>';
+
+
+    /* Eski butonları menüye al */
+
+    const menu =
+        document.createElement("div");
+
+    menu.className =
+        "language-menu";
+
+
+    buttons.forEach(function (button) {
+
+        const option =
+            document.createElement("button");
+
+        option.type = "button";
+
+        option.className =
+            "language-option";
+
+        option.dataset.lang =
+            button.dataset.lang;
+
+        option.innerHTML =
+            button.innerHTML;
+
+
+        option.addEventListener(
+            "click",
+            function (event) {
+
+                event.stopPropagation();
+
+                const selectedLanguage =
+                    button.dataset.lang;
+
+
+                /* Ana butonda seçilen dili göster */
+
+                currentLanguage.innerHTML =
+                    button.innerHTML +
+                    ' <span class="language-arrow">⌄</span>';
+
+
+                /* Aktif dili güncelle */
+
+                buttons.forEach(function (item) {
+                    item.classList.remove("active");
+                });
+
+                button.classList.add("active");
+
+
+                /* Menüyü kapat */
+
+                languageBox.classList.remove("open");
+
+                currentLanguage.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+
+                /*
+                 * MEVCUT DİL SİSTEMİNİ ÇALIŞTIR
+                 *
+                 * Mevcut data-lang butonuna
+                 * tıklatıyoruz.
+                 */
+
+                button.click();
+
+            }
+        );
+
+
+        menu.appendChild(option);
+
+    });
+
+
+    /* Eski yapıyı gizle */
+
+    buttons.forEach(function (button) {
+        button.style.display = "none";
+    });
+
+    languageBox
+        .querySelectorAll(":scope > span")
+        .forEach(function (span) {
+            span.style.display = "none";
+        });
+
+
+    /* Yeni yapıyı ekle */
+
+    languageBox.appendChild(currentLanguage);
+
+    languageBox.appendChild(menu);
+
+
+    /* Aç / kapa */
+
+    currentLanguage.addEventListener(
+        "click",
+        function (event) {
+
+            event.stopPropagation();
+
+            const isOpen =
+                languageBox.classList.toggle("open");
+
+            currentLanguage.setAttribute(
+                "aria-expanded",
+                isOpen ? "true" : "false"
+            );
+
+        }
+    );
+
+
+    /* Sayfaya tıklayınca kapat */
+
+    document.addEventListener(
+        "click",
+        function () {
+
+            languageBox.classList.remove("open");
+
+            currentLanguage.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+    );
+
+})();
