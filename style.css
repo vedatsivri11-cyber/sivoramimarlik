@@ -2022,3 +2022,135 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+/* =========================================
+   SIVORA HERO - GÖRSEL + ALTINDA YAZI
+========================================= */
+
+/* HERO'YU NORMAL AKIŞA AL */
+.hero{
+  display:block !important;
+  height:auto !important;
+  min-height:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  background:#161616 !important;
+}
+
+/* ESKİ SAHTE GÖRSEL VE OVERLAY KAPAT */
+.hero::before,
+.hero::after{
+  display:none !important;
+}
+
+/* GERÇEK GÖRSEL ALANI */
+.hero .hero-image{
+  display:block !important;
+
+  width:100% !important;
+  height:78vh !important;
+
+  background-image:url("kentsel-donusum.jpg") !important;
+  background-position:center center !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+
+  position:relative !important;
+  z-index:1 !important;
+}
+
+/* YAZI FOTOĞRAFIN ALTINDA */
+.hero .hero-copy{
+  position:relative !important;
+
+  width:100% !important;
+  max-width:none !important;
+
+  margin:0 !important;
+
+  padding:55px 5vw 65px !important;
+
+  background:#161616 !important;
+
+  color:#f4f0e8 !important;
+
+  z-index:2 !important;
+
+  box-sizing:border-box !important;
+}
+
+/* BAŞLIK */
+.hero .hero-copy h1{
+  max-width:600px !important;
+
+  font-size:clamp(48px,6vw,78px) !important;
+  line-height:.9 !important;
+
+  margin:0 0 22px !important;
+}
+
+/* ÜST YAZI */
+.hero .hero-copy .eyebrow{
+  margin:0 0 18px !important;
+  font-size:9px !important;
+  letter-spacing:.16em !important;
+}
+
+/* AÇIKLAMA */
+.hero .hero-copy .intro{
+  max-width:520px !important;
+
+  font-size:14px !important;
+  line-height:1.6 !important;
+
+  margin:0 0 25px !important;
+
+  color:rgba(244,240,232,.78) !important;
+}
+
+/* LINK */
+.hero .hero-copy .arrow-link{
+  font-size:10px !important;
+}
+
+/* META VE SCROLL */
+.hero .hero-meta{
+  position:absolute !important;
+  right:5vw !important;
+  bottom:auto !important;
+  top:74vh !important;
+  z-index:5 !important;
+}
+
+
+/* =========================================
+   MOBİL
+========================================= */
+
+@media(max-width:800px){
+
+  .hero .hero-image{
+    height:70vh !important;
+
+    background-image:url("kentsel-donusum-mobil.jpg") !important;
+    background-position:center center !important;
+    background-size:cover !important;
+  }
+
+  .hero .hero-copy{
+    padding:40px 7vw 50px !important;
+  }
+
+  .hero .hero-copy h1{
+    font-size:46px !important;
+  }
+
+  .hero .hero-copy .intro{
+    max-width:320px !important;
+    font-size:12px !important;
+  }
+
+  .hero .hero-meta,
+  .hero .hero-scroll{
+    display:none !important;
+  }
+}
