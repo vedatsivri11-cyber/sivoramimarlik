@@ -2865,3 +2865,180 @@ body.dark-mode .language-menu button:hover {
     background: #333;
     color: #b9975b !important;
 }
+/* =========================================================
+   SIVORA - DİL DROPDOWN TASARIMI
+========================================================= */
+
+#site-nav .language-dropdown {
+    position: relative;
+    margin-left: 28px;
+    display: inline-block;
+    flex-shrink: 0;
+    z-index: 9999;
+}
+
+
+/* ANA DİL BUTONU */
+
+#site-nav .language-current {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    border: 0;
+    background: transparent;
+
+    color: inherit;
+
+    padding: 6px 4px;
+
+    font-family: "DM Sans", Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+
+    cursor: pointer;
+}
+
+
+#site-nav .language-current:hover {
+    color: #b9975b;
+}
+
+
+/* OK */
+
+.language-arrow {
+    font-size: 13px;
+    line-height: 1;
+    transition: transform .2s ease;
+}
+
+
+.language-dropdown.open
+.language-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* AÇILAN MENÜ */
+
+.language-menu {
+    position: absolute;
+
+    top: calc(100% + 8px);
+    right: 0;
+
+    min-width: 82px;
+
+    padding: 6px;
+
+    background: #ffffff;
+
+    border: 1px solid rgba(0,0,0,.10);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.16);
+
+    display: none;
+
+    z-index: 10000;
+}
+
+
+.language-dropdown.open
+.language-menu {
+    display: block;
+}
+
+
+/* DİL SEÇENEKLERİ */
+
+.language-option {
+    display: flex;
+
+    width: 100%;
+
+    align-items: center;
+    gap: 7px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: #222 !important;
+
+    padding: 9px 10px;
+
+    font-family: "DM Sans", Arial, sans-serif;
+
+    font-size: 10px;
+
+    letter-spacing: .08em;
+
+    cursor: pointer;
+
+    text-align: left;
+}
+
+
+.language-option:hover {
+    background: #f2f0eb;
+
+    color: #b9975b !important;
+}
+
+
+/* DARK MODE */
+
+body.dark-mode
+.language-menu {
+
+    background: #20201e;
+
+    border-color:
+        rgba(255,255,255,.12);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.4);
+}
+
+
+body.dark-mode
+.language-option {
+
+    color: #f4f0e8 !important;
+}
+
+
+body.dark-mode
+.language-option:hover {
+
+    background: #30302d;
+
+    color: #b9975b !important;
+}
+
+
+/* MOBİL */
+
+@media (max-width: 800px) {
+
+    #site-nav .language-dropdown {
+        margin-left: 8px;
+    }
+
+    #site-nav .language-current {
+        font-size: 9px;
+        padding: 5px 2px;
+    }
+
+    .language-menu {
+        min-width: 75px;
+    }
+
+    .language-option {
+        font-size: 9px;
+        padding: 8px 9px;
+    }
+}
