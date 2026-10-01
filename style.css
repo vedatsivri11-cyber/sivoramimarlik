@@ -1850,4 +1850,67 @@ body.dark-mode #site-nav .logo-slogan{
 .hero-copy .arrow-link{
   font-size:10px !important;
 }
-  
+/* =========================================
+   SIVORA HERO - GÖRSELİ ÖN PLANA ÇIKAR
+========================================= */
+
+.hero{
+  padding:0 5vw 8vh !important;
+  align-items:flex-end !important;
+}
+
+.hero-copy{
+  max-width:430px !important;
+  padding:0 !important;
+  background:transparent !important;
+  border:0 !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+
+.hero h1{
+  font-size:clamp(44px,5vw,68px) !important;
+  line-height:.92 !important;
+  margin-bottom:20px !important;
+}
+
+.hero .intro{
+  max-width:360px !important;
+  font-size:13px !important;
+  line-height:1.55 !important;
+  margin-bottom:22px !important;
+}
+
+.hero-copy .eyebrow{
+  font-size:9px !important;
+  margin-bottom:15px !important;
+}
+
+.hero-copy .arrow-link{
+  font-size:10px !important;
+}
+
+
+/* MOBİL */
+
+@media(max-width:800px){
+
+  .hero{
+    min-height:92vh !important;
+    padding:0 7vw 7vh !important;
+    align-items:flex-end !important;
+  }
+
+  .hero-copy{
+    max-width:330px !important;
+  }
+
+  .hero h1{
+    font-size:40px !important;
+  }
+
+  .hero .intro{
+    max-width:300px !important;
+    font-size:12px !important;
+  }
+}  
