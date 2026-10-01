@@ -16,7 +16,7 @@ a{color:inherit}
   min-height:100vh;
   position:relative;
   overflow:visible;
-  padding:0;
+  padding-top:80px;
   display:block;
   background:#161616;
 }
