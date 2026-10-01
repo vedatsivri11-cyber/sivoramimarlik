@@ -71,15 +71,19 @@ a{color:inherit}
 .hero::after{
   content:"";
   position:absolute;
-  inset:0;
+  top:0;
+  left:0;
+  right:0;
+  height:78vh;
   background:linear-gradient(
     90deg,
-    rgba(13,13,13,.45) 0%,
-    rgba(13,13,13,.20) 38%,
-    rgba(13,13,13,.05) 68%,
+    rgba(13,13,13,.25) 0%,
+    rgba(13,13,13,.10) 38%,
+    rgba(13,13,13,.02) 68%,
     rgba(13,13,13,0) 100%
   );
   z-index:1;
+  pointer-events:none;
 }
 .hero-copy{
   position:relative;
