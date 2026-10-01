@@ -2196,3 +2196,35 @@ body.dark-mode #site-nav .logo-slogan{
     background-position:center bottom !important;
   }
 }
+/* =====================================================
+   HERO FOTOĞRAFINDAKİ GÖMÜLÜ LOGOYU GİZLE
+===================================================== */
+
+.hero::before{
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #161616 0px,
+      #161616 125px,
+      rgba(22,22,22,.35) 170px,
+      rgba(22,22,22,0) 260px
+    ) !important;
+
+  z-index:2 !important;
+  pointer-events:none !important;
+}
+
+/* Yazı bunun üzerinde kalsın */
+.hero-copy{
+  position:relative !important;
+  z-index:3 !important;
+}
+
+/* Menü kesinlikle en üstte */
+#site-nav{
+  z-index:100 !important;
+}
