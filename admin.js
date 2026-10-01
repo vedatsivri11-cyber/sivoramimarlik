@@ -3213,57 +3213,43 @@ propertyCards.append(
 
 
   const validateImageFiles =
-    files => {
+  files => {
 
-      const allowed = [
-        'image/jpeg',
-        'image/png',
-        'image/webp'
-      ];
+    const allowed = [
+      'image/jpeg',
+      'image/png',
+      'image/webp'
+    ];
 
+    if (!files || !files.length) {
+      return 'En az bir fotoğraf seçin.';
+    }
 
-      for (
-        const file of files
-      ) {
+    for (const file of files) {
 
-        if (
-          !file ||
-          !file.size
-        ) {
-          continue;
-        }
-
-
-        if (
-          !allowed.includes(
-            file.type
-          )
-        ) {
-
-          return (
-            'Sadece JPG, PNG veya WebP fotoğraflar kullanılabilir.'
-          );
-
-        }
-
-
-        if (
-          file.size >
-          5 * 1024 * 1024
-        ) {
-
-          return (
-            `"${file.name}" 5 MB'tan büyük.`
-          );
-
-        }
-
+      if (!file || !file.size) {
+        continue;
       }
 
+      if (!allowed.includes(file.type)) {
+        return (
+          `"${file.name}" desteklenmeyen formatta. ` +
+          'Sadece JPG, PNG veya WebP kullanabilirsiniz.'
+        );
+      }
 
-      return null;
+      // Tek fotoğraf için maksimum 15 MB
+      if (file.size > 15 * 1024 * 1024) {
+        return (
+          `"${file.name}" 15 MB'tan büyük. ` +
+          'Lütfen fotoğrafı küçültün.'
+        );
+      }
 
-    };
+    }
+
+    return null;
+  };
 
 
   /* =========================================================
