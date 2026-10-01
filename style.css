@@ -1914,3 +1914,106 @@ body.dark-mode #site-nav .logo-slogan{
     font-size:12px !important;
   }
 }  
+/* =========================================
+   SIVORA HERO
+   YAZI FOTOĞRAFIN ALTINDA
+========================================= */
+
+.hero{
+  position:relative !important;
+  overflow:visible !important;
+
+  /* Fotoğraf üstünde yazı olmasın */
+  padding:0 !important;
+
+  /* Fotoğraf alanı */
+  min-height:78vh !important;
+
+  background-position:center center !important;
+  background-size:cover !important;
+}
+
+/* Yazıyı fotoğrafın dışına çıkar */
+.hero-copy{
+  position:absolute !important;
+
+  left:0 !important;
+  right:0 !important;
+  top:100% !important;
+
+  max-width:none !important;
+
+  padding:55px 5vw 60px !important;
+
+  background:#161616 !important;
+
+  color:#f4f0e8 !important;
+
+  border:0 !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+
+  box-sizing:border-box !important;
+}
+
+/* Üstteki küçük yazı */
+.hero-copy .eyebrow{
+  margin-bottom:18px !important;
+  font-size:9px !important;
+  letter-spacing:.16em !important;
+}
+
+/* Ana başlık */
+.hero-copy h1{
+  margin:0 0 22px !important;
+
+  max-width:600px !important;
+
+  font-size:clamp(48px,6vw,82px) !important;
+  line-height:.9 !important;
+}
+
+/* Açıklama */
+.hero-copy .intro{
+  max-width:520px !important;
+
+  margin:0 0 25px !important;
+
+  font-size:13px !important;
+  line-height:1.6 !important;
+
+  color:#f4f0e8cc !important;
+}
+
+/* Link */
+.hero-copy .arrow-link{
+  font-size:10px !important;
+}
+
+
+/* =========================================
+   MOBİL
+========================================= */
+
+@media(max-width:800px){
+
+  .hero{
+    min-height:75vh !important;
+
+    background-position:center center !important;
+  }
+
+  .hero-copy{
+    padding:40px 7vw 50px !important;
+  }
+
+  .hero-copy h1{
+    font-size:46px !important;
+    line-height:.92 !important;
+  }
+
+  .hero-copy .intro{
+    max-width:320px !important;
+    font-size:12px !important;
+  }
+}
