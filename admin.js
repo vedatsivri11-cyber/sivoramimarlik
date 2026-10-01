@@ -2427,12 +2427,11 @@ uploadButton.addEventListener(
           `${i + 1} / ${files.length} fotoğraf yükleniyor...`;
 
         const path =
-          'properties/' +
-          userData.user.id +
-          '/' +
-          crypto.randomUUID() +
-          '.' +
-          makePhotoExt(file);
+  'properties/' +
+  userData.user.id +
+  '/' +
+  crypto.randomUUID() +
+  '.jpg';
 
         const {
           error:
@@ -3529,7 +3528,234 @@ uploadButton.addEventListener(
 
     return null;
   };
+/* =========================================================
+   GAYRİMENKUL FOTOĞRAF HAZIRLAMA
+   Büyük fotoğrafları otomatik olarak küçültür.
+========================================================= */
 
+async function preparePropertyImage(file) {
+
+  if (!file) {
+    throw new Error("Geçersiz fotoğraf.");
+  }
+
+  /* 4.8 MB altındaki fotoğrafları olduğu gibi kullan */
+  const TARGET_SIZE = 4.8 * 1024 * 1024;
+
+  if (file.size <= TARGET_SIZE) {
+    return file;
+  }
+
+  return new Promise((resolve, reject) => {
+
+    const objectUrl =
+      URL.createObjectURL(file);
+
+    const img =
+      new Image();
+
+    img.onload = () => {
+
+      try {
+
+        URL.revokeObjectURL(objectUrl);
+
+        /* Maksimum görsel boyutu */
+        const MAX_WIDTH = 2400;
+        const MAX_HEIGHT = 2400;
+
+        let width = img.naturalWidth;
+        let height = img.naturalHeight;
+
+        const ratio =
+          Math.min(
+            1,
+            MAX_WIDTH / width,
+            MAX_HEIGHT / height
+          );
+
+        width =
+          Math.round(width * ratio);
+
+        height =
+          Math.round(height * ratio);
+
+        const canvas =
+          document.createElement("canvas");
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx =
+          canvas.getContext("2d");
+
+        if (!ctx) {
+          reject(
+            new Error(
+              "Fotoğraf dönüştürülemedi."
+            )
+          );
+          return;
+        }
+
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          width,
+          height
+        );
+
+        const tryQuality = quality => {
+
+          canvas.toBlob(
+            blob => {
+
+              if (!blob) {
+
+                reject(
+                  new Error(
+                    "Fotoğraf sıkıştırılamadı."
+                  )
+                );
+
+                return;
+              }
+
+              /* Yeterince küçüldüyse */
+              if (
+                blob.size <= TARGET_SIZE ||
+                quality <= 0.50
+              ) {
+
+                const newFile =
+                  new File(
+                    [blob],
+                    file.name
+                      .replace(
+                        /\.[^/.]+$/,
+                        ""
+                      ) + ".jpg",
+                    {
+                      type:
+                        "image/jpeg",
+                      lastModified:
+                        Date.now()
+                    }
+                  );
+
+                resolve(newFile);
+
+                return;
+              }
+
+              /* Biraz daha sıkıştır */
+              tryQuality(
+                quality - 0.08
+              );
+
+            },
+            "image/jpeg",
+            quality
+          );
+
+        };
+
+        tryQuality(0.82);
+
+      } catch (error) {
+
+        URL.revokeObjectURL(
+          objectUrl
+        );
+
+        reject(error);
+      }
+
+    };
+
+    img.onerror = () => {
+
+      URL.revokeObjectURL(
+        objectUrl
+      );
+
+      reject(
+        new Error(
+          `"${file.name}" okunamadı.`
+        )
+      );
+
+    };
+
+    img.src = objectUrl;
+
+  });
+
+}
+
+
+/* =========================================================
+   SUPABASE FOTOĞRAF YÜKLEME
+   Load failed hatasını yakalar.
+========================================================= */
+
+async function uploadPropertyImage(
+  file,
+  path
+) {
+
+  try {
+
+    const preparedFile =
+      await preparePropertyImage(
+        file
+      );
+
+    const {
+      data,
+      error
+    } =
+      await db.storage
+        .from("property-images")
+        .upload(
+          path,
+          preparedFile,
+          {
+            contentType:
+              preparedFile.type,
+            upsert:
+              false
+          }
+        );
+
+    if (error) {
+      return {
+        data,
+        error
+      };
+    }
+
+    return {
+      data,
+      error: null
+    };
+
+  } catch (error) {
+
+    return {
+      data: null,
+      error:
+        error instanceof Error
+          ? error
+          : new Error(
+              String(error)
+            )
+    };
+
+  }
+
+}
 
   /* =========================================================
      PROJE FORMU
@@ -3643,23 +3869,12 @@ uploadButton.addEventListener(
 
 
           const {
-            error:
-              uploadError
-          } =
-            await db.storage
-              .from(
-                'projects'
-              )
-              .upload(
-                path,
-                file,
-                {
-                  contentType:
-                    file.type,
-                  upsert:
-                    false
-                }
-              );
+  error: uploadError
+} =
+  await uploadPropertyImage(
+    file,
+    path
+  );
 
 
           if (uploadError) {
@@ -4029,10 +4244,11 @@ uploadButton.addEventListener(
             }
 
 
-            setStatus(
-              'Fotoğraf yüklenemedi: ' +
-              uploadError.message
-            );
+            ssetStatus(
+  `${i + 1}. fotoğraf yüklenemedi: ` +
+  (uploadError?.message ||
+   "Ağ bağlantısı veya Supabase Storage hatası.")
+);
 
             return;
 
