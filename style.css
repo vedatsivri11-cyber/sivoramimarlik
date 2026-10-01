@@ -2315,3 +2315,37 @@ body.sivora-light .language-switcher span {
 body.sivora-light .language-switcher button.active {
   color: #b9975b !important;
 }
+/* =========================================================
+   SIVORA - AÇIK TEMADA ÜST MENÜ YAZILARI
+   Arka plan ve genel tasarım değiştirilmez.
+========================================================= */
+
+body.sivora-light #site-nav,
+body.sivora-light #site-nav a,
+body.sivora-light #site-nav nav a,
+body.sivora-light #site-nav .logo-title,
+body.sivora-light #site-nav .logo-business {
+  color: #292929 !important;
+}
+
+body.sivora-light #site-nav .logo-slogan {
+  color: #b9975b !important;
+}
+
+body.sivora-light #site-nav nav a:hover {
+  color: #b9975b !important;
+}
+
+body.sivora-light #site-nav .language-switcher,
+body.sivora-light #site-nav .language-switcher button {
+  color: #292929 !important;
+}
+
+body.sivora-light #site-nav .language-switcher button.active {
+  color: #b9975b !important;
+}
+
+body.sivora-light #theme-toggle {
+  color: #292929 !important;
+  border-color: rgba(185,151,91,.65) !important;
+}
