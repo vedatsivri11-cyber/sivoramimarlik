@@ -2768,18 +2768,25 @@ body.sivora-light #site-nav {
         theme
       );
 
+document.documentElement.classList.toggle(
+  "sivora-light",
+  theme === "light"
+);
 
-      document.body.classList.toggle(
-        "sivora-light",
-        theme === "light"
-      );
+document.documentElement.classList.toggle(
+  "sivora-dark",
+  theme === "dark"
+);
 
+document.body.classList.toggle(
+  "sivora-light",
+  theme === "light"
+);
 
-      document.body.classList.toggle(
-        "sivora-dark",
-        theme === "dark"
-      );
-
+document.body.classList.toggle(
+  "sivora-dark",
+  theme === "dark"
+);
 
       updateButton();
 
