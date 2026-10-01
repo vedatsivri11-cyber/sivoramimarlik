@@ -2661,3 +2661,40 @@ body.admin-body button {
 body.admin-body .admin-login-button {
   font-weight: 600;
 }
+/* =====================================================
+   SIVORA AÇIK TEMA — ÜST MENÜ
+===================================================== */
+
+body.sivora-light .nav {
+  color: #171716 !important;
+}
+
+body.sivora-light .nav nav a {
+  color: #171716 !important;
+}
+
+body.sivora-light .logo {
+  color: #171716 !important;
+}
+
+body.sivora-light .logo-text,
+body.sivora-light .logo-title,
+body.sivora-light .logo-slogan,
+body.sivora-light .logo-business {
+  color: #171716 !important;
+}
+
+body.sivora-light .language-switcher,
+body.sivora-light .language-switcher button,
+body.sivora-light .language-switcher span {
+  color: #171716 !important;
+}
+
+body.sivora-light #theme-toggle {
+  color: #171716 !important;
+  border-color: rgba(23,23,22,.35) !important;
+}
+
+body.sivora-light .menu {
+  color: #171716 !important;
+}
