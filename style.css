@@ -1820,3 +1820,34 @@ body.dark-mode #site-nav .logo-slogan{
   }
 
 }
+/* =========================================
+   SIVORA HERO - YAZIYI KÜÇÜLT
+========================================= */
+
+.hero-copy{
+  max-width:460px !important;
+  padding-bottom:4vh !important;
+}
+
+.hero h1{
+  font-size:clamp(44px,5vw,68px) !important;
+  line-height:.94 !important;
+  margin-bottom:20px !important;
+}
+
+.hero .intro{
+  max-width:360px !important;
+  font-size:13px !important;
+  line-height:1.6 !important;
+  margin-bottom:22px !important;
+}
+
+.hero-copy .eyebrow{
+  font-size:9px !important;
+  margin-bottom:16px !important;
+}
+
+.hero-copy .arrow-link{
+  font-size:10px !important;
+}
+  
