@@ -2,107 +2,230 @@
 <html lang="tr">
 
 <style>
+
 /* =====================================================
-   SIVORA HERO — PREMIUM METİN PANELİ
+   SIVORA HERO — FOTOĞRAF TAM GÖRÜNÜR
+   YAZI FOTOĞRAFIN ALTINDA
 ===================================================== */
 
 .hero{
-  position:relative;
+  min-height:0 !important;
+  height:auto !important;
+  position:relative !important;
+  overflow:visible !important;
+  padding:0 !important;
+  display:block !important;
+  background:#161616 !important;
 }
 
-/* Görseli fazla karartma */
+/* ANA FOTOĞRAF */
+.hero::before{
+  content:"";
+  display:block !important;
+  position:absolute !important;
+  top:0 !important;
+  left:0 !important;
+  width:100% !important;
+  height:78vh !important;
+
+  background:
+    url("kentsel-donusum.jpg")
+    center center / cover no-repeat !important;
+
+  z-index:0 !important;
+}
+
+/* FOTOĞRAF ÜZERİNDEKİ KARARTMA */
 .hero::after{
-  background:linear-gradient(
-    90deg,
-    rgba(10,10,10,.38) 0%,
-    rgba(10,10,10,.16) 45%,
-    rgba(10,10,10,0) 78%
-  ) !important;
+  content:"" !important;
+  position:absolute !important;
+  top:0 !important;
+  left:0 !important;
+  width:100% !important;
+  height:78vh !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(10,10,10,.18) 0%,
+      rgba(10,10,10,.06) 55%,
+      rgba(10,10,10,0) 100%
+    ) !important;
+
+  z-index:1 !important;
+  pointer-events:none !important;
 }
 
-/* Sol taraftaki metin paneli */
+/* =====================================================
+   YAZI ALANI — FOTOĞRAFIN ALTINDA
+===================================================== */
+
 .hero-copy{
-  position:relative;
-  z-index:3;
-  max-width:600px !important;
+  position:relative !important;
+  z-index:3 !important;
 
-  padding:38px 48px 42px !important;
+  width:100% !important;
+  max-width:760px !important;
 
-  background:rgba(15,15,15,.48);
+  margin-top:78vh !important;
 
-  border-left:2px solid #b9975b;
+  padding:
+    55px
+    5vw
+    70px !important;
 
-  backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
+  box-sizing:border-box !important;
 
-  box-sizing:border-box;
+  background:#161616 !important;
+
+  color:#f4f0e8 !important;
+
+  border:0 !important;
+
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
 }
 
-/* Üst küçük başlık */
+/* ÜST KÜÇÜK YAZI */
 .hero-copy .eyebrow{
-  font-size:10px !important;
+  font-size:9px !important;
   letter-spacing:.18em !important;
-  margin-bottom:20px !important;
-  opacity:.72;
+  margin:0 0 18px !important;
+  opacity:.65 !important;
 }
 
-/* Ana başlık */
+/* ANA BAŞLIK */
 .hero-copy h1{
-  font-size:clamp(48px,5vw,72px) !important;
-  line-height:.95 !important;
-  margin:0 0 22px !important;
-  letter-spacing:-.035em !important;
+  font-size:clamp(52px,6vw,82px) !important;
+  line-height:.9 !important;
+  letter-spacing:-.04em !important;
+
+  margin:0 0 24px !important;
 }
 
-/* Açıklama */
+/* AÇIKLAMA */
 .hero-copy .intro{
-  max-width:470px !important;
+  max-width:500px !important;
+
   font-size:14px !important;
-  line-height:1.75 !important;
-  opacity:.72 !important;
-  margin-bottom:28px !important;
+  line-height:1.65 !important;
+
+  margin:0 0 28px !important;
+
+  color:#f4f0e8 !important;
+  opacity:.68 !important;
 }
 
-/* Çalışmalarımızı keşfedin */
+/* ÇALIŞMALARIMIZI KEŞFEDİN */
 .hero-copy .arrow-link{
-  font-size:11px !important;
+  font-size:10px !important;
   letter-spacing:.12em !important;
 }
 
-/* MOBİL */
+/* SAĞ ALT KATEGORİLER */
+.hero-meta{
+  position:absolute !important;
+
+  right:5vw !important;
+  top:calc(78vh - 45px) !important;
+  bottom:auto !important;
+
+  z-index:4 !important;
+
+  color:#fff !important;
+
+  display:flex !important;
+  gap:28px !important;
+
+  font-size:10px !important;
+  text-transform:uppercase !important;
+  letter-spacing:.12em !important;
+}
+
+/* SCROLL */
+.hero-scroll{
+  position:absolute !important;
+
+  right:5vw !important;
+  top:38vh !important;
+
+  z-index:4 !important;
+
+  color:#fff !important;
+}
+
+
+/* =====================================================
+   MOBİL
+===================================================== */
+
 @media(max-width:800px){
 
+  .hero{
+    min-height:0 !important;
+    height:auto !important;
+  }
+
+  .hero::before{
+    height:70vh !important;
+
+    background:
+      url("kentsel-donusum-mobil.jpg")
+      center center / cover no-repeat !important;
+  }
+
   .hero::after{
-    background:linear-gradient(
-      180deg,
-      rgba(10,10,10,.05) 20%,
-      rgba(10,10,10,.25) 55%,
-      rgba(10,10,10,.55) 100%
-    ) !important;
+    height:70vh !important;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(10,10,10,.04) 0%,
+        rgba(10,10,10,.08) 60%,
+        rgba(10,10,10,.20) 100%
+      ) !important;
   }
 
   .hero-copy{
-    max-width:calc(100% - 30px) !important;
+    max-width:100% !important;
 
-    margin:0 15px !important;
+    margin-top:70vh !important;
 
-    padding:25px 25px 28px !important;
+    padding:
+      42px
+      7vw
+      55px !important;
 
-    background:rgba(15,15,15,.48);
-
-    border-left:2px solid #b9975b;
+    background:#161616 !important;
   }
 
   .hero-copy h1{
-    font-size:44px !important;
+    font-size:46px !important;
+    line-height:.92 !important;
   }
 
   .hero-copy .intro{
-    font-size:13px !important;
+    max-width:330px !important;
+    font-size:12px !important;
     line-height:1.65 !important;
   }
+
+  .hero-meta{
+    right:7vw !important;
+    top:calc(70vh - 38px) !important;
+
+    gap:14px !important;
+
+    font-size:8px !important;
+  }
+
+  .hero-scroll{
+    display:none !important;
+  }
+
 }
-</style>      
+
+</style>
 <head>
 
 <meta charset="utf-8">
