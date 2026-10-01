@@ -2963,12 +2963,14 @@ propertyCards.append(
         property.konum
       );
 
-      addField(
-        'Fiyat',
-        'fiyat',
-        property.fiyat,
-        'number'
-      );
+     addField(
+  'Fiyat',
+  'fiyat',
+  property.fiyat
+    ? Number(property.fiyat).toLocaleString('tr-TR')
+    : '',
+  'text'
+);
 
       addField(
         'Para birimi',
