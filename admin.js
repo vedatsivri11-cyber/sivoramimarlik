@@ -2426,15 +2426,16 @@ uploadButton.addEventListener(
         uploadStatus.textContent =
           `${i + 1} / ${files.length} fotoğraf yükleniyor...`;
 
-       const path =
+    const ext =
+  makePhotoExt(file);
+
+const path =
   'properties/' +
   userData.user.id +
   '/' +
   crypto.randomUUID() +
   '.' +
-  makePhotoExt(
-    file
-  );
+  ext;
 
 const {
   error:
