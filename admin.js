@@ -3079,12 +3079,27 @@ propertyCards.append(
             konum:
               fields.konum.value.trim(),
 
-            fiyat:
-              fields.fiyat.value
-                ? Number(
-                    fields.fiyat.value
-                  )
-                : null,
+            fiyat: (() => {
+  const rawPrice =
+    String(fields.fiyat.value || '').trim();
+
+  if (!rawPrice) {
+    return null;
+  }
+
+  const normalizedPrice =
+    rawPrice
+      .replace(/\s/g, '')
+      .replace(/\./g, '')
+      .replace(',', '.');
+
+  const parsedPrice =
+    Number(normalizedPrice);
+
+  return Number.isFinite(parsedPrice)
+    ? parsedPrice
+    : null;
+})(),
 
             para_birimi:
               fields.para_birimi.value.trim(),
