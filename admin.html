@@ -1084,8 +1084,16 @@ Supabase bağlantısını kontrol et.
 </label>
 
 <label>Konum<input name="konum" maxlength="220" required placeholder="Örn. Küçükçekmece / İstanbul"></label>
-<label>Fiyat<input name="fiyat" type="number" min="0" step="0.01" required></label>
-
+<label>
+  Fiyat
+  <input
+    name="fiyat"
+    type="text"
+    inputmode="numeric"
+    placeholder="4.800.000"
+    required
+  >
+</label>
 <label>Para birimi
 <select name="para_birimi">
 <option value="TL">TL</option>
