@@ -1370,14 +1370,22 @@ body.sivora-light #site-nav {
   </nav>
 
 
-  <div class="language-switcher" id="language-switcher" aria-label="Dil seçimi">
-    <button type="button" data-lang="tr" class="active"><span class="flag">🇹🇷</span> TR</button>
-    <span>/</span>
-    <button type="button" data-lang="en"><span class="flag">🇬🇧</span> EN</button>
-    <span>/</span>
-    <button type="button" data-lang="de"><span class="flag">🇩🇪</span> DE</button>
-  </div>
+ <div class="language-dropdown">
+    <button
+        type="button"
+        class="language-current"
+        id="language-current"
+        aria-expanded="false"
+    >
+        TR <span>⌄</span>
+    </button>
 
+    <div class="language-menu" id="language-menu">
+        <button type="button" data-language="TR">TR</button>
+        <button type="button" data-language="EN">EN</button>
+        <button type="button" data-language="DE">DE</button>
+    </div>
+</div>
 
   <div id="theme-wrapper">
 
