@@ -2433,25 +2433,14 @@ uploadButton.addEventListener(
   crypto.randomUUID() +
   '.jpg';
 
-        const {
-          error:
-            uploadError
-        } =
-          await db.storage
-            .from(
-              'property-images'
-            )
-            .upload(
-              path,
-              file,
-              {
-                contentType:
-                  file.type,
-                upsert:
-                  false
-              }
-            );
-
+const {
+  error:
+    uploadError
+} =
+  await uploadPropertyImage(
+    file,
+    path
+  );
         if (uploadError) {
           throw uploadError;
         }
