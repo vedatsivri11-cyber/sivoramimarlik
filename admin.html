@@ -661,16 +661,33 @@ body.admin-body > div[style*="z-index: 99999"]::-webkit-scrollbar-thumb:hover {
   min-height:100vh;
   margin:0;
 
-  background:#151515 !important;
-  color:#f4f0e8;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  background:var(--admin-bg) !important;
+  color:var(--admin-text) !important;
 
   font-family:"DM Sans",Arial,sans-serif;
+  font-weight:400;
+
+  transition:
+    background .3s ease,
+    color .3s ease;
+}
+.admin-body,
+.admin-body *{
+  font-weight:400;
 }
 
+.admin-body h1,
+.admin-body h2,
+.admin-body h3{
+  font-weight:400;
+}
+
+.admin-body button,
+.admin-body input,
+.admin-body textarea,
+.admin-body select{
+  font-weight:400;
+}
 
 /* HEADER'I GİRİŞTE GİZLE */
 
