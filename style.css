@@ -2349,3 +2349,225 @@ body.sivora-light #theme-toggle {
   color: #292929 !important;
   border-color: rgba(185,151,91,.65) !important;
 }
+/* =========================================================
+   SIVORA GAYRİMENKUL FOTOĞRAF GALERİSİ
+   Büyük ana fotoğraf + altta küçük fotoğraflar
+========================================================= */
+
+.property-modal-box{
+  width: min(94vw, 1100px) !important;
+  max-width: 1100px !important;
+  max-height: 94vh !important;
+  overflow-y: auto !important;
+}
+
+.property-detail{
+  width: 100% !important;
+}
+
+/* ANA GALERİ */
+.property-gallery-wrap{
+  width: 100% !important;
+  margin: 22px 0 28px !important;
+}
+
+/* BÜYÜK FOTOĞRAF ALANI */
+.property-gallery-main{
+  position: relative !important;
+  width: 100% !important;
+  height: min(68vh, 650px) !important;
+  min-height: 420px !important;
+
+  background: #111 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  overflow: hidden !important;
+}
+
+/* ANA FOTOĞRAF */
+.property-gallery-main > img{
+  width: 100% !important;
+  height: 100% !important;
+
+  max-width: none !important;
+  max-height: none !important;
+
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* FOTOĞRAF SAYACI */
+.property-gallery-counter{
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 14px !important;
+
+  transform: translateX(-50%) !important;
+
+  z-index: 5 !important;
+
+  padding: 6px 11px !important;
+
+  border-radius: 20px !important;
+
+  background: rgba(0,0,0,.65) !important;
+  color: #fff !important;
+
+  font-size: 11px !important;
+  letter-spacing: .08em !important;
+}
+
+/* SAĞ-SOL OKLAR */
+.property-gallery-arrow{
+  position: absolute !important;
+
+  top: 50% !important;
+
+  transform: translateY(-50%) !important;
+
+  z-index: 10 !important;
+
+  width: 52px !important;
+  height: 52px !important;
+
+  border: 1px solid rgba(255,255,255,.35) !important;
+  border-radius: 50% !important;
+
+  background: rgba(0,0,0,.55) !important;
+
+  color: #fff !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 38px !important;
+  line-height: 1 !important;
+
+  cursor: pointer !important;
+
+  transition:
+    background .2s ease,
+    border-color .2s ease,
+    transform .2s ease !important;
+}
+
+.property-gallery-prev{
+  left: 18px !important;
+}
+
+.property-gallery-next{
+  right: 18px !important;
+}
+
+.property-gallery-arrow:hover{
+  background: #b9975b !important;
+  border-color: #b9975b !important;
+  color: #111 !important;
+}
+
+/* =========================================================
+   ALTTAKİ KÜÇÜK FOTOĞRAFLAR
+========================================================= */
+
+.property-gallery-thumbs{
+  width: 100% !important;
+
+  display: flex !important;
+
+  gap: 10px !important;
+
+  margin-top: 12px !important;
+
+  padding: 2px 2px 8px !important;
+
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+
+  scrollbar-width: thin !important;
+}
+
+.property-gallery-thumb{
+  flex: 0 0 105px !important;
+
+  width: 105px !important;
+  height: 72px !important;
+
+  padding: 0 !important;
+
+  border: 2px solid transparent !important;
+
+  background: #111 !important;
+
+  overflow: hidden !important;
+
+  cursor: pointer !important;
+
+  opacity: .65 !important;
+
+  transition:
+    opacity .2s ease,
+    border-color .2s ease,
+    transform .2s ease !important;
+}
+
+.property-gallery-thumb img{
+  width: 100% !important;
+  height: 100% !important;
+
+  display: block !important;
+
+  object-fit: cover !important;
+}
+
+.property-gallery-thumb:hover{
+  opacity: 1 !important;
+  transform: translateY(-2px) !important;
+}
+
+.property-gallery-thumb.active{
+  opacity: 1 !important;
+
+  border-color: #b9975b !important;
+}
+
+/* =========================================================
+   MOBİL
+========================================================= */
+
+@media(max-width:700px){
+
+  .property-modal-box{
+    width: 96vw !important;
+    max-height: 94vh !important;
+  }
+
+  .property-gallery-main{
+    height: 52vh !important;
+    min-height: 300px !important;
+  }
+
+  .property-gallery-arrow{
+    width: 42px !important;
+    height: 42px !important;
+    font-size: 30px !important;
+  }
+
+  .property-gallery-prev{
+    left: 10px !important;
+  }
+
+  .property-gallery-next{
+    right: 10px !important;
+  }
+
+  .property-gallery-thumb{
+    flex-basis: 82px !important;
+    width: 82px !important;
+    height: 58px !important;
+  }
+
+}
