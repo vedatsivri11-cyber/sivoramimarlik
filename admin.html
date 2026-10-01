@@ -518,6 +518,138 @@ body.admin-theme-light .admin-logout:hover{
 .admin-property-card img{width:76px;height:64px}
 }
 </style>
+<style>
+
+/* =========================================================
+   SIVORA ADMIN — DÜZENLEME / MODAL OKUNABİLİRLİK
+   ========================================================= */
+
+/* Modal kutusu */
+.sivora-admin-modal-box {
+    background: #1d1d1b !important;
+    color: #f4f0e8 !important;
+}
+
+/* Dinamik açılan modal */
+body.admin-body > div[style*="z-index: 99999"] > div {
+    background: #1d1d1b !important;
+    color: #f4f0e8 !important;
+}
+
+/* Modal başlıkları */
+body.admin-body > div[style*="z-index: 99999"] h2 {
+    color: #f4f0e8 !important;
+}
+
+/* Form etiketleri */
+body.admin-body > div[style*="z-index: 99999"] label {
+    color: #d8d3ca !important;
+    font-size: 11px !important;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+/* Input / textarea */
+body.admin-body > div[style*="z-index: 99999"] input,
+body.admin-body > div[style*="z-index: 99999"] textarea,
+body.admin-body > div[style*="z-index: 99999"] select {
+    width: 100% !important;
+    box-sizing: border-box !important;
+
+    background: #292925 !important;
+    color: #ffffff !important;
+
+    border: 1px solid #5a574f !important;
+    border-radius: 2px;
+
+    padding: 11px 12px !important;
+
+    font-family: "DM Sans", Arial, sans-serif !important;
+    font-size: 14px !important;
+}
+
+/* Input placeholder */
+body.admin-body > div[style*="z-index: 99999"] input::placeholder,
+body.admin-body > div[style*="z-index: 99999"] textarea::placeholder {
+    color: #aaa69d !important;
+}
+
+/* Input focus */
+body.admin-body > div[style*="z-index: 99999"] input:focus,
+body.admin-body > div[style*="z-index: 99999"] textarea:focus,
+body.admin-body > div[style*="z-index: 99999"] select:focus {
+    outline: none !important;
+    border-color: #b9975b !important;
+    box-shadow: 0 0 0 1px rgba(185,151,91,.25);
+}
+
+/* Modal kapatma X */
+body.admin-body > div[style*="z-index: 99999"] button {
+    color: #f4f0e8;
+}
+
+/* Modal içindeki normal butonlar */
+body.admin-body > div[style*="z-index: 99999"] button:not([style*="position"]) {
+    background: #b9975b !important;
+    color: #171716 !important;
+    border: 0 !important;
+    padding: 11px 18px;
+    font-family: "DM Sans", Arial, sans-serif;
+    cursor: pointer;
+}
+
+/* Buton hover */
+body.admin-body > div[style*="z-index: 99999"] button:not([style*="position"]):hover {
+    background: #d0ad6b !important;
+}
+
+/* Fotoğraf yönetim kutuları */
+body.admin-body > div[style*="z-index: 99999"] div {
+    color: #f4f0e8;
+}
+
+/* Fotoğraf açıklamaları */
+body.admin-body > div[style*="z-index: 99999"] small {
+    color: #bdb8ae !important;
+}
+
+/* Modal içindeki çizgiler */
+body.admin-body > div[style*="z-index: 99999"] hr {
+    border: 0;
+    border-top: 1px solid #45433e;
+}
+
+/* Checkbox */
+body.admin-body > div[style*="z-index: 99999"] input[type="checkbox"] {
+    width: auto !important;
+    accent-color: #b9975b;
+}
+
+/* Dosya seçme alanı */
+body.admin-body > div[style*="z-index: 99999"] input[type="file"] {
+    background: #292925 !important;
+    color: #f4f0e8 !important;
+    border: 1px solid #5a574f !important;
+}
+
+/* Scrollbar */
+body.admin-body > div[style*="z-index: 99999"]::-webkit-scrollbar {
+    width: 8px;
+}
+
+body.admin-body > div[style*="z-index: 99999"]::-webkit-scrollbar-track {
+    background: #171716;
+}
+
+body.admin-body > div[style*="z-index: 99999"]::-webkit-scrollbar-thumb {
+    background: #555148;
+}
+
+body.admin-body > div[style*="z-index: 99999"]::-webkit-scrollbar-thumb:hover {
+    background: #b9975b;
+}
+
+</style>
 </head>
 <style>
 
