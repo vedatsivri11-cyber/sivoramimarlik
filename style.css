@@ -2698,3 +2698,35 @@ body.sivora-light #theme-toggle {
 body.sivora-light .menu {
   color: #171716 !important;
 }
+/* =====================================================
+   SIVORA — İLK AÇILIŞ TEMA DÜZELTMESİ
+===================================================== */
+
+html.sivora-light .nav {
+  color: #171716 !important;
+}
+
+html.sivora-light .nav nav a {
+  color: #171716 !important;
+}
+
+html.sivora-light .logo {
+  color: #171716 !important;
+}
+
+html.sivora-light .logo-title,
+html.sivora-light .logo-slogan,
+html.sivora-light .logo-business {
+  color: #171716 !important;
+}
+
+html.sivora-light .language-switcher,
+html.sivora-light .language-switcher button,
+html.sivora-light .language-switcher span {
+  color: #171716 !important;
+}
+
+html.sivora-light #theme-toggle {
+  color: #171716 !important;
+  border-color: rgba(23,23,22,.35) !important;
+}
