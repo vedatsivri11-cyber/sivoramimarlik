@@ -2260,8 +2260,270 @@ propertyCards.append(
 
       gallery.style.gap =
         '15px';
+ /* =====================================================
+   YENİ GAYRİMENKUL FOTOĞRAFI EKLE
+===================================================== */
 
+const uploadBox =
+  document.createElement('div');
 
+uploadBox.style.cssText = `
+  margin:0 0 20px;
+  padding:18px;
+  border:1px solid #ddd;
+  background:#f8f8f8;
+  border-radius:8px;
+`;
+
+const uploadTitle =
+  document.createElement('strong');
+
+uploadTitle.textContent =
+  'Yeni Fotoğraf Ekle';
+
+uploadTitle.style.display =
+  'block';
+
+uploadTitle.style.marginBottom =
+  '10px';
+
+const uploadInfo =
+  document.createElement('div');
+
+uploadInfo.textContent =
+  'Birden fazla fotoğraf seçebilirsiniz. 11 fotoğraf ve daha fazlası desteklenir.';
+
+uploadInfo.style.cssText = `
+  font-size:13px;
+  margin-bottom:12px;
+  color:#666;
+`;
+
+const uploadInput =
+  document.createElement('input');
+
+uploadInput.type =
+  'file';
+
+uploadInput.accept =
+  'image/jpeg,image/png,image/webp';
+
+uploadInput.multiple =
+  true;
+
+uploadInput.style.display =
+  'block';
+
+uploadInput.style.width =
+  '100%';
+
+const uploadButton =
+  createButton(
+    'Yeni Fotoğrafları Yükle'
+  );
+
+uploadButton.type =
+  'button';
+
+uploadButton.style.marginTop =
+  '12px';
+
+const uploadStatus =
+  document.createElement('div');
+
+uploadStatus.style.cssText = `
+  margin-top:10px;
+  font-size:13px;
+`;
+
+uploadBox.append(
+  uploadTitle,
+  uploadInfo,
+  uploadInput,
+  uploadButton,
+  uploadStatus
+);
+
+modal.content.append(
+  uploadBox
+);
+      
+/* =====================================================
+   FOTOĞRAFLARI SUPABASE'E YÜKLE
+===================================================== */
+
+uploadButton.addEventListener(
+  'click',
+  async () => {
+
+    const files =
+      Array.from(
+        uploadInput.files || []
+      ).filter(
+        file =>
+          file &&
+          file.size > 0
+      );
+
+    if (!files.length) {
+
+      uploadStatus.textContent =
+        'Lütfen fotoğraf seçin.';
+
+      return;
+
+    }
+
+    const validation =
+      validateImageFiles(
+        files
+      );
+
+    if (validation) {
+
+      uploadStatus.textContent =
+        validation;
+
+      return;
+
+    }
+
+    const {
+      data:
+        userData
+    } =
+      await db.auth.getUser();
+
+    if (!userData.user) {
+
+      uploadStatus.textContent =
+        'Oturum kapandı. Lütfen tekrar giriş yapın.';
+
+      return;
+
+    }
+
+    uploadButton.disabled =
+      true;
+
+    uploadStatus.textContent =
+      `${files.length} fotoğraf yükleniyor...`;
+
+    const uploaded =
+      [];
+
+    try {
+
+      for (
+        let i = 0;
+        i < files.length;
+        i++
+      ) {
+
+        const file =
+          files[i];
+
+        uploadStatus.textContent =
+          `${i + 1} / ${files.length} fotoğraf yükleniyor...`;
+
+        const path =
+          'properties/' +
+          userData.user.id +
+          '/' +
+          crypto.randomUUID() +
+          '.' +
+          makePhotoExt(file);
+
+        const {
+          error:
+            uploadError
+        } =
+          await db.storage
+            .from(
+              'property-images'
+            )
+            .upload(
+              path,
+              file,
+              {
+                contentType:
+                  file.type,
+                upsert:
+                  false
+              }
+            );
+
+        if (uploadError) {
+          throw uploadError;
+        }
+
+        const {
+          data:
+            publicData
+        } =
+          db.storage
+            .from(
+              'property-images'
+            )
+            .getPublicUrl(
+              path
+            );
+
+        uploaded.push({
+
+          url:
+            publicData.publicUrl,
+
+          path:
+            path
+
+        });
+
+      }
+
+      currentPhotos =
+        currentPhotos.concat(
+          uploaded
+        );
+
+      await saveOrder();
+
+      uploadInput.value =
+        '';
+
+      renderGallery();
+
+      uploadStatus.textContent =
+        `${uploaded.length} yeni fotoğraf başarıyla eklendi.`;
+
+      setStatus(
+        `${uploaded.length} yeni gayrimenkul fotoğrafı eklendi.`
+      );
+
+      await refreshProperties();
+
+    } catch (
+      error
+    ) {
+
+      uploadStatus.textContent =
+        'Fotoğraf yüklenemedi: ' +
+        error.message;
+
+      setStatus(
+        'Fotoğraf yüklenemedi: ' +
+        error.message
+      );
+
+    } finally {
+
+      uploadButton.disabled =
+        false;
+
+    }
+
+  }
+);
       /* =====================================================
          FOTOĞRAF SIRASINI KAYDET
       ===================================================== */
