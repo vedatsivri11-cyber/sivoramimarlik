@@ -2182,17 +2182,85 @@ body.dark-mode #site-nav .logo-slogan{
   }
 }
 /* =====================================================
-   HERO GÖRSELİ — ÜSTTEKİ GÖMÜLÜ LOGOYU KADRAJDAN ÇIKAR
+   SIVORA HERO - MASAÜSTÜ ESKİ GÖRÜNÜM
 ===================================================== */
 
-.hero{
-  background-position:center bottom !important;
-  background-size:cover !important;
-}
+@media (min-width:801px){
 
-/* MOBİL */
-@media(max-width:800px){
   .hero{
-    background-position:center bottom !important;
+    min-height:100vh !important;
+    height:100vh !important;
+    position:relative !important;
+    overflow:hidden !important;
+
+    display:flex !important;
+    align-items:flex-end !important;
+    justify-content:flex-start !important;
+
+    padding:0 5vw 8vh !important;
+
+    background:
+      url("kentsel-donusum.jpg")
+      center center / cover no-repeat !important;
+  }
+
+  .hero::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+
+    background:linear-gradient(
+      90deg,
+      rgba(0,0,0,.42) 0%,
+      rgba(0,0,0,.16) 42%,
+      rgba(0,0,0,0) 72%
+    ) !important;
+
+    z-index:1 !important;
+  }
+
+  .hero::after{
+    display:none !important;
+  }
+
+  .hero-copy{
+    position:relative !important;
+    z-index:3 !important;
+
+    width:auto !important;
+    max-width:440px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    background:transparent !important;
+    border:0 !important;
+
+    color:#f4f0e8 !important;
+  }
+
+  .hero-copy .eyebrow{
+    font-size:9px !important;
+    letter-spacing:.16em !important;
+    margin:0 0 17px !important;
+  }
+
+  .hero-copy h1{
+    max-width:430px !important;
+    font-size:clamp(48px,5vw,70px) !important;
+    line-height:.92 !important;
+    margin:0 0 20px !important;
+  }
+
+  .hero-copy .intro{
+    max-width:360px !important;
+    font-size:13px !important;
+    line-height:1.55 !important;
+    margin:0 0 22px !important;
+    color:rgba(244,240,232,.82) !important;
+  }
+
+  .hero-copy .arrow-link{
+    font-size:10px !important;
   }
 }
