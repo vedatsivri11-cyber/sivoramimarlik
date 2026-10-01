@@ -2571,3 +2571,93 @@ body.sivora-light #theme-toggle {
   }
 
 }
+/* =====================================================
+   SIVORA ADMIN — TEMA SON KONTROL
+   Bu bölüm admin görünümünü tek merkezden yönetir.
+===================================================== */
+
+body.admin-body {
+  background: var(--admin-bg, #111111) !important;
+  color: var(--admin-text, #f5f2eb) !important;
+  font-weight: 400 !important;
+}
+
+/* AÇIK TEMA */
+body.admin-body.admin-theme-light {
+  --admin-bg: #f3f1ec;
+  --admin-card: #ffffff;
+  --admin-card-2: #f8f7f3;
+  --admin-text: #181818;
+  --admin-muted: #77736d;
+  --admin-border: rgba(0,0,0,.10);
+  --admin-input: #ffffff;
+}
+
+/* KOYU TEMA */
+body.admin-body.admin-theme-dark {
+  --admin-bg: #111111;
+  --admin-card: #181818;
+  --admin-card-2: #202020;
+  --admin-text: #f5f2eb;
+  --admin-muted: #99958e;
+  --admin-border: rgba(255,255,255,.10);
+  --admin-input: #141414;
+}
+
+/* ANA ADMIN ALANI */
+body.admin-body .admin-main {
+  background: transparent !important;
+  color: var(--admin-text) !important;
+}
+
+/* KARTLAR */
+body.admin-body .admin-card,
+body.admin-body .admin-notice {
+  background: var(--admin-card) !important;
+  color: var(--admin-text) !important;
+  border-color: var(--admin-border) !important;
+}
+
+/* BAŞLIKLAR */
+body.admin-body h1,
+body.admin-body h2,
+body.admin-body h3,
+body.admin-body label,
+body.admin-body p,
+body.admin-body small {
+  color: var(--admin-text) !important;
+  font-weight: 400 !important;
+}
+
+/* AÇIK TEMA FORM */
+body.admin-body.admin-theme-light input,
+body.admin-body.admin-theme-light textarea,
+body.admin-body.admin-theme-light select {
+  background: #ffffff !important;
+  color: #181818 !important;
+  border-color: rgba(0,0,0,.18) !important;
+}
+
+/* KOYU TEMA FORM */
+body.admin-body.admin-theme-dark input,
+body.admin-body.admin-theme-dark textarea,
+body.admin-body.admin-theme-dark select {
+  background: #141414 !important;
+  color: #f5f2eb !important;
+  border-color: rgba(255,255,255,.15) !important;
+}
+
+/* YAZI KALINLAŞMASIN */
+body.admin-body * {
+  font-weight: 400;
+}
+
+/* BUTONLAR */
+body.admin-body button {
+  font-weight: 400;
+}
+
+/* GİRİŞ BUTONU İSTİSNA */
+body.admin-body .admin-login-button {
+  font-weight: 600;
+}
