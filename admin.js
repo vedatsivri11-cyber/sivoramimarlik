@@ -233,7 +233,7 @@ box.style.width =
 
 
       const close =
-        createButton('×', 'sivora-admin-modal-close');
+        createButton('×');
 
       close.style.fontSize =
         '28px';
@@ -247,15 +247,14 @@ box.style.width =
       close.style.background =
         'transparent';
 
-      close.setAttribute('aria-label', 'Pencereyi kapat');
+      close.style.cursor =
+        'pointer';
 
 
       close.addEventListener(
         'click',
         () => {
           overlay.remove();
-          document.body.classList.remove('sivora-modal-open');
-          document.removeEventListener('keydown', onEscape);
         }
       );
 
@@ -284,16 +283,6 @@ box.style.width =
       );
 
 
-      const onEscape = event => {
-        if (event.key === 'Escape') {
-          overlay.remove();
-          document.body.classList.remove('sivora-modal-open');
-          document.removeEventListener('keydown', onEscape);
-        }
-      };
-
-      document.addEventListener('keydown', onEscape);
-
       overlay.addEventListener(
         'click',
         event => {
@@ -303,15 +292,11 @@ box.style.width =
             overlay
           ) {
             overlay.remove();
-            document.body.classList.remove('sivora-modal-open');
           }
 
         }
       );
 
-
-      overlay.className = 'sivora-admin-modal-overlay';
-      document.body.classList.add('sivora-modal-open');
 
       document.body.append(
         overlay
@@ -812,7 +797,15 @@ box.style.width =
       info.textContent =
         'Fotoğrafları ↑ ↓ butonlarıyla veya sürükleyerek sıralayabilirsiniz. 1. fotoğraf kapak fotoğrafıdır.';
 
-      info.className = 'sivora-admin-modal-info';
+      info.style.cssText =
+        `
+        margin:0 0 18px;
+        padding:12px 15px;
+        background:#f5f5f5;
+        border:1px solid #ddd;
+        font-size:13px;
+        line-height:1.5;
+        `;
 
 
       const gallery =
@@ -923,7 +916,13 @@ box.style.width =
               box.dataset.index =
                 String(index);
 
-              box.className = 'sivora-admin-photo-card';
+              box.style.cssText =
+                `
+                border:1px solid #ddd;
+                padding:8px;
+                background:#fff;
+                position:relative;
+                `;
 
 
               /* NUMARA */
@@ -938,7 +937,22 @@ box.style.width =
                   index + 1
                 );
 
-              number.className = 'sivora-admin-photo-number';
+              number.style.cssText =
+                `
+                position:absolute;
+                left:12px;
+                top:12px;
+                z-index:2;
+                width:30px;
+                height:30px;
+                border-radius:50%;
+                background:#b9975b;
+                color:#fff;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-weight:700;
+                `;
 
 
               /* FOTOĞRAF */
@@ -981,7 +995,12 @@ box.style.width =
                       index + 1
                     }`;
 
-              text.className = 'sivora-admin-photo-label';
+              text.style.cssText =
+                `
+                display:block;
+                margin:8px 0;
+                font-weight:600;
+                `;
 
 
               /* BUTONLAR */
@@ -991,7 +1010,11 @@ box.style.width =
                   'div'
                 );
 
-              buttons.className = 'sivora-admin-photo-actions';
+              buttons.style.cssText =
+                `
+                display:flex;
+                gap:5px;
+                `;
 
 
               /* YUKARI */
@@ -2572,7 +2595,13 @@ const {
               box.draggable =
                 true;
 
-              box.className = 'sivora-admin-photo-card';
+              box.style.cssText =
+                `
+                border:1px solid #ddd;
+                padding:8px;
+                background:#fff;
+                position:relative;
+                `;
 
 
               const number =
@@ -2585,7 +2614,22 @@ const {
                   index + 1
                 );
 
-              number.className = 'sivora-admin-photo-number';
+              number.style.cssText =
+                `
+                position:absolute;
+                left:12px;
+                top:12px;
+                z-index:2;
+                width:30px;
+                height:30px;
+                border-radius:50%;
+                background:#b9975b;
+                color:#fff;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-weight:700;
+                `;
 
 
               const image =
@@ -3116,7 +3160,19 @@ const {
           ) {
 
             input.rows =
-              4;
+              8;
+
+            input.style.resize =
+              'vertical';
+
+            input.style.whiteSpace =
+              'pre-wrap';
+
+            input.style.lineHeight =
+              '1.6';
+
+            input.style.minHeight =
+              '160px';
 
           }
 
@@ -3132,7 +3188,7 @@ const {
             'border-box';
 
           input.style.padding =
-            '9px';
+            '10px';
 
           input.style.marginTop =
             '5px';
@@ -3176,12 +3232,15 @@ const {
         property.konum
       );
 
-    addField(
+     addField(
   'Fiyat',
   'fiyat',
-  property.fiyat || '',
+  property.fiyat
+    ? Number(property.fiyat).toLocaleString('tr-TR')
+    : '',
   'text'
 );
+
       addField(
         'Para birimi',
         'para_birimi',
@@ -4248,10 +4307,11 @@ async function uploadPropertyImage(
           konum:
             konum,
 
-         fiyat:
-  String(
-    fiyat || ''
-  ).trim(),
+          fiyat:
+            Number(
+              fiyat
+            ),
+
           para_birimi:
             paraBirimi,
 
