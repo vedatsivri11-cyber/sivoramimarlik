@@ -68,7 +68,7 @@ body.sivora-light #site-nav .language-switcher button {
 .sivora-light #site-nav {
     color: #222222 !important;
 }
-</style>
+</>
 <head>
 <style>
 
@@ -1102,6 +1102,91 @@ body.sivora-light #site-nav .language-switcher button {
   }
 
 }
+/* =========================================================
+   SIVORA - MASAÜSTÜ HEADER DÜZENİ
+========================================================= */
+
+@media (min-width:801px){
+
+  #site-nav{
+    display:flex !important;
+    align-items:center !important;
+    width:100% !important;
+    box-sizing:border-box !important;
+    padding:14px 5vw !important;
+  }
+
+  /* LOGO */
+  #site-nav .logo{
+    display:flex !important;
+    align-items:center !important;
+    flex:0 0 auto !important;
+    margin:0 !important;
+  }
+
+  #site-nav .logo img{
+    display:block !important;
+    width:auto !important;
+    max-width:72px !important;
+    height:54px !important;
+  }
+
+  #site-nav .logo-text{
+    display:flex !important;
+  }
+
+  /* MENÜ */
+  #site-nav nav{
+    display:flex !important;
+    align-items:center !important;
+    gap:34px !important;
+    margin-left:auto !important;
+  }
+
+  /* DİL */
+  #site-nav .language-dropdown{
+    display:block !important;
+    position:relative !important;
+    flex:0 0 auto !important;
+    margin-left:28px !important;
+    z-index:9999 !important;
+  }
+
+  #site-nav .language-current{
+    display:flex !important;
+    align-items:center !important;
+    width:auto !important;
+    height:auto !important;
+    padding:7px 4px !important;
+    background:transparent !important;
+    border:0 !important;
+  }
+
+  #site-nav .language-menu{
+    position:absolute !important;
+    top:calc(100% + 10px) !important;
+    right:0 !important;
+    left:auto !important;
+    min-width:58px !important;
+    z-index:99999 !important;
+  }
+
+  /* GÜNEŞ */
+  #site-nav #theme-wrapper{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex:0 0 auto !important;
+    margin-left:65px !important;
+  }
+
+  /* HAMBURGER MASAÜSTÜNDE GİZLİ */
+  #site-nav .menu{
+    display:none !important;
+  }
+
+}
+
 </style>
 <style>
 
