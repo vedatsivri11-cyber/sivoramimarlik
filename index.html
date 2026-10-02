@@ -31,29 +31,29 @@ body.sivora-light #site-nav .language-switcher button {
     opacity: 1 !important;
 }
 
-body.sivora-light #site-nav .language-switcher button.active,
-body.sivora-light #site-nav .language-switcher button:hover {
+.sivora-light #site-nav .language-switcher button.active,
+.sivora-light #site-nav .language-switcher button:hover {
     color: #b9975b !important;
 }
 
-body.sivora-light #site-nav .language-switcher > span {
+.sivora-light #site-nav .language-switcher > span {
     color: #222222 !important;
     opacity: .35 !important;
 }
 
-body.sivora-light #site-nav #theme-toggle {
+.sivora-light #site-nav #theme-toggle {
     color: #222222 !important;
     border-color: #b9975b !important;
     background: transparent !important;
 }
 
-body.sivora-light #site-nav #theme-toggle:hover {
+.sivora-light #site-nav #theme-toggle:hover {
     color: #111111 !important;
     background: #b9975b !important;
 }
 
 /* Üst menünün kendisi */
-body.sivora-light #site-nav {
+.sivora-light #site-nav {
     color: #222222 !important;
 }
 </style>
@@ -1309,7 +1309,7 @@ body.sivora-light #site-nav {
 </head>
 
 
-<body>
+<>
 
 
 <!-- =========================================================
@@ -2444,7 +2444,7 @@ body.sivora-light #site-nav {
     translating = true;
     current = lang;
 
-    document.querySelectorAll("body *:not(script):not(style):not(.language-switcher):not(.language-switcher *)").forEach(el => {
+    document.querySelectorAll(" *:not(script):not(style):not(.language-switcher):not(.language-switcher *)").forEach(el => {
       if (el.children.length !== 0) return;
       const base = baseText(el);
       const value = lang === "tr" ? base : (T[lang]?.[base] || base);
@@ -3078,6 +3078,35 @@ document.addEventListener("DOMContentLoaded", function(){
   </div>
 
 </section>
-      
+ <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const languageCurrent = document.getElementById("language-current");
+  const languageMenu = document.getElementById("language-menu");
+
+  if (!languageCurrent || !languageMenu) return;
+
+  languageCurrent.addEventListener("click", function (e) {
+    e.stopPropagation();
+
+    const isOpen = languageMenu.classList.toggle("open");
+
+    languageCurrent.setAttribute(
+      "aria-expanded",
+      isOpen ? "true" : "false"
+    );
+  });
+
+  document.addEventListener("click", function () {
+    languageMenu.classList.remove("open");
+    languageCurrent.setAttribute("aria-expanded", "false");
+  });
+
+  languageMenu.addEventListener("click", function (e) {
+    e.stopPropagation();
+  });
+
+});
+</script>     
 </body>
 </html>
