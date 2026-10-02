@@ -3042,3 +3042,205 @@ body.dark-mode
         padding: 8px 9px;
     }
 }
+/* =========================================================
+   SIVORA — DİL SEÇİMİ DROPDOWN
+========================================================= */
+
+#site-nav .language-switcher {
+    position: relative;
+    display: inline-block;
+    margin-left: 28px;
+    flex-shrink: 0;
+    z-index: 9999;
+}
+
+
+/* ÜSTTE GÖRÜNEN DİL */
+
+#site-nav .language-current {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    border: 0;
+    background: transparent;
+
+    color: inherit;
+
+    padding: 5px 4px;
+
+    font-family: "DM Sans", Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .10em;
+
+    cursor: pointer;
+}
+
+
+#site-nav .language-current:hover {
+    color: #b9975b;
+}
+
+
+/* OK */
+
+#site-nav .language-arrow {
+    display: inline-block;
+    font-size: 13px;
+    line-height: 1;
+
+    transition:
+        transform .2s ease;
+}
+
+
+#site-nav .language-switcher.open
+.language-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* AÇILAN KUTU */
+
+#site-nav .language-menu {
+    position: absolute;
+
+    top: calc(100% + 8px);
+    right: 0;
+
+    min-width: 78px;
+
+    padding: 5px;
+
+    background: #ffffff;
+
+    border: 1px solid rgba(0,0,0,.10);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.14);
+
+    display: none;
+
+    z-index: 10000;
+}
+
+
+/* AÇILDIĞINDA */
+
+#site-nav .language-switcher.open
+.language-menu {
+    display: block;
+}
+
+
+/* DİL SEÇENEKLERİ */
+
+#site-nav .language-option {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+
+    border: 0;
+    background: transparent;
+
+    color: #222 !important;
+
+    padding: 9px 10px;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+    font-size: 10px;
+    font-weight: 500;
+
+    letter-spacing: .08em;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        color .2s ease;
+}
+
+
+#site-nav .language-option:hover {
+    background: #f2f0eb;
+    color: #b9975b !important;
+}
+
+
+/* =========================================================
+   KOYU TEMA
+========================================================= */
+
+body.dark-mode
+#site-nav .language-menu {
+    background: #20201e;
+
+    border-color:
+        rgba(255,255,255,.12);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.40);
+}
+
+
+body.dark-mode
+#site-nav .language-option {
+    color: #f4f0e8 !important;
+}
+
+
+body.dark-mode
+#site-nav .language-option:hover {
+    background: #30302d;
+    color: #b9975b !important;
+}
+
+
+/* =========================================================
+   BEYAZ TEMA
+========================================================= */
+
+body.sivora-light
+#site-nav .language-current {
+    color: #222 !important;
+}
+
+
+body.sivora-light
+#site-nav .language-option {
+    color: #222 !important;
+}
+
+
+/* =========================================================
+   MOBİL
+========================================================= */
+
+@media (max-width: 800px) {
+
+    #site-nav .language-switcher {
+        margin-left: 8px;
+    }
+
+    #site-nav .language-current {
+        font-size: 9px;
+        padding: 5px 2px;
+    }
+
+    #site-nav .language-menu {
+        min-width: 72px;
+    }
+
+    #site-nav .language-option {
+        font-size: 9px;
+        padding: 8px 9px;
+    }
+}
