@@ -233,7 +233,7 @@ box.style.width =
 
 
       const close =
-        createButton('×');
+        createButton('×', 'sivora-admin-modal-close');
 
       close.style.fontSize =
         '28px';
@@ -247,14 +247,15 @@ box.style.width =
       close.style.background =
         'transparent';
 
-      close.style.cursor =
-        'pointer';
+      close.setAttribute('aria-label', 'Pencereyi kapat');
 
 
       close.addEventListener(
         'click',
         () => {
           overlay.remove();
+          document.body.classList.remove('sivora-modal-open');
+          document.removeEventListener('keydown', onEscape);
         }
       );
 
@@ -283,6 +284,16 @@ box.style.width =
       );
 
 
+      const onEscape = event => {
+        if (event.key === 'Escape') {
+          overlay.remove();
+          document.body.classList.remove('sivora-modal-open');
+          document.removeEventListener('keydown', onEscape);
+        }
+      };
+
+      document.addEventListener('keydown', onEscape);
+
       overlay.addEventListener(
         'click',
         event => {
@@ -292,11 +303,15 @@ box.style.width =
             overlay
           ) {
             overlay.remove();
+            document.body.classList.remove('sivora-modal-open');
           }
 
         }
       );
 
+
+      overlay.className = 'sivora-admin-modal-overlay';
+      document.body.classList.add('sivora-modal-open');
 
       document.body.append(
         overlay
@@ -797,15 +812,7 @@ box.style.width =
       info.textContent =
         'Fotoğrafları ↑ ↓ butonlarıyla veya sürükleyerek sıralayabilirsiniz. 1. fotoğraf kapak fotoğrafıdır.';
 
-      info.style.cssText =
-        `
-        margin:0 0 18px;
-        padding:12px 15px;
-        background:#f5f5f5;
-        border:1px solid #ddd;
-        font-size:13px;
-        line-height:1.5;
-        `;
+      info.className = 'sivora-admin-modal-info';
 
 
       const gallery =
@@ -916,13 +923,7 @@ box.style.width =
               box.dataset.index =
                 String(index);
 
-              box.style.cssText =
-                `
-                border:1px solid #ddd;
-                padding:8px;
-                background:#fff;
-                position:relative;
-                `;
+              box.className = 'sivora-admin-photo-card';
 
 
               /* NUMARA */
@@ -937,22 +938,7 @@ box.style.width =
                   index + 1
                 );
 
-              number.style.cssText =
-                `
-                position:absolute;
-                left:12px;
-                top:12px;
-                z-index:2;
-                width:30px;
-                height:30px;
-                border-radius:50%;
-                background:#b9975b;
-                color:#fff;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-weight:700;
-                `;
+              number.className = 'sivora-admin-photo-number';
 
 
               /* FOTOĞRAF */
@@ -995,12 +981,7 @@ box.style.width =
                       index + 1
                     }`;
 
-              text.style.cssText =
-                `
-                display:block;
-                margin:8px 0;
-                font-weight:600;
-                `;
+              text.className = 'sivora-admin-photo-label';
 
 
               /* BUTONLAR */
@@ -1010,11 +991,7 @@ box.style.width =
                   'div'
                 );
 
-              buttons.style.cssText =
-                `
-                display:flex;
-                gap:5px;
-                `;
+              buttons.className = 'sivora-admin-photo-actions';
 
 
               /* YUKARI */
@@ -2595,13 +2572,7 @@ const {
               box.draggable =
                 true;
 
-              box.style.cssText =
-                `
-                border:1px solid #ddd;
-                padding:8px;
-                background:#fff;
-                position:relative;
-                `;
+              box.className = 'sivora-admin-photo-card';
 
 
               const number =
@@ -2614,22 +2585,7 @@ const {
                   index + 1
                 );
 
-              number.style.cssText =
-                `
-                position:absolute;
-                left:12px;
-                top:12px;
-                z-index:2;
-                width:30px;
-                height:30px;
-                border-radius:50%;
-                background:#b9975b;
-                color:#fff;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-weight:700;
-                `;
+              number.className = 'sivora-admin-photo-number';
 
 
               const image =
