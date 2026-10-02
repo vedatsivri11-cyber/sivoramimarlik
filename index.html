@@ -68,7 +68,7 @@ body.sivora-light #site-nav .language-switcher button {
 .sivora-light #site-nav {
     color: #222222 !important;
 }
-</>
+</style>
 <head>
 <style>
 
@@ -925,7 +925,34 @@ body.sivora-light #site-nav .language-switcher button {
 }
 
 
+@media(max-width:800px){
 
+  #site-nav{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    width:100% !important;
+  }
+
+  /* LOGO */
+  #site-nav .logo{
+    flex:1 1 auto !important;
+    min-width:0 !important;
+    margin-right:auto !important;
+  }
+
+  /* DİL */
+  #site-nav .language-dropdown{
+    display:block !important;
+    position:relative !important;
+    flex:0 0 auto !important;
+    width:auto !important;
+    height:auto !important;
+    margin:0 8px 0 10px !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    z-index:9999 !important;
+  }
 
   #site-nav .language-current{
     display:flex !important;
@@ -960,6 +987,17 @@ body.sivora-light #site-nav .language-switcher button {
     min-height:32px !important;
     padding:8px 10px !important;
   }
+
+  /* HAMBURGER */
+  #site-nav .menu{
+    flex:0 0 auto !important;
+    margin-left:0 !important;
+    position:relative !important;
+    z-index:10000 !important;
+  }
+
+}
+
 
   .sivora-services-head h2{
 
@@ -1102,91 +1140,6 @@ body.sivora-light #site-nav .language-switcher button {
   }
 
 }
-/* =========================================================
-   SIVORA - MASAÜSTÜ HEADER DÜZENİ
-========================================================= */
-
-@media (min-width:801px){
-
-  #site-nav{
-    display:flex !important;
-    align-items:center !important;
-    width:100% !important;
-    box-sizing:border-box !important;
-    padding:14px 5vw !important;
-  }
-
-  /* LOGO */
-  #site-nav .logo{
-    display:flex !important;
-    align-items:center !important;
-    flex:0 0 auto !important;
-    margin:0 !important;
-  }
-
-  #site-nav .logo img{
-    display:block !important;
-    width:auto !important;
-    max-width:72px !important;
-    height:54px !important;
-  }
-
-  #site-nav .logo-text{
-    display:flex !important;
-  }
-
-  /* MENÜ */
-  #site-nav nav{
-    display:flex !important;
-    align-items:center !important;
-    gap:34px !important;
-    margin-left:auto !important;
-  }
-
-  /* DİL */
-  #site-nav .language-dropdown{
-    display:block !important;
-    position:relative !important;
-    flex:0 0 auto !important;
-    margin-left:28px !important;
-    z-index:9999 !important;
-  }
-
-  #site-nav .language-current{
-    display:flex !important;
-    align-items:center !important;
-    width:auto !important;
-    height:auto !important;
-    padding:7px 4px !important;
-    background:transparent !important;
-    border:0 !important;
-  }
-
-  #site-nav .language-menu{
-    position:absolute !important;
-    top:calc(100% + 10px) !important;
-    right:0 !important;
-    left:auto !important;
-    min-width:58px !important;
-    z-index:99999 !important;
-  }
-
-  /* GÜNEŞ */
-  #site-nav #theme-wrapper{
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    flex:0 0 auto !important;
-    margin-left:65px !important;
-  }
-
-  /* HAMBURGER MASAÜSTÜNDE GİZLİ */
-  #site-nav .menu{
-    display:none !important;
-  }
-
-}
-
 </style>
 <style>
 
@@ -1251,99 +1204,133 @@ body.sivora-light #site-nav .language-switcher button {
 
 
 <style>
-@media(max-width:800px){
+/* =========================================================
+   SIVORA — DİL MENÜSÜ
+========================================================= */
 
-  /* MOBİL ÜST MENÜ */
-  #site-nav{
-    display:flex !important;
-    align-items:center !important;
-    width:100% !important;
-  }
-
-  /* LOGO */
-  #site-nav .logo{
-    order:1 !important;
-    flex:0 0 auto !important;
-    margin:0 !important;
-  }
-
-  #site-nav .logo img{
-    width:auto !important;
-    max-width:55px !important;
-    height:46px !important;
-  }
-
-  #site-nav .logo-text{
-    display:none !important;
-  }
-
-  /* MASAÜSTÜ MENÜYÜ GİZLE */
-  #site-nav nav{
-    display:none !important;
-  }
-
-  /* DİL */
-  #site-nav .language-dropdown{
-    order:2 !important;
-    display:block !important;
-    position:relative !important;
-    margin-left:auto !important;
-    margin-right:12px !important;
-    flex:0 0 auto !important;
-    visibility:visible !important;
-    opacity:1 !important;
-    z-index:9999 !important;
-  }
-
-  #site-nav .language-current{
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    width:40px !important;
-    height:34px !important;
-    padding:0 !important;
-    margin:0 !important;
-    color:inherit !important;
-    font-size:10px !important;
-  }
-
-  /* DİL AÇILIR MENÜ */
-  #site-nav .language-menu{
-    position:absolute !important;
-    top:calc(100% + 8px) !important;
-    right:0 !important;
-    left:auto !important;
-    min-width:58px !important;
-    z-index:99999 !important;
-  }
-
-  /* GÜNEŞ */
-  #site-nav #theme-wrapper{
-    order:3 !important;
-    margin:0 12px 0 0 !important;
-    flex:0 0 auto !important;
-  }
-
-  #site-nav #theme-toggle{
-    width:38px !important;
-    height:38px !important;
-    font-size:16px !important;
-  }
-
-  /* HAMBURGER */
-  #site-nav .menu{
-    order:4 !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    flex:0 0 auto !important;
-    width:38px !important;
-    height:38px !important;
-    margin:0 !important;
-    padding:0 !important;
-  }
-
+.language-dropdown{
+  position:relative;
+  margin-left:28px;
+  flex-shrink:0;
+  font-family:"DM Sans",Arial,sans-serif;
 }
+
+.language-current{
+  display:flex;
+  align-items:center;
+  gap:7px;
+
+  border:0;
+  background:transparent;
+  color:inherit;
+
+  padding:7px 4px;
+
+  font-family:inherit;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.12em;
+
+  cursor:pointer;
+
+  transition:
+    color .2s ease,
+    opacity .2s ease;
+}
+
+.language-current:hover{
+  color:#b9975b;
+}
+
+.language-current span:last-child{
+  font-size:12px;
+  line-height:1;
+  transition:transform .2s ease;
+}
+
+.language-dropdown:has(.language-menu.open)
+.language-current span:last-child{
+  transform:rotate(180deg);
+}
+
+
+/* AÇILAN MENÜ */
+
+.language-menu{
+  position:absolute;
+
+  top:calc(100% + 10px);
+  right:0;
+
+  min-width:58px;
+
+  display:flex;
+  flex-direction:column;
+
+  padding:6px;
+
+  background:rgba(20,20,20,.96);
+  border:1px solid rgba(185,151,91,.35);
+
+  box-shadow:0 12px 30px rgba(0,0,0,.25);
+
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+
+  transform:translateY(-6px);
+
+  transition:
+    opacity .2s ease,
+    transform .2s ease,
+    visibility .2s ease;
+
+  z-index:2000;
+}
+
+
+/* MENÜ AÇIK */
+
+.language-menu.open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:translateY(0);
+}
+
+
+/* DİL BUTONLARI */
+
+.language-menu button{
+  width:100%;
+
+  border:0;
+  background:transparent;
+
+  color:#f4f0e8;
+
+  padding:9px 12px;
+
+  font-family:"DM Sans",Arial,sans-serif;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.12em;
+
+  text-align:center;
+
+  cursor:pointer;
+
+  transition:
+    background .2s ease,
+    color .2s ease;
+}
+
+.language-menu button:hover,
+.language-menu button.active{
+  background:rgba(185,151,91,.14);
+  color:#b9975b;
+}
+
 
 /* AYDINLIK MOD */
 
