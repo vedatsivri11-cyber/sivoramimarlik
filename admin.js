@@ -4251,11 +4251,10 @@ async function uploadPropertyImage(
           konum:
             konum,
 
-          fiyat:
-            Number(
-              fiyat
-            ),
-
+         fiyat:
+  String(
+    fiyat || ''
+  ).trim(),
           para_birimi:
             paraBirimi,
 
