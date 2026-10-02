@@ -224,54 +224,80 @@ body.sivora-light #site-nav .language-switcher button {
 }
 
 
-/* =========================================
-   MOBİL - ESKİ HALİ
-========================================= */
-
 @media(max-width:800px){
 
-  .hero{
-    min-height:88vh !important;
-    height:88vh !important;
-
-    padding:15vh 6vw 8vh !important;
-
-    background:
-      url("kentsel-donusum.jpg")
-      center center / cover no-repeat !important;
+  #site-nav{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    width:100% !important;
   }
 
-  .hero::before{
-    background:linear-gradient(
-      180deg,
-      rgba(0,0,0,.12) 0%,
-      rgba(0,0,0,.20) 55%,
-      rgba(0,0,0,.42) 100%
-    ) !important;
+  /* LOGO */
+  #site-nav .logo{
+    flex:1 1 auto !important;
+    min-width:0 !important;
+    margin-right:auto !important;
   }
 
-  .hero-copy{
-    max-width:90% !important;
+  /* DİL */
+  #site-nav .language-dropdown{
+    display:block !important;
+    position:relative !important;
+    flex:0 0 auto !important;
+    width:auto !important;
+    height:auto !important;
+    margin:0 8px 0 10px !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    z-index:9999 !important;
+  }
+
+  #site-nav .language-current{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    position:relative !important;
+    width:auto !important;
+    min-width:36px !important;
+    height:32px !important;
+    padding:5px 6px !important;
     margin:0 !important;
-    padding:0 !important;
+    color:inherit !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    z-index:10000 !important;
   }
 
-  .hero-copy h1{
-    font-size:clamp(58px,15vw,78px) !important;
-    line-height:.88 !important;
+  /* AÇILAN TR / EN / DE MENÜSÜ */
+  #site-nav .language-menu{
+    position:absolute !important;
+    top:calc(100% + 8px) !important;
+    right:0 !important;
+    left:auto !important;
+    min-width:58px !important;
+    width:58px !important;
+    z-index:99999 !important;
   }
 
-  .hero-meta,
-  .hero-scroll{
-    display:none !important;
+  #site-nav .language-menu button{
+    display:block !important;
+    width:100% !important;
+    min-height:32px !important;
+    padding:8px 10px !important;
+  }
+
+  /* HAMBURGER */
+  #site-nav .menu{
+    flex:0 0 auto !important;
+    margin-left:0 !important;
+    position:relative !important;
+    z-index:10000 !important;
   }
 
 }
-
 </style>
-
 <meta charset="utf-8">
-
 <meta name="viewport"
       content="width=device-width,initial-scale=1">
 
@@ -899,74 +925,78 @@ body.sivora-light #site-nav .language-switcher button {
 }
 
 
-/* =========================================================
-   MOBİL
-========================================================= */
-
 @media(max-width:800px){
 
-  #site-nav .logo img{
-
-    max-width:55px;
-
-    height:46px;
+  #site-nav{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    width:100% !important;
   }
 
-
+  /* LOGO */
   #site-nav .logo{
-
-    gap:10px;
+    flex:1 1 auto !important;
+    min-width:0 !important;
+    margin-right:auto !important;
   }
 
-
-  #site-nav .logo-title{
-
-    font-size:11px;
-
-    font-weight:700;
-
-    letter-spacing:.8px;
-
-    color:#f2f0eb;
+  /* DİL */
+  #site-nav .language-dropdown{
+    display:block !important;
+    position:relative !important;
+    flex:0 0 auto !important;
+    width:auto !important;
+    height:auto !important;
+    margin:0 8px 0 10px !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    z-index:9999 !important;
   }
 
-
-  #site-nav .logo-slogan{
-
-    font-size:7px;
-
-    letter-spacing:1.6px;
+  #site-nav .language-current{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    position:relative !important;
+    width:auto !important;
+    min-width:36px !important;
+    height:32px !important;
+    padding:5px 6px !important;
+    margin:0 !important;
+    color:inherit !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    z-index:10000 !important;
   }
 
-
-  #site-nav .logo-business{
-
-    font-size:6.5px;
-
-    letter-spacing:2px;
+  /* AÇILAN TR / EN / DE MENÜSÜ */
+  #site-nav .language-menu{
+    position:absolute !important;
+    top:calc(100% + 8px) !important;
+    right:0 !important;
+    left:auto !important;
+    min-width:58px !important;
+    width:58px !important;
+    z-index:99999 !important;
   }
 
-
-  #site-nav nav{
-
-    gap:18px;
+  #site-nav .language-menu button{
+    display:block !important;
+    width:100% !important;
+    min-height:32px !important;
+    padding:8px 10px !important;
   }
 
-
-  #theme-wrapper{
-
-    margin-left:25px;
+  /* HAMBURGER */
+  #site-nav .menu{
+    flex:0 0 auto !important;
+    margin-left:0 !important;
+    position:relative !important;
+    z-index:10000 !important;
   }
 
-
-  #theme-toggle{
-
-    width:38px;
-
-    height:38px;
-
-    font-size:16px;
-  }
+}
 
 
   .sivora-services-head h2{
