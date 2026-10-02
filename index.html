@@ -1405,113 +1405,22 @@ body.sivora-light #site-nav .language-switcher button {
   }
 
 }
-  /* =========================================================
-   SIVORA - MASAÜSTÜ HEADER DÜZENİ
-========================================================= */
-
-@media (min-width:801px){
-
-  #site-nav{
-    display:flex !important;
-    align-items:center !important;
-    width:100% !important;
-    box-sizing:border-box !important;
-    padding:14px 5vw !important;
-  }
-
-  /* LOGO */
-  #site-nav .logo{
-    display:flex !important;
-    align-items:center !important;
-    flex:0 0 auto !important;
-    margin:0 !important;
-  }
-
-  #site-nav .logo img{
-    display:block !important;
-    width:auto !important;
-    max-width:72px !important;
-    height:54px !important;
-  }
-
-  #site-nav .logo-text{
-    display:flex !important;
-  }
-
-  /* MENÜ */
-  #site-nav nav{
-    display:flex !important;
-    align-items:center !important;
-    gap:34px !important;
-    margin-left:auto !important;
-  }
-
-  /* DİL */
-  #site-nav .language-dropdown{
-    display:block !important;
-    position:relative !important;
-    flex:0 0 auto !important;
-    margin-left:28px !important;
-    z-index:9999 !important;
-  }
-
-  #site-nav .language-current{
-    display:flex !important;
-    align-items:center !important;
-    width:auto !important;
-    height:auto !important;
-    padding:7px 4px !important;
-    background:transparent !important;
-    border:0 !important;
-  }
-
-  #site-nav .language-menu{
-    position:absolute !important;
-    top:calc(100% + 10px) !important;
-    right:0 !important;
-    left:auto !important;
-    min-width:58px !important;
-    z-index:99999 !important;
-  }
-
-  /* GÜNEŞ */
-  #site-nav #theme-wrapper{
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    flex:0 0 auto !important;
-    margin-left:65px !important;
-  }
-
-  /* HAMBURGER MASAÜSTÜNDE GİZLİ */
-  #site-nav .menu{
-    display:none !important;
-  }
-
-}
 </style>
 
 <style>
-/* Dil seçimi mevcut üst menüye eklenir; arka plan ve ana tasarım değiştirilmez. */
-#site-nav{display:flex;align-items:center;}
-#site-nav .language-switcher{margin-left:28px;}
-@media(max-width:800px){
-  #site-nav .language-switcher{margin-left:8px;}
-  #site-nav nav{gap:12px;}
-}
   /* =========================================================
-   AYDINLIK MOD - KENTSEL DÖNÜŞÜM YAZILARI
-========================================================= */
+     AYDINLIK MOD - KENTSEL DÖNÜŞÜM YAZILARI
+  ========================================================= */
 
-html.sivora-light .kentsel-donusum-text h3,
-html.sivora-light .kentsel-donusum-text p,
-html.sivora-light .kentsel-donusum-list span,
-html.sivora-light .sivora-trust-item,
-html.sivora-light .sivora-trust-item span,
-html.sivora-light .sivora-trust-item strong {
-  color:#222222 !important;
-  opacity:1 !important;
-} 
+  html.sivora-light .kentsel-donusum-text h3,
+  html.sivora-light .kentsel-donusum-text p,
+  html.sivora-light .kentsel-donusum-list span,
+  html.sivora-light .sivora-trust-item,
+  html.sivora-light .sivora-trust-item span,
+  html.sivora-light .sivora-trust-item strong {
+    color:#222222 !important;
+    opacity:1 !important;
+  }
 </style>
 
 
@@ -1734,6 +1643,291 @@ html.sivora-light #site-nav .language-current:hover{
   color:#9d7d42 !important;
 }
 </style>
+
+<style id="sivora-final-header-fix">
+/* =========================================================
+   SIVORA - SON HEADER DÜZENİ
+   Masaüstü ve mobil ayrı kontrol edilir.
+========================================================= */
+
+/* ---------- MASAÜSTÜ ---------- */
+@media (min-width:801px){
+
+  #site-nav{
+    display:flex !important;
+    align-items:center !important;
+    width:100% !important;
+    min-height:82px !important;
+    padding:12px 4.5vw !important;
+    box-sizing:border-box !important;
+    background:rgba(238,236,229,.96) !important;
+    border-bottom:1px solid rgba(120,110,95,.16) !important;
+  }
+
+  html.sivora-dark #site-nav{
+    background:rgba(21,21,21,.96) !important;
+    border-bottom-color:rgba(185,151,91,.18) !important;
+  }
+
+  /* LOGO */
+  #site-nav .logo{
+    display:flex !important;
+    align-items:center !important;
+    gap:14px !important;
+    flex:0 0 auto !important;
+    margin:0 !important;
+    text-decoration:none !important;
+    visibility:visible !important;
+    opacity:1 !important;
+  }
+
+  #site-nav .logo img{
+    display:block !important;
+    width:auto !important;
+    max-width:72px !important;
+    height:54px !important;
+    object-fit:contain !important;
+    flex:0 0 auto !important;
+  }
+
+  #site-nav .logo-text{
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:center !important;
+    visibility:visible !important;
+    opacity:1 !important;
+  }
+
+  #site-nav .logo-title{
+    display:block !important;
+    color:#34312d !important;
+    font-size:16px !important;
+    font-weight:700 !important;
+    letter-spacing:2px !important;
+    white-space:nowrap !important;
+  }
+
+  #site-nav .logo-slogan{
+    display:block !important;
+    margin-top:6px !important;
+    color:#9d7d42 !important;
+    font-size:9px !important;
+    font-weight:600 !important;
+    letter-spacing:2px !important;
+    white-space:nowrap !important;
+  }
+
+  html.sivora-dark #site-nav .logo-title{
+    color:#f4f0e8 !important;
+  }
+
+  html.sivora-dark #site-nav .logo-slogan{
+    color:#b9975b !important;
+  }
+
+  /* ANA MENÜ */
+  #site-nav nav{
+    display:flex !important;
+    align-items:center !important;
+    gap:30px !important;
+    margin-left:auto !important;
+    flex:0 0 auto !important;
+  }
+
+  #site-nav nav a{
+    display:block !important;
+    white-space:nowrap !important;
+    color:#34312d !important;
+    opacity:1 !important;
+    text-decoration:none !important;
+  }
+
+  #site-nav nav a:hover{
+    color:#9d7d42 !important;
+  }
+
+  html.sivora-dark #site-nav nav a{
+    color:#f4f0e8 !important;
+  }
+
+  html.sivora-dark #site-nav nav a:hover{
+    color:#b9975b !important;
+  }
+
+  /* DİL */
+  #site-nav .language-dropdown{
+    display:block !important;
+    position:relative !important;
+    flex:0 0 auto !important;
+    margin:0 0 0 26px !important;
+    z-index:5000 !important;
+  }
+
+  #site-nav .language-current{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:6px !important;
+    width:auto !important;
+    min-width:42px !important;
+    height:36px !important;
+    padding:0 5px !important;
+    margin:0 !important;
+    border:0 !important;
+    outline:0 !important;
+    background:transparent !important;
+    color:#34312d !important;
+    font-size:10px !important;
+    font-weight:700 !important;
+    cursor:pointer !important;
+    box-shadow:none !important;
+  }
+
+  html.sivora-dark #site-nav .language-current{
+    color:#f4f0e8 !important;
+  }
+
+  #site-nav .language-current:hover{
+    color:#9d7d42 !important;
+  }
+
+  /* DİL AÇILIR MENÜ */
+  #site-nav .language-menu{
+    position:absolute !important;
+    top:calc(100% + 8px) !important;
+    right:0 !important;
+    left:auto !important;
+    min-width:70px !important;
+    width:70px !important;
+    z-index:99999 !important;
+    box-sizing:border-box !important;
+  }
+
+  /* TEMA */
+  #site-nav #theme-wrapper{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex:0 0 auto !important;
+    margin:0 0 0 32px !important;
+  }
+
+  #site-nav #theme-toggle{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:42px !important;
+    height:42px !important;
+    padding:0 !important;
+  }
+
+  /* HAMBURGER MASAÜSTÜNDE GİZLİ */
+  #site-nav .menu{
+    display:none !important;
+  }
+}
+
+
+/* ---------- MOBİL ---------- */
+@media (max-width:800px){
+
+  #site-nav{
+    display:flex !important;
+    align-items:center !important;
+    width:100% !important;
+    min-height:72px !important;
+    padding:10px 18px !important;
+    box-sizing:border-box !important;
+  }
+
+  #site-nav .logo{
+    display:flex !important;
+    align-items:center !important;
+    flex:0 1 auto !important;
+    min-width:0 !important;
+    margin:0 !important;
+  }
+
+  #site-nav .logo img{
+    display:block !important;
+    width:auto !important;
+    max-width:55px !important;
+    height:46px !important;
+  }
+
+  #site-nav .logo-text{
+    display:none !important;
+  }
+
+  #site-nav nav{
+    display:none !important;
+  }
+
+  #site-nav .language-dropdown{
+    display:block !important;
+    position:relative !important;
+    margin-left:auto !important;
+    margin-right:12px !important;
+    width:auto !important;
+    flex:0 0 auto !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    z-index:10000 !important;
+  }
+
+  #site-nav .language-current{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:42px !important;
+    height:36px !important;
+    padding:0 !important;
+    margin:0 !important;
+    border:0 !important;
+    outline:0 !important;
+    background:transparent !important;
+    color:inherit !important;
+    font-size:10px !important;
+    box-shadow:none !important;
+  }
+
+  #site-nav .language-menu{
+    position:absolute !important;
+    top:calc(100% + 8px) !important;
+    right:0 !important;
+    left:auto !important;
+    min-width:58px !important;
+    width:58px !important;
+    z-index:99999 !important;
+  }
+
+  #site-nav #theme-wrapper{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    margin:0 12px 0 0 !important;
+    flex:0 0 auto !important;
+  }
+
+  #site-nav #theme-toggle{
+    width:38px !important;
+    height:38px !important;
+    font-size:16px !important;
+  }
+
+  #site-nav .menu{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex:0 0 auto !important;
+    width:38px !important;
+    height:38px !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+}
+</style>
+
 </head>
 <!-- =========================================================
      ÜST MENÜ
