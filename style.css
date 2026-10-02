@@ -3599,3 +3599,180 @@ body.sivora-modal-open{overflow:hidden}
     grid-template-columns:1fr 1fr 1fr;
   }
 }
+
+
+/* =========================================================
+   GAYRİMENKUL — LANSMAN ÖZEL FİYATLAR
+   ========================================================= */
+
+.sivora-launch-price-option{
+  display:flex !important;
+  align-items:center;
+  gap:9px;
+  margin-top:9px;
+  padding:9px 11px;
+  border:1px solid rgba(185,151,91,.28);
+  border-radius:7px;
+  background:rgba(185,151,91,.06);
+  color:var(--admin-gold,#b9975b) !important;
+  font-size:10px !important;
+  letter-spacing:.08em !important;
+  text-transform:none !important;
+  cursor:pointer;
+}
+
+.sivora-launch-price-option input{
+  width:16px !important;
+  height:16px !important;
+  min-height:16px !important;
+  margin:0 !important;
+  padding:0 !important;
+  accent-color:#b9975b;
+}
+
+.sivora-launch-price-option span{
+  color:inherit !important;
+}
+
+.property-price.sivora-launch-price,
+.launch-price,
+[data-price-type="launch"]{
+  color:#b9975b !important;
+  font-weight:600;
+  letter-spacing:.02em;
+}
+
+
+/* =========================================================
+   SIVORA — GAYRİMENKUL FOTOĞRAF GÖRÜNTÜLEME
+   Tıklanan fotoğraf ekranda kontrollü boyutta açılır.
+   ========================================================= */
+
+.property-modal{
+  padding:18px !important;
+  backdrop-filter:blur(6px);
+}
+
+.property-modal-backdrop{
+  background:rgba(10,10,9,.76) !important;
+}
+
+.property-modal-box{
+  width:min(860px,92vw) !important;
+  max-width:860px !important;
+  max-height:88vh !important;
+  border-radius:10px !important;
+  overflow:hidden !important;
+  box-shadow:0 30px 90px rgba(0,0,0,.45);
+}
+
+.property-detail{
+  padding:22px !important;
+}
+
+.property-detail img{
+  display:block !important;
+  width:auto !important;
+  max-width:100% !important;
+  max-height:58vh !important;
+  height:auto !important;
+  object-fit:contain !important;
+  margin:0 auto !important;
+  border-radius:4px;
+  cursor:zoom-in;
+}
+
+/* Fotoğraf galerisi varsa küçük görseller tıklanabilir olsun */
+.property-detail img,
+.property-gallery img,
+.property-detail .gallery img{
+  cursor:zoom-in;
+  transition:transform .25s ease,opacity .25s ease;
+}
+
+.property-detail img:hover,
+.property-gallery img:hover,
+.property-detail .gallery img:hover{
+  opacity:.96;
+}
+
+/* Fotoğraf büyütme katmanı */
+.sivora-image-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:28px;
+  box-sizing:border-box;
+  background:rgba(7,7,6,.88);
+  backdrop-filter:blur(8px);
+}
+
+.sivora-image-lightbox[hidden]{display:none}
+
+.sivora-image-lightbox img{
+  display:block;
+  width:auto;
+  height:auto;
+  max-width:min(900px,88vw);
+  max-height:82vh;
+  object-fit:contain;
+  border-radius:5px;
+  box-shadow:0 25px 80px rgba(0,0,0,.5);
+}
+
+.sivora-image-lightbox-close{
+  position:absolute;
+  top:20px;
+  right:20px;
+  width:42px;
+  height:42px;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:50%;
+  background:rgba(20,20,18,.75);
+  color:#fff;
+  font-size:25px;
+  line-height:1;
+  cursor:pointer;
+}
+
+.sivora-image-lightbox-close:hover{
+  background:#b9975b;
+  color:#171716;
+}
+
+@media(max-width:700px){
+  .property-modal{
+    padding:10px !important;
+  }
+
+  .property-modal-box{
+    width:calc(100vw - 20px) !important;
+    max-height:90vh !important;
+  }
+
+  .property-detail{
+    padding:16px !important;
+  }
+
+  .property-detail img{
+    max-width:100% !important;
+    max-height:48vh !important;
+  }
+
+  .sivora-image-lightbox{
+    padding:14px;
+  }
+
+  .sivora-image-lightbox img{
+    max-width:94vw;
+    max-height:72vh;
+  }
+
+  .sivora-image-lightbox-close{
+    top:12px;
+    right:12px;
+  }
+}
