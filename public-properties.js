@@ -29,14 +29,19 @@
   };
 
   const money = (value, currency) => {
-    if (Number(value) === -1) return 'PROJE BAŞLANGICINA ÖZEL FİYAT';
-    if (Number(value) === -2) return 'LANSMAN ÖZEL FİYATLAR';
-    const number = Number(value);
-    if (!Number.isFinite(number) || number === 0) return 'Fiyat bilgisi için iletişime geçiniz';
-    return number.toLocaleString('tr-TR', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2
-    }) + ' ' + (currency || 'TL');
+    const raw = String(value ?? '').trim();
+    if (!raw) return '';
+
+    // Metin fiyatları aynen göster: ör. PROJE BAŞLANGICINA ÖZEL FİYAT
+    const numeric = Number(raw.replace(/\./g, '').replace(',', '.'));
+    if (!Number.isNaN(numeric) && /^[-+]?\d+(?:[.,]\d+)?$/.test(raw)) {
+      return numeric.toLocaleString('tr-TR', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      }) + ' ' + (currency || 'TL');
+    }
+
+    return raw;
   };
 
   const el = (tag, cls, text) => {
@@ -64,16 +69,67 @@
     );
 
     if (photos.length) {
-      const gallery = el('div', 'property-public-gallery');
+      const galleryWrap = el('div', 'property-public-gallery');
+      const mainWrap = el('div', 'property-public-gallery-main');
+      const mainImg = el('img');
+      const counter = el('div', 'property-public-gallery-counter', `1 / ${photos.length}`);
+      const prev = el('button', 'property-public-gallery-arrow property-public-gallery-prev', '‹');
+      const next = el('button', 'property-public-gallery-arrow property-public-gallery-next', '›');
+      const thumbs = el('div', 'property-public-gallery-thumbs');
+
+      prev.type = 'button';
+      next.type = 'button';
+      mainImg.draggable = false;
+
+      let currentIndex = 0;
+
+      const showPhoto = index => {
+        currentIndex = (index + photos.length) % photos.length;
+        mainImg.src = photos[currentIndex];
+        mainImg.alt = `${property.ilan_basligi || 'Gayrimenkul'} ${currentIndex + 1}`;
+        counter.textContent = `${currentIndex + 1} / ${photos.length}`;
+
+        thumbs.querySelectorAll('button').forEach((button, i) => {
+          button.classList.toggle('active', i === currentIndex);
+        });
+      };
 
       photos.forEach((url, index) => {
-        const img = el('img');
-        img.src = url;
-        img.alt = `${property.ilan_basligi || 'Gayrimenkul'} ${index + 1}`;
-        gallery.append(img);
+        const thumb = el('button', 'property-public-gallery-thumb');
+        const thumbImg = el('img');
+        thumb.type = 'button';
+        thumbImg.src = url;
+        thumbImg.alt = `Fotoğraf ${index + 1}`;
+        thumb.append(thumbImg);
+        thumb.addEventListener('click', () => showPhoto(index));
+        thumbs.append(thumb);
       });
 
-      detail.append(gallery);
+      prev.addEventListener('click', () => showPhoto(currentIndex - 1));
+      next.addEventListener('click', () => showPhoto(currentIndex + 1));
+
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      mainWrap.addEventListener('touchstart', event => {
+        const touch = event.changedTouches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+      }, { passive: true });
+
+      mainWrap.addEventListener('touchend', event => {
+        const touch = event.changedTouches[0];
+        const diffX = touch.clientX - touchStartX;
+        const diffY = touch.clientY - touchStartY;
+
+        if (Math.abs(diffX) < 45 || Math.abs(diffX) <= Math.abs(diffY)) return;
+        showPhoto(diffX < 0 ? currentIndex + 1 : currentIndex - 1);
+      }, { passive: true });
+
+      mainWrap.append(mainImg, prev, next, counter);
+      galleryWrap.append(mainWrap, thumbs);
+      detail.append(galleryWrap);
+      showPhoto(0);
     }
 
     const info = el('div', 'property-public-info');
@@ -272,17 +328,89 @@
     }
 
     .property-public-gallery{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:10px;
+      display:block;
       margin:20px 0;
     }
 
-    .property-public-gallery img{
+    .property-public-gallery-main{
+      position:relative;
       width:100%;
-      max-height:360px;
+      height:min(58vw,560px);
+      min-height:280px;
+      overflow:hidden;
+      background:#111;
+      touch-action:pan-y;
+      user-select:none;
+    }
+
+    .property-public-gallery-main > img{
+      width:100%;
+      height:100%;
       object-fit:cover;
       display:block;
+      transition:opacity .18s ease;
+      pointer-events:none;
+    }
+
+    .property-public-gallery-arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      width:42px;
+      height:42px;
+      border:1px solid rgba(255,255,255,.7);
+      background:rgba(0,0,0,.42);
+      color:#fff;
+      font-size:30px;
+      line-height:1;
+      cursor:pointer;
+      z-index:2;
+    }
+
+    .property-public-gallery-prev{left:14px}
+    .property-public-gallery-next{right:14px}
+
+    .property-public-gallery-counter{
+      position:absolute;
+      left:50%;
+      bottom:14px;
+      transform:translateX(-50%);
+      padding:6px 10px;
+      background:rgba(0,0,0,.55);
+      color:#fff;
+      font-size:11px;
+      letter-spacing:.08em;
+      z-index:2;
+    }
+
+    .property-public-gallery-thumbs{
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      padding:10px 2px 2px;
+      scrollbar-width:thin;
+    }
+
+    .property-public-gallery-thumb{
+      flex:0 0 82px;
+      width:82px;
+      height:62px;
+      padding:0;
+      border:2px solid transparent;
+      background:#111;
+      cursor:pointer;
+      overflow:hidden;
+    }
+
+    .property-public-gallery-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .property-public-gallery-thumb.active{
+      border-color:#b69a63;
     }
 
     .property-public-info{
@@ -305,7 +433,19 @@
     .property-public-info-row strong{text-align:right}
 
     @media(max-width:600px){
-      .property-public-gallery{grid-template-columns:1fr}
+      .property-public-gallery-main{
+        height:72vw;
+        min-height:240px;
+      }
+      .property-public-gallery-arrow{
+        width:38px;
+        height:38px;
+      }
+      .property-public-gallery-thumb{
+        flex-basis:72px;
+        width:72px;
+        height:54px;
+      }
     }
   `;
 
