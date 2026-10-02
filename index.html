@@ -1035,33 +1035,108 @@ body.sivora-light #site-nav .language-switcher button {
   }
 
 }
+/* =========================================================
+   SIVORA - MOBİL ÜST MENÜ SON DÜZEN
+========================================================= */
+
 @media (max-width:800px){
 
   #site-nav{
     display:flex !important;
     align-items:center !important;
-    justify-content:space-between !important;
+    width:100% !important;
+    min-height:72px !important;
+    padding:10px 18px !important;
+    box-sizing:border-box !important;
   }
 
+  /* LOGO SOLDA */
   #site-nav .logo{
-    margin-right:auto !important;
-    flex:1 1 auto !important;
-    min-width:0 !important;
-  }
-
-  #site-nav .language-dropdown{
-    position:relative !important;
     display:flex !important;
-    flex:0 0 auto !important;
-    margin-left:10px !important;
-    margin-right:10px !important;
-    z-index:9999 !important;
+    align-items:center !important;
+    flex:0 1 auto !important;
+    min-width:0 !important;
+    margin:0 !important;
   }
 
-  #site-nav .menu{
-    flex:0 0 auto !important;
+  #site-nav .logo img{
+    width:auto !important;
+    max-width:55px !important;
+    height:46px !important;
+  }
+
+  #site-nav .logo-text{
+    display:none !important;
+  }
+
+  /* MASAÜSTÜ MENÜ MOBİLDE YOK */
+  #site-nav nav{
+    display:none !important;
+  }
+
+  /* DİL - SAĞ GRUBUN BAŞI */
+  #site-nav .language-dropdown{
+    display:block !important;
     position:relative !important;
+    margin-left:auto !important;
+    margin-right:12px !important;
+    width:auto !important;
+    flex:0 0 auto !important;
+    opacity:1 !important;
+    visibility:visible !important;
     z-index:10000 !important;
+  }
+
+  #site-nav .language-current{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    width:42px !important;
+    height:36px !important;
+    padding:0 !important;
+    margin:0 !important;
+    color:#f4f0e8 !important;
+    font-size:10px !important;
+    opacity:1 !important;
+    visibility:visible !important;
+  }
+
+  /* DİL AÇILIR MENÜ */
+  #site-nav .language-menu{
+    position:absolute !important;
+    top:calc(100% + 8px) !important;
+    right:0 !important;
+    left:auto !important;
+    min-width:58px !important;
+    width:58px !important;
+    z-index:99999 !important;
+  }
+
+  /* GÜNEŞ */
+  #site-nav #theme-wrapper{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    margin:0 10px 0 0 !important;
+    flex:0 0 auto !important;
+  }
+
+  #site-nav #theme-toggle{
+    width:38px !important;
+    height:38px !important;
+    font-size:16px !important;
+  }
+
+  /* HAMBURGER EN SAĞDA */
+  #site-nav .menu{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    flex:0 0 auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    width:38px !important;
+    height:38px !important;
   }
 
 }
