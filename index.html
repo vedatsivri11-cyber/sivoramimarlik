@@ -1222,23 +1222,53 @@ body.sivora-light #site-nav .language-switcher button {
 
 @media(max-width:800px){
 
+  #site-nav{
+    display:flex !important;
+    align-items:center !important;
+    width:100% !important;
+  }
+
+  #site-nav .logo{
+    flex:1 1 auto !important;
+    min-width:0 !important;
+  }
+
+  #site-nav nav{
+    display:none !important;
+  }
+
   .language-dropdown{
-    margin-left:10px;
+    position:relative !important;
+    margin-left:8px !important;
+    flex:0 0 auto !important;
+    z-index:3000 !important;
   }
 
   .language-current{
-    font-size:9px;
-    padding:6px 3px;
+    position:relative !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    font-size:9px !important;
+    padding:7px 5px !important;
+    min-width:34px !important;
+    z-index:3001 !important;
   }
 
   .language-menu{
-    top:calc(100% + 8px);
-    min-width:54px;
+    position:absolute !important;
+    top:calc(100% + 8px) !important;
+    right:0 !important;
+    left:auto !important;
+    min-width:58px !important;
+    z-index:9999 !important;
   }
 
   .language-menu button{
-    padding:8px 10px;
-    font-size:9px;
+    display:block !important;
+    width:100% !important;
+    padding:9px 10px !important;
+    font-size:9px !important;
   }
 
 }
