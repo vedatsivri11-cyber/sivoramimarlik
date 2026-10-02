@@ -3176,15 +3176,12 @@ const {
         property.konum
       );
 
-     addField(
+    addField(
   'Fiyat',
   'fiyat',
-  property.fiyat
-    ? Number(property.fiyat).toLocaleString('tr-TR')
-    : '',
+  property.fiyat || '',
   'text'
 );
-
       addField(
         'Para birimi',
         'para_birimi',
