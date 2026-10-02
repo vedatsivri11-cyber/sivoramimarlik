@@ -2472,7 +2472,11 @@ body.sivora-light #site-nav {
     document.querySelectorAll("[data-lang]").forEach(btn => {
       btn.classList.toggle("active", btn.dataset.lang === lang);
     });
+const currentLanguage = document.getElementById("current-language");
 
+if (currentLanguage) {
+  currentLanguage.textContent = lang.toUpperCase();
+}
     localStorage.setItem(KEY, lang);
     translating = false;
   }
