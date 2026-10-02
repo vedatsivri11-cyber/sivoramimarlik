@@ -3197,10 +3197,14 @@ document.addEventListener("DOMContentLoaded", function () {
     languageCurrent.setAttribute("aria-expanded", "false");
   });
 
-  languageMenu.addEventListener("click", function (e) {
-    e.stopPropagation();
-  });
+ languageMenu.addEventListener("click", function (e) {
+  e.stopPropagation();
 
+  if (e.target.matches("[data-lang]")) {
+    languageMenu.classList.remove("open");
+    languageCurrent.setAttribute("aria-expanded", "false");
+  }
+});
 });
 </script>     
 </body>
