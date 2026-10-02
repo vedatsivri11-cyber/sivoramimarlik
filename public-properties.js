@@ -449,6 +449,134 @@
     }
   `;
 
+  /* =====================================================
+     GAYRİMENKUL MODALI — EKRANA TAM SIĞAN DÜZEN
+     Fotoğraf büyük kalır; bilgi alanı aynı pencerede görünür.
+  ===================================================== */
+  const modalFitStyle = document.createElement('style');
+  modalFitStyle.textContent = `
+    .property-modal{
+      padding:16px !important;
+      box-sizing:border-box !important;
+    }
+
+    .property-modal-box{
+      width:min(1100px, calc(100vw - 32px)) !important;
+      max-width:1100px !important;
+      height:min(94vh, 900px) !important;
+      max-height:calc(100vh - 32px) !important;
+      overflow:hidden !important;
+      box-sizing:border-box !important;
+    }
+
+    .property-detail{
+      height:100% !important;
+      max-height:100% !important;
+      box-sizing:border-box !important;
+      overflow-y:auto !important;
+      overflow-x:hidden !important;
+      padding:22px 28px 24px !important;
+      scrollbar-width:thin !important;
+    }
+
+    .property-detail h2{
+      margin:0 42px 8px 0 !important;
+      line-height:1.15 !important;
+      font-size:clamp(20px, 2.1vw, 30px) !important;
+    }
+
+    .property-public-status{
+      margin-bottom:7px !important;
+      padding:5px 9px !important;
+    }
+
+    .property-public-gallery{
+      margin:10px 0 14px !important;
+    }
+
+    .property-public-gallery-main{
+      height:min(46vh, 500px) !important;
+      min-height:240px !important;
+    }
+
+    .property-public-gallery-main > img{
+      object-fit:contain !important;
+      background:#111 !important;
+    }
+
+    .property-public-gallery-thumbs{
+      padding:7px 2px 2px !important;
+      gap:7px !important;
+    }
+
+    .property-public-gallery-thumb{
+      flex-basis:72px !important;
+      width:72px !important;
+      height:52px !important;
+    }
+
+    .property-public-info{
+      margin:10px 0 14px !important;
+    }
+
+    .property-public-info-row{
+      padding:7px 0 !important;
+      font-size:12px !important;
+    }
+
+    .property-detail > h3{
+      margin:14px 0 5px !important;
+    }
+
+    .property-detail > p{
+      margin:0 0 10px !important;
+      line-height:1.45 !important;
+    }
+
+    @media(max-width:700px){
+      .property-modal{
+        padding:8px !important;
+      }
+
+      .property-modal-box{
+        width:calc(100vw - 16px) !important;
+        height:calc(100vh - 16px) !important;
+        max-height:calc(100vh - 16px) !important;
+      }
+
+      .property-detail{
+        padding:18px 14px 20px !important;
+      }
+
+      .property-public-gallery-main{
+        height:32vh !important;
+        min-height:210px !important;
+      }
+
+      .property-public-gallery-arrow{
+        width:38px !important;
+        height:38px !important;
+        font-size:27px !important;
+      }
+
+      .property-public-gallery-counter{
+        bottom:9px !important;
+      }
+
+      .property-public-gallery-thumb{
+        flex-basis:64px !important;
+        width:64px !important;
+        height:46px !important;
+      }
+
+      .property-public-info-row{
+        padding:6px 0 !important;
+        font-size:11px !important;
+      }
+    }
+  `;
+  document.head.append(modalFitStyle);
+
   document.head.append(style);
 
   const load = async () => {
