@@ -1005,7 +1005,36 @@ body.sivora-light #site-nav .language-switcher button {
   }
 
 }
+@media (max-width:800px){
 
+  #site-nav{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+  }
+
+  #site-nav .logo{
+    margin-right:auto !important;
+    flex:1 1 auto !important;
+    min-width:0 !important;
+  }
+
+  #site-nav .language-dropdown{
+    position:relative !important;
+    display:flex !important;
+    flex:0 0 auto !important;
+    margin-left:10px !important;
+    margin-right:10px !important;
+    z-index:9999 !important;
+  }
+
+  #site-nav .menu{
+    flex:0 0 auto !important;
+    position:relative !important;
+    z-index:10000 !important;
+  }
+
+}
 </style>
 
 <style>
