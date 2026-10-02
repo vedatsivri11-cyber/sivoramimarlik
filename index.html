@@ -1960,6 +1960,65 @@ main {
   margin-top: 0 !important;
 }
 </style>
+
+<style id="sivora-marquee">
+/* =========================================================
+   SIVORA - HAREKETLİ MARKA BANDI
+========================================================= */
+.sivora-marquee{
+  width:100%;
+  overflow:hidden;
+  background:#151515;
+  border-top:1px solid rgba(185,151,91,.25);
+  border-bottom:1px solid rgba(185,151,91,.25);
+  white-space:nowrap;
+  box-sizing:border-box;
+}
+
+.sivora-marquee-track{
+  display:inline-flex;
+  width:max-content;
+  animation:sivoraMarquee 28s linear infinite;
+  will-change:transform;
+}
+
+.sivora-marquee-group{
+  display:flex;
+  align-items:center;
+  flex-shrink:0;
+}
+
+.sivora-marquee span{
+  display:inline-flex;
+  align-items:center;
+  padding:13px 18px;
+  color:#f4f0e8;
+  font-family:"DM Sans",Arial,sans-serif;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.sivora-marquee .dot{
+  color:#b9975b;
+  padding:0 4px;
+}
+
+@keyframes sivoraMarquee{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+
+@media(max-width:800px){
+  .sivora-marquee span{
+    padding:11px 14px;
+    font-size:9px;
+    letter-spacing:.14em;
+  }
+}
+</style>
+
 </head>
 <!-- =========================================================
      ÜST MENÜ
@@ -2059,6 +2118,30 @@ main {
   </button>
 
 </header>
+
+
+<div class="sivora-marquee" aria-label="Sivora Mimarlık hizmetleri">
+  <div class="sivora-marquee-track">
+    <div class="sivora-marquee-group">
+      <span>Mimarlık</span><span class="dot">✦</span>
+      <span>Kentsel Dönüşüm</span><span class="dot">✦</span>
+      <span>İç Mimarlık</span><span class="dot">✦</span>
+      <span>Gayrimenkul</span><span class="dot">✦</span>
+      <span>Proje</span><span class="dot">✦</span>
+      <span>Tasarım</span><span class="dot">✦</span>
+      <span>Sivora Mimarlık</span><span class="dot">✦</span>
+    </div>
+    <div class="sivora-marquee-group" aria-hidden="true">
+      <span>Mimarlık</span><span class="dot">✦</span>
+      <span>Kentsel Dönüşüm</span><span class="dot">✦</span>
+      <span>İç Mimarlık</span><span class="dot">✦</span>
+      <span>Gayrimenkul</span><span class="dot">✦</span>
+      <span>Proje</span><span class="dot">✦</span>
+      <span>Tasarım</span><span class="dot">✦</span>
+      <span>Sivora Mimarlık</span><span class="dot">✦</span>
+    </div>
+  </div>
+</div>
 
 
 <main>
