@@ -1060,80 +1060,175 @@ body.sivora-light #site-nav .language-switcher button {
 
 <style>
 /* =========================================================
-   DİL SEÇİCİ
+   SIVORA — DİL MENÜSÜ
 ========================================================= */
 
-.language-switcher{
+.language-dropdown{
+  position:relative;
   margin-left:28px;
-  display:flex;
-  align-items:center;
-  gap:6px;
   flex-shrink:0;
-  font-size:10px;
-  letter-spacing:.12em;
+  font-family:"DM Sans",Arial,sans-serif;
 }
 
-.language-switcher button{
+.language-current{
+  display:flex;
+  align-items:center;
+  gap:7px;
+
   border:0;
   background:transparent;
   color:inherit;
-  padding:4px 2px;
+
+  padding:7px 4px;
+
+  font-family:inherit;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.12em;
+
+  cursor:pointer;
+
+  transition:
+    color .2s ease,
+    opacity .2s ease;
+}
+
+.language-current:hover{
+  color:#b9975b;
+}
+
+.language-current span:last-child{
+  font-size:12px;
+  line-height:1;
+  transition:transform .2s ease;
+}
+
+.language-dropdown:has(.language-menu.open)
+.language-current span:last-child{
+  transform:rotate(180deg);
+}
+
+
+/* AÇILAN MENÜ */
+
+.language-menu{
+  position:absolute;
+
+  top:calc(100% + 10px);
+  right:0;
+
+  min-width:58px;
+
+  display:flex;
+  flex-direction:column;
+
+  padding:6px;
+
+  background:rgba(20,20,20,.96);
+  border:1px solid rgba(185,151,91,.35);
+
+  box-shadow:0 12px 30px rgba(0,0,0,.25);
+
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+
+  transform:translateY(-6px);
+
+  transition:
+    opacity .2s ease,
+    transform .2s ease,
+    visibility .2s ease;
+
+  z-index:2000;
+}
+
+
+/* MENÜ AÇIK */
+
+.language-menu.open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  transform:translateY(0);
+}
+
+
+/* DİL BUTONLARI */
+
+.language-menu button{
+  width:100%;
+
+  border:0;
+  background:transparent;
+
+  color:#f4f0e8;
+
+  padding:9px 12px;
+
   font-family:"DM Sans",Arial,sans-serif;
   font-size:10px;
   font-weight:700;
   letter-spacing:.12em;
+
+  text-align:center;
+
   cursor:pointer;
-  opacity:.62;
-  transition:opacity .2s ease,color .2s ease;
+
+  transition:
+    background .2s ease,
+    color .2s ease;
 }
 
-.language-switcher button:hover,
-.language-switcher button.active{
-  opacity:1;
+.language-menu button:hover,
+.language-menu button.active{
+  background:rgba(185,151,91,.14);
   color:#b9975b;
 }
 
-.language-switcher span{
-  opacity:.28;
-  font-size:9px;
+
+/* AYDINLIK MOD */
+
+.sivora-light .language-menu{
+  background:rgba(250,248,243,.98);
+  border-color:rgba(185,151,91,.45);
+  box-shadow:0 12px 30px rgba(0,0,0,.12);
 }
 
-.language-switcher .flag{
-  opacity:1;
-  font-size:14px;
-  line-height:1;
-  margin-right:2px;
+.sivora-light .language-menu button{
+  color:#222;
 }
 
-.language-switcher button.active{
-  font-weight:700;
+.sivora-light .language-menu button:hover,
+.sivora-light .language-menu button.active{
+  background:rgba(185,151,91,.12);
+  color:#9d7d42;
 }
 
-@media(max-width:950px){
-  .language-switcher{
-    margin-left:18px;
-  }
-}
+
+/* MOBİL */
 
 @media(max-width:800px){
-  .language-switcher{
+
+  .language-dropdown{
     margin-left:10px;
-    gap:4px;
   }
 
-  .language-switcher button{
+  .language-current{
     font-size:9px;
-    font-weight:700;
-    padding:3px 1px;
+    padding:6px 3px;
   }
 
-  .language-switcher .flag{
-    font-size:12px;
+  .language-menu{
+    top:calc(100% + 8px);
+    min-width:54px;
   }
 
-  .language-switcher span{
-    font-size:8px;
+  .language-menu button{
+    padding:8px 10px;
+    font-size:9px;
   }
+
 }
 </style>
 
