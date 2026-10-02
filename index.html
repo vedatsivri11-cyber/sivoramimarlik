@@ -1718,6 +1718,30 @@ main {
 }
 </style>
 
+<style id="sivora-mobile-header-layer">
+/* MOBİL HEADER, HAREKETLİ BANDIN ÜSTÜNDE AYRI VE OPak BİR KATMAN */
+@media (max-width:800px){
+  #site-nav{
+    position:sticky !important;
+    top:0 !important;
+    z-index:10000 !important;
+    background:rgba(238,236,229,.99) !important;
+    border-bottom:1px solid rgba(120,110,95,.16) !important;
+    isolation:isolate !important;
+  }
+
+  html.sivora-dark #site-nav{
+    background:rgba(21,21,21,.99) !important;
+    border-bottom-color:rgba(185,151,91,.18) !important;
+  }
+
+  .sivora-marquee{
+    position:relative !important;
+    z-index:1 !important;
+  }
+}
+</style>
+
 <style id="sivora-marquee">
 /* =========================================================
    SIVORA - HAREKETLİ MARKA BANDI
