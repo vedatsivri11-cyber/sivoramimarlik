@@ -3176,12 +3176,14 @@ const {
         property.konum
       );
 
-           addField(
-        'Fiyat',
-        'fiyat',
-        displayPropertyPrice(property.fiyat),
-        'text'
-      );
+     addField(
+  'Fiyat',
+  'fiyat',
+  property.fiyat
+    ? Number(property.fiyat).toLocaleString('tr-TR')
+    : '',
+  'text'
+);
 
       addField(
         'Para birimi',
@@ -3290,7 +3292,27 @@ const {
             konum:
               fields.konum.value.trim(),
 
-            fiyat: encodePropertyPrice(fields.fiyat.value),
+            fiyat: (() => {
+  const rawPrice =
+    String(fields.fiyat.value || '').trim();
+
+  if (!rawPrice) {
+    return null;
+  }
+
+  const normalizedPrice =
+    rawPrice
+      .replace(/\s/g, '')
+      .replace(/\./g, '')
+      .replace(',', '.');
+
+  const parsedPrice =
+    Number(normalizedPrice);
+
+  return Number.isFinite(parsedPrice)
+    ? parsedPrice
+    : null;
+})(),
 
             para_birimi:
               fields.para_birimi.value.trim(),
@@ -3956,27 +3978,6 @@ async function uploadPropertyImage(
      GAYRİMENKUL EKLEME
   ========================================================= */
 
-  const SPECIAL_PRICE_PROJECT_START = 'PROJE BAŞLANGICINA ÖZEL FİYAT';
-  const SPECIAL_PRICE_LAUNCH = 'LANSMAN ÖZEL FİYATLAR';
-
-  const encodePropertyPrice = value => {
-    const raw = String(value ?? '').trim();
-    if (!raw) return null;
-    const upper = raw.toLocaleUpperCase('tr-TR');
-    if (upper === SPECIAL_PRICE_PROJECT_START) return -1;
-    if (upper === SPECIAL_PRICE_LAUNCH) return -2;
-    const normalized = raw.replace(/\s/g, '').replace(/\./g, '').replace(',', '.');
-    const number = Number(normalized);
-    return Number.isFinite(number) ? number : null;
-  };
-
-  const displayPropertyPrice = value => {
-    if (Number(value) === -1) return SPECIAL_PRICE_PROJECT_START;
-    if (Number(value) === -2) return SPECIAL_PRICE_LAUNCH;
-    const number = Number(value);
-    return Number.isFinite(number) && number !== 0 ? number.toLocaleString('tr-TR') : '';
-  };
-
   const propertyForm =
     document.getElementById(
       'property-form'
@@ -4251,7 +4252,9 @@ async function uploadPropertyImage(
             konum,
 
           fiyat:
-            encodePropertyPrice(fiyat),
+            Number(
+              fiyat
+            ),
 
           para_birimi:
             paraBirimi,
