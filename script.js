@@ -35,9 +35,11 @@ if (themeToggle) {
 
     document.body.classList.toggle('dark-mode');
 
-    const darkMode = document.body.classList.contains('dark-mode');
+    const darkMode =
+      document.body.classList.contains('dark-mode');
 
-    themeToggle.textContent = darkMode ? '☀️' : '🌙';
+    themeToggle.textContent =
+      darkMode ? '☀️' : '🌙';
 
     localStorage.setItem(
       'sivora-theme',
@@ -47,6 +49,8 @@ if (themeToggle) {
   });
 
 }
+
+
 /* =========================================================
    SIVORA MİMARLIK
    İLETİŞİM FORMU - SUPABASE / RESEND
@@ -68,7 +72,9 @@ if (themeToggle) {
     async function (event) {
 
       event.preventDefault();
+
       console.log("SIVORA FORM ÇALIŞTI");
+
 
       const name =
         document
@@ -76,11 +82,13 @@ if (themeToggle) {
           .value
           .trim();
 
+
       const email =
         document
           .getElementById("contact-email")
           .value
           .trim();
+
 
       const phone =
         document
@@ -88,11 +96,13 @@ if (themeToggle) {
           .value
           .trim();
 
+
       const subject =
         document
           .getElementById("contact-subject")
           .value
           .trim();
+
 
       const message =
         document
@@ -123,6 +133,7 @@ if (themeToggle) {
         contactForm.querySelector(
           ".contact-submit"
         );
+
 
       if (submitButton) {
 
@@ -221,290 +232,344 @@ if (themeToggle) {
   );
 
 })();
-/* =====================================================
-   SIVORA — DİL AÇILIR MENÜ
-===================================================== */
-
-(function () {
-
-    const dropdown =
-        document.getElementById("language-dropdown");
-
-    const current =
-        document.getElementById("language-current");
-
-    const menu =
-        document.getElementById("language-menu");
-
-    if (!current || !menu) return;
-
-    current.addEventListener("click", function (event) {
-
-        event.stopPropagation();
-
-        const parent =
-            current.closest(".language-dropdown");
-
-        if (!parent) return;
-
-        const open =
-            parent.classList.toggle("open");
-
-        current.setAttribute(
-            "aria-expanded",
-            open ? "true" : "false"
-        );
-
-    });
 
 
-    menu.querySelectorAll(
-        "[data-language]"
-    ).forEach(function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                const language =
-                    button.dataset.language;
-
-                current.innerHTML =
-                    language + " <span>⌄</span>";
-
-                const parent =
-                    current.closest(".language-dropdown");
-
-                if (parent) {
-                    parent.classList.remove("open");
-                }
-
-                current.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-                /*
-                 * BURADA MEVCUT DİL SİSTEMİNİZ
-                 * ÇALIŞMAYA DEVAM EDECEK.
-                 *
-                 * Mevcut TR / EN / DE kodunu
-                 * ayrıca değiştirmiyoruz.
-                 */
-            }
-        );
-
-    });
-
-
-    document.addEventListener(
-        "click",
-        function () {
-
-            const parent =
-                current.closest(".language-dropdown");
-
-            if (!parent) return;
-
-            parent.classList.remove("open");
-
-            current.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-        }
-    );
-
-})();
 /* =========================================================
-   SIVORA - DİL SEÇİM DROPDOWN
+   SIVORA — DİL SEÇİMİ AÇILIR MENÜ
+   Mevcut data-lang sistemini bozmadan çalışır.
 ========================================================= */
 
 (function () {
 
-    const languageBox =
-        document.getElementById("language-switcher");
+  function initLanguageDropdown() {
 
-    if (!languageBox) return;
+    const box =
+      document.getElementById(
+        "language-switcher"
+      );
 
-    const buttons =
-        languageBox.querySelectorAll("[data-lang]");
-
-    if (!buttons.length) return;
-
-
-    /* Mevcut yapıyı dropdown görünümüne hazırla */
-
-    languageBox.classList.add("language-dropdown");
+    if (!box) return;
 
 
-    /* Mevcut aktif dili bul */
+    const originalButtons =
+      Array.from(
+        box.querySelectorAll(
+          ":scope > button[data-lang]"
+        )
+      );
 
-    let activeButton =
-        languageBox.querySelector(
-            "[data-lang].active"
-        );
 
-    if (!activeButton) {
-        activeButton = buttons[0];
+    if (!originalButtons.length) return;
+
+
+    /* Daha önce oluşturulduysa tekrar oluşturma */
+
+    if (
+      box.dataset.dropdownReady === "true"
+    ) {
+      return;
+    }
+
+    box.dataset.dropdownReady = "true";
+
+
+    /* Ana dil butonu */
+
+    const current =
+      document.createElement("button");
+
+    current.type = "button";
+
+    current.className =
+      "language-current";
+
+    current.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+    current.setAttribute(
+      "aria-label",
+      "Dil seçimi"
+    );
+
+
+    /* Açılır liste */
+
+    const languageMenu =
+      document.createElement("div");
+
+    languageMenu.className =
+      "language-menu";
+
+    languageMenu.setAttribute(
+      "role",
+      "menu"
+    );
+
+
+    /* Aktif dili bul */
+
+    let active =
+      originalButtons.find(
+        function (button) {
+
+          return button.classList.contains(
+            "active"
+          );
+
+        }
+      );
+
+
+    if (!active) {
+      active = originalButtons[0];
     }
 
 
-    /* Ana butonu oluştur */
+    /* Üstte görünen dili güncelle */
 
-    const currentLanguage =
-        document.createElement("button");
+    function updateCurrent(button) {
 
-    currentLanguage.type = "button";
-
-    currentLanguage.className =
-        "language-current";
-
-    currentLanguage.setAttribute(
-        "aria-expanded",
-        "false"
-    );
-
-    currentLanguage.innerHTML =
-        activeButton.innerHTML +
+      current.innerHTML =
+        button.innerHTML +
         ' <span class="language-arrow">⌄</span>';
 
-
-    /* Eski butonları menüye al */
-
-    const menu =
-        document.createElement("div");
-
-    menu.className =
-        "language-menu";
+    }
 
 
-    buttons.forEach(function (button) {
+    updateCurrent(active);
+
+
+    /* TR / EN / DE seçeneklerini oluştur */
+
+    originalButtons.forEach(
+      function (originalButton) {
 
         const option =
-            document.createElement("button");
+          document.createElement("button");
+
 
         option.type = "button";
 
         option.className =
-            "language-option";
+          "language-option";
 
-        option.dataset.lang =
-            button.dataset.lang;
-
-        option.innerHTML =
-            button.innerHTML;
-
-
-        option.addEventListener(
-            "click",
-            function (event) {
-
-                event.stopPropagation();
-
-                const selectedLanguage =
-                    button.dataset.lang;
-
-
-                /* Ana butonda seçilen dili göster */
-
-                currentLanguage.innerHTML =
-                    button.innerHTML +
-                    ' <span class="language-arrow">⌄</span>';
-
-
-                /* Aktif dili güncelle */
-
-                buttons.forEach(function (item) {
-                    item.classList.remove("active");
-                });
-
-                button.classList.add("active");
-
-
-                /* Menüyü kapat */
-
-                languageBox.classList.remove("open");
-
-                currentLanguage.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-
-                /*
-                 * MEVCUT DİL SİSTEMİNİ ÇALIŞTIR
-                 *
-                 * Mevcut data-lang butonuna
-                 * tıklatıyoruz.
-                 */
-
-                button.click();
-
-            }
+        option.setAttribute(
+          "role",
+          "menuitem"
         );
 
 
-        menu.appendChild(option);
-
-    });
-
-
-    /* Eski yapıyı gizle */
-
-    buttons.forEach(function (button) {
-        button.style.display = "none";
-    });
-
-    languageBox
-        .querySelectorAll(":scope > span")
-        .forEach(function (span) {
-            span.style.display = "none";
-        });
+        option.innerHTML =
+          originalButton.innerHTML;
 
 
-    /* Yeni yapıyı ekle */
-
-    languageBox.appendChild(currentLanguage);
-
-    languageBox.appendChild(menu);
-
-
-    /* Aç / kapa */
-
-    currentLanguage.addEventListener(
-        "click",
-        function (event) {
+        option.addEventListener(
+          "click",
+          function (event) {
 
             event.stopPropagation();
 
-            const isOpen =
-                languageBox.classList.toggle("open");
 
-            currentLanguage.setAttribute(
-                "aria-expanded",
-                isOpen ? "true" : "false"
+            /*
+             * Mevcut çeviri sisteminin
+             * kendi butonunu çalıştır.
+             */
+
+            originalButton.click();
+
+
+            /*
+             * Üstte seçilen dili göster.
+             */
+
+            updateCurrent(
+              originalButton
             );
 
-        }
+
+            /*
+             * Menüyü kapat.
+             */
+
+            box.classList.remove(
+              "open"
+            );
+
+
+            current.setAttribute(
+              "aria-expanded",
+              "false"
+            );
+
+          }
+        );
+
+
+        languageMenu.appendChild(
+          option
+        );
+
+
+        /*
+         * Orijinal butonları görünmez yap.
+         *
+         * DOM'da kalıyorlar.
+         * Böylece mevcut data-lang
+         * sistemi çalışmaya devam ediyor.
+         */
+
+        originalButton.style.display =
+          "none";
+
+      }
     );
 
 
-    /* Sayfaya tıklayınca kapat */
+    /*
+     * Eski / işaretlerini gizle.
+     */
+
+    box.querySelectorAll(
+      ":scope > span"
+    ).forEach(
+      function (span) {
+
+        span.style.display =
+          "none";
+
+      }
+    );
+
+
+    /*
+     * Yeni dropdown'u ekle.
+     */
+
+    box.appendChild(current);
+
+    box.appendChild(
+      languageMenu
+    );
+
+
+    /*
+     * Aç / kapa.
+     */
+
+    current.addEventListener(
+      "click",
+      function (event) {
+
+        event.stopPropagation();
+
+
+        const open =
+          box.classList.toggle(
+            "open"
+          );
+
+
+        current.setAttribute(
+          "aria-expanded",
+          open
+            ? "true"
+            : "false"
+        );
+
+      }
+    );
+
+
+    /*
+     * Sayfanın başka yerine
+     * tıklanınca kapat.
+     */
 
     document.addEventListener(
-        "click",
+      "click",
+      function () {
+
+        box.classList.remove(
+          "open"
+        );
+
+
+        current.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+      }
+    );
+
+
+    /*
+     * Dil değiştiğinde üstteki
+     * aktif dili güncelle.
+     */
+
+    const observer =
+      new MutationObserver(
         function () {
 
-            languageBox.classList.remove("open");
+          const newActive =
+            originalButtons.find(
+              function (button) {
 
-            currentLanguage.setAttribute(
-                "aria-expanded",
-                "false"
+                return button.classList.contains(
+                  "active"
+                );
+
+              }
             );
 
+
+          if (newActive) {
+
+            updateCurrent(
+              newActive
+            );
+
+          }
+
         }
+      );
+
+
+    observer.observe(
+      box,
+      {
+        subtree: true,
+        attributes: true,
+        attributeFilter: [
+          "class"
+        ]
+      }
     );
+
+  }
+
+
+  /*
+   * Sayfa hazır olduğunda çalıştır.
+   */
+
+  if (
+    document.readyState ===
+    "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      initLanguageDropdown
+    );
+
+  } else {
+
+    initLanguageDropdown();
+
+  }
 
 })();
