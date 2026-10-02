@@ -3244,3 +3244,358 @@ body.sivora-light
         padding: 8px 9px;
     }
 }
+
+/* =========================================================
+   SIVORA ADMIN PRO — GİRİŞ + DÜZENLEME ARAYÜZÜ
+   ========================================================= */
+
+html, body { min-height:100%; }
+
+body.admin-body{
+  background:
+    radial-gradient(circle at 15% 0%, rgba(185,151,91,.08), transparent 34%),
+    radial-gradient(circle at 100% 100%, rgba(185,151,91,.05), transparent 30%),
+    var(--admin-bg) !important;
+}
+
+body.admin-body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+                   linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size:48px 48px;
+  mask-image:linear-gradient(to bottom, black, transparent 85%);
+  opacity:.35;
+  z-index:0;
+}
+
+body.admin-body > *{position:relative;z-index:1}
+
+/* Login */
+.admin-login-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:18px !important;
+  backdrop-filter:blur(18px);
+}
+
+.admin-login-card::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,#b9975b,transparent);
+  opacity:.9;
+}
+
+.admin-login-logo img{
+  width:155px !important;
+  filter:drop-shadow(0 12px 22px rgba(0,0,0,.28));
+}
+
+.admin-login-field{position:relative}
+
+.admin-login-field input{
+  border-radius:9px !important;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease !important;
+}
+
+.admin-login-field input:focus{
+  transform:translateY(-1px);
+  box-shadow:0 0 0 4px rgba(185,151,91,.10),0 12px 28px rgba(0,0,0,.14) !important;
+}
+
+.admin-login-button{
+  min-height:50px;
+  border-radius:9px !important;
+  letter-spacing:.08em;
+  box-shadow:0 12px 25px rgba(185,151,91,.16);
+}
+
+.admin-login-card a,
+.admin-login-card button{
+  -webkit-tap-highlight-color:transparent;
+}
+
+body.admin-theme-light{
+  background:
+    radial-gradient(circle at 15% 0%, rgba(185,151,91,.10), transparent 34%),
+    #f3f1ec !important;
+}
+
+body.admin-theme-light::before{
+  background-image:linear-gradient(rgba(0,0,0,.025) 1px, transparent 1px),
+                   linear-gradient(90deg, rgba(0,0,0,.025) 1px, transparent 1px);
+}
+
+/* Dashboard cards */
+.admin-project,
+.admin-property-card{
+  border:1px solid var(--admin-border) !important;
+  border-radius:12px;
+  background:var(--admin-card);
+  padding:14px !important;
+  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+
+.admin-project:hover,
+.admin-property-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(185,151,91,.35) !important;
+  box-shadow:0 14px 35px rgba(0,0,0,.10);
+}
+
+.admin-project img,
+.admin-property-card img{
+  border-radius:7px;
+}
+
+.admin-project-actions{
+  justify-content:flex-end;
+}
+
+.admin-project-actions button,
+.admin-project button{
+  border-radius:7px !important;
+  border:1px solid var(--admin-border) !important;
+  background:var(--admin-card-2) !important;
+  color:var(--admin-text) !important;
+}
+
+.admin-project-actions button:hover,
+.admin-project button:hover{
+  background:var(--admin-gold) !important;
+  color:#171716 !important;
+  border-color:var(--admin-gold) !important;
+}
+
+/* Dynamic modal */
+body.sivora-modal-open{overflow:hidden}
+
+.sivora-admin-modal-overlay{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:99999 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:clamp(12px,3vw,34px) !important;
+  box-sizing:border-box !important;
+  background:rgba(0,0,0,.72) !important;
+  backdrop-filter:blur(10px);
+  animation:sivoraModalFade .18s ease-out;
+}
+
+.sivora-admin-modal-box{
+  position:relative;
+  width:min(1120px,96vw) !important;
+  max-height:min(90vh,900px) !important;
+  overflow:auto !important;
+  box-sizing:border-box !important;
+  padding:clamp(22px,3vw,34px) !important;
+  border:1px solid rgba(185,151,91,.32) !important;
+  border-radius:16px !important;
+  background:linear-gradient(145deg,#1d1d1b,#171716) !important;
+  color:#f4f0e8 !important;
+  box-shadow:0 35px 100px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.03) inset;
+  animation:sivoraModalUp .22s cubic-bezier(.2,.8,.2,1);
+}
+
+.sivora-admin-modal-box::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,#b9975b 20%,#d2b276 50%,#b9975b 80%,transparent);
+}
+
+.sivora-admin-modal-box > div:first-child{
+  padding-bottom:16px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.sivora-admin-modal-box h2{
+  font:400 clamp(23px,3vw,31px)/1.1 "Playfair Display",Georgia,serif !important;
+  letter-spacing:-.02em;
+  color:#f4f0e8 !important;
+}
+
+.sivora-admin-modal-close{
+  width:40px !important;
+  height:40px !important;
+  display:grid !important;
+  place-items:center !important;
+  flex:0 0 40px;
+  border:1px solid rgba(255,255,255,.12) !important;
+  border-radius:50% !important;
+  background:rgba(255,255,255,.04) !important;
+  color:#f4f0e8 !important;
+  font-size:25px !important;
+  line-height:1 !important;
+  cursor:pointer !important;
+  transition:.2s ease;
+}
+
+.sivora-admin-modal-close:hover{
+  background:#b9975b !important;
+  color:#171716 !important;
+  transform:rotate(90deg);
+}
+
+.sivora-admin-modal-box label{
+  color:#cfc9bf !important;
+}
+
+.sivora-admin-modal-box input,
+.sivora-admin-modal-box textarea,
+.sivora-admin-modal-box select{
+  background:#242421 !important;
+  color:#f7f4ee !important;
+  border:1px solid #45433e !important;
+  border-radius:8px !important;
+  min-height:44px;
+  padding:11px 13px !important;
+  box-sizing:border-box !important;
+  transition:.2s ease;
+}
+
+.sivora-admin-modal-box textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+.sivora-admin-modal-box input:focus,
+.sivora-admin-modal-box textarea:focus,
+.sivora-admin-modal-box select:focus{
+  outline:none !important;
+  border-color:#b9975b !important;
+  box-shadow:0 0 0 3px rgba(185,151,91,.11) !important;
+}
+
+.sivora-admin-modal-box input::placeholder,
+.sivora-admin-modal-box textarea::placeholder{
+  color:#817d74 !important;
+}
+
+.sivora-admin-modal-info{
+  margin:0 0 20px !important;
+  padding:14px 16px !important;
+  border:1px solid rgba(185,151,91,.22) !important;
+  border-left:3px solid #b9975b !important;
+  border-radius:9px !important;
+  background:#242421 !important;
+  color:#c9c3b9 !important;
+  font-size:12px !important;
+  line-height:1.65 !important;
+}
+
+.sivora-admin-photo-card{
+  position:relative;
+  border:1px solid #414039 !important;
+  padding:9px !important;
+  border-radius:10px !important;
+  background:#242421 !important;
+  overflow:hidden;
+  transition:.2s ease;
+}
+
+.sivora-admin-photo-card:hover{
+  border-color:rgba(185,151,91,.55) !important;
+  transform:translateY(-2px);
+}
+
+.sivora-admin-photo-card img{
+  width:100%;
+  height:170px;
+  object-fit:cover;
+  display:block;
+  border-radius:6px;
+}
+
+.sivora-admin-photo-number{
+  position:absolute;
+  left:16px;top:16px;z-index:2;
+  width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  background:#b9975b;
+  color:#171716;
+  font-weight:700;
+  box-shadow:0 5px 14px rgba(0,0,0,.28);
+}
+
+.sivora-admin-photo-label{
+  display:block;
+  margin:10px 2px !important;
+  color:#d8d3ca !important;
+  font-size:11px !important;
+  font-weight:600 !important;
+}
+
+.sivora-admin-photo-actions{
+  display:grid !important;
+  grid-template-columns:1fr 1fr auto;
+  gap:6px !important;
+}
+
+.sivora-admin-photo-actions button{
+  min-height:38px;
+  border-radius:7px !important;
+  border:1px solid #4b4943 !important;
+  background:#2b2a26 !important;
+  color:#f4f0e8 !important;
+}
+
+.sivora-admin-photo-actions button:hover{
+  background:#b9975b !important;
+  color:#171716 !important;
+  border-color:#b9975b !important;
+}
+
+.sivora-admin-modal-box button:disabled{
+  opacity:.35 !important;
+  cursor:not-allowed !important;
+  transform:none !important;
+}
+
+.sivora-admin-modal-box::-webkit-scrollbar{width:9px}
+.sivora-admin-modal-box::-webkit-scrollbar-track{background:#151514}
+.sivora-admin-modal-box::-webkit-scrollbar-thumb{
+  background:#4c4941;border-radius:20px;
+}
+.sivora-admin-modal-box::-webkit-scrollbar-thumb:hover{background:#b9975b}
+
+@keyframes sivoraModalFade{from{opacity:0}to{opacity:1}}
+@keyframes sivoraModalUp{
+  from{opacity:0;transform:translateY(12px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+@media(max-width:700px){
+  .admin-login-card{
+    padding:34px 22px !important;
+    border-radius:14px !important;
+  }
+
+  .admin-login-logo img{width:125px !important}
+
+  .sivora-admin-modal-overlay{
+    padding:8px !important;
+    align-items:stretch !important;
+  }
+
+  .sivora-admin-modal-box{
+    width:100% !important;
+    max-height:calc(100vh - 16px) !important;
+    border-radius:12px !important;
+    padding:20px !important;
+  }
+
+  .sivora-admin-modal-box h2{font-size:23px !important}
+
+  .sivora-admin-photo-card img{height:145px}
+
+  .sivora-admin-photo-actions{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+}
