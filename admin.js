@@ -360,6 +360,23 @@ box.style.width =
     };
 
 
+  /* =========================================================
+     GAYRİMENKUL FİYAT — LANSMAN ÖZEL FİYATLAR
+  ========================================================= */
+
+  const LAUNCH_PRICE_TEXT = 'Lansman Özel Fiyatlar';
+
+  const isLaunchPrice = value =>
+    typeof value === 'string' &&
+    value.trim().toLowerCase() === LAUNCH_PRICE_TEXT.toLowerCase();
+
+  const normalizePropertyPrice = value => {
+    if (isLaunchPrice(value)) {
+      return LAUNCH_PRICE_TEXT;
+    }
+    return value;
+  };
+
   const formatPrice =
     (
       price,
@@ -372,6 +389,10 @@ box.style.width =
         price === ''
       ) {
         return '';
+      }
+
+      if (isLaunchPrice(price)) {
+        return LAUNCH_PRICE_TEXT;
       }
 
       const number =
@@ -4718,5 +4739,53 @@ window.addEventListener(
 
     }
   );
+
+
+  /* =========================================================
+     FİYAT ALANI — LANSMAN SEÇENEĞİ
+     ========================================================= */
+  const setupLaunchPriceField = () => {
+    const fields = document.querySelectorAll(
+      'input[name="price"], input[id="price"], input[data-field="price"]'
+    );
+
+    fields.forEach(input => {
+      if (input.dataset.launchPriceReady === '1') return;
+
+      input.dataset.launchPriceReady = '1';
+      input.type = 'text';
+      input.inputMode = 'decimal';
+      input.placeholder = 'Örn. 6.500.000 veya Lansman Özel Fiyatlar';
+
+      const wrapper = input.parentElement;
+      if (!wrapper || wrapper.querySelector('.sivora-launch-price-option')) return;
+
+      const label = document.createElement('label');
+      label.className = 'sivora-launch-price-option';
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = isLaunchPrice(input.value);
+
+      const text = document.createElement('span');
+      text.textContent = 'Lansman Özel Fiyatlar';
+
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+          input.value = LAUNCH_PRICE_TEXT;
+          input.type = 'text';
+        } else {
+          input.value = '';
+          input.type = 'text';
+          input.focus();
+        }
+      });
+
+      label.append(checkbox, text);
+      wrapper.append(label);
+    });
+  };
+
+  document.addEventListener('DOMContentLoaded', setupLaunchPriceField);
 
 })();
