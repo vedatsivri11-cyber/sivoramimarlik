@@ -3599,3 +3599,83 @@ body.sivora-modal-open{overflow:hidden}
     grid-template-columns:1fr 1fr 1fr;
   }
 }
+
+/* SIVORA MOBİL GAYRİMENKUL YÜKLEME */
+.sivora-photo-upload-label{display:grid;gap:10px!important}
+.sivora-photo-upload-box{display:grid;gap:5px;padding:18px;border:1px dashed #b9b4aa;border-radius:14px;background:rgba(255,255,255,.45);cursor:pointer;text-transform:none!important;letter-spacing:normal!important;font-size:14px!important}
+.sivora-photo-upload-box strong{font-size:15px}
+.sivora-photo-upload-box small{font-size:12px;color:#777}
+.sivora-photo-upload-box input{margin-top:8px!important;border:0!important;padding:0!important;background:transparent!important}
+.sivora-photo-preview{display:grid;gap:12px}
+.sivora-photo-preview-head{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px}
+.sivora-photo-preview-head span{opacity:.6}
+.sivora-photo-preview-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.sivora-photo-preview-card{overflow:hidden;border:1px solid rgba(0,0,0,.1);border-radius:10px;background:rgba(255,255,255,.5)}
+.sivora-photo-preview-card img{display:block;width:100%;height:100px;object-fit:cover}
+.sivora-photo-preview-card div{display:flex;justify-content:space-between;padding:7px;font-size:11px}
+.sivora-photo-empty{padding:12px;border-radius:10px;background:rgba(0,0,0,.04);font-size:12px;opacity:.65}
+.sivora-upload-progress{padding:14px;border:1px solid rgba(185,151,91,.35);border-radius:12px;background:rgba(185,151,91,.08)}
+.sivora-upload-progress-head{display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-bottom:9px}
+.sivora-upload-progress-track{height:8px;background:rgba(0,0,0,.1);border-radius:99px;overflow:hidden}
+.sivora-upload-progress-track span{display:block;width:0;height:100%;background:#b9975b;border-radius:inherit;transition:width .25s ease}
+#property-submit:disabled{opacity:.55;cursor:wait}
+
+@media(max-width:700px){
+  .admin-card{width:100%!important;max-width:none!important;padding:18px!important;box-sizing:border-box}
+  .sivora-photo-preview-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+  .sivora-photo-preview-card{border-radius:7px}
+  .sivora-photo-preview-card img{height:62px}
+  .sivora-photo-preview-card div{padding:4px 5px;font-size:9px}
+  .sivora-photo-preview-head{align-items:flex-start;flex-direction:column;gap:3px}
+}
+@media(max-width:420px){
+  .sivora-photo-preview-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  .sivora-photo-preview-card img{height:56px}
+  .sivora-photo-preview-card div{padding:3px 4px;font-size:8px}
+}
+
+/* SIVORA — ÇOK KOMPAKT FOTOĞRAF ÖNİZLEME */
+.sivora-photo-preview-grid{
+  grid-template-columns:repeat(8,minmax(0,1fr)) !important;
+  gap:5px !important;
+}
+.sivora-photo-preview-card{
+  border-radius:5px !important;
+}
+.sivora-photo-preview-card img{
+  width:100% !important;
+  height:48px !important;
+  aspect-ratio:1/1 !important;
+  object-fit:cover !important;
+}
+.sivora-photo-preview-card div{
+  padding:2px 4px !important;
+  font-size:8px !important;
+  line-height:1.1 !important;
+}
+@media(max-width:700px){
+  .sivora-photo-preview-grid{
+    grid-template-columns:repeat(6,minmax(0,1fr)) !important;
+    gap:4px !important;
+  }
+  .sivora-photo-preview-card img{
+    height:38px !important;
+  }
+  .sivora-photo-preview-card div{
+    padding:2px 3px !important;
+    font-size:7px !important;
+  }
+}
+@media(max-width:420px){
+  .sivora-photo-preview-grid{
+    grid-template-columns:repeat(6,minmax(0,1fr)) !important;
+    gap:3px !important;
+  }
+  .sivora-photo-preview-card img{
+    height:34px !important;
+  }
+  .sivora-photo-preview-card div{
+    padding:1px 2px !important;
+    font-size:6px !important;
+  }
+}
