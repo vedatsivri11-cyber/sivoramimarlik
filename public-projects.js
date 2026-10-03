@@ -150,7 +150,7 @@
   const createProjectCard = (project, index) => {
     const photos = normalizePhotos(project);
     const article = document.createElement('article');
-    article.className = 'project live-project' + (index === 0 ? ' large' : '');
+    article.className = 'project live-project';
     article.setAttribute('tabindex', '0');
     article.setAttribute('role', 'button');
     article.setAttribute('aria-label', `${cleanText(project.title) || 'Proje'} detaylarını aç`);
