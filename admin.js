@@ -2287,7 +2287,7 @@ uploadInput.type =
   'file';
 
 uploadInput.accept =
-  'image/jpeg,image/png,image/webp';
+  'image/jpeg,.jpg,.jpeg,image/png,image/webp';
 
 uploadInput.multiple =
   true;
@@ -2622,18 +2622,30 @@ const {
       const saveOrder =
         async () => {
 
+          const orderedPhotos =
+            currentPhotos
+              .map(photo => ({
+                url:
+                  typeof photo === 'string'
+                    ? photo
+                    : photo?.url || '',
+                path:
+                  typeof photo === 'object'
+                    ? (photo?.path || null)
+                    : null
+              }))
+              .filter(photo => photo.url);
+
           const {
             error
           } =
             await db
               .from('properties')
               .update({
-
                 fotograflar:
                   JSON.stringify(
-                    currentPhotos
+                    orderedPhotos
                   )
-
               })
               .eq(
                 'id',
@@ -2643,6 +2655,13 @@ const {
           if (error) {
             throw error;
           }
+
+          /* Sıralama artık doğrudan mevcut dizi üzerinden korunur.
+             UPDATE sonrasında SELECT zorunlu tutulmadığı için RLS SELECT
+             kısıtının kaydetmeyi yanlışlıkla başarısız göstermesi engellenir. */
+          currentPhotos = orderedPhotos;
+
+          return orderedPhotos;
 
         };
 
@@ -3123,15 +3142,22 @@ const {
           save.disabled =
             true;
 
+          save.textContent =
+            'Kaydediliyor...';
+
+          setStatus(
+            "Fotoğraf sırası Supabase'e kaydediliyor..."
+          );
+
           try {
 
             await saveOrder();
 
-            setStatus(
-              'Fotoğraf sırası başarıyla kaydedildi.'
-            );
+            renderGallery();
 
-            await refreshProperties();
+            setStatus(
+              '✓ Fotoğraf sırası başarıyla kaydedildi.'
+            );
 
           } catch (
             error
@@ -3139,13 +3165,16 @@ const {
 
             setStatus(
               'Sıralama kaydedilemedi: ' +
-              error.message
+              (error?.message || 'Bilinmeyen hata')
             );
 
           } finally {
 
             save.disabled =
               false;
+
+            save.textContent =
+              'Fotoğraf Sırasını Kaydet';
 
           }
 
@@ -3566,6 +3595,7 @@ const {
 
     const allowed = [
       'image/jpeg',
+      'image/jpg',
       'image/png',
       'image/webp'
     ];
@@ -3580,10 +3610,16 @@ const {
         continue;
       }
 
-      if (!allowed.includes(file.type)) {
+      const fileName = String(file.name || '').toLowerCase();
+      const isJpegByName = /\.(jpe?g)$/i.test(fileName);
+      const isAllowedType = allowed.includes(String(file.type || '').toLowerCase());
+
+      /* Bazı telefon/tarayıcılarda JPEG için MIME tipi boş veya image/jpg gelebilir.
+         Uzantı JPG/JPEG ise yine kabul et. */
+      if (!isAllowedType && !isJpegByName) {
         return (
           `"${file.name}" desteklenmeyen formatta. ` +
-          'Sadece JPG, PNG veya WebP kullanabilirsiniz.'
+          'Sadece JPG, JPEG, PNG veya WebP kullanabilirsiniz.'
         );
       }
 
