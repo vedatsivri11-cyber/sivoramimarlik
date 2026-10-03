@@ -1,3681 +1,532 @@
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:#eeeae2;color:#171716;font:14px "DM Sans",Arial,sans-serif}
-a{color:inherit}
-.nav{height:78px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;position:absolute;top:0;left:0;right:0;z-index:20;color:#f4f0e8}
-.logo{text-decoration:none;font-weight:500;letter-spacing:.12em;font-size:13px}
-.logo span{font-weight:400;opacity:.62;margin-left:5px}
-.nav nav{display:flex;gap:28px;align-items:center}
-.nav nav a{text-decoration:none;font-size:11px;letter-spacing:.06em}
-.nav nav a:hover{opacity:.6}
-.nav-cta{border:1px solid #ffffff80;padding:10px 15px}
-.menu{display:none;background:none;border:0;color:inherit;font-size:22px}
-.theme-toggle{position:fixed;right:24px;top:18px;z-index:1000;width:40px;height:40px;border-radius:50%;border:1px solid currentColor;background:#17171699;color:#fff;cursor:pointer;font-size:17px;backdrop-filter:blur(8px)}
+(() => {
 
-.hero{
-  min-height:100vh;
-  position:relative;
-  overflow:visible;
-  padding:0;
-  margin-top:100px;
-  display:block;
-  background:#161616;
-}
+  const grid = document.getElementById('property-grid');
+  if (!grid) return;
 
-.hero::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:78vh;
+  if (!window.SIVORA_SUPABASE_URL ||
+      !window.SIVORA_SUPABASE_ANON_KEY ||
+      !window.supabase) {
+    grid.innerHTML = '<p class="property-empty">Gayrimenkul sistemi bağlantısı kurulamadı.</p>';
+    return;
+  }
 
-  background:
-    linear-gradient(
-      90deg,
-      rgba(13,13,13,.20),
-      rgba(13,13,13,0) 70%
-    ),
-    url("kentsel-donusum.jpg") center center / cover no-repeat;
-
-  z-index:0;
-}
-
-.hero-copy{
-  position:relative;
-  z-index:2;
-
-  max-width:650px;
-  padding:55px 5vw 65px;
-  margin-top:78vh;
-
-  background:#161616;
-  color:#f4f0e8;
-}
-
-.hero h1{
-  font-size:clamp(52px,6vw,82px) !important;
-  line-height:.9 !important;
-  margin:0 0 24px !important;
-}
-
-.hero-copy .intro{
-  max-width:500px !important;
-  font-size:14px !important;
-  line-height:1.6 !important;
-}
-
-.hero-copy .eyebrow{
-  font-size:9px !important;
-  margin-bottom:18px !important;
-}
-.hero::after{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  height:78vh;
-  background:linear-gradient(
-    90deg,
-    rgba(13,13,13,.25) 0%,
-    rgba(13,13,13,.10) 38%,
-    rgba(13,13,13,.02) 68%,
-    rgba(13,13,13,0) 100%
+  const db = window.supabase.createClient(
+    window.SIVORA_SUPABASE_URL,
+    window.SIVORA_SUPABASE_ANON_KEY
   );
-  z-index:1;
-  pointer-events:none;
-}
-.hero-copy{
-  position:relative;
-  z-index:2;
-  color:#f4f0e8;
-  max-width:820px;
-  padding-bottom:2vh;
-}
-.eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:10px;margin:0 0 24px}
-.hero h1,.statement h2,.services h2,.contact h2,.properties-intro h2{font-family:"Playfair Display",Georgia,serif;font-weight:400}
-.hero h1{font-size:clamp(62px,9vw,132px);line-height:.86;letter-spacing:-.055em;margin:0 0 34px}
-.hero h1 em,.statement h2 em,.properties-intro h2 em,.contact h2 em{font-style:italic}
-.intro{font-size:17px;line-height:1.5;max-width:410px;margin:0 0 32px;color:#f4f0e8dc}
-.arrow-link,.contact-link{text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:9px}
-.arrow-link span,.contact-link span{margin-left:35px}
-.hero-meta{position:absolute;right:5vw;bottom:7vh;z-index:2;color:#fff;display:flex;gap:28px;font-size:10px;text-transform:uppercase;letter-spacing:.12em}
-.hero-scroll{position:absolute;right:5vw;top:50%;z-index:2;color:#fff;writing-mode:vertical-rl;font-size:9px;letter-spacing:.16em;opacity:.65}
 
-.projects,.properties,.services{padding:14vh 5vw}
-.section-head{display:flex;justify-content:space-between;border-top:1px solid #aaa59c;padding-top:14px;margin-bottom:55px;font-size:10px;text-transform:uppercase;letter-spacing:.12em}
-.section-head span:last-child{opacity:.5}
-.project-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:70px 28px}
-.project.large{grid-row:span 2}
-.project-image{width:100%;aspect-ratio:4/5;overflow:hidden;background:#d8d1c5;transition:transform .7s}
-.project.large .project-image{aspect-ratio:4/5}
-.image-1{background:url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=85") center/cover}
-.image-2{background:url("https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=85") center/cover}
-.image-3{background:url("https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=85") center/cover}
-.project:hover .project-image{transform:scale(.985)}
-.live-project .project-image{
-  display:block;
-  width:100%;
-  height:auto;
-  aspect-ratio:16/10;
-  object-fit:cover;
-  cursor:zoom-in;
-  overflow:hidden;
-  transition:transform .7s,opacity .3s;
-}
-@media (min-width:701px){
-  .live-project .project-image{max-height:420px}
-}
-@media (min-width:1000px){
-  .project-grid .live-project:first-child .project-image{max-height:500px}
-}
-@media (max-width:700px){
-  .live-project .project-image{
-    aspect-ratio:16/10;
-    max-height:300px;
-  }
-}
-.project-info{display:grid;grid-template-columns:35px 1fr;gap:10px;padding-top:15px}
-.project-info span,.project-info p{font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.55}
-.project-info h2{font:400 30px "Playfair Display",Georgia,serif;margin:0}
-.project-info p{margin:4px 0 0}
-.portfolio-empty{grid-column:1/-1;color:#77756e;font:italic 24px "Playfair Display",Georgia,serif}
-
-.properties{background:#e5e0d7}
-.properties-intro{display:flex;justify-content:space-between;gap:40px;margin-bottom:65px}
-.properties-intro h2{font-size:clamp(48px,6vw,82px);line-height:.9;letter-spacing:-.045em;margin:0}
-.properties-intro>p{max-width:340px;line-height:1.65;opacity:.68}
-.property-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
-.property-loading,.property-empty{color:#77756e;font-size:13px;grid-column:1/-1}
-.property-card{background:#eeeae2;overflow:hidden}
-.property-card-image{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;background:#d8d1c5}
-.property-card-image img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .7s}
-.property-card:hover .property-card-image img{transform:scale(1.025)}
-.property-badge{position:absolute;top:15px;left:15px;padding:7px 10px;background:#eeeae2e8;font-size:9px;text-transform:uppercase;letter-spacing:.1em}
-.property-card-content{padding:24px}
-.property-type{margin:0 0 8px;font-size:9px;text-transform:uppercase;letter-spacing:.13em;opacity:.55}
-.property-card h3{font:400 27px "Playfair Display",Georgia,serif;margin:0 0 8px}
-.property-location{margin:0 0 18px;font-size:11px;opacity:.65}
-.property-price{margin:0 0 18px;font-size:14px;font-weight:600}
-.property-mini-facts{display:flex;flex-wrap:wrap;gap:8px 15px;padding-top:15px;border-top:1px solid #aaa59c;font-size:10px;opacity:.65}
-.property-detail-button{width:100%;margin-top:20px;padding:12px 0;border:0;border-top:1px solid #aaa59c;background:transparent;text-align:left;cursor:pointer;font-size:10px;text-transform:uppercase;letter-spacing:.1em}
-
-.statement{background:#171716;color:#eeeae2;padding:17vh 5vw}
-.statement-top{display:flex;justify-content:space-between;font-size:10px;text-transform:uppercase;letter-spacing:.12em;opacity:.55;margin-bottom:55px}
-.statement h2{font-size:clamp(45px,6.2vw,84px);line-height:.96;letter-spacing:-.04em;max-width:1080px;margin:0 0 80px}
-.statement-text{max-width:470px;margin-left:auto;font-size:16px;line-height:1.6;color:#eeeae2c9}
-
-.services{display:grid;grid-template-columns:1fr 1fr;gap:10vw}
-.services h2{font-size:clamp(48px,6vw,80px);line-height:.94;letter-spacing:-.045em;margin:0}
-.service-list{border-top:1px solid #aaa59c}
-.service-list article{display:grid;grid-template-columns:40px 1fr;gap:10px;padding:28px 0;border-bottom:1px solid #aaa59c}
-.service-list span{font-size:10px;opacity:.5}
-.service-list strong{font:400 25px "Playfair Display",Georgia,serif}
-.service-list p{grid-column:2;max-width:390px;line-height:1.5;margin:4px 0 0;opacity:.7}
-
-.contact{background:#d4cdc0;padding:16vh 5vw 5vh;min-height:75vh;display:flex;flex-direction:column}
-.contact-top{display:flex;justify-content:space-between;gap:40px}
-.contact h2{font-size:clamp(52px,6vw,80px);line-height:.92;letter-spacing:-.045em;margin:0 0 55px}
-.contact-intro{font-size:14px;line-height:1.65;max-width:330px;opacity:.7}
-.contact-link{font:400 clamp(25px,3vw,44px) "Playfair Display",Georgia,serif;width:max-content}
-.contact-details{display:flex;gap:55px;margin-top:auto;padding-top:65px}
-.contact-details div{font-size:11px;line-height:1.7}
-.contact-details small{display:block;text-transform:uppercase;letter-spacing:.13em;opacity:.55;margin-bottom:8px}
-.contact-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;margin-top:48px;padding-top:16px;border-top:1px solid #aaa59c;font-size:10px;text-transform:uppercase;letter-spacing:.12em;opacity:.6}
-
-.wa-float{position:fixed;right:24px;bottom:23px;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#287d5b;color:#fff;z-index:30;box-shadow:0 6px 20px #0002;transition:transform .2s}
-.wa-float:hover{transform:translateY(-3px)}
-
-.property-modal{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:25px}
-.property-modal[hidden]{display:none}
-.property-modal-backdrop{position:absolute;inset:0;background:#141412b8}
-.property-modal-box{position:relative;z-index:1;width:min(1100px,100%);max-height:90vh;overflow-y:auto;background:#eeeae2}
-.property-modal-x{position:absolute;top:15px;right:15px;z-index:5;width:42px;height:42px;border:1px solid #aaa59c;background:#eeeae2e8;cursor:pointer;font-size:25px}
-.property-detail{padding:30px}
-
-.admin-body{min-height:100vh}
-.admin-header{height:78px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #aaa59c}
-.admin-header a{text-decoration:none;font-size:12px}
-.admin-logo{color:#171716}
-.admin-main{width:min(900px,calc(100% - 48px));margin:70px auto 100px}
-.admin-main h1{font:400 clamp(48px,7vw,78px)/1 "Playfair Display",Georgia,serif;letter-spacing:-.045em;margin:0 0 14px}
-.admin-lede{max-width:560px;line-height:1.7;color:#6b6962;margin-bottom:35px}
-.admin-card{background:#e4dfd5;padding:28px;display:grid;gap:18px;max-width:620px}
-.admin-card h2,.admin-topline h2{font:400 27px "Playfair Display",Georgia,serif;margin:0}
-.admin-card label{display:grid;gap:7px;font-size:10px;letter-spacing:.1em;text-transform:uppercase}
-.admin-card input,.admin-card select,.admin-card textarea{border:0;border-bottom:1px solid #aaa59c;background:transparent;padding:11px 0;font:14px "DM Sans",sans-serif;color:#171716}
-.admin-card textarea{min-height:100px;resize:vertical}
-.admin-card small{line-height:1.55;color:#706e67}
-.admin-card button,.admin-project button{justify-self:start;border:0;background:#171716;color:#eeeae2;padding:14px 18px;font:12px "DM Sans",sans-serif;cursor:pointer}
-.admin-card button:hover,.admin-project button:hover{background:#444}
-.admin-notice{padding:20px;background:#e4dfd5;line-height:1.7;margin:24px 0}
-.admin-topline{display:flex;align-items:center;justify-content:space-between;margin:50px 0 18px}
-.button-quiet{border:1px solid #99958b;background:transparent;padding:10px 14px;cursor:pointer}
-.admin-status{min-height:20px;font-size:12px;color:#68665f}
-.admin-projects{display:grid;gap:12px;margin-top:26px}
-.admin-project{display:grid;grid-template-columns:100px 1fr auto;gap:18px;align-items:center;padding:12px;border-top:1px solid #c8c2b8}
-.admin-project img{width:100px;height:75px;object-fit:cover}
-.admin-project p{font-size:12px;color:#716f68;margin:6px 0 0}
-.admin-project button{padding:10px 14px}
-
-body.dark-mode{background:#171717;color:#f1eee8}
-body.dark-mode .nav{background:#171717}
-body.dark-mode .nav a,body.dark-mode .logo{color:#f1eee8}
-body.dark-mode .projects,body.dark-mode .services,body.dark-mode .properties{background:#171717;color:#f1eee8}
-body.dark-mode .properties-intro>p,body.dark-mode .service-list p{color:#c8c5be}
-body.dark-mode .property-card{background:#222;color:#f1eee8}
-body.dark-mode .property-modal-box{background:#222;color:#f1eee8}
-body.dark-mode .contact{background:#20201e;color:#f1eee8}
-body.dark-mode .project-info{color:#f1eee8}
-body.dark-mode .theme-toggle{background:#eeeae2;color:#171717}
-
-@media(max-width:800px){
-.nav{padding:0 6vw}
-.nav nav{display:none;position:absolute;top:70px;left:0;right:0;padding:22px 6vw;background:#171716;flex-direction:column;align-items:flex-start;gap:22px}
-.nav nav.open{display:flex}
-.menu{display:block}
-.hero{min-height:88vh;padding:15vh 6vw 8vh}
-.hero h1{font-size:clamp(58px,15vw,78px)}
-.hero-meta,.hero-scroll{display:none}
-.projects,.properties,.services{padding:11vh 6vw}
-.properties-intro{display:block}
-.properties-intro>p{margin-top:35px}
-.property-grid{grid-template-columns:1fr}
-.project-grid,.services{display:block}
-.project{margin-bottom:60px}
-.project-image,.project.large .project-image{aspect-ratio:4/4.6}
-.statement{padding:12vh 6vw}
-.statement h2{font-size:clamp(42px,11vw,58px);margin-bottom:55px}
-.statement-text{margin-left:0}
-.services h2{margin-bottom:55px}
-.contact{padding:12vh 6vw 5vh;min-height:85vh}
-.contact-top{display:block}
-.contact h2{font-size:58px;margin-bottom:24px}
-.contact-intro{margin-bottom:44px}
-.contact-details{display:grid;grid-template-columns:1fr 1fr;gap:28px 20px;padding-top:55px}
-.contact-bottom{margin-top:38px;gap:20px}
-.project-info h2{font-size:25px}
-.wa-float{right:16px;bottom:16px;width:49px;height:49px}
-.admin-main{margin:46px auto 70px}
-.admin-card{padding:21px}
-.admin-project{grid-template-columns:76px 1fr auto;gap:10px}
-.admin-project img{width:76px;height:64px}
-.admin-project button{padding:9px}
-}
-@media(max-width:520px){.contact-details{grid-template-columns:1fr}.nav .logo span{display:none}.theme-toggle{right:58px}.property-modal{padding:10px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
-
-
-/* Hukuki footer */
-.legal-footer{align-items:center;gap:22px}
-.legal-links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px 22px}
-.legal-links a{text-decoration:none;color:inherit}
-.legal-links a:hover{text-decoration:underline;text-underline-offset:4px}
-@media(max-width:800px){
-  .legal-footer{align-items:flex-start}
-  .legal-links{justify-content:flex-start;gap:10px 16px}
-}
-
-
-/* =====================================================
-   GAYRİMENKUL DETAY PENCERESİ — EKRANA SIĞAN TASARIM
-===================================================== */
-.property-modal{
-  padding:16px;
-}
-
-.property-modal-box{
-  width:min(820px, calc(100vw - 32px));
-  max-height:88vh;
-  overflow-y:auto;
-  overflow-x:hidden;
-  border-radius:2px;
-}
-
-.property-detail{
-  padding:24px;
-  max-width:100%;
-  overflow:hidden;
-}
-
-.property-detail img{
-  display:block;
-  width:100%;
-  max-width:100%;
-  max-height:46vh;
-  height:auto;
-  object-fit:contain;
-  margin:0 auto;
-}
-
-.property-detail h1,
-.property-detail h2,
-.property-detail h3{
-  max-width:100%;
-  overflow-wrap:anywhere;
-}
-
-.property-detail p{
-  max-width:100%;
-  line-height:1.6;
-  overflow-wrap:anywhere;
-}
-
-.property-detail table{
-  width:100%;
-  max-width:100%;
-  display:block;
-  overflow-x:auto;
-}
-
-.property-detail iframe,
-.property-detail video{
-  max-width:100%;
-}
-
-/* SATILIK / KİRALIK etiketi */
-.property-badge{
-  background:#171716 !important;
-  color:#ffffff !important;
-  opacity:1 !important;
-  font-weight:600;
-  text-shadow:none;
-  border:1px solid #ffffff55;
-  box-shadow:0 3px 12px #0003;
-}
-
-body.dark-mode .property-badge{
-  background:#f1eee8 !important;
-  color:#171716 !important;
-  border-color:#17171655;
-}
-
-@media(max-width:700px){
-  .property-modal{
-    padding:8px;
-  }
-
-  .property-modal-box{
-    width:calc(100vw - 16px);
-    max-height:92vh;
-  }
-
-  .property-detail{
-    padding:18px;
-  }
-
-  .property-detail img{
-    max-height:38vh;
-  }
-
-  .property-modal-x{
-    top:8px;
-    right:8px;
-    width:38px;
-    height:38px;
-  }
-}
-
-/* =====================================================
-   GAYRİMENKUL İLANLARI — EKRANA SIĞAN 2'Lİ DÜZEN
-===================================================== */
-.property-grid{
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-  width: 100%;
-  align-items: stretch;
-}
-
-.property-card{
-  min-width: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.property-card-image{
-  aspect-ratio: 16 / 10;
-}
-
-.property-card-content{
-  padding: 20px;
-}
-
-.property-card h3{
-  font-size: clamp(22px, 2.2vw, 28px);
-}
-
-@media (max-width: 900px){
-  .property-grid{
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-  }
-
-  .property-card-content{
-    padding: 17px;
-  }
-}
-
-@media (max-width: 600px){
-  .property-grid{
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .property-card-image{
-    aspect-ratio: 16 / 10;
-  }
-
-  .property-card-content{
-    padding: 18px;
-  }
-}
-
-/* =====================================================
-   YASAL METİNLER
-===================================================== */
-.legal-modal[hidden]{display:none}
-.legal-modal{position:fixed;inset:0;z-index:1100;display:grid;place-items:center;padding:20px}
-.legal-backdrop{position:absolute;inset:0;background:rgba(20,20,18,.76);backdrop-filter:blur(3px)}
-.legal-box{position:relative;z-index:1;width:min(820px,100%);max-height:86vh;overflow:auto;background:#eeeae2;color:#171716;padding:38px 42px;box-shadow:0 25px 80px #0005}
-.legal-close{position:absolute;top:14px;right:14px;width:40px;height:40px;border:1px solid #aaa59c;background:#eeeae2;cursor:pointer;font-size:24px;line-height:1}
-.legal-box h2{font:400 clamp(30px,4vw,48px)/1 "Playfair Display",Georgia,serif;margin:0 45px 22px 0}
-.legal-box h3{font-size:14px;margin:26px 0 8px}
-.legal-box p,.legal-box li{font-size:13px;line-height:1.75;color:#4e4c47}
-.legal-box ul{padding-left:20px}
-body.dark-mode .legal-box{background:#222;color:#f1eee8}
-body.dark-mode .legal-close{background:#222;color:#f1eee8;border-color:#555}
-body.dark-mode .legal-box p,body.dark-mode .legal-box li{color:#c8c5be}
-@media(max-width:700px){.legal-box{padding:30px 22px;max-height:88vh}.legal-box h2{font-size:31px}.legal-box p,.legal-box li{font-size:12px}}
-/* =====================================================
-   SIVORA - DİL SEÇİCİ
-===================================================== */
-
-.language-switcher {
-  margin-left: 28px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-  font-size: 10px;
-  letter-spacing: .12em;
-}
-
-.language-switcher button {
-  border: 0;
-  background: transparent;
-  color: inherit;
-  padding: 4px 2px;
-  font-family: "DM Sans", Arial, sans-serif;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: .12em;
-  cursor: pointer;
-  opacity: .48;
-  transition:
-    opacity .2s ease,
-    color .2s ease;
-}
-
-.language-switcher button:hover,
-.language-switcher button.active {
-  opacity: 1;
-  color: #b9975b;
-}
-
-.language-switcher span {
-  opacity: .28;
-  font-size: 9px;
-}
-
-@media (max-width: 800px) {
-
-  .language-switcher {
-    margin-left: 10px;
-    gap: 4px;
-  }
-
-  .language-switcher button {
-    font-size: 9px;
-    padding: 3px 1px;
-  }
-
-  .language-switcher span {
-    font-size: 8px;
-  }
-
-}
-/* =========================================================
-   DİL SEÇİCİ - KALIN YAZI
-========================================================= */
-
-.language-switcher {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-left: 30px;
-  flex-shrink: 0;
-}
-
-.language-switcher button {
-  border: 0;
-  background: transparent;
-  color: inherit;
-
-  font-family: "DM Sans", Arial, sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-
-  letter-spacing: .08em;
-
-  padding: 5px 4px;
-
-  cursor: pointer;
-
-  opacity: .75;
-
-  transition:
-    opacity .2s ease,
-    color .2s ease,
-    transform .2s ease;
-}
-
-.language-switcher button:hover {
-  opacity: 1;
-  color: #b9975b;
-  transform: translateY(-1px);
-}
-
-.language-switcher button.active {
-  opacity: 1;
-  color: #b9975b;
-  font-weight: 700;
-}
-
-.language-switcher span {
-  font-size: 11px;
-  font-weight: 600;
-  opacity: .4;
-}
-
-/* BAYRAKLAR */
-.language-switcher .flag {
-  font-size: 17px;
-  line-height: 1;
-  margin-right: 3px;
-}
-
-/* MOBİL */
-@media (max-width: 800px) {
-
-  .language-switcher {
-    margin-left: 10px;
-    gap: 3px;
-  }
-
-  .language-switcher button {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 4px 2px;
-  }
-
-  .language-switcher .flag {
-    font-size: 14px;
-  }
-
-  .language-switcher span {
-    font-size: 9px;
-  }
-}
-/* =========================================================
-   SIVORA MİMARLIK - İLETİŞİM BÖLÜMÜ
-========================================================= */
-
-.contact-section {
-  padding: 100px 5%;
-  position: relative;
-}
-
-.contact-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 70px;
-  align-items: center;
-}
-
-.contact-info {
-  padding-right: 20px;
-}
-
-.contact-eyebrow {
-  display: inline-block;
-  font-size: 12px;
-  letter-spacing: 3px;
-  font-weight: 600;
-  margin-bottom: 18px;
-  opacity: 0.65;
-}
-
-.contact-info h2 {
-  margin: 0 0 20px;
-  font-size: clamp(36px, 5vw, 58px);
-  font-weight: 500;
-  letter-spacing: -1px;
-}
-
-.contact-info p {
-  max-width: 500px;
-  line-height: 1.8;
-  font-size: 15px;
-  opacity: 0.75;
-  margin-bottom: 40px;
-}
-
-.contact-detail {
-  display: grid;
-  gap: 24px;
-}
-
-.contact-detail-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.contact-detail-icon {
-  width: 46px;
-  height: 46px;
-  border: 1px solid rgba(128,128,128,0.35);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: 18px;
-}
-
-.contact-detail-item small {
-  display: block;
-  font-size: 10px;
-  letter-spacing: 2px;
-  margin-bottom: 5px;
-  opacity: 0.55;
-}
-
-.contact-detail-item strong,
-.contact-detail-item a {
-  font-size: 14px;
-  text-decoration: none;
-  color: inherit;
-}
-
-.contact-detail-item a:hover {
-  text-decoration: underline;
-}
-
-.contact-form-box {
-  padding: 38px;
-  border: 1px solid rgba(128,128,128,0.25);
-  border-radius: 4px;
-  background: rgba(255,255,255,0.025);
-  backdrop-filter: blur(8px);
-}
-
-.contact-form {
-  width: 100%;
-}
-
-.contact-form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-
-.contact-field {
-  margin-bottom: 20px;
-}
-
-.contact-field label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  opacity: 0.65;
-}
-
-.contact-field input,
-.contact-field textarea {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 14px 15px;
-  border: 1px solid rgba(128,128,128,0.35);
-  border-radius: 2px;
-  background: transparent;
-  color: inherit;
-  font-family: inherit;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.25s ease;
-}
-
-.contact-field textarea {
-  resize: vertical;
-  min-height: 145px;
-}
-
-.contact-field input:focus,
-.contact-field textarea:focus {
-  border-color: currentColor;
-}
-
-.contact-field input::placeholder,
-.contact-field textarea::placeholder {
-  opacity: 0.45;
-}
-
-.contact-submit {
-  width: 100%;
-  padding: 16px 24px;
-  border: 1px solid currentColor;
-  background: transparent;
-  color: inherit;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.contact-submit:hover {
-  background: currentColor;
-  color: var(--bg, #111);
-}
-
-.contact-status {
-  margin-top: 15px;
-  font-size: 13px;
-  line-height: 1.5;
-  text-align: center;
-}
-
-/* MOBİL */
-
-@media (max-width: 800px) {
-
-  .contact-section {
-    padding: 70px 20px;
-  }
-
-  .contact-container {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .contact-info {
-    padding-right: 0;
-  }
-
-  .contact-form-box {
-    padding: 24px;
-  }
-
-  .contact-form-row {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-}
-.contact-details div{
-  font-size:16px;
-  line-height:1.8;
-}
-
-.contact-details small{
-  font-size:11px;
-  letter-spacing:.15em;
-  margin-bottom:10px;
-  opacity:.6;
-}
-/* İLETİŞİM BİLGİLERİ - BÜYÜTÜLDÜ */
-.contact-details div{
-  font-size:20px;
-  line-height:1.9;
-}
-
-.contact-details small{
-  font-size:13px;
-  letter-spacing:.16em;
-  margin-bottom:12px;
-}
-
-.contact-details{
-  gap:80px;
-  padding-top:75px;
-}
-/* =========================================================
-   SIVORA LOGO - AYDINLIK / KARANLIK
-========================================================= */
-
-/* AYDINLIK MOD */
-body:not(.dark-mode) #site-nav .logo-title{
-  color:#242424 !important;
-  font-weight:800 !important;
-  opacity:1 !important;
-}
-
-body:not(.dark-mode) #site-nav .logo-slogan{
-  color:#8a682c !important;
-  font-weight:800 !important;
-  opacity:1 !important;
-}
-
-/* KARANLIK MOD */
-body.dark-mode #site-nav .logo-title{
-  color:#f1eee8 !important;
-  font-weight:700 !important;
-  opacity:1 !important;
-}
-
-body.dark-mode #site-nav .logo-slogan{
-  color:#b9975b !important;
-  font-weight:600 !important;
-  opacity:1 !important;
-}
-/* =========================================================
-   TELEFON DÜZENİ - LOGO + ANA GÖRSEL
-========================================================= */
-
-@media(max-width:800px){
-
-  /* LOGO */
-  #site-nav{
-    padding:0 5vw !important;
-  }
-
-  #site-nav .logo{
-    gap:10px;
-    max-width:70%;
-  }
-
-  #site-nav .logo img{
-    width:58px !important;
-    height:48px !important;
-    max-width:58px !important;
-    object-fit:contain;
-    flex-shrink:0;
-  }
-
-  #site-nav .logo-text{
-    min-width:0;
-  }
-
-  #site-nav .logo-title{
-    font-size:10px !important;
-    font-weight:800 !important;
-    letter-spacing:1px !important;
-    line-height:1.15;
-    white-space:nowrap;
-  }
-
-  #site-nav .logo-slogan{
-    font-size:6.5px !important;
-    font-weight:700 !important;
-    letter-spacing:1.5px !important;
-    margin-top:5px;
-    white-space:nowrap;
-  }
-
-
-  /* TELEFONDA ANA SAYFA GÖRSELİ */
-
-  .hero{
-    min-height:92vh !important;
-    padding:18vh 7vw 9vh !important;
-    background-position:center center !important;
-    background-size:cover !important;
-  }
-
-  .hero::after{
-    background:linear-gradient(
-      180deg,
-      rgba(13,13,13,.18) 0%,
-      rgba(13,13,13,.12) 45%,
-      rgba(13,13,13,.52) 100%
-    ) !important;
-  }
-
-  .hero-copy{
-    max-width:90% !important;
-    padding-bottom:2vh !important;
-  }
-
-  .hero h1{
-    font-size:clamp(52px,15vw,72px) !important;
-    line-height:.88 !important;
-  }
-
-}
-/* TELEFON İÇİN ÖZEL KENTSEL DÖNÜŞÜM GÖRSELİ */
-@media (max-width: 800px){
-  .hero{
-    background-image: url("kentsel-donusum-mobil.jpg") !important;
-    background-position: center center !important;
-    background-size: cover !important;
-  }
-}
-/* =========================================================
-   MOBİL MENÜ - KOMPAKT VE HERO'NUN ÜZERİNDE
-========================================================= */
-
-@media (max-width: 800px){
-
-  #site-nav{
-    position:absolute !important;
-    top:0 !important;
-    left:0 !important;
-    right:0 !important;
-    z-index:100 !important;
-    background:transparent !important;
-  }
-
-  #site-nav nav{
-    position:absolute !important;
-    top:78px !important;
-    left:5vw !important;
-    right:5vw !important;
-
-    display:none !important;
-
-    padding:18px 22px !important;
-    margin:0 !important;
-
-    background:rgba(20,20,20,.96) !important;
-    border-radius:0 0 18px 18px !important;
-
-    flex-direction:column !important;
-    align-items:flex-start !important;
-    gap:14px !important;
-
-    box-shadow:0 12px 35px rgba(0,0,0,.25) !important;
-  }
-
-  #site-nav nav.active{
-    display:flex !important;
-  }
-
-  #site-nav nav a{
-    display:block !important;
-    padding:5px 0 !important;
-    font-size:15px !important;
-    line-height:1.2 !important;
-  }
-
-  /* Menü açıkken sayfanın boyunu büyütmesin */
-  .hero{
-    position:relative !important;
-    z-index:1 !important;
-  }
-
-  #site-nav .menu{
-    position:relative !important;
-    z-index:110 !important;
-  }
-}
-/* =========================================================
-   MOBİL MENÜ — 3 ÇİZGİ İLE AÇILIR
-========================================================= */
-
-@media (max-width:800px){
-
-  #site-nav{
-    position:absolute !important;
-    z-index:1000 !important;
-  }
-
-  #site-nav nav{
-    display:none !important;
-
-    position:absolute !important;
-
-    top:70px !important;
-    left:auto !important;
-    right:5vw !important;
-
-    width:210px !important;
-
-    padding:18px 20px !important;
-
-    background:rgba(23,23,22,.97) !important;
-
-    border-radius:14px !important;
-
-    flex-direction:column !important;
-    align-items:flex-start !important;
-
-    gap:15px !important;
-
-    box-shadow:
-      0 15px 40px rgba(0,0,0,.35) !important;
-  }
-
-  #site-nav nav.open{
-    display:flex !important;
-  }
-
-  #site-nav nav a{
-    width:100% !important;
-
-    padding:7px 0 !important;
-
-    font-size:15px !important;
-
-    text-decoration:none !important;
-  }
-
-  #site-nav .menu{
-    position:relative !important;
-    z-index:1100 !important;
-
-    display:block !important;
-
-    cursor:pointer !important;
-  }
-
-}
-/* =========================================================
-   MOBİL SVR LOGO — DAHA ZARİF KONUM
-========================================================= */
-
-@media (max-width:800px){
-
-  #site-nav .logo{
-    position:absolute !important;
-    left:24px !important;
-    top:8px !important;
-    z-index:1100 !important;
-  }
-
-  #site-nav .logo img{
-    width:52px !important;
-    height:42px !important;
-    max-width:52px !important;
-    object-fit:contain !important;
-  }
-
-  #site-nav .logo-text{
-    display:none !important;
-  }
-
-  /* Dil seçimini logodan biraz uzaklaştır */
-  #site-nav .language-switcher{
-    margin-left:78px !important;
-  }
-
-}
-@media (max-width:800px){
-
- /* =========================================================
-   MOBİL MENÜ — SAĞDAN AÇILAN TAM EKRAN MENÜ
-========================================================= */
-
-@media (max-width:800px){
-
-  #site-nav #navlinks{
-    display:flex !important;
-
-    position:fixed !important;
-
-    top:0 !important;
-    right:-100% !important;
-    left:auto !important;
-
-    width:82vw !important;
-    height:100vh !important;
-
-    margin:0 !important;
-    padding:120px 45px 50px !important;
-
-    background:#151515 !important;
-
-    flex-direction:column !important;
-    align-items:flex-start !important;
-
-    justify-content:flex-start !important;
-
-    gap:28px !important;
-
-    z-index:9998 !important;
-
-    box-sizing:border-box !important;
-
-    transition:right .4s ease !important;
-
-    box-shadow:-15px 0 45px rgba(0,0,0,.35) !important;
-  }
-
-  /* AÇILDIĞINDA SAĞDAN SOLA GELİR */
-  #site-nav #navlinks.open{
-    right:0 !important;
-  }
-
-  #site-nav #navlinks a{
-    display:block !important;
-
-    width:auto !important;
-
-    padding:5px 0 !important;
-
-    color:#f4f0e8 !important;
-
-    font-size:21px !important;
-
-    font-weight:400 !important;
-
-    text-decoration:none !important;
-
-    letter-spacing:.03em !important;
-  }
-
-  #site-nav #navlinks a:hover{
-    color:#b9975b !important;
-  }
-
-  /* 3 ÇİZGİ / X HER ZAMAN ÜSTTE */
-  #site-nav .menu{
-    position:relative !important;
-
-    z-index:10000 !important;
-
-    display:block !important;
-
-    cursor:pointer !important;
-  }
-
-}
-
-/* TELEFON */
-@media(max-width:800px){
-
-  .social-footer{
-    padding:50px 6vw 25px;
-  }
-
-  .social-footer-title h2{
-    font-size:26px;
-  }
-
-  .social-footer-buttons{
-    width:100%;
-    margin-top:30px;
-    gap:22px;
-    flex-wrap:wrap;
-  }
-
-  .social-btn{
-    font-size:13px;
-  }
-
-  .social-icon{
-    font-size:20px;
-  }
-
-  .social-footer-bottom{
-    margin-top:40px;
-  }
-
-}
-/* =========================================================
-   SIVORA SOSYAL MEDYA - TEMİZ BLOK
-========================================================= */
-
-.social-footer{
-  width:100%;
-  background:#171716;
-  color:#f4f0e8;
-  padding:42px 5vw 24px;
-  box-sizing:border-box;
-}
-
-.social-footer-wrap{
-  width:100%;
-  max-width:1100px;
-  margin:0 auto;
-  text-align:center;
-}
-
-.social-footer-brand{
-  width:100%;
-  text-align:center;
-}
-
-.social-footer-brand span{
-  display:block;
-  color:#b9975b;
-  font-size:9px;
-  letter-spacing:2.5px;
-  margin-bottom:8px;
-}
-
-.social-footer-brand h2{
-  margin:0;
-  font-family:"Playfair Display",Georgia,serif;
-  font-size:28px;
-  font-weight:400;
-}
-
-.social-footer-links{
-  width:100%;
-  margin:28px auto 0;
-  display:flex;
-  flex-direction:row;
-  justify-content:center;
-  align-items:center;
-  gap:55px;
-}
-
-.social-link{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  margin:0;
-  padding:0;
-  color:#f4f0e8;
-  text-decoration:none;
-  font-size:11px;
-  letter-spacing:.03em;
-  flex:0 0 auto;
-}
-
-.social-icon-small{
-  width:15px;
-  height:15px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  color:#b9975b;
-  font-size:12px;
-  line-height:1;
-  font-family:Arial,sans-serif;
-  font-weight:600;
-}
-
-.social-link:hover{
-  color:#b9975b;
-}
-
-.social-footer-copy{
-  width:100%;
-  margin:30px auto 0;
-  padding-top:15px;
-  border-top:1px solid rgba(255,255,255,.08);
-  color:rgba(244,240,232,.4);
-  font-size:9px;
-  letter-spacing:1.2px;
-  text-align:center;
-}
-
-@media(max-width:800px){
-
-  .social-footer{
-    padding:35px 6vw 20px;
-  }
-
-  .social-footer-brand h2{
-    font-size:24px;
-  }
-
-  .social-footer-links{
-    flex-wrap:wrap;
-    gap:20px 28px;
-  }
-
-}
-/* MASAÜSTÜ SOSYAL MEDYA HİZALAMA */
-@media(min-width:801px){
-
-  .social-footer{
-    width:100% !important;
-    text-align:center !important;
-  }
-
-  .social-footer-wrap{
-    width:100% !important;
-    max-width:1100px !important;
-    margin:0 auto !important;
-    text-align:center !important;
-  }
-
-  .social-footer-brand{
-    width:100% !important;
-    text-align:center !important;
-  }
-
-  .social-footer-links{
-    width:100% !important;
-    display:flex !important;
-    flex-direction:row !important;
-    justify-content:center !important;
-    align-items:center !important;
-    gap:55px !important;
-    margin:28px auto 0 !important;
-  }
-
-  .social-link{
-    display:inline-flex !important;
-    align-items:center !important;
-    justify-content:center !important;
-    flex:0 0 auto !important;
-    margin:0 !important;
-  }
-
-  .social-footer-copy{
-    width:100% !important;
-    text-align:center !important;
-    margin-left:auto !important;
-    margin-right:auto !important;
-  }
-}
-/* SIVORA SOSYAL MEDYA */
-
-.social-footer{
-  width:100%;
-  background:#171716;
-  color:#f4f0e8;
-  padding:42px 5vw 24px;
-  box-sizing:border-box;
-  text-align:center;
-}
-
-.social-footer-wrap{
-  width:100%;
-  max-width:1100px;
-  margin:0 auto;
-  text-align:center;
-}
-
-.social-footer-brand{
-  width:100%;
-  text-align:center;
-}
-
-.social-footer-brand span{
-  display:block;
-  color:#b9975b;
-  font-size:9px;
-  letter-spacing:2.5px;
-  margin-bottom:8px;
-}
-
-.social-footer-brand h2{
-  margin:0;
-  font-family:"Playfair Display",Georgia,serif;
-  font-size:28px;
-  font-weight:400;
-}
-
-.social-footer-links{
-  width:100%;
-  margin:28px auto 0;
-  display:flex;
-  flex-direction:row;
-  justify-content:center;
-  align-items:center;
-  gap:55px;
-}
-
-.social-link{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  margin:0;
-  padding:0;
-  color:#f4f0e8;
-  text-decoration:none;
-  font-size:11px;
-  letter-spacing:.03em;
-  flex:0 0 auto;
-}
-
-.social-icon-small{
-  width:15px;
-  height:15px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  color:#b9975b;
-  font-size:12px;
-  line-height:1;
-  font-family:Arial,sans-serif;
-  font-weight:600;
-}
-
-.social-link:hover{
-  color:#b9975b;
-}
-
-.social-footer-copy{
-  width:100%;
-  margin:30px auto 0;
-  padding-top:15px;
-  border-top:1px solid rgba(255,255,255,.08);
-  color:rgba(244,240,232,.4);
-  font-size:9px;
-  letter-spacing:1.2px;
-  text-align:center;
-}
-
-@media(max-width:800px){
-
-  .social-footer{
-    padding:35px 6vw 20px;
-  }
-
-  .social-footer-brand h2{
-    font-size:24px;
-  }
-
-  .social-footer-links{
-    flex-wrap:wrap;
-    gap:20px 28px;
-  }
-
-}
-/* =========================================================
-   SIVORA SOSYAL MEDYA - DOĞRU HTML İÇİN
-========================================================= */
-
-.social-footer{
-  width:100%;
-  background:#171716;
-  color:#f4f0e8;
-  padding:42px 5vw 24px;
-  box-sizing:border-box;
-}
-
-.social-footer-inner{
-  width:100%;
-  max-width:1100px;
-  margin:0 auto;
-  text-align:center;
-}
-
-.social-footer-title{
-  width:100%;
-  text-align:center;
-}
-
-.social-footer-title span{
-  display:block;
-  color:#b9975b;
-  font-size:9px;
-  letter-spacing:2.5px;
-  margin-bottom:8px;
-}
-
-.social-footer-title h2{
-  margin:0;
-  font-family:"Playfair Display",Georgia,serif;
-  font-size:28px;
-  font-weight:400;
-}
-
-.social-footer-buttons{
-  width:100%;
-  margin:28px auto 0;
-  display:flex;
-  flex-direction:row;
-  justify-content:center;
-  align-items:center;
-  gap:55px;
-}
-
-.social-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  margin:0;
-  padding:0;
-  color:#f4f0e8;
-  text-decoration:none;
-  font-size:11px;
-  letter-spacing:.03em;
-  flex:0 0 auto;
-}
-
-.social-icon{
-  width:15px;
-  height:15px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  color:#b9975b;
-  font-size:12px;
-  line-height:1;
-  font-family:Arial,sans-serif;
-  font-weight:600;
-}
-
-.social-btn:hover{
-  color:#b9975b;
-}
-
-.social-footer-bottom{
-  width:100%;
-  max-width:1100px;
-  margin:30px auto 0;
-  padding-top:15px;
-  border-top:1px solid rgba(255,255,255,.08);
-  color:rgba(244,240,232,.4);
-  font-size:9px;
-  letter-spacing:1.2px;
-  text-align:center;
-}
-
-@media(max-width:800px){
-
-  .social-footer{
-    padding:35px 6vw 20px;
-  }
-
-  .social-footer-title h2{
-    font-size:24px;
-  }
-
-  .social-footer-buttons{
-    flex-wrap:wrap;
-    gap:20px 28px;
-  }
-
-}
-/* =========================================================
-   KENTSEL DÖNÜŞÜM - GENİŞLETİLMİŞ ALAN
-========================================================= */
-
-.kentsel-donusum-content{
-  display:grid;
-  grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);
-  gap:90px;
-  align-items:start;
-}
-
-.kentsel-donusum-text h3{
-  font-family:"Playfair Display",Georgia,serif;
-  font-size:38px;
-  font-weight:400;
-  margin:0 0 30px;
-}
-
-.kentsel-donusum-text p{
-  max-width:680px;
-  font-size:15px;
-  line-height:1.9;
-  opacity:.68;
-  margin:0 0 22px;
-}
-
-.kentsel-donusum-list{
-  display:grid;
-  grid-template-columns:1fr;
-  border-top:1px solid rgba(170,165,156,.28);
-}
-
-.kentsel-donusum-list > div{
-  display:grid;
-  grid-template-columns:48px 1fr;
-  gap:18px;
-  padding:22px 0;
-  border-bottom:1px solid rgba(170,165,156,.28);
-}
-
-.kentsel-donusum-list strong{
-  font-size:11px;
-  letter-spacing:.12em;
-  opacity:.45;
-}
-
-.kentsel-donusum-list span{
-  font-size:14px;
-  line-height:1.65;
-  opacity:.65;
-}
-
-.kentsel-donusum-list b{
-  display:block;
-  color:inherit;
-  opacity:1;
-  font-weight:500;
-  margin-bottom:4px;
-}
-
-.kentsel-donusum-detail{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  margin-top:90px;
-  border-top:1px solid rgba(170,165,156,.28);
-  border-bottom:1px solid rgba(170,165,156,.28);
-}
-
-.kentsel-donusum-detail > div{
-  padding:38px 35px 40px 0;
-}
-
-.kentsel-donusum-detail > div + div{
-  border-left:1px solid rgba(170,165,156,.28);
-  padding-left:35px;
-}
-
-.kentsel-donusum-detail span{
-  display:block;
-  font-size:10px;
-  letter-spacing:.15em;
-  opacity:.4;
-  margin-bottom:20px;
-}
-
-.kentsel-donusum-detail h4{
-  font-family:"Playfair Display",Georgia,serif;
-  font-size:27px;
-  font-weight:400;
-  margin:0 0 15px;
-}
-
-.kentsel-donusum-detail p{
-  font-size:13px;
-  line-height:1.8;
-  opacity:.6;
-  margin:0;
-  max-width:380px;
-}
-
-.kentsel-donusum-note{
-  margin-top:70px;
-  padding:38px 0;
-  border-top:1px solid rgba(170,165,156,.28);
-  display:grid;
-  grid-template-columns:1fr 1.3fr auto;
-  gap:40px;
-  align-items:center;
-}
-
-.kentsel-donusum-note strong{
-  font-family:"Playfair Display",Georgia,serif;
-  font-size:24px;
-  font-weight:400;
-  line-height:1.3;
-}
-
-.kentsel-donusum-note p{
-  font-size:13px;
-  line-height:1.7;
-  opacity:.6;
-  margin:0;
-}
-
-.kentsel-donusum-note a{
-  color:inherit;
-  text-decoration:none;
-  font-size:12px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  white-space:nowrap;
-}
-
-.kentsel-donusum-note a:hover{
-  color:#b9975b;
-}
-
-
-@media(max-width:800px){
-
-  .kentsel-donusum-content{
-    grid-template-columns:1fr;
-    gap:50px;
-  }
-
-  .kentsel-donusum-text h3{
-    font-size:32px;
-  }
-
-  .kentsel-donusum-detail{
-    grid-template-columns:1fr;
-    margin-top:60px;
-  }
-
-  .kentsel-donusum-detail > div{
-    padding:28px 0;
-  }
-
-  .kentsel-donusum-detail > div + div{
-    border-left:0;
-    border-top:1px solid rgba(170,165,156,.28);
-    padding-left:0;
-  }
-
-  .kentsel-donusum-note{
-    grid-template-columns:1fr;
-    gap:20px;
-    margin-top:50px;
-  }
-
-}
-/* =========================================================
-   KENTSEL DÖNÜŞÜM - TAM GENİŞLİK DÜZENİ
-========================================================= */
-
-.sivora-services-grid{
-  display:grid !important;
-  grid-template-columns:1fr !important;
-  width:100% !important;
-  gap:0 !important;
-}
-
-
-/* Kentsel dönüşüm ana içeriği */
-.kentsel-donusum-content{
-  width:100% !important;
-  display:grid !important;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
-  gap:80px !important;
-  align-items:start !important;
-}
-
-
-/* Sol taraftaki açıklamalar */
-.kentsel-donusum-text{
-  width:100% !important;
-}
-
-.kentsel-donusum-text h3{
-  font-size:34px !important;
-  margin-bottom:28px !important;
-}
-
-.kentsel-donusum-text p{
-  max-width:700px !important;
-  font-size:16px !important;
-  line-height:1.85 !important;
-}
-
-
-/* Sağ taraftaki süreç listesi */
-.kentsel-donusum-list{
-  width:100% !important;
-}
-
-.kentsel-donusum-list > div{
-  padding:24px 0 !important;
-}
-
-.kentsel-donusum-list span{
-  font-size:16px !important;
-  line-height:1.6 !important;
-}
-
-.kentsel-donusum-list b{
-  font-size:17px !important;
-  margin-bottom:6px !important;
-}
-
-
-/* =========================================================
-   GÜVEN BANDI - TAM GENİŞLİK
-========================================================= */
-
-.sivora-trust{
-  width:100% !important;
-  margin-top:70px !important;
-
-  display:grid !important;
-  grid-template-columns:repeat(3,1fr) !important;
-
-  border-top:1px solid rgba(170,165,156,.45);
-  border-bottom:1px solid rgba(170,165,156,.45);
-}
-
-.sivora-trust-item{
-  min-height:105px !important;
-  padding:28px 35px !important;
-
-  display:flex !important;
-  align-items:center !important;
-
-  gap:20px !important;
-}
-
-.sivora-trust-item strong{
-  font-size:15px !important;
-}
-
-.sivora-trust-item small{
-  font-size:12px !important;
-  margin-top:7px !important;
-}
-
-
-/* =========================================================
-   MOBİL
-========================================================= */
-
-@media(max-width:800px){
-
-  .kentsel-donusum-content{
-    grid-template-columns:1fr !important;
-    gap:45px !important;
-  }
-
-  .kentsel-donusum-text p{
-    font-size:14px !important;
-  }
-
-  .kentsel-donusum-list span{
-    font-size:14px !important;
-  }
-
-  .kentsel-donusum-list b{
-    font-size:15px !important;
-  }
-
-  .sivora-trust{
-    grid-template-columns:1fr !important;
-  }
-
-  .sivora-trust-item{
-    min-height:auto !important;
-    padding:22px 18px !important;
-  }
-
-}
-/* =====================================================
-   PROJE GÖRSELLERİ — DAHA KOMPAKT
-===================================================== */
-
-.project-image{
-  aspect-ratio: 16 / 10 !important;
-}
-
-.project.large .project-image{
-  aspect-ratio: 16 / 10 !important;
-}
-
-@media(max-width:700px){
-
-  .project-image,
-  .project.large .project-image{
-    aspect-ratio: 16 / 10 !important;
-  }
-
-}
-
-
-/* Fotoğrafın üzerine çok hafif karartma */
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-
-  background:linear-gradient(
-    90deg,
-    rgba(0,0,0,.42) 0%,
-    rgba(0,0,0,.16) 42%,
-    rgba(0,0,0,0) 72%
-  ) !important;
-
-  z-index:1;
-}
-
-/* Eski overlay'i etkisiz bırak */
-.hero::after{
-  display:none !important;
-}
-
-/* YAZI */
-.hero-copy{
-  position:relative !important;
-  z-index:3 !important;
-
-  width:auto !important;
-  max-width:440px !important;
-
-  margin:0 !important;
-  padding:0 !important;
-
-  background:transparent !important;
-  border:0 !important;
-
-  backdrop-filter:none !important;
-  -webkit-backdrop-filter:none !important;
-
-  color:#f4f0e8 !important;
-}
-
-/* Küçük üst yazı */
-.hero-copy .eyebrow{
-  font-size:9px !important;
-  letter-spacing:.16em !important;
-  margin:0 0 17px !important;
-  opacity:.75 !important;
-}
-
-/* ANA BAŞLIK */
-.hero-copy h1{
-  max-width:430px !important;
-
-  font-size:clamp(48px,5vw,70px) !important;
-  line-height:.92 !important;
-
-  letter-spacing:-.045em !important;
-
-  margin:0 0 20px !important;
-}
-
-/* Açıklama */
-.hero-copy .intro{
-  max-width:360px !important;
-
-  font-size:13px !important;
-  line-height:1.55 !important;
-
-  margin:0 0 22px !important;
-
-  color:rgba(244,240,232,.82) !important;
-}
-
-/* ÇALIŞMALARIMIZI KEŞFEDİN */
-.hero-copy .arrow-link{
-  font-size:10px !important;
-  letter-spacing:.08em !important;
-}
-
-
-/* =========================================
-   MOBİL
-========================================= */
-
-@media(max-width:800px){
-
-  .hero{
-    min-height:92vh !important;
-    height:92vh !important;
-
-    padding:0 7vw 7vh !important;
-
-    background-image:url("kentsel-donusum-mobil.jpg") !important;
-    background-position:center center !important;
-    background-size:cover !important;
-  }
-
-  .hero::before{
-    background:linear-gradient(
-      180deg,
-      rgba(0,0,0,.08) 0%,
-      rgba(0,0,0,.12) 45%,
-      rgba(0,0,0,.55) 100%
-    ) !important;
-  }
-
-  .hero-copy{
-    max-width:330px !important;
-  }
-
-  .hero-copy .eyebrow{
-    font-size:8px !important;
-    margin-bottom:13px !important;
-  }
-
-  .hero-copy h1{
-    font-size:42px !important;
-    line-height:.92 !important;
-    margin-bottom:17px !important;
-  }
-
-  .hero-copy .intro{
-    max-width:300px !important;
-    font-size:12px !important;
-    line-height:1.55 !important;
-    margin-bottom:20px !important;
-  }
-
-  .hero-copy .arrow-link{
-    font-size:9px !important;
-  }
-
-}
-/* =========================================
-   SIVORA HERO - SON TASARIM
-========================================= */
-
-.hero{
-  min-height:100vh !important;
-  height:100vh !important;
-
-  position:relative !important;
-  overflow:hidden !important;
-
-  display:flex !important;
-  align-items:flex-end !important;
-  justify-content:flex-start !important;
-
-  padding:0 5vw 8vh !important;
-
-  background:
-    url("kentsel-donusum.jpg")
-    center center / cover no-repeat !important;
-}
-
-/* Fotoğrafın üzerine hafif karartma */
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:0;
-
-  background:linear-gradient(
-    90deg,
-    rgba(0,0,0,.42) 0%,
-    rgba(0,0,0,.16) 42%,
-    rgba(0,0,0,0) 72%
-  ) !important;
-
-  z-index:1;
-}
-
-/* Eski overlay kapalı */
-.hero::after{
-  display:none !important;
-}
-
-/* YAZI FOTOĞRAFIN ÜZERİNDE */
-.hero-copy{
-  position:relative !important;
-  z-index:3 !important;
-
-  width:auto !important;
-  max-width:440px !important;
-
-  margin:0 !important;
-  padding:0 !important;
-
-  background:transparent !important;
-  border:0 !important;
-
-  backdrop-filter:none !important;
-  -webkit-backdrop-filter:none !important;
-
-  color:#f4f0e8 !important;
-}
-
-.hero-copy .eyebrow{
-  font-size:9px !important;
-  letter-spacing:.16em !important;
-  margin:0 0 17px !important;
-  opacity:.75 !important;
-}
-
-.hero-copy h1{
-  max-width:430px !important;
-
-  font-size:clamp(48px,5vw,70px) !important;
-  line-height:.92 !important;
-
-  letter-spacing:-.045em !important;
-
-  margin:0 0 20px !important;
-}
-
-.hero-copy .intro{
-  max-width:360px !important;
-
-  font-size:13px !important;
-  line-height:1.55 !important;
-
-  margin:0 0 22px !important;
-
-  color:rgba(244,240,232,.82) !important;
-}
-
-.hero-copy .arrow-link{
-  font-size:10px !important;
-  letter-spacing:.08em !important;
-}
-
-/* MOBİL */
-@media(max-width:800px){
-
-  .hero{
-    min-height:92vh !important;
-    height:92vh !important;
-
-    padding:0 7vw 7vh !important;
-
-    background-image:url("kentsel-donusum-mobil.jpg") !important;
-    background-position:center center !important;
-    background-size:cover !important;
-  }
-
-  .hero::before{
-    background:linear-gradient(
-      180deg,
-      rgba(0,0,0,.08) 0%,
-      rgba(0,0,0,.12) 45%,
-      rgba(0,0,0,.55) 100%
-    ) !important;
-  }
-
-  .hero-copy{
-    max-width:330px !important;
-  }
-
-  .hero-copy .eyebrow{
-    font-size:8px !important;
-    margin-bottom:13px !important;
-  }
-
-  .hero-copy h1{
-    font-size:42px !important;
-    line-height:.92 !important;
-    margin-bottom:17px !important;
-  }
-
-  .hero-copy .intro{
-    max-width:300px !important;
-    font-size:12px !important;
-    line-height:1.55 !important;
-    margin-bottom:20px !important;
-  }
-
-  .hero-copy .arrow-link{
-    font-size:9px !important;
-  }
-}
-
-/* =========================================
-   MOBİL
-========================================= */
-
-@media(max-width:800px){
-
-  .hero .hero-image{
-    height:70vh !important;
-
-    background-image:url("kentsel-donusum-mobil.jpg") !important;
-    background-position:center center !important;
-    background-size:cover !important;
-  }
-
-  .hero .hero-copy{
-    padding:40px 7vw 50px !important;
-  }
-
-  .hero .hero-copy h1{
-    font-size:46px !important;
-  }
-
-  .hero .hero-copy .intro{
-    max-width:320px !important;
-    font-size:12px !important;
-  }
-
-  .hero .hero-meta,
-  .hero .hero-scroll{
-    display:none !important;
-  }
-}
-/* =====================================================
-   SIVORA HERO - MASAÜSTÜ ESKİ GÖRÜNÜM
-===================================================== */
-
-@media (min-width:801px){
-
-  .hero{
-    min-height:100vh !important;
-    height:100vh !important;
-    position:relative !important;
-    overflow:hidden !important;
-
-    display:flex !important;
-    align-items:flex-end !important;
-    justify-content:flex-start !important;
-
-    padding:0 5vw 8vh !important;
-
-    background:
-      url("kentsel-donusum.jpg")
-      center center / cover no-repeat !important;
-  }
-
-  .hero::before{
-    content:"" !important;
-    position:absolute !important;
-    inset:0 !important;
-
-    background:linear-gradient(
-      90deg,
-      rgba(0,0,0,.42) 0%,
-      rgba(0,0,0,.16) 42%,
-      rgba(0,0,0,0) 72%
-    ) !important;
-
-    z-index:1 !important;
-  }
-
-  .hero::after{
-    display:none !important;
-  }
-
-  .hero-copy{
-    position:relative !important;
-    z-index:3 !important;
-
-    width:auto !important;
-    max-width:440px !important;
-
-    margin:0 !important;
-    padding:0 !important;
-
-    background:transparent !important;
-    border:0 !important;
-
-    color:#f4f0e8 !important;
-  }
-
-  .hero-copy .eyebrow{
-    font-size:9px !important;
-    letter-spacing:.16em !important;
-    margin:0 0 17px !important;
-  }
-
-  .hero-copy h1{
-    max-width:430px !important;
-    font-size:clamp(48px,5vw,70px) !important;
-    line-height:.92 !important;
-    margin:0 0 20px !important;
-  }
-
-  .hero-copy .intro{
-    max-width:360px !important;
-    font-size:13px !important;
-    line-height:1.55 !important;
-    margin:0 0 22px !important;
-    color:rgba(244,240,232,.82) !important;
-  }
-
-  .hero-copy .arrow-link{
-    font-size:10px !important;
-  }
-}
-/* =========================================
-   HERO GÖRSELİNİ AŞAĞI AL
-========================================= */
-
-@media (min-width:801px){
-
-  .hero::before{
-    top:90px !important;
-    bottom:0 !important;
-    height:auto !important;
-
-    background:
-      linear-gradient(
-        90deg,
-        rgba(0,0,0,.42) 0%,
-        rgba(0,0,0,.16) 42%,
-        rgba(0,0,0,0) 72%
-      ),
-      url("kentsel-donusum.jpg")
-      center center / cover no-repeat !important;
-  }
-
-}
-/* =====================================================
-   SIVORA - AYDINLIK MOD ÜST MENÜ
-===================================================== */
-
-body:not(.dark-mode) #site-nav,
-body:not(.dark-mode) #site-nav a,
-body:not(.dark-mode) #site-nav nav a,
-body:not(.dark-mode) #site-nav .logo-title,
-body:not(.dark-mode) #site-nav .logo-business {
-    color: #222222 !important;
-}
-
-body:not(.dark-mode) #site-nav .logo-slogan {
-    color: #b9975b !important;
-}
-
-body:not(.dark-mode) #site-nav nav a {
-    color: #222222 !important;
-    opacity: 1 !important;
-}
-
-body:not(.dark-mode) #site-nav nav a:hover {
-    color: #b9975b !important;
-}
-
-body:not(.dark-mode) #site-nav .language-switcher button {
-    color: #222222 !important;
-    opacity: 1 !important;
-}
-
-body:not(.dark-mode) #site-nav .language-switcher button.active,
-body:not(.dark-mode) #site-nav .language-switcher button:hover {
-    color: #b9975b !important;
-}
-
-body:not(.dark-mode) #site-nav .language-switcher > span {
-    color: #222222 !important;
-    opacity: .35 !important;
-}
-
-body:not(.dark-mode) #site-nav #theme-toggle {
-    color: #222222 !important;
-    border-color: #b9975b !important;
-    background: transparent !important;
-}
-
-body:not(.dark-mode) #site-nav #theme-toggle:hover {
-    color: #111111 !important;
-    background: #b9975b !important;
-}
-/* =========================================================
-   SIVORA GAYRİMENKUL FOTOĞRAF GALERİSİ
-   Büyük ana fotoğraf + altta küçük fotoğraflar
-========================================================= */
-
-.property-modal-box{
-  width: min(94vw, 1100px) !important;
-  max-width: 1100px !important;
-  max-height: 94vh !important;
-  overflow-y: auto !important;
-}
-
-.property-detail{
-  width: 100% !important;
-}
-
-/* ANA GALERİ */
-.property-gallery-wrap{
-  width: 100% !important;
-  margin: 22px 0 28px !important;
-}
-
-/* BÜYÜK FOTOĞRAF ALANI */
-.property-gallery-main{
-  position: relative !important;
-  width: 100% !important;
-  height: min(68vh, 650px) !important;
-  min-height: 420px !important;
-
-  background: #111 !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  overflow: hidden !important;
-}
-
-/* ANA FOTOĞRAF */
-.property-gallery-main > img{
-  width: 100% !important;
-  height: 100% !important;
-
-  max-width: none !important;
-  max-height: none !important;
-
-  object-fit: contain !important;
-  display: block !important;
-}
-
-/* FOTOĞRAF SAYACI */
-.property-gallery-counter{
-  position: absolute !important;
-  left: 50% !important;
-  bottom: 14px !important;
-
-  transform: translateX(-50%) !important;
-
-  z-index: 5 !important;
-
-  padding: 6px 11px !important;
-
-  border-radius: 20px !important;
-
-  background: rgba(0,0,0,.65) !important;
-  color: #fff !important;
-
-  font-size: 11px !important;
-  letter-spacing: .08em !important;
-}
-
-/* SAĞ-SOL OKLAR */
-.property-gallery-arrow{
-  position: absolute !important;
-
-  top: 50% !important;
-
-  transform: translateY(-50%) !important;
-
-  z-index: 10 !important;
-
-  width: 52px !important;
-  height: 52px !important;
-
-  border: 1px solid rgba(255,255,255,.35) !important;
-  border-radius: 50% !important;
-
-  background: rgba(0,0,0,.55) !important;
-
-  color: #fff !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  font-size: 38px !important;
-  line-height: 1 !important;
-
-  cursor: pointer !important;
-
-  transition:
-    background .2s ease,
-    border-color .2s ease,
-    transform .2s ease !important;
-}
-
-.property-gallery-prev{
-  left: 18px !important;
-}
-
-.property-gallery-next{
-  right: 18px !important;
-}
-
-.property-gallery-arrow:hover{
-  background: #b9975b !important;
-  border-color: #b9975b !important;
-  color: #111 !important;
-}
-
-/* =========================================================
-   ALTTAKİ KÜÇÜK FOTOĞRAFLAR
-========================================================= */
-
-.property-gallery-thumbs{
-  width: 100% !important;
-
-  display: flex !important;
-
-  gap: 10px !important;
-
-  margin-top: 12px !important;
-
-  padding: 2px 2px 8px !important;
-
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-
-  scrollbar-width: thin !important;
-}
-
-.property-gallery-thumb{
-  flex: 0 0 105px !important;
-
-  width: 105px !important;
-  height: 72px !important;
-
-  padding: 0 !important;
-
-  border: 2px solid transparent !important;
-
-  background: #111 !important;
-
-  overflow: hidden !important;
-
-  cursor: pointer !important;
-
-  opacity: .65 !important;
-
-  transition:
-    opacity .2s ease,
-    border-color .2s ease,
-    transform .2s ease !important;
-}
-
-.property-gallery-thumb img{
-  width: 100% !important;
-  height: 100% !important;
-
-  display: block !important;
-
-  object-fit: cover !important;
-}
-
-.property-gallery-thumb:hover{
-  opacity: 1 !important;
-  transform: translateY(-2px) !important;
-}
-
-.property-gallery-thumb.active{
-  opacity: 1 !important;
-
-  border-color: #b9975b !important;
-}
-
-/* =========================================================
-   MOBİL
-========================================================= */
-
-@media(max-width:700px){
-
-  .property-modal-box{
-    width: 96vw !important;
-    max-height: 94vh !important;
-  }
-
-  .property-gallery-main{
-    height: 52vh !important;
-    min-height: 300px !important;
-  }
-
-  .property-gallery-arrow{
-    width: 42px !important;
-    height: 42px !important;
-    font-size: 30px !important;
-  }
-
-  .property-gallery-prev{
-    left: 10px !important;
-  }
-
-  .property-gallery-next{
-    right: 10px !important;
-  }
-
-  .property-gallery-thumb{
-    flex-basis: 82px !important;
-    width: 82px !important;
-    height: 58px !important;
-  }
-
-}
-/* =====================================================
-   SIVORA ADMIN — TEMA SON KONTROL
-   Bu bölüm admin görünümünü tek merkezden yönetir.
-===================================================== */
-
-body.admin-body {
-  background: var(--admin-bg, #111111) !important;
-  color: var(--admin-text, #f5f2eb) !important;
-  font-weight: 400 !important;
-}
-
-/* AÇIK TEMA */
-body.admin-body.admin-theme-light {
-  --admin-bg: #f3f1ec;
-  --admin-card: #ffffff;
-  --admin-card-2: #f8f7f3;
-  --admin-text: #181818;
-  --admin-muted: #77736d;
-  --admin-border: rgba(0,0,0,.10);
-  --admin-input: #ffffff;
-}
-
-/* KOYU TEMA */
-body.admin-body.admin-theme-dark {
-  --admin-bg: #111111;
-  --admin-card: #181818;
-  --admin-card-2: #202020;
-  --admin-text: #f5f2eb;
-  --admin-muted: #99958e;
-  --admin-border: rgba(255,255,255,.10);
-  --admin-input: #141414;
-}
-
-/* ANA ADMIN ALANI */
-body.admin-body .admin-main {
-  background: transparent !important;
-  color: var(--admin-text) !important;
-}
-
-/* KARTLAR */
-body.admin-body .admin-card,
-body.admin-body .admin-notice {
-  background: var(--admin-card) !important;
-  color: var(--admin-text) !important;
-  border-color: var(--admin-border) !important;
-}
-
-/* BAŞLIKLAR */
-body.admin-body h1,
-body.admin-body h2,
-body.admin-body h3,
-body.admin-body label,
-body.admin-body p,
-body.admin-body small {
-  color: var(--admin-text) !important;
-  font-weight: 400 !important;
-}
-
-/* AÇIK TEMA FORM */
-body.admin-body.admin-theme-light input,
-body.admin-body.admin-theme-light textarea,
-body.admin-body.admin-theme-light select {
-  background: #ffffff !important;
-  color: #181818 !important;
-  border-color: rgba(0,0,0,.18) !important;
-}
-
-/* KOYU TEMA FORM */
-body.admin-body.admin-theme-dark input,
-body.admin-body.admin-theme-dark textarea,
-body.admin-body.admin-theme-dark select {
-  background: #141414 !important;
-  color: #f5f2eb !important;
-  border-color: rgba(255,255,255,.15) !important;
-}
-
-/* YAZI KALINLAŞMASIN */
-body.admin-body * {
-  font-weight: 400;
-}
-
-/* BUTONLAR */
-body.admin-body button {
-  font-weight: 400;
-}
-
-/* GİRİŞ BUTONU İSTİSNA */
-body.admin-body .admin-login-button {
-  font-weight: 600;
-}
-/* =====================================================
-   SIVORA AÇIK TEMA — ÜST MENÜ
-===================================================== */
-
-html.sivora-light .nav {
-  color: #171716 !important;
-}
-
-html.sivora-light .nav nav a {
-  color: #171716 !important;
-}
-
-html.sivora-light .logo {
-  color: #171716 !important;
-}
-
-html.sivora-light .logo-text,
-html.sivora-light .logo-title,
-html.sivora-light .logo-slogan,
-html.sivora-light .logo-business {
-  color: #171716 !important;
-}
-
-html.sivora-light .language-switcher,
-html.sivora-light .language-switcher button,
-html.sivora-light .language-switcher span {
-  color: #171716 !important;
-}
-
-html.sivora-light #theme-toggle {
-  color: #171716 !important;
-  border-color: rgba(23,23,22,.35) !important;
-}
-
-html.sivora-light .menu {
-  color: #171716 !important;
-}
-/* =====================================================
-   SIVORA — İLK AÇILIŞ TEMA DÜZELTMESİ
-===================================================== */
-
-html.sivora-light .nav {
-  color: #171716 !important;
-}
-
-html.sivora-light .nav nav a {
-  color: #171716 !important;
-}
-
-html.sivora-light .logo {
-  color: #171716 !important;
-}
-
-html.sivora-light .logo-title,
-html.sivora-light .logo-slogan,
-html.sivora-light .logo-business {
-  color: #171716 !important;
-}
-
-html.sivora-light .language-switcher,
-html.sivora-light .language-switcher button,
-html.sivora-light .language-switcher span {
-  color: #171716 !important;
-}
-
-html.sivora-light #theme-toggle {
-  color: #171716 !important;
-  border-color: rgba(23,23,22,.35) !important;
-}
-/* =====================================================
-   SIVORA — İLK AÇILIŞ AYDINLIK TEMA
-   ===================================================== */
-
-html.sivora-light #site-nav,
-html.sivora-light #site-nav a,
-html.sivora-light #site-nav nav a,
-html.sivora-light #site-nav .logo-title,
-html.sivora-light #site-nav .logo-business {
-    color: #222222 !important;
-}
-
-html.sivora-light #site-nav .logo-slogan {
-    color: #b9975b !important;
-}
-
-html.sivora-light #site-nav nav a {
-    opacity: 1 !important;
-}
-
-html.sivora-light #site-nav nav a:hover {
-    color: #b9975b !important;
-}
-
-html.sivora-light #site-nav .language-switcher,
-html.sivora-light #site-nav .language-switcher button {
-    color: #222222 !important;
-    opacity: 1 !important;
-}
-
-html.sivora-light #site-nav .language-switcher button.active {
-    color: #b9975b !important;
-}
-
-html.sivora-light #site-nav .language-switcher span {
-    color: #555 !important;
-}
-
-html.sivora-light #site-nav #theme-toggle {
-    color: #222222 !important;
-    border-color: #b9975b !important;
-    background: transparent !important;
-}
-/* BEYAZ TEMA - ÜST MENÜ YAZILARI */
-
-html:not(.sivora-dark) #site-nav a,
-html:not(.sivora-dark) #site-nav .logo-title,
-html:not(.sivora-dark) #site-nav .logo-business,
-html:not(.sivora-dark) #site-nav .language-switcher button,
-html:not(.sivora-dark) #site-nav .language-switcher span {
-    color: #111111 !important;
-}
-
-html:not(.sivora-dark) #site-nav .logo-slogan {
-    color: #b9975b !important;
-}
-
-html:not(.sivora-dark) #site-nav #theme-toggle {
-    color: #111111 !important;
-}
-/* =====================================================
-   SIVORA — DİL AÇILIR MENÜ
-===================================================== */
-
-.language-dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.language-current {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    border: 0;
-    background: transparent;
-    color: inherit;
-    font-family: "DM Sans", sans-serif;
-    font-size: 11px;
-    letter-spacing: .08em;
-    cursor: pointer;
-    padding: 8px 4px;
-}
-
-.language-current span {
-    font-size: 14px;
-    transition: transform .2s ease;
-}
-
-.language-dropdown.open .language-current span {
-    transform: rotate(180deg);
-}
-
-.language-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    min-width: 70px;
-    padding: 6px;
-    background: #fff;
-    border: 1px solid rgba(0,0,0,.12);
-    box-shadow: 0 12px 30px rgba(0,0,0,.12);
-    display: none;
-    z-index: 9999;
-}
-
-.language-dropdown.open .language-menu {
-    display: block;
-}
-
-.language-menu button {
-    display: block;
-    width: 100%;
-    border: 0;
-    background: transparent;
-    color: #222 !important;
-    padding: 9px 12px;
-    text-align: left;
-    font-family: "DM Sans", sans-serif;
-    font-size: 11px;
-    letter-spacing: .08em;
-    cursor: pointer;
-}
-
-.language-menu button:hover {
-    background: #f1eee8;
-    color: #b9975b !important;
-}
-
-/* DARK MOD */
-body.dark-mode .language-menu {
-    background: #222;
-    border-color: rgba(255,255,255,.12);
-}
-
-body.dark-mode .language-menu button {
-    color: #f4f0e8 !important;
-}
-
-body.dark-mode .language-menu button:hover {
-    background: #333;
-    color: #b9975b !important;
-}
-/* =========================================================
-   SIVORA - DİL DROPDOWN TASARIMI
-========================================================= */
-
-#site-nav .language-dropdown {
-    position: relative;
-    margin-left: 28px;
-    display: inline-block;
-    flex-shrink: 0;
-    z-index: 9999;
-}
-
-
-/* ANA DİL BUTONU */
-
-#site-nav .language-current {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-
-    border: 0;
-    background: transparent;
-
-    color: inherit;
-
-    padding: 6px 4px;
-
-    font-family: "DM Sans", Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .1em;
-
-    cursor: pointer;
-}
-
-
-#site-nav .language-current:hover {
-    color: #b9975b;
-}
-
-
-/* OK */
-
-.language-arrow {
-    font-size: 13px;
-    line-height: 1;
-    transition: transform .2s ease;
-}
-
-
-.language-dropdown.open
-.language-arrow {
-    transform: rotate(180deg);
-}
-
-
-/* AÇILAN MENÜ */
-
-.language-menu {
-    position: absolute;
-
-    top: calc(100% + 8px);
-    right: 0;
-
-    min-width: 82px;
-
-    padding: 6px;
-
-    background: #ffffff;
-
-    border: 1px solid rgba(0,0,0,.10);
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.16);
-
-    display: none;
-
-    z-index: 10000;
-}
-
-
-.language-dropdown.open
-.language-menu {
-    display: block;
-}
-
-
-/* DİL SEÇENEKLERİ */
-
-.language-option {
-    display: flex;
-
-    width: 100%;
-
-    align-items: center;
-    gap: 7px;
-
-    border: 0;
-
-    background: transparent;
-
-    color: #222 !important;
-
-    padding: 9px 10px;
-
-    font-family: "DM Sans", Arial, sans-serif;
-
-    font-size: 10px;
-
-    letter-spacing: .08em;
-
-    cursor: pointer;
-
-    text-align: left;
-}
-
-
-.language-option:hover {
-    background: #f2f0eb;
-
-    color: #b9975b !important;
-}
-
-
-/* DARK MODE */
-
-body.dark-mode
-.language-menu {
-
-    background: #20201e;
-
-    border-color:
-        rgba(255,255,255,.12);
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.4);
-}
-
-
-body.dark-mode
-.language-option {
-
-    color: #f4f0e8 !important;
-}
-
-
-body.dark-mode
-.language-option:hover {
-
-    background: #30302d;
-
-    color: #b9975b !important;
-}
-
-
-/* MOBİL */
-
-@media (max-width: 800px) {
-
-    #site-nav .language-dropdown {
-        margin-left: 8px;
+  const parsePhotos = value => {
+    if (Array.isArray(value)) return value;
+    if (typeof value === 'string') {
+      try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  };
+
+  const money = (value, currency) => {
+    const raw = String(value ?? '').trim();
+    if (!raw) return '';
+
+    // Metin fiyatları aynen göster: ör. PROJE BAŞLANGICINA ÖZEL FİYAT
+    const numeric = Number(raw.replace(/\./g, '').replace(',', '.'));
+    if (!Number.isNaN(numeric) && /^[-+]?\d+(?:[.,]\d+)?$/.test(raw)) {
+      return numeric.toLocaleString('tr-TR', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      }) + ' ' + (currency || 'TL');
     }
 
-    #site-nav .language-current {
-        font-size: 9px;
-        padding: 5px 2px;
+    return raw;
+  };
+
+  const el = (tag, cls, text) => {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  };
+
+  const openModal = property => {
+
+    const modal = document.getElementById('property-modal');
+    const detail = document.getElementById('property-detail');
+
+    if (!modal || !detail) return;
+
+    detail.replaceChildren();
+
+    const sold = property.durum === 'satildi';
+    const photos = parsePhotos(property.fotograflar);
+
+    detail.append(
+      el('div', 'property-public-status', sold ? 'SATILDI' : (property.ilan_turu || 'AKTİF')),
+      el('h2', '', property.ilan_basligi || 'Gayrimenkul')
+    );
+
+    if (photos.length) {
+      const galleryWrap = el('div', 'property-public-gallery');
+      const mainWrap = el('div', 'property-public-gallery-main');
+      const mainImg = el('img');
+      const counter = el('div', 'property-public-gallery-counter', `1 / ${photos.length}`);
+      const prev = el('button', 'property-public-gallery-arrow property-public-gallery-prev', '‹');
+      const next = el('button', 'property-public-gallery-arrow property-public-gallery-next', '›');
+      const thumbs = el('div', 'property-public-gallery-thumbs');
+
+      prev.type = 'button';
+      next.type = 'button';
+      mainImg.draggable = false;
+
+      let currentIndex = 0;
+
+      const showPhoto = index => {
+        currentIndex = (index + photos.length) % photos.length;
+        mainImg.src = photos[currentIndex];
+        mainImg.alt = `${property.ilan_basligi || 'Gayrimenkul'} ${currentIndex + 1}`;
+        counter.textContent = `${currentIndex + 1} / ${photos.length}`;
+
+        thumbs.querySelectorAll('button').forEach((button, i) => {
+          button.classList.toggle('active', i === currentIndex);
+        });
+      };
+
+      photos.forEach((url, index) => {
+        const thumb = el('button', 'property-public-gallery-thumb');
+        const thumbImg = el('img');
+        thumb.type = 'button';
+        thumbImg.src = url;
+        thumbImg.alt = `Fotoğraf ${index + 1}`;
+        thumb.append(thumbImg);
+        thumb.addEventListener('click', () => showPhoto(index));
+        thumbs.append(thumb);
+      });
+
+      prev.addEventListener('click', () => showPhoto(currentIndex - 1));
+      next.addEventListener('click', () => showPhoto(currentIndex + 1));
+
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      mainWrap.addEventListener('touchstart', event => {
+        const touch = event.changedTouches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+      }, { passive: true });
+
+      mainWrap.addEventListener('touchend', event => {
+        const touch = event.changedTouches[0];
+        const diffX = touch.clientX - touchStartX;
+        const diffY = touch.clientY - touchStartY;
+
+        if (Math.abs(diffX) < 45 || Math.abs(diffX) <= Math.abs(diffY)) return;
+        showPhoto(diffX < 0 ? currentIndex + 1 : currentIndex - 1);
+      }, { passive: true });
+
+      mainWrap.append(mainImg, prev, next, counter);
+      galleryWrap.append(mainWrap, thumbs);
+      detail.append(galleryWrap);
+      showPhoto(0);
     }
 
-    .language-menu {
-        min-width: 75px;
+    const info = el('div', 'property-public-info');
+
+    [
+      ['İlan Türü', property.ilan_turu],
+      ['Gayrimenkul', property.gayrimenkul_turu],
+      ['Konum', property.konum],
+      ['Fiyat', money(property.fiyat, property.para_birimi)],
+      ['Brüt m²', property.brut_m2],
+      ['Net m²', property.net_m2],
+      ['Oda', property.oda_sayisi],
+      ['Banyo', property.banyo_sayisi],
+      ['Kat', property.kat],
+      ['Bina Yaşı', property.bina_yasi],
+      ['Isıtma', property.isitma],
+      ['Balkon', property.balkon ? 'Var' : 'Yok'],
+      ['Otopark', property.otopark ? 'Var' : 'Yok']
+    ].forEach(([label, value]) => {
+
+      if (value === null || value === undefined || value === '') return;
+
+      const row = el('div', 'property-public-info-row');
+
+      row.append(
+        el('span', '', label),
+        el('strong', '', String(value))
+      );
+
+      info.append(row);
+    });
+
+    detail.append(info);
+
+    if (property.ozellikler) {
+      detail.append(
+        el('h3', '', 'Özellikler'),
+        el('p', '', property.ozellikler)
+      );
     }
 
-    .language-option {
-        font-size: 9px;
-        padding: 8px 9px;
-    }
-}
-/* =========================================================
-   SIVORA — DİL SEÇİMİ DROPDOWN
-========================================================= */
-
-#site-nav .language-switcher {
-    position: relative;
-    display: inline-block;
-    margin-left: 28px;
-    flex-shrink: 0;
-    z-index: 9999;
-}
-
-
-/* ÜSTTE GÖRÜNEN DİL */
-
-#site-nav .language-current {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-
-    border: 0;
-    background: transparent;
-
-    color: inherit;
-
-    padding: 5px 4px;
-
-    font-family: "DM Sans", Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .10em;
-
-    cursor: pointer;
-}
-
-
-#site-nav .language-current:hover {
-    color: #b9975b;
-}
-
-
-/* OK */
-
-#site-nav .language-arrow {
-    display: inline-block;
-    font-size: 13px;
-    line-height: 1;
-
-    transition:
-        transform .2s ease;
-}
-
-
-#site-nav .language-switcher.open
-.language-arrow {
-    transform: rotate(180deg);
-}
-
-
-/* AÇILAN KUTU */
-
-#site-nav .language-menu {
-    position: absolute;
-
-    top: calc(100% + 8px);
-    right: 0;
-
-    min-width: 78px;
-
-    padding: 5px;
-
-    background: #ffffff;
-
-    border: 1px solid rgba(0,0,0,.10);
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.14);
-
-    display: none;
-
-    z-index: 10000;
-}
-
-
-/* AÇILDIĞINDA */
-
-#site-nav .language-switcher.open
-.language-menu {
-    display: block;
-}
-
-
-/* DİL SEÇENEKLERİ */
-
-#site-nav .language-option {
-    display: flex;
-    align-items: center;
-
-    width: 100%;
-
-    border: 0;
-    background: transparent;
-
-    color: #222 !important;
-
-    padding: 9px 10px;
-
-    font-family:
-        "DM Sans",
-        Arial,
-        sans-serif;
-
-    font-size: 10px;
-    font-weight: 500;
-
-    letter-spacing: .08em;
-
-    text-align: left;
-
-    cursor: pointer;
-
-    transition:
-        background .2s ease,
-        color .2s ease;
-}
-
-
-#site-nav .language-option:hover {
-    background: #f2f0eb;
-    color: #b9975b !important;
-}
-
-
-/* =========================================================
-   KOYU TEMA
-========================================================= */
-
-body.dark-mode
-#site-nav .language-menu {
-    background: #20201e;
-
-    border-color:
-        rgba(255,255,255,.12);
-
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.40);
-}
-
-
-body.dark-mode
-#site-nav .language-option {
-    color: #f4f0e8 !important;
-}
-
-
-body.dark-mode
-#site-nav .language-option:hover {
-    background: #30302d;
-    color: #b9975b !important;
-}
-
-
-/* =========================================================
-   BEYAZ TEMA
-========================================================= */
-
-body.sivora-light
-#site-nav .language-current {
-    color: #222 !important;
-}
-
-
-body.sivora-light
-#site-nav .language-option {
-    color: #222 !important;
-}
-
-
-/* =========================================================
-   MOBİL
-========================================================= */
-
-@media (max-width: 800px) {
-
-    #site-nav .language-switcher {
-        margin-left: 8px;
+    if (property.aciklama) {
+      detail.append(
+        el('h3', '', 'Açıklama'),
+        el('p', '', property.aciklama)
+      );
     }
 
-    #site-nav .language-current {
-        font-size: 9px;
-        padding: 5px 2px;
+    if (sold) {
+      detail.classList.add('property-detail-sold');
+    } else {
+      detail.classList.remove('property-detail-sold');
     }
 
-    #site-nav .language-menu {
-        min-width: 72px;
+    modal.hidden = false;
+    document.body.style.overflow = 'hidden';
+  };
+
+  const render = properties => {
+
+    grid.replaceChildren();
+
+    if (!properties.length) {
+      grid.append(el('p', 'property-empty', 'İlan bulunamadı.'));
+      return;
     }
 
-    #site-nav .language-option {
-        font-size: 9px;
-        padding: 8px 9px;
+    properties.forEach(property => {
+
+      const sold = property.durum === 'satildi';
+      const photos = parsePhotos(property.fotograflar);
+
+      const card = el('article', 'property-card');
+
+      if (sold) card.classList.add('property-card-sold');
+
+      const imageBox = el('div', 'property-card-image');
+
+      if (photos.length) {
+        const img = el('img');
+        img.src = photos[0];
+        img.alt = property.ilan_basligi || 'Gayrimenkul';
+        img.loading = 'lazy';
+        imageBox.append(img);
+      }
+
+      imageBox.append(
+        el(
+          'span',
+          'property-badge',
+          sold ? 'SATILDI' : (property.ilan_turu || 'Gayrimenkul')
+        )
+      );
+
+      if (sold) {
+        imageBox.append(
+          el('span', 'property-sold-stamp', 'SATILDI')
+        );
+      }
+
+      const content = el('div', 'property-card-content');
+
+      content.append(
+        el(
+          'p',
+          'property-type',
+          `${property.ilan_turu || ''} · ${property.gayrimenkul_turu || ''}`
+        ),
+        el(
+          'h3',
+          '',
+          property.ilan_basligi || 'Gayrimenkul'
+        ),
+        el(
+          'p',
+          'property-location',
+          property.konum || ''
+        ),
+        el(
+          'p',
+          'property-price',
+          money(property.fiyat, property.para_birimi)
+        )
+      );
+
+      const facts = el('div', 'property-mini-facts');
+
+      if (property.brut_m2)
+        facts.append(el('span', '', `Brüt ${property.brut_m2} m²`));
+
+      if (property.net_m2)
+        facts.append(el('span', '', `Net ${property.net_m2} m²`));
+
+      if (property.oda_sayisi)
+        facts.append(el('span', '', property.oda_sayisi));
+
+      if (property.banyo_sayisi)
+        facts.append(el('span', '', `${property.banyo_sayisi} Banyo`));
+
+      content.append(facts);
+
+      const button = el(
+        'button',
+        'property-detail-button',
+        sold ? 'SATILDI · Detayları Gör' : 'Detayları Gör'
+      );
+
+      button.type = 'button';
+      button.addEventListener('click', () => openModal(property));
+
+      content.append(button);
+      card.append(imageBox, content);
+      grid.append(card);
+    });
+  };
+
+  const style = document.createElement('style');
+
+  style.textContent = `
+    .property-card-sold .property-card-image img{
+      filter:grayscale(1);
+      opacity:.62;
     }
-}
 
-/* =========================================================
-   SIVORA ADMIN PRO — GİRİŞ + DÜZENLEME ARAYÜZÜ
-   ========================================================= */
+    .property-card-sold .property-card-image{
+      background:#b8b8b8;
+    }
 
-html, body { min-height:100%; }
+    .property-sold-stamp{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%) rotate(-8deg);
+      z-index:3;
+      padding:12px 22px;
+      border:3px solid #fff;
+      color:#fff;
+      background:rgba(70,70,70,.82);
+      font-family:"DM Sans",Arial,sans-serif;
+      font-size:clamp(22px,3vw,38px);
+      font-weight:700;
+      letter-spacing:.16em;
+      white-space:nowrap;
+      pointer-events:none;
+    }
 
-body.admin-body{
-  background:
-    radial-gradient(circle at 15% 0%, rgba(185,151,91,.08), transparent 34%),
-    radial-gradient(circle at 100% 100%, rgba(185,151,91,.05), transparent 30%),
-    var(--admin-bg) !important;
-}
+    .property-public-status{
+      display:inline-block;
+      margin-bottom:12px;
+      padding:7px 11px;
+      background:#171716;
+      color:#fff;
+      font-size:10px;
+      font-weight:700;
+      letter-spacing:.12em;
+    }
 
-body.admin-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background-image:linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-                   linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
-  background-size:48px 48px;
-  mask-image:linear-gradient(to bottom, black, transparent 85%);
-  opacity:.35;
-  z-index:0;
-}
+    .property-public-gallery{
+      display:block;
+      margin:20px 0;
+    }
 
-body.admin-body > *{position:relative;z-index:1}
+    .property-public-gallery-main{
+      position:relative;
+      width:100%;
+      height:min(58vw,560px);
+      min-height:280px;
+      overflow:hidden;
+      background:#111;
+      touch-action:pan-y;
+      user-select:none;
+    }
 
-/* Login */
-.admin-login-card{
-  position:relative;
-  overflow:hidden;
-  border-radius:18px !important;
-  backdrop-filter:blur(18px);
-}
+    .property-public-gallery-main > img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transition:opacity .18s ease;
+      pointer-events:none;
+    }
 
-.admin-login-card::before{
-  content:"";
-  position:absolute;
-  left:0;right:0;top:0;height:2px;
-  background:linear-gradient(90deg,transparent,#b9975b,transparent);
-  opacity:.9;
-}
+    .property-public-gallery-arrow{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      width:42px;
+      height:42px;
+      border:1px solid rgba(255,255,255,.7);
+      background:rgba(0,0,0,.42);
+      color:#fff;
+      font-size:30px;
+      line-height:1;
+      cursor:pointer;
+      z-index:2;
+    }
 
-.admin-login-logo img{
-  width:155px !important;
-  filter:drop-shadow(0 12px 22px rgba(0,0,0,.28));
-}
+    .property-public-gallery-prev{left:14px}
+    .property-public-gallery-next{right:14px}
 
-.admin-login-field{position:relative}
+    .property-public-gallery-counter{
+      position:absolute;
+      left:50%;
+      bottom:14px;
+      transform:translateX(-50%);
+      padding:6px 10px;
+      background:rgba(0,0,0,.55);
+      color:#fff;
+      font-size:11px;
+      letter-spacing:.08em;
+      z-index:2;
+    }
 
-.admin-login-field input{
-  border-radius:9px !important;
-  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease !important;
-}
+    .property-public-gallery-thumbs{
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      padding:10px 2px 2px;
+      scrollbar-width:thin;
+    }
 
-.admin-login-field input:focus{
-  transform:translateY(-1px);
-  box-shadow:0 0 0 4px rgba(185,151,91,.10),0 12px 28px rgba(0,0,0,.14) !important;
-}
+    .property-public-gallery-thumb{
+      flex:0 0 82px;
+      width:82px;
+      height:62px;
+      padding:0;
+      border:2px solid transparent;
+      background:#111;
+      cursor:pointer;
+      overflow:hidden;
+    }
 
-.admin-login-button{
-  min-height:50px;
-  border-radius:9px !important;
-  letter-spacing:.08em;
-  box-shadow:0 12px 25px rgba(185,151,91,.16);
-}
+    .property-public-gallery-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
 
-.admin-login-card a,
-.admin-login-card button{
-  -webkit-tap-highlight-color:transparent;
-}
+    .property-public-gallery-thumb.active{
+      border-color:#b69a63;
+    }
 
-body.admin-theme-light{
-  background:
-    radial-gradient(circle at 15% 0%, rgba(185,151,91,.10), transparent 34%),
-    #f3f1ec !important;
-}
+    .property-public-info{
+      display:grid;
+      gap:0;
+      margin:20px 0;
+      border-top:1px solid rgba(170,165,156,.45);
+    }
 
-body.admin-theme-light::before{
-  background-image:linear-gradient(rgba(0,0,0,.025) 1px, transparent 1px),
-                   linear-gradient(90deg, rgba(0,0,0,.025) 1px, transparent 1px);
-}
+    .property-public-info-row{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      padding:11px 0;
+      border-bottom:1px solid rgba(170,165,156,.35);
+      font-size:12px;
+    }
 
-/* Dashboard cards */
-.admin-project,
-.admin-property-card{
-  border:1px solid var(--admin-border) !important;
-  border-radius:12px;
-  background:var(--admin-card);
-  padding:14px !important;
-  transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
-}
+    .property-public-info-row span{opacity:.55}
+    .property-public-info-row strong{text-align:right}
 
-.admin-project:hover,
-.admin-property-card:hover{
-  transform:translateY(-2px);
-  border-color:rgba(185,151,91,.35) !important;
-  box-shadow:0 14px 35px rgba(0,0,0,.10);
-}
+    @media(max-width:600px){
+      .property-public-gallery-main{
+        height:72vw;
+        min-height:240px;
+      }
+      .property-public-gallery-arrow{
+        width:38px;
+        height:38px;
+      }
+      .property-public-gallery-thumb{
+        flex-basis:72px;
+        width:72px;
+        height:54px;
+      }
+    }
+  `;
 
-.admin-project img,
-.admin-property-card img{
-  border-radius:7px;
-}
+  document.head.append(style);
 
-.admin-project-actions{
-  justify-content:flex-end;
-}
+  const load = async () => {
 
-.admin-project-actions button,
-.admin-project button{
-  border-radius:7px !important;
-  border:1px solid var(--admin-border) !important;
-  background:var(--admin-card-2) !important;
-  color:var(--admin-text) !important;
-}
+    grid.innerHTML =
+      '<p class="property-loading">Gayrimenkuller yükleniyor…</p>';
 
-.admin-project-actions button:hover,
-.admin-project button:hover{
-  background:var(--admin-gold) !important;
-  color:#171716 !important;
-  border-color:var(--admin-gold) !important;
-}
+    const { data, error } = await db
+      .from('properties')
+      .select(`
+        id,
+        ilan_basligi,
+        ilan_turu,
+        gayrimenkul_turu,
+        konum,
+        fiyat,
+        para_birimi,
+        brut_m2,
+        net_m2,
+        oda_sayisi,
+        banyo_sayisi,
+        kat,
+        bina_yasi,
+        isitma,
+        balkon,
+        otopark,
+        aciklama,
+        ozellikler,
+        fotograflar,
+        durum
+      `)
+      .order('id', { ascending: false });
 
-/* Dynamic modal */
-body.sivora-modal-open{overflow:hidden}
+    if (error) {
+      console.error('Sivora gayrimenkul hatası:', error);
+      grid.innerHTML =
+        '<p class="property-empty">Gayrimenkuller yüklenemedi. Supabase tablo/izinlerini kontrol edin.</p>';
+      return;
+    }
 
-.sivora-admin-modal-overlay{
-  position:fixed !important;
-  inset:0 !important;
-  z-index:99999 !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  padding:clamp(12px,3vw,34px) !important;
-  box-sizing:border-box !important;
-  background:rgba(0,0,0,.72) !important;
-  backdrop-filter:blur(10px);
-  animation:sivoraModalFade .18s ease-out;
-}
+    render(data || []);
+  };
 
-.sivora-admin-modal-box{
-  position:relative;
-  width:min(1120px,96vw) !important;
-  max-height:min(90vh,900px) !important;
-  overflow:auto !important;
-  box-sizing:border-box !important;
-  padding:clamp(22px,3vw,34px) !important;
-  border:1px solid rgba(185,151,91,.32) !important;
-  border-radius:16px !important;
-  background:linear-gradient(145deg,#1d1d1b,#171716) !important;
-  color:#f4f0e8 !important;
-  box-shadow:0 35px 100px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.03) inset;
-  animation:sivoraModalUp .22s cubic-bezier(.2,.8,.2,1);
-}
+  load();
 
-.sivora-admin-modal-box::before{
-  content:"";
-  position:absolute;
-  left:0;right:0;top:0;height:2px;
-  background:linear-gradient(90deg,transparent,#b9975b 20%,#d2b276 50%,#b9975b 80%,transparent);
-}
+})();
 
-.sivora-admin-modal-box > div:first-child{
-  padding-bottom:16px;
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
+/* SIVORA — mobil ilan penceresi güvenliği */
+(() => {
+  const style = document.createElement('style');
+  style.textContent = `
+    .property-modal{z-index:999999!important;}
+    .property-modal-box{position:relative!important;}
+    .property-modal-x{display:flex!important;align-items:center!important;justify-content:center!important;touch-action:manipulation!important;}
+    @media(max-width:700px){
+      .property-modal{padding:0!important;place-items:stretch!important;}
+      .property-modal-box{width:100%!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;padding:58px 14px 24px!important;box-sizing:border-box!important;}
+      .property-modal-x{position:fixed!important;top:max(10px,env(safe-area-inset-top))!important;right:10px!important;width:44px!important;height:44px!important;border-radius:50%!important;background:rgba(238,234,226,.96)!important;border:1px solid rgba(0,0,0,.16)!important;z-index:1000001!important;font-size:30px!important;line-height:1!important;box-shadow:0 4px 14px rgba(0,0,0,.12)!important;}
+      .property-public-gallery-main{min-height:250px!important;}
+      .property-public-gallery-main img{max-height:55vh!important;}
+    }
+  `;
+  document.head.appendChild(style);
 
-.sivora-admin-modal-box h2{
-  font:400 clamp(23px,3vw,31px)/1.1 "Playfair Display",Georgia,serif !important;
-  letter-spacing:-.02em;
-  color:#f4f0e8 !important;
-}
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    const modal = document.getElementById('property-modal');
+    if (modal && !modal.hidden) {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+    }
+  });
 
-.sivora-admin-modal-close{
-  width:40px !important;
-  height:40px !important;
-  display:grid !important;
-  place-items:center !important;
-  flex:0 0 40px;
-  border:1px solid rgba(255,255,255,.12) !important;
-  border-radius:50% !important;
-  background:rgba(255,255,255,.04) !important;
-  color:#f4f0e8 !important;
-  font-size:25px !important;
-  line-height:1 !important;
-  cursor:pointer !important;
-  transition:.2s ease;
-}
-
-.sivora-admin-modal-close:hover{
-  background:#b9975b !important;
-  color:#171716 !important;
-  transform:rotate(90deg);
-}
-
-.sivora-admin-modal-box label{
-  color:#cfc9bf !important;
-}
-
-.sivora-admin-modal-box input,
-.sivora-admin-modal-box textarea,
-.sivora-admin-modal-box select{
-  background:#242421 !important;
-  color:#f7f4ee !important;
-  border:1px solid #45433e !important;
-  border-radius:8px !important;
-  min-height:44px;
-  padding:11px 13px !important;
-  box-sizing:border-box !important;
-  transition:.2s ease;
-}
-
-.sivora-admin-modal-box textarea{
-  min-height:120px;
-  resize:vertical;
-}
-
-.sivora-admin-modal-box input:focus,
-.sivora-admin-modal-box textarea:focus,
-.sivora-admin-modal-box select:focus{
-  outline:none !important;
-  border-color:#b9975b !important;
-  box-shadow:0 0 0 3px rgba(185,151,91,.11) !important;
-}
-
-.sivora-admin-modal-box input::placeholder,
-.sivora-admin-modal-box textarea::placeholder{
-  color:#817d74 !important;
-}
-
-.sivora-admin-modal-info{
-  margin:0 0 20px !important;
-  padding:14px 16px !important;
-  border:1px solid rgba(185,151,91,.22) !important;
-  border-left:3px solid #b9975b !important;
-  border-radius:9px !important;
-  background:#242421 !important;
-  color:#c9c3b9 !important;
-  font-size:12px !important;
-  line-height:1.65 !important;
-}
-
-.sivora-admin-photo-card{
-  position:relative;
-  border:1px solid #414039 !important;
-  padding:9px !important;
-  border-radius:10px !important;
-  background:#242421 !important;
-  overflow:hidden;
-  transition:.2s ease;
-}
-
-.sivora-admin-photo-card:hover{
-  border-color:rgba(185,151,91,.55) !important;
-  transform:translateY(-2px);
-}
-
-.sivora-admin-photo-card img{
-  width:100%;
-  height:170px;
-  object-fit:cover;
-  display:block;
-  border-radius:6px;
-}
-
-.sivora-admin-photo-number{
-  position:absolute;
-  left:16px;top:16px;z-index:2;
-  width:30px;height:30px;
-  display:flex;align-items:center;justify-content:center;
-  border-radius:50%;
-  background:#b9975b;
-  color:#171716;
-  font-weight:700;
-  box-shadow:0 5px 14px rgba(0,0,0,.28);
-}
-
-.sivora-admin-photo-label{
-  display:block;
-  margin:10px 2px !important;
-  color:#d8d3ca !important;
-  font-size:11px !important;
-  font-weight:600 !important;
-}
-
-.sivora-admin-photo-actions{
-  display:grid !important;
-  grid-template-columns:1fr 1fr auto;
-  gap:6px !important;
-}
-
-.sivora-admin-photo-actions button{
-  min-height:38px;
-  border-radius:7px !important;
-  border:1px solid #4b4943 !important;
-  background:#2b2a26 !important;
-  color:#f4f0e8 !important;
-}
-
-.sivora-admin-photo-actions button:hover{
-  background:#b9975b !important;
-  color:#171716 !important;
-  border-color:#b9975b !important;
-}
-
-.sivora-admin-modal-box button:disabled{
-  opacity:.35 !important;
-  cursor:not-allowed !important;
-  transform:none !important;
-}
-
-.sivora-admin-modal-box::-webkit-scrollbar{width:9px}
-.sivora-admin-modal-box::-webkit-scrollbar-track{background:#151514}
-.sivora-admin-modal-box::-webkit-scrollbar-thumb{
-  background:#4c4941;border-radius:20px;
-}
-.sivora-admin-modal-box::-webkit-scrollbar-thumb:hover{background:#b9975b}
-
-@keyframes sivoraModalFade{from{opacity:0}to{opacity:1}}
-@keyframes sivoraModalUp{
-  from{opacity:0;transform:translateY(12px) scale(.985)}
-  to{opacity:1;transform:translateY(0) scale(1)}
-}
-
-@media(max-width:700px){
-  .admin-login-card{
-    padding:34px 22px !important;
-    border-radius:14px !important;
-  }
-
-  .admin-login-logo img{width:125px !important}
-
-  .sivora-admin-modal-overlay{
-    padding:8px !important;
-    align-items:stretch !important;
-  }
-
-  .sivora-admin-modal-box{
-    width:100% !important;
-    max-height:calc(100vh - 16px) !important;
-    border-radius:12px !important;
-    padding:20px !important;
-  }
-
-  .sivora-admin-modal-box h2{font-size:23px !important}
-
-  .sivora-admin-photo-card img{height:145px}
-
-  .sivora-admin-photo-actions{
-    grid-template-columns:1fr 1fr 1fr;
-  }
-}
-
-/* SIVORA MOBİL GAYRİMENKUL YÜKLEME */
-.sivora-photo-upload-label{display:grid;gap:10px!important}
-.sivora-photo-upload-box{display:grid;gap:5px;padding:18px;border:1px dashed #b9b4aa;border-radius:14px;background:rgba(255,255,255,.45);cursor:pointer;text-transform:none!important;letter-spacing:normal!important;font-size:14px!important}
-.sivora-photo-upload-box strong{font-size:15px}
-.sivora-photo-upload-box small{font-size:12px;color:#777}
-.sivora-photo-upload-box input{margin-top:8px!important;border:0!important;padding:0!important;background:transparent!important}
-.sivora-photo-preview{display:grid;gap:12px}
-.sivora-photo-preview-head{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px}
-.sivora-photo-preview-head span{opacity:.6}
-.sivora-photo-preview-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
-.sivora-photo-preview-card{overflow:hidden;border:1px solid rgba(0,0,0,.1);border-radius:10px;background:rgba(255,255,255,.5)}
-.sivora-photo-preview-card img{display:block;width:100%;height:100px;object-fit:cover}
-.sivora-photo-preview-card div{display:flex;justify-content:space-between;padding:7px;font-size:11px}
-.sivora-photo-empty{padding:12px;border-radius:10px;background:rgba(0,0,0,.04);font-size:12px;opacity:.65}
-.sivora-upload-progress{padding:14px;border:1px solid rgba(185,151,91,.35);border-radius:12px;background:rgba(185,151,91,.08)}
-.sivora-upload-progress-head{display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-bottom:9px}
-.sivora-upload-progress-track{height:8px;background:rgba(0,0,0,.1);border-radius:99px;overflow:hidden}
-.sivora-upload-progress-track span{display:block;width:0;height:100%;background:#b9975b;border-radius:inherit;transition:width .25s ease}
-#property-submit:disabled{opacity:.55;cursor:wait}
-
-@media(max-width:700px){
-  .admin-card{width:100%!important;max-width:none!important;padding:18px!important;box-sizing:border-box}
-  .sivora-photo-preview-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
-  .sivora-photo-preview-card{border-radius:7px}
-  .sivora-photo-preview-card img{height:62px}
-  .sivora-photo-preview-card div{padding:4px 5px;font-size:9px}
-  .sivora-photo-preview-head{align-items:flex-start;flex-direction:column;gap:3px}
-}
-@media(max-width:420px){
-  .sivora-photo-preview-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
-  .sivora-photo-preview-card img{height:56px}
-  .sivora-photo-preview-card div{padding:3px 4px;font-size:8px}
-}
-
-/* SIVORA — ÇOK KOMPAKT FOTOĞRAF ÖNİZLEME */
-.sivora-photo-preview-grid{
-  grid-template-columns:repeat(8,minmax(0,1fr)) !important;
-  gap:5px !important;
-}
-.sivora-photo-preview-card{
-  border-radius:5px !important;
-}
-.sivora-photo-preview-card img{
-  width:100% !important;
-  height:48px !important;
-  aspect-ratio:1/1 !important;
-  object-fit:cover !important;
-}
-.sivora-photo-preview-card div{
-  padding:2px 4px !important;
-  font-size:8px !important;
-  line-height:1.1 !important;
-}
-@media(max-width:700px){
-  .sivora-photo-preview-grid{
-    grid-template-columns:repeat(6,minmax(0,1fr)) !important;
-    gap:4px !important;
-  }
-  .sivora-photo-preview-card img{
-    height:38px !important;
-  }
-  .sivora-photo-preview-card div{
-    padding:2px 3px !important;
-    font-size:7px !important;
-  }
-}
-@media(max-width:420px){
-  .sivora-photo-preview-grid{
-    grid-template-columns:repeat(6,minmax(0,1fr)) !important;
-    gap:3px !important;
-  }
-  .sivora-photo-preview-card img{
-    height:34px !important;
-  }
-  .sivora-photo-preview-card div{
-    padding:1px 2px !important;
-    font-size:6px !important;
-  }
-}
+  document.addEventListener('click', event => {
+    const target = event.target.closest?.('[data-close-property]');
+    if (!target) return;
+    const modal = document.getElementById('property-modal');
+    if (modal) modal.hidden = true;
+    document.body.style.overflow = '';
+  });
+})();
