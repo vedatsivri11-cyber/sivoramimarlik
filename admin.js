@@ -2250,8 +2250,9 @@ const uploadBox =
 uploadBox.style.cssText = `
   margin:0 0 20px;
   padding:18px;
-  border:1px solid #ddd;
-  background:#f8f8f8;
+  border:1px solid #45433e;
+  background:#292925;
+  color:#f4f0e8;
   border-radius:8px;
 `;
 
@@ -2276,7 +2277,7 @@ uploadInfo.textContent =
 uploadInfo.style.cssText = `
   font-size:13px;
   margin-bottom:12px;
-  color:#666;
+  color:#bdb8ae;
 `;
 
 const uploadInput =
@@ -2296,6 +2297,65 @@ uploadInput.style.display =
 
 uploadInput.style.width =
   '100%';
+uploadInput.style.color = '#f4f0e8';
+uploadInput.style.background = '#20201e';
+uploadInput.style.border = '1px solid #5a574f';
+uploadInput.style.padding = '8px';
+uploadInput.style.borderRadius = '4px';
+
+const previewWrap = document.createElement('div');
+previewWrap.style.cssText = `
+  display:none;
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid #45433e;
+`;
+
+const previewHead = document.createElement('div');
+previewHead.style.cssText = `
+  font-size:11px;
+  color:#bdb8ae;
+  margin-bottom:7px;
+`;
+
+const previewGrid = document.createElement('div');
+previewGrid.style.cssText = `
+  display:grid;
+  grid-template-columns:repeat(10, 42px);
+  gap:4px;
+  max-width:100%;
+  overflow-x:auto;
+  padding-bottom:2px;
+`;
+
+previewWrap.append(previewHead, previewGrid);
+
+const renderUploadPreview = () => {
+  const files = Array.from(uploadInput.files || []).filter(f => f && f.size > 0);
+  previewGrid.replaceChildren();
+  if (!files.length) {
+    previewWrap.style.display = 'none';
+    return;
+  }
+  previewWrap.style.display = 'block';
+  previewHead.textContent = `${files.length} fotoğraf seçildi`;
+  files.forEach((file, index) => {
+    const img = document.createElement('img');
+    img.alt = `Fotoğraf ${index + 1}`;
+    img.title = file.name;
+    img.style.cssText = `
+      width:42px;height:42px;min-width:42px;
+      object-fit:cover;border-radius:4px;display:block;
+      border:1px solid #555148;background:#171716;
+    `;
+    const url = URL.createObjectURL(file);
+    img.src = url;
+    img.onload = () => URL.revokeObjectURL(url);
+    previewGrid.append(img);
+  });
+};
+
+uploadInput.addEventListener('change', renderUploadPreview);
 
 const uploadButton =
   createButton(
@@ -2314,14 +2374,53 @@ const uploadStatus =
 uploadStatus.style.cssText = `
   margin-top:10px;
   font-size:13px;
+  color:#d8d3ca;
 `;
+
+const uploadProgress = document.createElement('div');
+uploadProgress.style.cssText = `
+  display:none;
+  margin-top:10px;
+`;
+
+const uploadProgressTop = document.createElement('div');
+uploadProgressTop.style.cssText = `
+  display:flex;justify-content:space-between;gap:12px;
+  font-size:11px;color:#bdb8ae;margin-bottom:6px;
+`;
+
+const uploadProgressText = document.createElement('span');
+uploadProgressText.textContent = 'Hazırlanıyor...';
+
+const uploadElapsed = document.createElement('strong');
+uploadElapsed.textContent = '00:00';
+uploadElapsed.style.color = '#b9975b';
+
+const uploadTrack = document.createElement('div');
+uploadTrack.style.cssText = `
+  height:5px;background:#171716;border-radius:10px;
+  overflow:hidden;border:1px solid #45433e;
+`;
+
+const uploadBar = document.createElement('span');
+uploadBar.style.cssText = `
+  display:block;width:0%;height:100%;
+  background:#b9975b;border-radius:10px;
+  transition:width .35s ease;
+`;
+
+uploadProgressTop.append(uploadProgressText, uploadElapsed);
+uploadTrack.append(uploadBar);
+uploadProgress.append(uploadProgressTop, uploadTrack);
 
 uploadBox.append(
   uploadTitle,
   uploadInfo,
   uploadInput,
+  previewWrap,
   uploadButton,
-  uploadStatus
+  uploadStatus,
+  uploadProgress
 );
 
 modal.content.append(
@@ -2385,9 +2484,18 @@ uploadButton.addEventListener(
 
     uploadButton.disabled =
       true;
+    uploadInput.disabled = true;
+    uploadProgress.style.display = 'block';
+    uploadBar.style.width = '0%';
+    uploadProgressText.textContent = `0 / ${files.length} hazırlanıyor...`;
 
-    uploadStatus.textContent =
-      `${files.length} fotoğraf yükleniyor...`;
+    const uploadStartedAt = Date.now();
+    const timer = setInterval(() => {
+      const seconds = Math.floor((Date.now() - uploadStartedAt) / 1000);
+      const mm = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const ss = String(seconds % 60).padStart(2, '0');
+      uploadElapsed.textContent = `${mm}:${ss}`;
+    }, 250);
 
     const uploaded =
       [];
@@ -2403,8 +2511,11 @@ uploadButton.addEventListener(
         const file =
           files[i];
 
+        const currentPercent = Math.round((i / files.length) * 100);
+        uploadBar.style.width = `${currentPercent}%`;
+        uploadProgressText.textContent = `${i + 1} / ${files.length} fotoğraf yükleniyor...`;
         uploadStatus.textContent =
-          `${i + 1} / ${files.length} fotoğraf yükleniyor...`;
+          `Yükleniyor · ${i + 1}. fotoğraf`;
 
     const ext =
   makePhotoExt(file);
@@ -2441,6 +2552,10 @@ const {
               path
             );
 
+        const donePercent = Math.round(((i + 1) / files.length) * 100);
+        uploadBar.style.width = `${donePercent}%`;
+        uploadProgressText.textContent = `${i + 1} / ${files.length} fotoğraf yüklendi`;
+
         uploaded.push({
 
           url:
@@ -2465,8 +2580,12 @@ const {
 
       renderGallery();
 
+      clearInterval(timer);
+      uploadBar.style.width = '100%';
+      uploadProgressText.textContent = `${uploaded.length} / ${files.length} tamamlandı`;
       uploadStatus.textContent =
         `${uploaded.length} yeni fotoğraf başarıyla eklendi.`;
+      uploadInput.disabled = false;
 
       setStatus(
         `${uploaded.length} yeni gayrimenkul fotoğrafı eklendi.`
