@@ -1276,12 +1276,23 @@ Supabase bağlantısını kontrol et.
 <label class="full">Açıklama<textarea name="aciklama"></textarea></label>
 <label class="full">Özellikler<textarea name="ozellikler" placeholder="Örn. Asansör, balkon, otopark, site içi..."></textarea></label>
 
-<label class="full">Gayrimenkul fotoğrafları
-<input name="fotograflar" type="file" accept="image/jpeg,image/png,image/webp" multiple required>
+<label class="full sivora-photo-upload-label">
+  <span>Gayrimenkul fotoğrafları</span>
+  <span class="sivora-photo-upload-box">
+    <strong>Fotoğrafları seç</strong>
+    <small>Telefondan birden fazla fotoğraf seçebilirsin.</small>
+    <input id="property-photo-input" name="fotograflar" type="file" accept="image/jpeg,image/png,image/webp" multiple required>
+  </span>
 </label>
 
+<div id="property-photo-preview" class="full sivora-photo-preview" aria-live="polite"></div>
+<div id="property-upload-progress" class="full sivora-upload-progress" hidden>
+  <div class="sivora-upload-progress-head"><span id="property-upload-status">Hazırlanıyor...</span><strong id="property-upload-percent">0%</strong></div>
+  <div class="sivora-upload-progress-track"><span id="property-upload-progress-bar"></span></div>
+</div>
+
 <small class="full">JPG, PNG veya WebP; her fotoğraf en fazla 5 MB.</small>
-<button type="submit">Gayrimenkulü yayımla</button>
+<button id="property-submit" type="submit">Gayrimenkulü yayımla</button>
 </form>
 
 <h2 class="admin-published-title">Yayınlanan Gayrimenkuller</h2>
