@@ -36,7 +36,7 @@ a{color:inherit}
       rgba(13,13,13,.20),
       rgba(13,13,13,0) 70%
     ),
-    url("sivora-hero.jpg") center center / cover no-repeat;
+    url("kentsel-donusum.jpg") center center / cover no-repeat;
 
   z-index:0;
 }
@@ -2025,7 +2025,7 @@ body.dark-mode #site-nav .logo-slogan{
   padding:0 5vw 8vh !important;
 
   background:
-    url("sivora-hero.jpg")
+    url("kentsel-donusum.jpg")
     center center / cover no-repeat !important;
 }
 
@@ -2205,7 +2205,7 @@ body.dark-mode #site-nav .logo-slogan{
     padding:0 5vw 8vh !important;
 
     background:
-      url("sivora-hero.jpg")
+      url("kentsel-donusum.jpg")
       center center / cover no-repeat !important;
   }
 
@@ -2287,7 +2287,7 @@ body.dark-mode #site-nav .logo-slogan{
         rgba(0,0,0,.16) 42%,
         rgba(0,0,0,0) 72%
       ),
-      url("sivora-hero.jpg")
+      url("kentsel-donusum.jpg")
       center center / cover no-repeat !important;
   }
 
@@ -3731,4 +3731,32 @@ body.sivora-modal-open{overflow:hidden}
     max-width:22px !important;
     max-height:22px !important;
   }
+}
+/* SIVORA — SATILIK / KİRALIK ETİKETİ OKUNABİLİRLİK DÜZELTMESİ
+   SADECE GÖRSEL ÜZERİNDEKİ ETİKETE UYGULANIR. */
+.property-card-image .property-badge{
+  position:absolute !important;
+  top:14px !important;
+  left:14px !important;
+  z-index:20 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-height:34px !important;
+  padding:8px 14px !important;
+  box-sizing:border-box !important;
+  border:1px solid rgba(255,255,255,.78) !important;
+  border-radius:999px !important;
+  background:rgba(18,18,17,.90) !important;
+  color:#ffffff !important;
+  font-family:"DM Sans",Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:800 !important;
+  letter-spacing:.12em !important;
+  line-height:1 !important;
+  white-space:nowrap !important;
+  text-shadow:0 1px 2px rgba(0,0,0,.65) !important;
+  box-shadow:0 5px 18px rgba(0,0,0,.32) !important;
+  backdrop-filter:blur(5px) !important;
+  -webkit-backdrop-filter:blur(5px) !important;
 }
