@@ -15,17 +15,83 @@
     window.SIVORA_SUPABASE_ANON_KEY
   );
 
-  const parsePhotos = value => {
-    if (Array.isArray(value)) return value;
-    if (typeof value === 'string') {
-      try {
-        const parsed = JSON.parse(value);
-        return Array.isArray(parsed) ? parsed : [];
-      } catch {
-        return [];
+  /*
+   * FOTOĞRAF VERİSİNİ TEK TİP URL'E ÇEVİR
+   * Eski kayıtlar { url, path } nesnesi olarak,
+   * yeni kayıtlar ise doğrudan URL olarak tutulabiliyor.
+   * İkisini de güvenli şekilde destekliyoruz.
+   */
+  const photoToUrl = photo => {
+    if (!photo) return '';
+
+    if (typeof photo === 'string') {
+      const value = photo.trim();
+      if (!value) return '';
+
+      // Zaten tam bir URL ise aynen kullan.
+      if (/^(https?:)?\/\//i.test(value) || value.startsWith('data:')) {
+        return value;
+      }
+
+      // Eski/yeni kayıtlarda yalnızca Storage path tutulduysa
+      // Supabase Storage'dan public URL oluştur.
+      const cleanPath = value
+        .replace(/^\/+/, '')
+        .replace(/^property-images\//, '');
+
+      const { data } = db.storage
+        .from('property-images')
+        .getPublicUrl(cleanPath);
+
+      return data?.publicUrl || '';
+    }
+
+    if (typeof photo === 'object') {
+      // En güvenilir alanlar önce kontrol edilir.
+      const directUrl =
+        photo.url ||
+        photo.publicUrl ||
+        photo.public_url ||
+        photo.src ||
+        photo.href;
+
+      if (typeof directUrl === 'string' && directUrl.trim()) {
+        return photoToUrl(directUrl);
+      }
+
+      // Bazı eski kayıtlarda URL yerine Storage path bulunuyor.
+      const path =
+        photo.path ||
+        photo.storagePath ||
+        photo.storage_path ||
+        photo.filePath ||
+        photo.file_path ||
+        photo.key;
+
+      if (typeof path === 'string' && path.trim()) {
+        return photoToUrl(path);
       }
     }
-    return [];
+
+    return '';
+  };
+
+  const parsePhotos = value => {
+    let photos = value;
+
+    if (typeof value === 'string') {
+      try {
+        photos = JSON.parse(value);
+      } catch {
+        photos = [value];
+      }
+    }
+
+    if (!Array.isArray(photos)) return [];
+
+    return photos
+      .map(photoToUrl)
+      .filter(Boolean);
   };
 
   const money = (value, currency) => {
@@ -81,6 +147,11 @@
       next.type = 'button';
       mainImg.draggable = false;
 
+      mainImg.addEventListener('error', () => {
+        mainImg.removeAttribute('src');
+        mainImg.alt = 'Fotoğraf yüklenemedi';
+      });
+
       let currentIndex = 0;
 
       const showPhoto = index => {
@@ -100,6 +171,10 @@
         thumb.type = 'button';
         thumbImg.src = url;
         thumbImg.alt = `Fotoğraf ${index + 1}`;
+        thumbImg.addEventListener('error', () => {
+          thumbImg.removeAttribute('src');
+          thumbImg.alt = `Fotoğraf ${index + 1} yüklenemedi`;
+        });
         thumb.append(thumbImg);
         thumb.addEventListener('click', () => showPhoto(index));
         thumbs.append(thumb);
@@ -213,6 +288,9 @@
         img.src = photos[0];
         img.alt = property.ilan_basligi || 'Gayrimenkul';
         img.loading = 'lazy';
+        img.addEventListener('error', () => {
+          img.removeAttribute('src');
+        });
         imageBox.append(img);
       }
 
