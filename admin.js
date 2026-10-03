@@ -233,7 +233,7 @@ box.style.width =
 
 
       const close =
-        createButton('×');
+        createButton('×', 'sivora-admin-modal-close');
 
       close.style.fontSize =
         '28px';
@@ -247,14 +247,15 @@ box.style.width =
       close.style.background =
         'transparent';
 
-      close.style.cursor =
-        'pointer';
+      close.setAttribute('aria-label', 'Pencereyi kapat');
 
 
       close.addEventListener(
         'click',
         () => {
           overlay.remove();
+          document.body.classList.remove('sivora-modal-open');
+          document.removeEventListener('keydown', onEscape);
         }
       );
 
@@ -283,6 +284,16 @@ box.style.width =
       );
 
 
+      const onEscape = event => {
+        if (event.key === 'Escape') {
+          overlay.remove();
+          document.body.classList.remove('sivora-modal-open');
+          document.removeEventListener('keydown', onEscape);
+        }
+      };
+
+      document.addEventListener('keydown', onEscape);
+
       overlay.addEventListener(
         'click',
         event => {
@@ -292,11 +303,15 @@ box.style.width =
             overlay
           ) {
             overlay.remove();
+            document.body.classList.remove('sivora-modal-open');
           }
 
         }
       );
 
+
+      overlay.className = 'sivora-admin-modal-overlay';
+      document.body.classList.add('sivora-modal-open');
 
       document.body.append(
         overlay
@@ -797,15 +812,7 @@ box.style.width =
       info.textContent =
         'Fotoğrafları ↑ ↓ butonlarıyla veya sürükleyerek sıralayabilirsiniz. 1. fotoğraf kapak fotoğrafıdır.';
 
-      info.style.cssText =
-        `
-        margin:0 0 18px;
-        padding:12px 15px;
-        background:#f5f5f5;
-        border:1px solid #ddd;
-        font-size:13px;
-        line-height:1.5;
-        `;
+      info.className = 'sivora-admin-modal-info';
 
 
       const gallery =
@@ -916,13 +923,7 @@ box.style.width =
               box.dataset.index =
                 String(index);
 
-              box.style.cssText =
-                `
-                border:1px solid #ddd;
-                padding:8px;
-                background:#fff;
-                position:relative;
-                `;
+              box.className = 'sivora-admin-photo-card';
 
 
               /* NUMARA */
@@ -937,22 +938,7 @@ box.style.width =
                   index + 1
                 );
 
-              number.style.cssText =
-                `
-                position:absolute;
-                left:12px;
-                top:12px;
-                z-index:2;
-                width:30px;
-                height:30px;
-                border-radius:50%;
-                background:#b9975b;
-                color:#fff;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-weight:700;
-                `;
+              number.className = 'sivora-admin-photo-number';
 
 
               /* FOTOĞRAF */
@@ -995,12 +981,7 @@ box.style.width =
                       index + 1
                     }`;
 
-              text.style.cssText =
-                `
-                display:block;
-                margin:8px 0;
-                font-weight:600;
-                `;
+              text.className = 'sivora-admin-photo-label';
 
 
               /* BUTONLAR */
@@ -1010,11 +991,7 @@ box.style.width =
                   'div'
                 );
 
-              buttons.style.cssText =
-                `
-                display:flex;
-                gap:5px;
-                `;
+              buttons.className = 'sivora-admin-photo-actions';
 
 
               /* YUKARI */
@@ -2595,13 +2572,7 @@ const {
               box.draggable =
                 true;
 
-              box.style.cssText =
-                `
-                border:1px solid #ddd;
-                padding:8px;
-                background:#fff;
-                position:relative;
-                `;
+              box.className = 'sivora-admin-photo-card';
 
 
               const number =
@@ -2614,22 +2585,7 @@ const {
                   index + 1
                 );
 
-              number.style.cssText =
-                `
-                position:absolute;
-                left:12px;
-                top:12px;
-                z-index:2;
-                width:30px;
-                height:30px;
-                border-radius:50%;
-                background:#b9975b;
-                color:#fff;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-weight:700;
-                `;
+              number.className = 'sivora-admin-photo-number';
 
 
               const image =
@@ -3160,19 +3116,7 @@ const {
           ) {
 
             input.rows =
-              8;
-
-            input.style.resize =
-              'vertical';
-
-            input.style.whiteSpace =
-              'pre-wrap';
-
-            input.style.lineHeight =
-              '1.6';
-
-            input.style.minHeight =
-              '160px';
+              4;
 
           }
 
@@ -3188,7 +3132,7 @@ const {
             'border-box';
 
           input.style.padding =
-            '10px';
+            '9px';
 
           input.style.marginTop =
             '5px';
@@ -3865,6 +3809,7 @@ async function uploadPropertyImage(
           const file =
             files[i];
 
+          setUploadProgress(i, files.length, `${i + 1} / ${files.length} fotoğraf yükleniyor...`);
 
           const path =
             userData.user.id +
@@ -4042,6 +3987,68 @@ async function uploadPropertyImage(
 
   if (propertyForm) {
 
+    const propertyPhotoInput =
+      propertyForm.querySelector('#property-photo-input') ||
+      propertyForm.querySelector('input[name="fotograflar"]');
+
+    const propertyPhotoPreview =
+      propertyForm.querySelector('#property-photo-preview');
+
+    const propertyUploadProgress =
+      propertyForm.querySelector('#property-upload-progress');
+
+    const propertyUploadStatus =
+      propertyForm.querySelector('#property-upload-status');
+
+    const propertyUploadPercent =
+      propertyForm.querySelector('#property-upload-percent');
+
+    const propertyUploadBar =
+      propertyForm.querySelector('#property-upload-progress-bar');
+
+    const propertySubmit =
+      propertyForm.querySelector('#property-submit') ||
+      propertyForm.querySelector('button[type="submit"]');
+
+    const renderPropertyPhotoPreview = files => {
+      if (!propertyPhotoPreview) return;
+      propertyPhotoPreview.replaceChildren();
+      if (!files.length) {
+        propertyPhotoPreview.innerHTML = '<div class="sivora-photo-empty">Henüz fotoğraf seçilmedi.</div>';
+        return;
+      }
+
+      const head = document.createElement('div');
+      head.className = 'sivora-photo-preview-head';
+      head.innerHTML = `<strong>${files.length} fotoğraf seçildi</strong><span>Yüklemeden önce kontrol edebilirsin.</span>`;
+      propertyPhotoPreview.append(head);
+
+      const grid = document.createElement('div');
+      grid.className = 'sivora-photo-preview-grid';
+      files.forEach((file, index) => {
+        const card = document.createElement('div');
+        card.className = 'sivora-photo-preview-card';
+        const img = document.createElement('img');
+        const url = URL.createObjectURL(file);
+        img.src = url;
+        img.alt = `Fotoğraf ${index + 1}`;
+        img.onload = () => URL.revokeObjectURL(url);
+        const meta = document.createElement('div');
+        meta.innerHTML = `<strong>${index + 1}</strong><span>${(file.size / 1024 / 1024).toFixed(1)} MB</span>`;
+        card.append(img, meta);
+        grid.append(card);
+      });
+      propertyPhotoPreview.append(grid);
+    };
+
+    if (propertyPhotoInput) {
+      propertyPhotoInput.addEventListener('change', () => {
+        const files = Array.from(propertyPhotoInput.files || []).filter(file => file && file.size > 0);
+        renderPropertyPhotoPreview(files);
+      });
+      renderPropertyPhotoPreview([]);
+    }
+
     propertyForm.addEventListener(
       'submit',
       async event => {
@@ -4193,6 +4200,15 @@ async function uploadPropertyImage(
           `${files.length} gayrimenkul fotoğrafı yükleniyor...`
         );
 
+        if (propertyUploadProgress) propertyUploadProgress.hidden = false;
+        if (propertySubmit) propertySubmit.disabled = true;
+        const setUploadProgress = (done, total, message) => {
+          const percent = total ? Math.round((done / total) * 100) : 0;
+          if (propertyUploadStatus) propertyUploadStatus.textContent = message || `${done} / ${total} fotoğraf yüklendi`;
+          if (propertyUploadPercent) propertyUploadPercent.textContent = `${percent}%`;
+          if (propertyUploadBar) propertyUploadBar.style.width = `${percent}%`;
+        };
+        setUploadProgress(0, files.length, `0 / ${files.length} fotoğraf hazırlanıyor`);
 
         for (
           let i = 0;
@@ -4252,8 +4268,8 @@ async function uploadPropertyImage(
             }
 
 
-            ssetStatus(
-  `${i + 1}. fotoğraf yüklenemedi: ` +
+            setStatus(
+              `${i + 1}. fotoğraf yüklenemedi: ` +
   (uploadError?.message ||
    "Ağ bağlantısı veya Supabase Storage hatası.")
 );
@@ -4285,6 +4301,8 @@ async function uploadPropertyImage(
             publicData.publicUrl
           );
 
+          setUploadProgress(i + 1, files.length, `${i + 1} / ${files.length} fotoğraf yüklendi`);
+
         }
 
 
@@ -4308,9 +4326,10 @@ async function uploadPropertyImage(
             konum,
 
           fiyat:
-            Number(
-              fiyat
-            ),
+            String(
+              fiyat ||
+              ''
+            ).trim(),
 
           para_birimi:
             paraBirimi,
@@ -4450,6 +4469,8 @@ async function uploadPropertyImage(
             'Gayrimenkul kaydedilemedi: ' +
             insertError.message
           );
+          if (propertyUploadStatus) propertyUploadStatus.textContent = 'Kayıt sırasında hata oluştu.';
+          if (propertySubmit) propertySubmit.disabled = false;
 
           return;
 
@@ -4457,7 +4478,11 @@ async function uploadPropertyImage(
 
 
         propertyForm.reset();
-
+        if (propertyPhotoPreview) renderPropertyPhotoPreview([]);
+        if (propertyUploadStatus) propertyUploadStatus.textContent = 'Gayrimenkul başarıyla yayımlandı.';
+        if (propertyUploadPercent) propertyUploadPercent.textContent = '100%';
+        if (propertyUploadBar) propertyUploadBar.style.width = '100%';
+        if (propertySubmit) propertySubmit.disabled = false;
 
         setStatus(
           'Gayrimenkul başarıyla yayımlandı.'
