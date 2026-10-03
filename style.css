@@ -3679,3 +3679,56 @@ body.sivora-modal-open{overflow:hidden}
     font-size:6px !important;
   }
 }
+
+/* SIVORA — MİNİMUM FOTOĞRAF ÖNİZLEME */
+.sivora-photo-preview-grid{
+  display:grid !important;
+  grid-template-columns:repeat(8,24px) !important;
+  gap:4px !important;
+  justify-content:start !important;
+}
+.sivora-photo-preview-card{
+  width:24px !important;
+  height:24px !important;
+  min-width:24px !important;
+  min-height:24px !important;
+  border:0 !important;
+  border-radius:4px !important;
+  padding:0 !important;
+  background:none !important;
+  overflow:hidden !important;
+}
+.sivora-photo-preview-card img{
+  display:block !important;
+  width:24px !important;
+  height:24px !important;
+  min-width:24px !important;
+  min-height:24px !important;
+  max-width:24px !important;
+  max-height:24px !important;
+  aspect-ratio:1/1 !important;
+  object-fit:cover !important;
+  border-radius:4px !important;
+}
+.sivora-photo-preview-card div{display:none !important}
+@media(max-width:700px){
+  .sivora-photo-preview-grid{
+    grid-template-columns:repeat(10,24px) !important;
+    gap:3px !important;
+  }
+}
+@media(max-width:420px){
+  .sivora-photo-preview-grid{
+    grid-template-columns:repeat(10,22px) !important;
+    gap:3px !important;
+  }
+  .sivora-photo-preview-card,
+  .sivora-photo-preview-card img{
+    width:22px !important;
+    height:22px !important;
+    min-width:22px !important;
+    min-height:22px !important;
+    max-width:22px !important;
+    max-height:22px !important;
+  }
+}
