@@ -15,100 +15,24 @@
     window.SIVORA_SUPABASE_ANON_KEY
   );
 
-  /*
-   * FOTOĞRAF VERİSİNİ TEK TİP URL'E ÇEVİR
-   * Eski kayıtlar { url, path } nesnesi olarak,
-   * yeni kayıtlar ise doğrudan URL olarak tutulabiliyor.
-   * İkisini de güvenli şekilde destekliyoruz.
-   */
-  const photoToUrl = photo => {
-    if (!photo) return '';
-
-    if (typeof photo === 'string') {
-      const value = photo.trim();
-      if (!value) return '';
-
-      // Zaten tam bir URL ise aynen kullan.
-      if (/^(https?:)?\/\//i.test(value) || value.startsWith('data:')) {
-        return value;
-      }
-
-      // Eski/yeni kayıtlarda yalnızca Storage path tutulduysa
-      // Supabase Storage'dan public URL oluştur.
-      const cleanPath = value
-        .replace(/^\/+/, '')
-        .replace(/^property-images\//, '');
-
-      const { data } = db.storage
-        .from('property-images')
-        .getPublicUrl(cleanPath);
-
-      return data?.publicUrl || '';
-    }
-
-    if (typeof photo === 'object') {
-      // En güvenilir alanlar önce kontrol edilir.
-      const directUrl =
-        photo.url ||
-        photo.publicUrl ||
-        photo.public_url ||
-        photo.src ||
-        photo.href;
-
-      if (typeof directUrl === 'string' && directUrl.trim()) {
-        return photoToUrl(directUrl);
-      }
-
-      // Bazı eski kayıtlarda URL yerine Storage path bulunuyor.
-      const path =
-        photo.path ||
-        photo.storagePath ||
-        photo.storage_path ||
-        photo.filePath ||
-        photo.file_path ||
-        photo.key;
-
-      if (typeof path === 'string' && path.trim()) {
-        return photoToUrl(path);
-      }
-    }
-
-    return '';
-  };
-
   const parsePhotos = value => {
-    let photos = value;
-
+    if (Array.isArray(value)) return value;
     if (typeof value === 'string') {
       try {
-        photos = JSON.parse(value);
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : [];
       } catch {
-        photos = [value];
+        return [];
       }
     }
-
-    if (!Array.isArray(photos)) return [];
-
-    return photos
-      .map(photoToUrl)
-      .filter(Boolean);
+    return [];
   };
 
-  const money = (value, currency) => {
-    const raw = String(value ?? '').trim();
-    if (!raw) return '';
-
-    // Metin fiyatları aynen göster: ör. PROJE BAŞLANGICINA ÖZEL FİYAT
-    const numeric = Number(raw.replace(/\./g, '').replace(',', '.'));
-    if (!Number.isNaN(numeric) && /^[-+]?\d+(?:[.,]\d+)?$/.test(raw)) {
-      return numeric.toLocaleString('tr-TR', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-      }) + ' ' + (currency || 'TL');
-    }
-
-    return raw;
-  };
+  const money = (value, currency) =>
+    Number(value || 0).toLocaleString('tr-TR', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2
+    }) + ' ' + (currency || 'TL');
 
   const el = (tag, cls, text) => {
     const node = document.createElement(tag);
@@ -135,76 +59,16 @@
     );
 
     if (photos.length) {
-      const galleryWrap = el('div', 'property-public-gallery');
-      const mainWrap = el('div', 'property-public-gallery-main');
-      const mainImg = el('img');
-      const counter = el('div', 'property-public-gallery-counter', `1 / ${photos.length}`);
-      const prev = el('button', 'property-public-gallery-arrow property-public-gallery-prev', '‹');
-      const next = el('button', 'property-public-gallery-arrow property-public-gallery-next', '›');
-      const thumbs = el('div', 'property-public-gallery-thumbs');
-
-      prev.type = 'button';
-      next.type = 'button';
-      mainImg.draggable = false;
-
-      mainImg.addEventListener('error', () => {
-        mainImg.removeAttribute('src');
-        mainImg.alt = 'Fotoğraf yüklenemedi';
-      });
-
-      let currentIndex = 0;
-
-      const showPhoto = index => {
-        currentIndex = (index + photos.length) % photos.length;
-        mainImg.src = photos[currentIndex];
-        mainImg.alt = `${property.ilan_basligi || 'Gayrimenkul'} ${currentIndex + 1}`;
-        counter.textContent = `${currentIndex + 1} / ${photos.length}`;
-
-        thumbs.querySelectorAll('button').forEach((button, i) => {
-          button.classList.toggle('active', i === currentIndex);
-        });
-      };
+      const gallery = el('div', 'property-public-gallery');
 
       photos.forEach((url, index) => {
-        const thumb = el('button', 'property-public-gallery-thumb');
-        const thumbImg = el('img');
-        thumb.type = 'button';
-        thumbImg.src = url;
-        thumbImg.alt = `Fotoğraf ${index + 1}`;
-        thumbImg.addEventListener('error', () => {
-          thumbImg.removeAttribute('src');
-          thumbImg.alt = `Fotoğraf ${index + 1} yüklenemedi`;
-        });
-        thumb.append(thumbImg);
-        thumb.addEventListener('click', () => showPhoto(index));
-        thumbs.append(thumb);
+        const img = el('img');
+        img.src = url;
+        img.alt = `${property.ilan_basligi || 'Gayrimenkul'} ${index + 1}`;
+        gallery.append(img);
       });
 
-      prev.addEventListener('click', () => showPhoto(currentIndex - 1));
-      next.addEventListener('click', () => showPhoto(currentIndex + 1));
-
-      let touchStartX = 0;
-      let touchStartY = 0;
-
-      mainWrap.addEventListener('touchstart', event => {
-        const touch = event.changedTouches[0];
-        touchStartX = touch.clientX;
-        touchStartY = touch.clientY;
-      }, { passive: true });
-
-      mainWrap.addEventListener('touchend', event => {
-        const touch = event.changedTouches[0];
-        const diffX = touch.clientX - touchStartX;
-        const diffY = touch.clientY - touchStartY;
-
-        if (Math.abs(diffX) < 45 || Math.abs(diffX) <= Math.abs(diffY)) return;
-        showPhoto(diffX < 0 ? currentIndex + 1 : currentIndex - 1);
-      }, { passive: true });
-
-      mainWrap.append(mainImg, prev, next, counter);
-      galleryWrap.append(mainWrap, thumbs);
-      detail.append(galleryWrap);
-      showPhoto(0);
+      detail.append(gallery);
     }
 
     const info = el('div', 'property-public-info');
@@ -288,11 +152,10 @@
         img.src = photos[0];
         img.alt = property.ilan_basligi || 'Gayrimenkul';
         img.loading = 'lazy';
-        img.addEventListener('error', () => {
-          img.removeAttribute('src');
-        });
         imageBox.append(img);
       }
+
+      imageBox.addEventListener('click', () => openModal(property));
 
       imageBox.append(
         el(
@@ -406,89 +269,17 @@
     }
 
     .property-public-gallery{
-      display:block;
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
       margin:20px 0;
     }
 
-    .property-public-gallery-main{
-      position:relative;
+    .property-public-gallery img{
       width:100%;
-      height:min(58vw,560px);
-      min-height:280px;
-      overflow:hidden;
-      background:#111;
-      touch-action:pan-y;
-      user-select:none;
-    }
-
-    .property-public-gallery-main > img{
-      width:100%;
-      height:100%;
+      max-height:360px;
       object-fit:cover;
       display:block;
-      transition:opacity .18s ease;
-      pointer-events:none;
-    }
-
-    .property-public-gallery-arrow{
-      position:absolute;
-      top:50%;
-      transform:translateY(-50%);
-      width:42px;
-      height:42px;
-      border:1px solid rgba(255,255,255,.7);
-      background:rgba(0,0,0,.42);
-      color:#fff;
-      font-size:30px;
-      line-height:1;
-      cursor:pointer;
-      z-index:2;
-    }
-
-    .property-public-gallery-prev{left:14px}
-    .property-public-gallery-next{right:14px}
-
-    .property-public-gallery-counter{
-      position:absolute;
-      left:50%;
-      bottom:14px;
-      transform:translateX(-50%);
-      padding:6px 10px;
-      background:rgba(0,0,0,.55);
-      color:#fff;
-      font-size:11px;
-      letter-spacing:.08em;
-      z-index:2;
-    }
-
-    .property-public-gallery-thumbs{
-      display:flex;
-      gap:8px;
-      overflow-x:auto;
-      padding:10px 2px 2px;
-      scrollbar-width:thin;
-    }
-
-    .property-public-gallery-thumb{
-      flex:0 0 82px;
-      width:82px;
-      height:62px;
-      padding:0;
-      border:2px solid transparent;
-      background:#111;
-      cursor:pointer;
-      overflow:hidden;
-    }
-
-    .property-public-gallery-thumb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .property-public-gallery-thumb.active{
-      border-color:#b69a63;
     }
 
     .property-public-info{
@@ -511,19 +302,7 @@
     .property-public-info-row strong{text-align:right}
 
     @media(max-width:600px){
-      .property-public-gallery-main{
-        height:72vw;
-        min-height:240px;
-      }
-      .property-public-gallery-arrow{
-        width:38px;
-        height:38px;
-      }
-      .property-public-gallery-thumb{
-        flex-basis:72px;
-        width:72px;
-        height:54px;
-      }
+      .property-public-gallery{grid-template-columns:1fr}
     }
   `;
 
@@ -572,39 +351,4 @@
 
   load();
 
-})();
-
-/* SIVORA — mobil ilan penceresi güvenliği */
-(() => {
-  const style = document.createElement('style');
-  style.textContent = `
-    .property-modal{z-index:999999!important;}
-    .property-modal-box{position:relative!important;}
-    .property-modal-x{display:flex!important;align-items:center!important;justify-content:center!important;touch-action:manipulation!important;}
-    @media(max-width:700px){
-      .property-modal{padding:0!important;place-items:stretch!important;}
-      .property-modal-box{width:100%!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;padding:58px 14px 24px!important;box-sizing:border-box!important;}
-      .property-modal-x{position:fixed!important;top:max(10px,env(safe-area-inset-top))!important;right:10px!important;width:44px!important;height:44px!important;border-radius:50%!important;background:rgba(238,234,226,.96)!important;border:1px solid rgba(0,0,0,.16)!important;z-index:1000001!important;font-size:30px!important;line-height:1!important;box-shadow:0 4px 14px rgba(0,0,0,.12)!important;}
-      .property-public-gallery-main{min-height:250px!important;}
-      .property-public-gallery-main img{max-height:55vh!important;}
-    }
-  `;
-  document.head.appendChild(style);
-
-  document.addEventListener('keydown', event => {
-    if (event.key !== 'Escape') return;
-    const modal = document.getElementById('property-modal');
-    if (modal && !modal.hidden) {
-      modal.hidden = true;
-      document.body.style.overflow = '';
-    }
-  });
-
-  document.addEventListener('click', event => {
-    const target = event.target.closest?.('[data-close-property]');
-    if (!target) return;
-    const modal = document.getElementById('property-modal');
-    if (modal) modal.hidden = true;
-    document.body.style.overflow = '';
-  });
 })();
