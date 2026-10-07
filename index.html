@@ -2338,11 +2338,33 @@ html.sivora-dark #hizmetler .sivora-trust-item{
 </style>
 
 
-<style id="SIVORA-MOBILE-HIDE-HERO-TITLE">
-/* SADECE MOBİLDE HERO BAŞLIĞI GİZLENİR */
+<style id="SIVORA-MOBILE-HERO-TITLE-BELOW">
+/* SADECE MOBİLDE HERO BAŞLIĞI GÖRSELİN ALTINA ALINIR */
 @media (max-width:800px){
+  .hero{
+    background-position:center center !important;
+    background-size:cover !important;
+    overflow:visible !important;
+    margin-bottom:100px !important;
+  }
+
+  .hero-copy{
+    position:static !important;
+  }
+
   .hero-copy h1{
-    display:none !important;
+    display:block !important;
+    position:absolute !important;
+    top:100% !important;
+    left:5vw !important;
+    right:5vw !important;
+    width:auto !important;
+    max-width:none !important;
+    margin:24px 0 0 !important;
+    font-size:42px !important;
+    line-height:1 !important;
+    z-index:5 !important;
+    color:#222 !important;
   }
 }
 </style>
