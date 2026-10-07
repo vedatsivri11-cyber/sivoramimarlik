@@ -2338,54 +2338,11 @@ html.sivora-dark #hizmetler .sivora-trust-item{
 </style>
 
 
-<style id="SIVORA-MOBILE-HERO-TITLE-BELOW">
-/* SADECE MOBİL: HERO NORMAL KALIR, BAŞLIK GÖRSELİN HEMEN ALTINA ALINIR */
+<style id="SIVORA-MOBILE-HIDE-HERO-TITLE">
+/* SADECE MOBİLDE HERO BAŞLIĞI GİZLENİR */
 @media (max-width:800px){
-  .hero{
-    min-height:calc(100svh - 110px) !important;
-    height:calc(100svh - 110px) !important;
-    position:relative !important;
-    overflow:visible !important;
-    display:flex !important;
-    align-items:flex-end !important;
-    justify-content:flex-start !important;
-    padding:0 5vw 8vh !important;
-    margin-bottom:165px !important;
-    background:url("sivora-hero.jpg") center center / cover no-repeat !important;
-  }
-
-  .hero::before{
-    display:block !important;
-  }
-
-  .hero-copy{
-    position:absolute !important;
-    top:100% !important;
-    left:0 !important;
-    right:0 !important;
-    width:100% !important;
-    max-width:none !important;
-    height:auto !important;
-    margin:0 !important;
-    padding:22px 5vw 28px !important;
-    z-index:5 !important;
-    background:#8a8987 !important;
-  }
-
   .hero-copy h1{
     display:none !important;
-  }
-
-  .hero-copy .eyebrow{
-    margin:0 0 16px !important;
-  }
-
-  .hero-copy .intro{
-    margin:0 0 18px !important;
-  }
-
-  .hero-copy .arrow-link{
-    margin:0 !important;
   }
 }
 </style>
@@ -4134,25 +4091,191 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 });
 </script>     
-</body>
-</html>
 
-<style id="SIVORA-MOBILE-LANGUAGE-CLOSE-FIX">
-/* SADECE MOBİL: DİL MENÜSÜ VE PROJE KAPATMA BUTONU */
+<!-- SIVORA PROJE GALERİ + MOBİL DİL MENÜSÜ V2 -->
+<style id="sivora-project-gallery-v2">
+/* ANA PROJE KARTLARI: SADECE GÖRSEL + BAŞLIK */
+.project-grid .live-project .project-info p{display:none !important;}
+.project-grid .live-project .project-info{padding-top:14px !important;}
+.project-grid .live-project .project-info h2{margin:0 !important;}
+
+/* PROJE DETAY GALERİSİ */
+.sivora-project-viewer{
+  position:fixed; inset:0; z-index:100000;
+  display:none; background:rgba(10,10,10,.97);
+  color:#f4f0e8; overflow:auto;
+}
+.sivora-project-viewer.is-open{display:block;}
+.sivora-project-viewer-inner{
+  width:min(1180px,94vw); min-height:100%; margin:0 auto;
+  padding:28px 0 60px; position:relative;
+}
+.sivora-project-close{
+  position:fixed; top:20px; right:24px; z-index:100004;
+  width:48px; height:48px; border:1px solid rgba(185,151,91,.7);
+  border-radius:50%; background:rgba(15,15,15,.9); color:#fff;
+  font-size:30px; line-height:1; cursor:pointer;
+}
+.sivora-project-main{position:relative;}
+.sivora-project-main-image{
+  display:block; width:100%; height:min(68vh,720px); object-fit:contain;
+  background:#151515; border-radius:2px;
+}
+.sivora-project-arrow{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:52px; height:52px; border:1px solid rgba(255,255,255,.45);
+  border-radius:50%; background:rgba(0,0,0,.55); color:#fff;
+  font-size:30px; cursor:pointer; z-index:2;
+}
+.sivora-project-arrow.prev{left:18px}.sivora-project-arrow.next{right:18px}
+.sivora-project-counter{text-align:center;margin:12px 0 0;color:#aaa;font:12px "DM Sans",sans-serif;letter-spacing:.12em;}
+.sivora-project-thumbs{
+  display:flex; gap:10px; overflow-x:auto; padding:18px 0 24px;
+  scrollbar-width:thin;
+}
+.sivora-project-thumb{
+  flex:0 0 96px; height:68px; padding:0; border:1px solid rgba(255,255,255,.18);
+  background:#111; cursor:pointer; opacity:.62; overflow:hidden;
+}
+.sivora-project-thumb.active{border-color:#b9975b;opacity:1;}
+.sivora-project-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.sivora-project-details{border-top:1px solid rgba(185,151,91,.35);padding:26px 0 0;}
+.sivora-project-details .eyebrow{margin:0 0 10px;color:#b9975b;letter-spacing:.14em;font-size:11px;text-transform:uppercase;}
+.sivora-project-details h2{margin:0 0 8px;font:400 clamp(32px,5vw,58px)/1.05 "Playfair Display",Georgia,serif;}
+.sivora-project-details .location{margin:0 0 22px;color:#b9b5ad;letter-spacing:.12em;text-transform:uppercase;font-size:11px;}
+.sivora-project-details .description{max-width:850px;margin:0;color:#ddd;line-height:1.75;font-size:16px;white-space:pre-line;}
+
+/* DİL BUTONU: MOBİLDE KÜÇÜK TR + AŞAĞI AÇILAN MENÜ */
 @media (max-width:800px){
-  #site-nav .language-dropdown,
-  #site-nav .language-current{
-    visibility:visible !important;
-    opacity:1 !important;
+  .language-dropdown{position:relative !important;display:block !important;margin:0 !important;z-index:10020 !important;}
+  .language-current{
+    width:42px !important;height:34px !important;padding:0 !important;
+    display:flex !important;align-items:center !important;justify-content:center !important;
+    gap:3px !important;border:1px solid rgba(185,151,91,.65) !important;
+    border-radius:18px !important;background:transparent !important;color:#b9975b !important;
+    font:700 12px "DM Sans",sans-serif !important;letter-spacing:.08em !important;
   }
+  .language-menu{
+    position:absolute !important;top:calc(100% + 9px) !important;right:0 !important;
+    min-width:54px !important;padding:6px !important;display:none !important;
+    flex-direction:column !important;gap:3px !important;
+    background:#151515 !important;border:1px solid rgba(185,151,91,.55) !important;
+    border-radius:10px !important;box-shadow:0 14px 30px rgba(0,0,0,.35) !important;
+  }
+  .language-dropdown.is-open .language-menu{display:flex !important;}
+  .language-menu button{
+    border:0 !important;background:transparent !important;color:#eee !important;
+    padding:8px 9px !important;border-radius:6px !important;font:600 11px "DM Sans",sans-serif !important;
+    cursor:pointer !important;
+  }
+  .language-menu button:hover,.language-menu button.active{background:#b9975b !important;color:#111 !important;}
 
-  .project-lightbox-close,
-  .lightbox-close,
-  .project-modal-x{
-    position:fixed !important;
-    top:90px !important;
-    right:18px !important;
-    z-index:999999 !important;
-  }
+  .sivora-project-viewer-inner{width:100%;padding:0 0 42px;}
+  .sivora-project-close{top:12px;right:12px;width:42px;height:42px;font-size:27px;}
+  .sivora-project-main-image{height:58vh;min-height:320px;border-radius:0;object-fit:contain;}
+  .sivora-project-arrow{width:44px;height:44px;font-size:25px;}
+  .sivora-project-arrow.prev{left:10px}.sivora-project-arrow.next{right:10px}
+  .sivora-project-thumbs{padding:12px 14px 20px;gap:8px;}
+  .sivora-project-thumb{flex-basis:82px;height:60px;}
+  .sivora-project-details{padding:20px 18px 0;}
+  .sivora-project-details h2{font-size:34px;}
+  .sivora-project-details .description{font-size:15px;line-height:1.7;}
 }
 </style>
+
+<div class="sivora-project-viewer" id="sivora-project-viewer" aria-hidden="true">
+  <div class="sivora-project-viewer-inner">
+    <button class="sivora-project-close" id="sivora-project-close" type="button" aria-label="Kapat">×</button>
+    <div class="sivora-project-main">
+      <button class="sivora-project-arrow prev" id="sivora-project-prev" type="button" aria-label="Önceki">‹</button>
+      <img class="sivora-project-main-image" id="sivora-project-main-image" alt="">
+      <button class="sivora-project-arrow next" id="sivora-project-next" type="button" aria-label="Sonraki">›</button>
+    </div>
+    <div class="sivora-project-counter" id="sivora-project-counter"></div>
+    <div class="sivora-project-thumbs" id="sivora-project-thumbs"></div>
+    <div class="sivora-project-details">
+      <p class="eyebrow">SİVORA MİMARLIK · PROJE</p>
+      <h2 id="sivora-project-title"></h2>
+      <p class="location" id="sivora-project-location"></p>
+      <p class="description" id="sivora-project-description"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  function parsePhotos(value){
+    if(Array.isArray(value)) return value;
+    if(typeof value === 'string'){try{const x=JSON.parse(value);return Array.isArray(x)?x:[]}catch(e){return [];}}
+    return [];
+  }
+  function photoUrl(p){return typeof p==='string'?p:(p&&p.url?p.url:'');}
+  function init(){
+    const grid=document.getElementById('project-grid');
+    const viewer=document.getElementById('sivora-project-viewer');
+    if(!grid||!viewer||!window.supabase||!window.SIVORA_SUPABASE_URL||!window.SIVORA_SUPABASE_ANON_KEY)return;
+    const db=window.supabase.createClient(window.SIVORA_SUPABASE_URL,window.SIVORA_SUPABASE_ANON_KEY);
+    let projects=[]; let currentProject=0; let currentPhoto=0;
+    const main=document.getElementById('sivora-project-main-image');
+    const thumbs=document.getElementById('sivora-project-thumbs');
+    const title=document.getElementById('sivora-project-title');
+    const location=document.getElementById('sivora-project-location');
+    const description=document.getElementById('sivora-project-description');
+    const counter=document.getElementById('sivora-project-counter');
+    function photosOf(p){let a=parsePhotos(p.photos);if(!a.length&&p.image_url)a=[{url:p.image_url}];return a.filter(x=>photoUrl(x));}
+    function renderPhoto(){
+      const p=projects[currentProject]; const photos=photosOf(p); if(!photos.length)return;
+      if(currentPhoto>=photos.length)currentPhoto=0;
+      main.src=photoUrl(photos[currentPhoto]); main.alt=p.title||'Proje';
+      counter.textContent=(currentPhoto+1)+' / '+photos.length;
+      thumbs.querySelectorAll('.sivora-project-thumb').forEach((b,i)=>b.classList.toggle('active',i===currentPhoto));
+    }
+    function openProject(i){
+      currentProject=i; currentPhoto=0; const p=projects[i];
+      title.textContent=p.title||'Proje'; location.textContent=p.location||''; description.textContent=p.description||'';
+      thumbs.replaceChildren();
+      photosOf(p).forEach((ph,i)=>{const b=document.createElement('button');b.className='sivora-project-thumb';b.type='button';const im=document.createElement('img');im.src=photoUrl(ph);im.alt='';b.appendChild(im);b.onclick=()=>{currentPhoto=i;renderPhoto();};thumbs.appendChild(b);});
+      renderPhoto(); viewer.classList.add('is-open');viewer.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+    }
+    function close(){viewer.classList.remove('is-open');viewer.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+    function prev(){const n=photosOf(projects[currentProject]).length;currentPhoto=(currentPhoto-1+n)%n;renderPhoto();}
+    function next(){const n=photosOf(projects[currentProject]).length;currentPhoto=(currentPhoto+1)%n;renderPhoto();}
+    document.getElementById('sivora-project-close').onclick=close;
+    document.getElementById('sivora-project-prev').onclick=prev;
+    document.getElementById('sivora-project-next').onclick=next;
+    viewer.addEventListener('click',e=>{if(e.target===viewer)close();});
+    document.addEventListener('keydown',e=>{if(!viewer.classList.contains('is-open'))return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')prev();if(e.key==='ArrowRight')next();});
+
+    function renderCards(){
+      grid.replaceChildren();
+      projects.forEach((p,i)=>{
+        const photos=photosOf(p); if(!photos.length)return;
+        const article=document.createElement('article');article.className='project live-project';article.tabIndex=0;article.setAttribute('role','button');
+        const img=document.createElement('img');img.className='project-image';img.src=photoUrl(photos[0]);img.alt=p.title||'Proje';
+        const info=document.createElement('div');info.className='project-info';
+        const num=document.createElement('span');num.textContent=String(i+1).padStart(2,'0');
+        const wrap=document.createElement('div');const h=document.createElement('h2');h.textContent=p.title||'Proje';wrap.appendChild(h);info.append(num,wrap);article.append(img,info);
+        article.onclick=()=>openProject(i);article.onkeydown=e=>{if(e.key==='Enter'||e.key===' ')openProject(i)};grid.appendChild(article);
+      });
+    }
+    async function load(){
+      const r=await db.from('projects').select('id,title,location,description,image_url,storage_path,photos,created_at').order('created_at',{ascending:false});
+      if(!r.error){projects=r.data||[];renderCards();}
+    }
+    load();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,80));else setTimeout(init,80);
+
+  // Dil butonu: küçük TR, seçenekler aşağıdan açılır.
+  function initLang(){
+    const d=document.querySelector('.language-dropdown'); const b=document.getElementById('language-current'); if(!d||!b)return;
+    b.addEventListener('click',function(e){e.stopPropagation();d.classList.toggle('is-open');b.setAttribute('aria-expanded',d.classList.contains('is-open')?'true':'false');});
+    document.addEventListener('click',function(e){if(!d.contains(e.target))d.classList.remove('is-open');});
+    d.querySelectorAll('[data-lang]').forEach(x=>x.addEventListener('click',()=>setTimeout(()=>d.classList.remove('is-open'),0)));
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initLang);else initLang();
+})();
+</script>
+
+</body>
+</html>
