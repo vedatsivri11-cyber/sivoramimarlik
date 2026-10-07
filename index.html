@@ -4254,9 +4254,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   .hero::before{
-    content:none !important;
-    display:none !important;
-    background:none !important;
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    z-index:4 !important;
+    pointer-events:none !important;
+    background:linear-gradient(180deg,rgba(0,0,0,.12) 0%,rgba(0,0,0,0) 55%,rgba(0,0,0,.28) 100%) !important;
   }
 
   .hero::after{display:none !important;}
@@ -4402,7 +4405,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let index = 0;
   let timer = null;
   let touchStartX = null;
-  const INTERVAL = 5000;
+  const INTERVAL = 3500;
 
   // Tüm görselleri ilk açılışta önceden yükle; geçiş sırasında ağ isteği oluşmasın.
   const preloaded = items.map(item => {
