@@ -2496,55 +2496,21 @@ html.sivora-dark #hizmetler .sivora-trust-item{
   <div class="hero-overlay"></div>
 
 
-  <div class="hero-copy">
+  <div class="sivora-hero-slider" id="sivora-hero-slider" aria-label="Sivora seçili görselleri">
 
-    <p class="eyebrow">
-      Sivora Mimarlık Ofisi · İstanbul
-    </p>
+    <div class="sivora-hero-slides" id="sivora-hero-slides"></div>
 
+    <button class="sivora-hero-arrow prev" id="sivora-hero-prev" type="button" aria-label="Önceki görsel">‹</button>
+    <button class="sivora-hero-arrow next" id="sivora-hero-next" type="button" aria-label="Sonraki görsel">›</button>
 
-    <h1>
-      Mekânın<br>
-      <em>karakteri.</em>
-    </h1>
+    <div class="sivora-hero-progress" id="sivora-hero-progress" aria-hidden="true"></div>
 
+    <div class="sivora-hero-thumbs-wrap">
+      <button class="sivora-hero-thumb-arrow prev" id="sivora-hero-thumb-prev" type="button" aria-label="Önceki küçük görsel">‹</button>
+      <div class="sivora-hero-thumbs" id="sivora-hero-thumbs" aria-label="Görsel önizlemeleri"></div>
+      <button class="sivora-hero-thumb-arrow next" id="sivora-hero-thumb-next" type="button" aria-label="Sonraki küçük görsel">›</button>
+    </div>
 
-    <p class="intro">
-      Mimarlık ve gayrimenkulü bir araya getirerek
-      yaşama değer katan, zamansız mekânlar tasarlıyoruz.
-    </p>
-
-
-    <a
-      class="arrow-link"
-      href="#projeler"
-    >
-      Çalışmalarımızı keşfedin
-      <span>↘</span>
-    </a>
-
-  </div>
-
-
-  <div class="hero-meta">
-
-    <span>
-      Mimarlık
-    </span>
-
-    <span>
-      İç Mekân
-    </span>
-
-    <span>
-      Gayrimenkul
-    </span>
-
-  </div>
-
-
-  <div class="hero-scroll">
-    SCROLL ↓
   </div>
 
 </section>
@@ -4274,6 +4240,332 @@ document.addEventListener("DOMContentLoaded", function () {
     d.querySelectorAll('[data-lang]').forEach(x=>x.addEventListener('click',()=>setTimeout(()=>d.classList.remove('is-open'),0)));
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initLang);else initLang();
+})();
+</script>
+
+
+
+<!-- =========================================================
+     SIVORA — ANA HERO GÖRSEL SLIDER
+     Hero yazıları kaldırıldı. Görseller otomatik döner.
+========================================================= -->
+<style id="sivora-hero-slider-v1">
+  .hero{
+    position:relative !important;
+    min-height:calc(100vh - 0px) !important;
+    height:calc(100vh - 0px) !important;
+    padding:0 !important;
+    display:block !important;
+    overflow:hidden !important;
+    background:#111 !important;
+  }
+
+  .hero::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    z-index:3 !important;
+    pointer-events:none !important;
+    background:linear-gradient(180deg,rgba(0,0,0,.18) 0%,rgba(0,0,0,.02) 42%,rgba(0,0,0,.45) 100%) !important;
+  }
+
+  .hero::after{display:none !important;}
+
+  .hero > .hero-overlay,
+  .hero > .hero-meta,
+  .hero > .hero-scroll{display:none !important;}
+
+  .sivora-hero-slider{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    overflow:hidden;
+    background:#111;
+  }
+
+  .sivora-hero-slides,
+  .sivora-hero-slide{
+    position:absolute;
+    inset:0;
+  }
+
+  .sivora-hero-slide{
+    opacity:0;
+    visibility:hidden;
+    transform:scale(1.035);
+    transition:opacity .85s ease, transform 6s ease, visibility .85s ease;
+  }
+
+  .sivora-hero-slide.active{
+    opacity:1;
+    visibility:visible;
+    transform:scale(1);
+  }
+
+  .sivora-hero-slide img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center center;
+    user-select:none;
+    -webkit-user-drag:none;
+  }
+
+  .sivora-hero-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:6;
+    width:58px;
+    height:58px;
+    border:1px solid rgba(255,255,255,.28);
+    border-radius:4px;
+    background:rgba(15,15,15,.38);
+    color:#fff;
+    font:300 38px/1 Arial,sans-serif;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:background .25s ease,border-color .25s ease,transform .25s ease;
+    backdrop-filter:blur(5px);
+    -webkit-backdrop-filter:blur(5px);
+  }
+
+  .sivora-hero-arrow:hover{
+    background:rgba(185,151,91,.82);
+    border-color:#b9975b;
+    color:#111;
+  }
+
+  .sivora-hero-arrow.prev{left:34px;}
+  .sivora-hero-arrow.next{right:34px;}
+
+  .sivora-hero-progress{
+    position:absolute;
+    left:50%;
+    bottom:122px;
+    transform:translateX(-50%);
+    z-index:7;
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+
+  .sivora-hero-progress span{
+    width:54px;
+    height:3px;
+    display:block;
+    background:rgba(255,255,255,.28);
+    overflow:hidden;
+  }
+
+  .sivora-hero-progress span.active{background:#fff;}
+
+  .sivora-hero-thumbs-wrap{
+    position:absolute;
+    left:24px;
+    right:24px;
+    bottom:0;
+    z-index:7;
+    min-height:92px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 0;
+    box-sizing:border-box;
+    background:linear-gradient(180deg,rgba(10,10,10,0) 0%,rgba(10,10,10,.74) 28%,rgba(10,10,10,.94) 100%);
+  }
+
+  .sivora-hero-thumbs{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    scrollbar-width:none;
+    flex:1;
+    padding:8px 0 4px;
+  }
+
+  .sivora-hero-thumbs::-webkit-scrollbar{display:none;}
+
+  .sivora-hero-thumb{
+    flex:0 0 180px;
+    height:78px;
+    padding:0;
+    border:1px solid rgba(255,255,255,.16);
+    background:#151515;
+    overflow:hidden;
+    cursor:pointer;
+    opacity:.62;
+    transition:opacity .25s ease,border-color .25s ease,transform .25s ease;
+  }
+
+  .sivora-hero-thumb:hover{opacity:.9;transform:translateY(-2px);}
+  .sivora-hero-thumb.active{opacity:1;border:2px solid #f4f0e8;}
+  .sivora-hero-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+
+  .sivora-hero-thumb-arrow{
+    flex:0 0 42px;
+    width:42px;
+    height:42px;
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:2px;
+    background:rgba(0,0,0,.5);
+    color:#fff;
+    font:300 28px/1 Arial,sans-serif;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .sivora-hero-thumb-arrow:hover{background:#b9975b;color:#111;}
+
+  @media(max-width:800px){
+    .hero{min-height:calc(100svh - 0px) !important;height:calc(100svh - 0px) !important;}
+    .sivora-hero-slide img{object-position:center center;}
+    .sivora-hero-arrow{width:42px;height:42px;font-size:28px;background:rgba(15,15,15,.35);}
+    .sivora-hero-arrow.prev{left:12px;}
+    .sivora-hero-arrow.next{right:12px;}
+    .sivora-hero-progress{bottom:103px;gap:5px;}
+    .sivora-hero-progress span{width:26px;height:2px;}
+    .sivora-hero-thumbs-wrap{left:10px;right:10px;min-height:78px;padding:7px 0 9px;gap:6px;}
+    .sivora-hero-thumbs{gap:7px;padding:4px 0;}
+    .sivora-hero-thumb{flex-basis:92px;height:58px;}
+    .sivora-hero-thumb-arrow{flex-basis:32px;width:32px;height:32px;font-size:22px;}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    .sivora-hero-slide{transition:opacity .2s ease;transform:none !important;}
+    .sivora-hero-thumbs{scroll-behavior:auto;}
+  }
+</style>
+
+<script>
+(function(){
+  const hero = document.getElementById('sivora-hero-slider');
+  const slidesEl = document.getElementById('sivora-hero-slides');
+  const thumbsEl = document.getElementById('sivora-hero-thumbs');
+  const progressEl = document.getElementById('sivora-hero-progress');
+  const prevBtn = document.getElementById('sivora-hero-prev');
+  const nextBtn = document.getElementById('sivora-hero-next');
+  const thumbPrev = document.getElementById('sivora-hero-thumb-prev');
+  const thumbNext = document.getElementById('sivora-hero-thumb-next');
+  if(!hero || !slidesEl || !thumbsEl) return;
+
+  // İlk görsel mevcut ana hero. Diğer görseller, Supabase'deki projelerden otomatik eklenir.
+  const FALLBACK_HERO = 'sivora-hero.jpg';
+  let items = [{url:FALLBACK_HERO, title:'Sivora Mimarlık'}];
+  let index = 0;
+  let timer = null;
+  let touchStartX = null;
+  const INTERVAL = 5000;
+
+  function unique(list){
+    const seen = new Set();
+    return list.filter(x=>x && x.url && !seen.has(x.url) && seen.add(x.url));
+  }
+
+  function photosOf(project){
+    let a = project && Array.isArray(project.photos) ? project.photos : [];
+    if(typeof project?.photos === 'string'){
+      try{ const parsed=JSON.parse(project.photos); if(Array.isArray(parsed)) a=parsed; }catch(e){}
+    }
+    if(!a.length && project?.image_url) a=[{url:project.image_url}];
+    return a.map(x=>({url:typeof x==='string'?x:(x&&x.url)||'',title:project?.title||'Sivora Mimarlık'})).filter(x=>x.url);
+  }
+
+  function render(){
+    slidesEl.replaceChildren();
+    thumbsEl.replaceChildren();
+    progressEl.replaceChildren();
+
+    items.forEach((item,i)=>{
+      const slide=document.createElement('div');
+      slide.className='sivora-hero-slide'+(i===index?' active':'');
+      const img=document.createElement('img');
+      img.src=item.url;
+      img.alt=item.title||'Sivora Mimarlık';
+      img.loading=i===0?'eager':'lazy';
+      slide.appendChild(img);
+      slidesEl.appendChild(slide);
+
+      const thumb=document.createElement('button');
+      thumb.type='button';
+      thumb.className='sivora-hero-thumb'+(i===index?' active':'');
+      thumb.setAttribute('aria-label',(i+1)+'. görsel');
+      const ti=document.createElement('img');
+      ti.src=item.url; ti.alt=''; ti.loading='lazy';
+      thumb.appendChild(ti);
+      thumb.addEventListener('click',()=>{go(i);start();});
+      thumbsEl.appendChild(thumb);
+
+      const bar=document.createElement('span');
+      if(i===index) bar.className='active';
+      progressEl.appendChild(bar);
+    });
+
+    const activeThumb=thumbsEl.querySelector('.active');
+    if(activeThumb) activeThumb.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  }
+
+  function go(i){
+    if(!items.length) return;
+    index=(i+items.length)%items.length;
+    render();
+  }
+  function next(){go(index+1);}
+  function prev(){go(index-1);}
+  function start(){
+    stop();
+    if(items.length<2) return;
+    timer=setInterval(next,INTERVAL);
+  }
+  function stop(){if(timer){clearInterval(timer);timer=null;}}
+
+  prevBtn?.addEventListener('click',()=>{prev();start();});
+  nextBtn?.addEventListener('click',()=>{next();start();});
+  thumbPrev?.addEventListener('click',()=>thumbsEl.scrollBy({left:-320,behavior:'smooth'}));
+  thumbNext?.addEventListener('click',()=>thumbsEl.scrollBy({left:320,behavior:'smooth'}));
+  hero.addEventListener('mouseenter',stop);
+  hero.addEventListener('mouseleave',start);
+  hero.addEventListener('touchstart',e=>{touchStartX=e.touches[0]?.clientX??null;stop();},{passive:true});
+  hero.addEventListener('touchend',e=>{
+    if(touchStartX===null){start();return;}
+    const endX=e.changedTouches[0]?.clientX??touchStartX;
+    const dx=endX-touchStartX;
+    if(Math.abs(dx)>45){dx<0?next():prev();}
+    touchStartX=null;start();
+  },{passive:true});
+  document.addEventListener('keydown',e=>{
+    const r=hero.getBoundingClientRect();
+    const visible=r.bottom>0 && r.top<window.innerHeight;
+    if(!visible) return;
+    if(e.key==='ArrowLeft'){prev();start();}
+    if(e.key==='ArrowRight'){next();start();}
+  });
+
+  async function loadProjectImages(){
+    try{
+      if(!window.supabase || !window.SIVORA_SUPABASE_URL || !window.SIVORA_SUPABASE_ANON_KEY){
+        render(); start(); return;
+      }
+      const db=window.supabase.createClient(window.SIVORA_SUPABASE_URL,window.SIVORA_SUPABASE_ANON_KEY);
+      const r=await db.from('projects').select('title,image_url,photos,created_at').order('created_at',{ascending:false}).limit(12);
+      if(!r.error){
+        const projectPhotos=(r.data||[]).flatMap(photosOf);
+        items=unique([{url:FALLBACK_HERO,title:'Sivora Mimarlık'},...projectPhotos]).slice(0,8);
+      }
+    }catch(e){}
+    render();
+    start();
+  }
+
+  render();
+  loadProjectImages();
 })();
 </script>
 
