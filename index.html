@@ -4136,3 +4136,23 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>     
 </body>
 </html>
+
+<style id="SIVORA-MOBILE-LANGUAGE-CLOSE-FIX">
+/* SADECE MOBİL: DİL MENÜSÜ VE PROJE KAPATMA BUTONU */
+@media (max-width:800px){
+  #site-nav .language-dropdown,
+  #site-nav .language-current{
+    visibility:visible !important;
+    opacity:1 !important;
+  }
+
+  .project-lightbox-close,
+  .lightbox-close,
+  .project-modal-x{
+    position:fixed !important;
+    top:90px !important;
+    right:18px !important;
+    z-index:999999 !important;
+  }
+}
+</style>
