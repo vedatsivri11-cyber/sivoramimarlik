@@ -2339,48 +2339,41 @@ html.sivora-dark #hizmetler .sivora-trust-item{
 
 
 <style id="SIVORA-MOBILE-HERO-TITLE-BELOW">
-/* SADECE MOBİLDE: FOTOĞRAF BİTER, BAŞLIK HEMEN ALTINDA NORMAL AKIŞTA GÖRÜNÜR */
+/* SADECE MOBİL: HERO NORMAL KALIR, BAŞLIK GÖRSELİN HEMEN ALTINA ALINIR */
 @media (max-width:800px){
   .hero{
-    overflow:visible !important;
-    margin-bottom:0 !important;
-    height:calc(100svh - 110px + 185px) !important;
-    min-height:0 !important;
-    background:#f4f1e8 !important;
+    min-height:calc(100svh - 110px) !important;
+    height:calc(100svh - 110px) !important;
     position:relative !important;
-    display:block !important;
+    overflow:visible !important;
+    display:flex !important;
+    align-items:flex-end !important;
+    justify-content:flex-start !important;
+    padding:0 5vw 8vh !important;
+    margin-bottom:165px !important;
+    background:url("sivora-hero.jpg") center center / cover no-repeat !important;
   }
 
   .hero::before{
-    content:"" !important;
     display:block !important;
-    position:relative !important;
-    inset:auto !important;
-    width:100% !important;
-    height:calc(100svh - 110px) !important;
-    background-image:url("sivora-hero.jpg") !important;
-    background-position:center center !important;
-    background-size:cover !important;
-    background-repeat:no-repeat !important;
-    z-index:1 !important;
   }
 
   .hero-copy{
-    position:absolute !important;
-    left:0 !important;
-    right:0 !important;
-    top:0 !important;
-    height:calc(100svh - 110px) !important;
+    position:relative !important;
+    left:auto !important;
+    right:auto !important;
+    top:auto !important;
+    height:auto !important;
     z-index:3 !important;
   }
 
   .hero-copy h1{
     display:block !important;
     position:absolute !important;
-    top:calc(100svh - 110px) !important;
-    left:5vw !important;
-    right:5vw !important;
-    width:auto !important;
+    top:100% !important;
+    left:0 !important;
+    right:auto !important;
+    width:90vw !important;
     max-width:none !important;
     margin:0 !important;
     padding:18px 0 28px !important;
@@ -2388,7 +2381,7 @@ html.sivora-dark #hizmetler .sivora-trust-item{
     line-height:1 !important;
     z-index:5 !important;
     color:#222 !important;
-    background:#f4f1e8 !important;
+    background:transparent !important;
   }
 }
 </style>
