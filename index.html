@@ -2342,10 +2342,12 @@ html.sivora-dark #hizmetler .sivora-trust-item{
 /* SADECE MOBİLDE HERO BAŞLIĞI GÖRSELİN ALTINA ALINIR */
 @media (max-width:800px){
   .hero{
-    background-position:center center !important;
-    background-size:cover !important;
     overflow:visible !important;
     margin-bottom:100px !important;
+  }
+
+  .hero::before{
+    display:none !important;
   }
 
   .hero-copy{
