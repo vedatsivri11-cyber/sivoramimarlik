@@ -4259,7 +4259,14 @@ document.addEventListener("DOMContentLoaded", function () {
     background:#111 !important;
   }
 
-  .hero::before{display:none !important;}
+  .hero::before{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    z-index:3 !important;
+    pointer-events:none !important;
+    background:linear-gradient(180deg,rgba(0,0,0,.18) 0%,rgba(0,0,0,.02) 42%,rgba(0,0,0,.45) 100%) !important;
+  }
 
   .hero::after{display:none !important;}
 
@@ -4269,6 +4276,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   .sivora-hero-slider{
     position:absolute;
+    touch-action:pan-y;
+    user-select:none;
+    -webkit-user-select:none;
     inset:0;
     z-index:1;
     overflow:hidden;
@@ -4284,13 +4294,8 @@ document.addEventListener("DOMContentLoaded", function () {
   .sivora-hero-slide{
     opacity:0;
     visibility:hidden;
-    transform:scale(1);
-    transition:opacity 1.15s ease, visibility 1.15s ease;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:0 24px 116px;
-    box-sizing:border-box;
+    transform:scale(1.035);
+    transition:opacity .85s ease, transform 6s ease, visibility .85s ease;
   }
 
   .sivora-hero-slide.active{
@@ -4301,15 +4306,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   .sivora-hero-slide img{
     display:block;
-    width:auto;
-    height:auto;
-    max-width:92vw;
-    max-height:78vh;
-    object-fit:contain;
+    width:100%;
+    height:100%;
+    object-fit:cover;
     object-position:center center;
-    background:transparent;
+    background:#0b0b0b;
     user-select:none;
     -webkit-user-drag:none;
+    pointer-events:none;
   }
 
   .sivora-hero-arrow{
@@ -4426,16 +4430,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   @media(max-width:800px){
     .hero{min-height:calc(100svh - 0px) !important;height:calc(100svh - 0px) !important;}
-    .sivora-hero-slide{padding:0 12px 92px;}
-    .sivora-hero-slide img{
-      width:auto;
-      height:auto;
-      max-width:94vw;
-      max-height:70svh;
-      object-position:center center;
-      object-fit:contain;
-      background:transparent;
-    }
+    .sivora-hero-slide img{object-position:center center;object-fit:contain;background:#0b0b0b;}
     .sivora-hero-arrow{width:42px;height:42px;font-size:28px;background:rgba(15,15,15,.35);}
     .sivora-hero-arrow.prev{left:12px;}
     .sivora-hero-arrow.next{right:12px;}
@@ -4477,7 +4472,8 @@ document.addEventListener("DOMContentLoaded", function () {
   let index = 0;
   let timer = null;
   let touchStartX = null;
-  const INTERVAL = 10000;
+  let touchStartY = null;
+  const INTERVAL = 5000;
 
   function render(){
     slidesEl.replaceChildren();
@@ -4511,8 +4507,17 @@ document.addEventListener("DOMContentLoaded", function () {
       progressEl.appendChild(bar);
     });
 
+    // Aktif görsel değişirken sayfanın aşağı/yukarı kayıp küçük görsele odaklanmasını engelle.
+    // Sadece yatay küçük-görsel alanı gerektiğinde hafifçe kaydırılır.
     const activeThumb=thumbsEl.querySelector('.active');
-    if(activeThumb) activeThumb.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+    if(activeThumb){
+      const left=activeThumb.offsetLeft;
+      const right=left+activeThumb.offsetWidth;
+      const viewLeft=thumbsEl.scrollLeft;
+      const viewRight=viewLeft+thumbsEl.clientWidth;
+      if(left<viewLeft) thumbsEl.scrollLeft=left-12;
+      else if(right>viewRight) thumbsEl.scrollLeft=right-thumbsEl.clientWidth+12;
+    }
   }
 
   function go(i){
@@ -4534,13 +4539,20 @@ document.addEventListener("DOMContentLoaded", function () {
   thumbNext?.addEventListener('click',()=>thumbsEl.scrollBy({left:320,behavior:'smooth'}));
 
   // Slider sürekli otomatik hareket eder; fare üzerine geldiğinde durmaz.
-  hero.addEventListener('touchstart',e=>{touchStartX=e.touches[0]?.clientX??null;},{passive:true});
+  hero.addEventListener('touchstart',e=>{
+    touchStartX=e.touches[0]?.clientX??null;
+    touchStartY=e.touches[0]?.clientY??null;
+  },{passive:true});
   hero.addEventListener('touchend',e=>{
     if(touchStartX===null) return;
     const endX=e.changedTouches[0]?.clientX??touchStartX;
+    const endY=e.changedTouches[0]?.clientY??touchStartY;
     const dx=endX-touchStartX;
-    if(Math.abs(dx)>45){dx<0?next():prev();restart();}
+    const dy=endY-(touchStartY??endY);
+    // Yatay kaydırma sliderı değiştirir; dikey hareket sayfanın doğal kaydırmasına bırakılır.
+    if(Math.abs(dx)>45 && Math.abs(dx)>Math.abs(dy)){dx<0?next():prev();restart();}
     touchStartX=null;
+    touchStartY=null;
   },{passive:true});
 
   document.addEventListener('keydown',e=>{
