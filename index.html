@@ -90,8 +90,7 @@ body.sivora-light #site-nav .language-switcher button {
   padding:0 5vw 8vh !important;
 
   background:
-    url("sivora-hero.jpg")
-    center center / cover no-repeat !important;
+    #111 !important;
 }
 
 
@@ -4308,6 +4307,7 @@ document.addEventListener("DOMContentLoaded", function () {
     height:100%;
     object-fit:cover;
     object-position:center center;
+    background:#0b0b0b;
     user-select:none;
     -webkit-user-drag:none;
   }
@@ -4426,7 +4426,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   @media(max-width:800px){
     .hero{min-height:calc(100svh - 0px) !important;height:calc(100svh - 0px) !important;}
-    .sivora-hero-slide img{object-position:center center;}
+    .sivora-hero-slide img{object-position:center center;object-fit:contain;background:#0b0b0b;}
     .sivora-hero-arrow{width:42px;height:42px;font-size:28px;background:rgba(15,15,15,.35);}
     .sivora-hero-arrow.prev{left:12px;}
     .sivora-hero-arrow.next{right:12px;}
@@ -4456,27 +4456,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const thumbNext = document.getElementById('sivora-hero-thumb-next');
   if(!hero || !slidesEl || !thumbsEl) return;
 
-  // İlk görsel mevcut ana hero. Diğer görseller, Supabase'deki projelerden otomatik eklenir.
-  const FALLBACK_HERO = 'sivora-hero.jpg';
-  let items = [{url:FALLBACK_HERO, title:'Sivora Mimarlık'}];
+  // SIVORA ana ekran slider görselleri — sabit sıra.
+  const items = [
+    {url:'hero-01.jpg', title:'Sivora Mimarlık & Gayrimenkul'},
+    {url:'hero-02.jpg', title:'Kentsel Dönüşüm'},
+    {url:'hero-03.jpg', title:'Proje Çizimi ve Danışmanlığı'},
+    {url:'hero-04.jpg', title:'3D Modelleme ve Tadilat İşleri'},
+    {url:'hero-05.jpg', title:'Gayrimenkul Alım Satım ve Kiralama'}
+  ];
+
   let index = 0;
   let timer = null;
   let touchStartX = null;
   const INTERVAL = 5000;
-
-  function unique(list){
-    const seen = new Set();
-    return list.filter(x=>x && x.url && !seen.has(x.url) && seen.add(x.url));
-  }
-
-  function photosOf(project){
-    let a = project && Array.isArray(project.photos) ? project.photos : [];
-    if(typeof project?.photos === 'string'){
-      try{ const parsed=JSON.parse(project.photos); if(Array.isArray(parsed)) a=parsed; }catch(e){}
-    }
-    if(!a.length && project?.image_url) a=[{url:project.image_url}];
-    return a.map(x=>({url:typeof x==='string'?x:(x&&x.url)||'',title:project?.title||'Sivora Mimarlık'})).filter(x=>x.url);
-  }
 
   function render(){
     slidesEl.replaceChildren();
@@ -4488,7 +4480,7 @@ document.addEventListener("DOMContentLoaded", function () {
       slide.className='sivora-hero-slide'+(i===index?' active':'');
       const img=document.createElement('img');
       img.src=item.url;
-      img.alt=item.title||'Sivora Mimarlık';
+      img.alt=item.title;
       img.loading=i===0?'eager':'lazy';
       slide.appendChild(img);
       slidesEl.appendChild(slide);
@@ -4498,9 +4490,11 @@ document.addEventListener("DOMContentLoaded", function () {
       thumb.className='sivora-hero-thumb'+(i===index?' active':'');
       thumb.setAttribute('aria-label',(i+1)+'. görsel');
       const ti=document.createElement('img');
-      ti.src=item.url; ti.alt=''; ti.loading='lazy';
+      ti.src=item.url;
+      ti.alt='';
+      ti.loading='lazy';
       thumb.appendChild(ti);
-      thumb.addEventListener('click',()=>{go(i);start();});
+      thumb.addEventListener('click',()=>{go(i);restart();});
       thumbsEl.appendChild(thumb);
 
       const bar=document.createElement('span');
@@ -4513,7 +4507,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function go(i){
-    if(!items.length) return;
     index=(i+items.length)%items.length;
     render();
   }
@@ -4521,51 +4514,36 @@ document.addEventListener("DOMContentLoaded", function () {
   function prev(){go(index-1);}
   function start(){
     stop();
-    if(items.length<2) return;
     timer=setInterval(next,INTERVAL);
   }
+  function restart(){start();}
   function stop(){if(timer){clearInterval(timer);timer=null;}}
 
-  prevBtn?.addEventListener('click',()=>{prev();start();});
-  nextBtn?.addEventListener('click',()=>{next();start();});
+  prevBtn?.addEventListener('click',()=>{prev();restart();});
+  nextBtn?.addEventListener('click',()=>{next();restart();});
   thumbPrev?.addEventListener('click',()=>thumbsEl.scrollBy({left:-320,behavior:'smooth'}));
   thumbNext?.addEventListener('click',()=>thumbsEl.scrollBy({left:320,behavior:'smooth'}));
-  hero.addEventListener('mouseenter',stop);
-  hero.addEventListener('mouseleave',start);
-  hero.addEventListener('touchstart',e=>{touchStartX=e.touches[0]?.clientX??null;stop();},{passive:true});
+
+  // Slider sürekli otomatik hareket eder; fare üzerine geldiğinde durmaz.
+  hero.addEventListener('touchstart',e=>{touchStartX=e.touches[0]?.clientX??null;},{passive:true});
   hero.addEventListener('touchend',e=>{
-    if(touchStartX===null){start();return;}
+    if(touchStartX===null) return;
     const endX=e.changedTouches[0]?.clientX??touchStartX;
     const dx=endX-touchStartX;
-    if(Math.abs(dx)>45){dx<0?next():prev();}
-    touchStartX=null;start();
+    if(Math.abs(dx)>45){dx<0?next():prev();restart();}
+    touchStartX=null;
   },{passive:true});
+
   document.addEventListener('keydown',e=>{
     const r=hero.getBoundingClientRect();
     const visible=r.bottom>0 && r.top<window.innerHeight;
     if(!visible) return;
-    if(e.key==='ArrowLeft'){prev();start();}
-    if(e.key==='ArrowRight'){next();start();}
+    if(e.key==='ArrowLeft'){prev();restart();}
+    if(e.key==='ArrowRight'){next();restart();}
   });
 
-  async function loadProjectImages(){
-    try{
-      if(!window.supabase || !window.SIVORA_SUPABASE_URL || !window.SIVORA_SUPABASE_ANON_KEY){
-        render(); start(); return;
-      }
-      const db=window.supabase.createClient(window.SIVORA_SUPABASE_URL,window.SIVORA_SUPABASE_ANON_KEY);
-      const r=await db.from('projects').select('title,image_url,photos,created_at').order('created_at',{ascending:false}).limit(12);
-      if(!r.error){
-        const projectPhotos=(r.data||[]).flatMap(photosOf);
-        items=unique([{url:FALLBACK_HERO,title:'Sivora Mimarlık'},...projectPhotos]).slice(0,8);
-      }
-    }catch(e){}
-    render();
-    start();
-  }
-
   render();
-  loadProjectImages();
+  start();
 })();
 </script>
 
