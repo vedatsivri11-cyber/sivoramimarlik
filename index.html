@@ -4457,9 +4457,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const INTERVAL = 3500;
 
   // Tüm görselleri ilk açılışta önceden yükle; geçiş sırasında ağ isteği oluşmasın.
-  const preloaded = items.map(item => {
+  // Açılışta 10 büyük JPG'yi birden indirme.
+  // İlk görsel öncelikli, diğerleri tarayıcının lazy loading sistemiyle yüklenir.
+  const preloaded = items.map((item, i) => {
     const img = new Image();
     img.decoding = 'async';
+    img.loading = i === 0 ? 'eager' : 'lazy';
+    if (i === 0) img.fetchPriority = 'high';
     img.src = item.url;
     return img;
   });
