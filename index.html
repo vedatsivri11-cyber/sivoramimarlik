@@ -4365,14 +4365,63 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   @media(max-width:800px){
-    .hero{min-height:100svh !important;height:100svh !important;}
-    .sivora-hero-slide img{object-fit:contain;}
-    .sivora-hero-arrow{width:42px;height:42px;font-size:28px;background:rgba(15,15,15,.28);}
-    .sivora-hero-arrow.prev{left:10px;}
-    .sivora-hero-arrow.next{right:10px;}
-    .sivora-hero-progress{bottom:18px;gap:5px;}
-    .sivora-hero-progress span{width:22px;height:2px;}
-    .sivora-hero-progress span.active{width:34px;}
+    /* MOBİL HERO — 16:9, siyah boşluk yok */
+    .hero{
+      min-height:0 !important;
+      height:auto !important;
+      aspect-ratio:16 / 9 !important;
+      padding:0 !important;
+      background:#0b0b0b !important;
+    }
+
+    .sivora-hero-slider,
+    .sivora-hero-slides,
+    .sivora-hero-slide{
+      position:absolute !important;
+      inset:0 !important;
+      width:100% !important;
+      height:100% !important;
+    }
+
+    .sivora-hero-slide img{
+      width:100% !important;
+      height:100% !important;
+      object-fit:cover !important;
+      object-position:center center !important;
+      background:transparent !important;
+    }
+
+    /* Mobilde fotoğrafın üzerine ekstra karartma uygulanmasın */
+    .hero::before{
+      background:transparent !important;
+    }
+
+    .sivora-hero-arrow{
+      width:44px !important;
+      height:44px !important;
+      font-size:28px !important;
+      background:rgba(15,15,15,.30) !important;
+      border-color:rgba(255,255,255,.35) !important;
+      backdrop-filter:blur(3px);
+      -webkit-backdrop-filter:blur(3px);
+    }
+
+    .sivora-hero-arrow.prev{left:12px !important;}
+    .sivora-hero-arrow.next{right:12px !important;}
+
+    .sivora-hero-progress{
+      bottom:10px !important;
+      gap:5px !important;
+    }
+
+    .sivora-hero-progress span{
+      width:22px !important;
+      height:2px !important;
+    }
+
+    .sivora-hero-progress span.active{
+      width:34px !important;
+    }
   }
 
   @media(prefers-reduced-motion:reduce){
@@ -4475,3 +4524,9 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 </body>
 </html>
+<style id="sivora-hero-no-dark-overlay">
+.hero::before{background:none !important;opacity:0 !important;display:none !important;pointer-events:none !important;}
+.hero::after{background:none !important;opacity:0 !important;display:none !important;pointer-events:none !important;}
+.sivora-hero-slide::before,.sivora-hero-slide::after{content:none !important;background:none !important;opacity:0 !important;display:none !important;}
+.sivora-hero-slide img{filter:none !important;opacity:1 !important;}
+</style>
