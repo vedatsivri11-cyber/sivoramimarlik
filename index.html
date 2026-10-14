@@ -75,6 +75,18 @@ body.sivora-light #site-nav .language-switcher button {
 (function () {
   const CONSENT_KEY = "sivora-cookie-consent-v2";
   const GA_ID = "G-SVEK0HHRB2";
+  const ADSENSE_CLIENT = "ca-pub-5753752110028773";
+
+  function loadAdSense() {
+    if (window.__sivoraAdSenseLoaded) return;
+    window.__sivoraAdSenseLoaded = true;
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + ADSENSE_CLIENT;
+    script.crossOrigin = 'anonymous';
+    document.head.appendChild(script);
+  }
+
 
   function loadAnalytics() {
     if (window.__sivoraAnalyticsLoaded) return;
@@ -127,6 +139,7 @@ body.sivora-light #site-nav .language-switcher button {
         if (window.__sivoraAnalyticsLoaded && typeof window.gtag === 'function') {
           window.gtag('consent', 'update', { analytics_storage: 'granted' });
         } else loadAnalytics();
+        loadAdSense();
       } else {
         // An already loaded tag cannot be reliably unloaded; reload after revocation.
         // On the new page load, the saved denial prevents the GA script from loading.
@@ -151,7 +164,10 @@ body.sivora-light #site-nav .language-switcher button {
       document.body.classList.remove('sivora-consent-pending');
       if (banner) banner.hidden = true;
       if (manage) manage.hidden = false;
-      if (saved.analytics === true) loadAnalytics();
+      if (saved.analytics === true) {
+        loadAnalytics();
+        loadAdSense();
+      }
     } else {
       document.body.classList.add('sivora-consent-pending');
       if (banner) banner.hidden = false;
