@@ -64,6 +64,8 @@
   document.body.append(modal);
 
   const mainImage = modal.querySelector('.sivora-project-main-image');
+  mainImage.decoding = 'async';
+  mainImage.fetchPriority = 'high';
   const titleEl = modal.querySelector('.sivora-project-title');
   const locationEl = modal.querySelector('.sivora-project-location');
   const descriptionEl = modal.querySelector('.sivora-project-description');
@@ -78,8 +80,8 @@
   const renderGallery = () => {
     if (!activePhotos.length) return;
     const photo = activePhotos[activeIndex];
-    mainImage.src = photo.url;
     mainImage.alt = titleEl.textContent || 'Sivora Mimarlık Projesi';
+    mainImage.src = photo.url;
     counterEl.textContent = activePhotos.length > 1 ? `${activeIndex + 1} / ${activePhotos.length}` : '';
     prevBtn.hidden = activePhotos.length < 2;
     nextBtn.hidden = activePhotos.length < 2;
@@ -92,8 +94,13 @@
         thumb.className = 'sivora-project-thumb' + (index === activeIndex ? ' active' : '');
         thumb.setAttribute('aria-label', `Fotoğraf ${index + 1}`);
         const img = document.createElement('img');
-        img.src = item.url;
         img.alt = '';
+        img.loading = index === activeIndex ? 'eager' : 'lazy';
+        img.decoding = 'async';
+        img.fetchPriority = index === activeIndex ? 'low' : 'low';
+        img.width = 72;
+        img.height = 54;
+        img.src = item.url;
         thumb.append(img);
         thumb.addEventListener('click', () => {
           activeIndex = index;
@@ -159,9 +166,14 @@
     imageWrap.className = 'project-image-wrap';
     const image = document.createElement('img');
     image.className = 'project-image';
-    image.src = photos[0]?.url || '';
     image.alt = cleanText(project.title) || 'Sivora Mimarlık Projesi';
     image.loading = index === 0 ? 'eager' : 'lazy';
+    image.decoding = 'async';
+    image.fetchPriority = index === 0 ? 'auto' : 'low';
+    image.width = 800;
+    image.height = 500;
+    image.src = photos[0]?.url || '';
+    image.addEventListener('error', () => { image.classList.add('image-load-error'); }, { once: true });
     imageWrap.append(image);
 
     const info = document.createElement('div');
@@ -220,7 +232,8 @@
     .project-grid .live-project{min-width:0;cursor:pointer;height:100%;display:flex;flex-direction:column;}
     .project-grid .live-project:focus-visible{outline:2px solid #b9975b;outline-offset:6px;}
     .project-grid .project-image-wrap{position:relative;overflow:hidden;width:100%;aspect-ratio:16/10 !important;}
-    .project-grid .live-project .project-image{display:block;width:100%;height:100% !important;object-fit:cover;transition:transform .6s ease;}
+    .project-grid .live-project .project-image{display:block;width:100%;height:100% !important;object-fit:cover;transition:transform .6s ease;background:#e8e4dc;}
+    .project-grid .live-project .project-image.image-load-error{visibility:hidden;}
     .project-grid .live-project:hover .project-image{transform:scale(1.015);}
     .project-grid .live-project .project-info{min-height:92px;}
     @media (max-width:900px){.project-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:20px !important;}}
@@ -244,7 +257,8 @@
     .sivora-project-thumbs{display:flex;gap:8px;overflow-x:auto;margin-top:22px;padding-bottom:3px;}
     .sivora-project-thumb{flex:0 0 72px;width:72px;height:54px;padding:0;border:1px solid transparent;background:transparent;cursor:pointer;opacity:.6;}
     .sivora-project-thumb.active{border-color:#b9975b;opacity:1;}
-    .sivora-project-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+    .sivora-project-thumb img{width:100%;height:100%;object-fit:cover;display:block;background:#e8e4dc;}
+    .sivora-project-main-image{background:#111;}
     @media(max-width:700px){
       .sivora-project-modal{padding:10px;}
       .sivora-project-box{width:96vw;max-height:94vh;}
