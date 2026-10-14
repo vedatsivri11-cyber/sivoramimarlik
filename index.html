@@ -3455,6 +3455,8 @@ html.sivora-dark #hizmetler .sivora-trust-item{
         İlgili Kişi Başvurusu
       </a>
 
+      <button type="button" id="sivora-cookie-settings-link" class="legal-cookie-settings" hidden>Çerez Ayarları</button>
+
     </div>
 
 
@@ -4848,7 +4850,8 @@ document.addEventListener("DOMContentLoaded", function () {
   .sivora-cookie-primary {background:#b9975b;color:#151515}
   .sivora-cookie-secondary {background:transparent;color:#222}
   .sivora-cookie-actions button:focus-visible, #sivora-cookie-settings-link:focus-visible {outline:3px solid #222;outline-offset:3px}
-  #sivora-cookie-settings-link {display:block;width:max-content;max-width:100%;margin:28px auto 18px;padding:8px 12px;border:0;background:transparent;color:#9d7d42;font:500 12px "DM Sans",Arial,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer;position:relative;z-index:1}
+  #sivora-cookie-settings-link {display:inline-block;max-width:100%;margin:0;padding:0;border:0;background:transparent;color:inherit;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer;position:relative;z-index:1}
+  .legal-cookie-settings {color:inherit!important;background:transparent!important;border:0!important;padding:0!important;font:inherit!important;text-decoration:underline!important;cursor:pointer!important;}
   .sivora-cookie-setting {display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid rgba(34,34,34,.14)}
   .sivora-cookie-setting input {margin-top:4px;width:18px;height:18px}
   .sivora-cookie-setting strong {display:block;margin-bottom:4px}
@@ -4892,7 +4895,6 @@ document.addEventListener("DOMContentLoaded", function () {
   <div class="sivora-cookie-setting"><input type="checkbox" id="sivora-cookie-analytics-toggle"><span><strong>İstatistik / Google Analytics</strong>Ziyaret ve kullanım bilgilerini ölçmeye yardımcı olur. İzin verirsen Google Analytics yüklenir.</span></div>
   <div class="sivora-cookie-actions"><button type="button" class="sivora-cookie-secondary" id="sivora-cookie-preferences-cancel">Geri dön</button><button type="button" class="sivora-cookie-primary" id="sivora-cookie-save-preferences">Seçimimi kaydet</button></div>
 </section>
-<button type="button" id="sivora-cookie-settings-link" hidden>Çerez Ayarları</button>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const banner = document.getElementById('sivora-cookie-banner');
