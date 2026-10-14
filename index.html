@@ -70,13 +70,95 @@ body.sivora-light #site-nav .language-switcher button {
 }
 </style>
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-SVEK0HHRB2"></script>
+<!-- Google Analytics 4: yalnızca ziyaretçi analiz izni verdikten sonra yüklenir. -->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-SVEK0HHRB2');
+(function () {
+  const CONSENT_KEY = "sivora-cookie-consent-v2";
+  const GA_ID = "G-SVEK0HHRB2";
+
+  function loadAnalytics() {
+    if (window.__sivoraAnalyticsLoaded) return;
+    window.__sivoraAnalyticsLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ window.dataLayer.push(arguments); };
+    window.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+    window.gtag('consent', 'update', { analytics_storage: 'granted' });
+    window.gtag('js', new Date());
+    window.gtag('config', GA_ID);
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(script);
+  }
+
+  // Remove GA first-party cookies that this site can access when consent is withdrawn.
+  function clearAnalyticsCookies() {
+    const names = document.cookie.split(';').map(function (part) { return part.trim().split('=')[0]; })
+      .filter(function (name) { return /^_ga(?:_|$)/.test(name) || /^_gid$/.test(name) || /^_gat(?:_|$)/.test(name); });
+    const host = location.hostname;
+    const parts = host.split('.');
+    const domains = [''];
+    for (let i = 0; i < parts.length - 1; i++) domains.push('.' + parts.slice(i).join('.'));
+    const pathParts = location.pathname.split('/').filter(Boolean);
+    const paths = ['/'];
+    let path = '';
+    for (const segment of pathParts) { path += '/' + segment; paths.push(path); paths.push(path + '/'); }
+    for (const name of names) for (const domain of domains) for (const cookiePath of paths) {
+      document.cookie = name + '=; Max-Age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=' + cookiePath + (domain ? '; domain=' + domain : '') + '; SameSite=Lax';
+    }
+  }
+
+  window.sivoraCookieConsent = {
+    get: function () {
+      try { return JSON.parse(localStorage.getItem(CONSENT_KEY) || "null"); }
+      catch (e) { return null; }
+    },
+    save: function (analyticsAllowed) {
+      const choice = { necessary: true, analytics: Boolean(analyticsAllowed), updatedAt: new Date().toISOString() };
+      try { localStorage.setItem(CONSENT_KEY, JSON.stringify(choice)); } catch (e) {}
+      const banner = document.getElementById('sivora-cookie-banner');
+      const prefs = document.getElementById('sivora-cookie-preferences');
+      if (banner) banner.hidden = true;
+      if (prefs) prefs.hidden = true;
+      document.body.classList.remove('sivora-consent-pending');
+      const manage = document.getElementById('sivora-cookie-manage');
+      if (manage) manage.hidden = false;
+      if (choice.analytics) {
+        if (window.__sivoraAnalyticsLoaded && typeof window.gtag === 'function') {
+          window.gtag('consent', 'update', { analytics_storage: 'granted' });
+        } else loadAnalytics();
+      } else {
+        // An already loaded tag cannot be reliably unloaded; reload after revocation.
+        // On the new page load, the saved denial prevents the GA script from loading.
+        if (window.__sivoraAnalyticsLoaded && typeof window.gtag === 'function') {
+          window.gtag('consent', 'update', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+        }
+        clearAnalyticsCookies();
+        if (window.__sivoraAnalyticsLoaded) window.location.reload();
+      }
+    },
+    openPreferences: function () {
+      const prefs = document.getElementById('sivora-cookie-preferences');
+      if (prefs) prefs.hidden = false;
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const saved = window.sivoraCookieConsent.get();
+    const banner = document.getElementById('sivora-cookie-banner');
+    const manage = document.getElementById('sivora-cookie-manage');
+    if (saved && typeof saved.analytics === 'boolean') {
+      document.body.classList.remove('sivora-consent-pending');
+      if (banner) banner.hidden = true;
+      if (manage) manage.hidden = false;
+      if (saved.analytics === true) loadAnalytics();
+    } else {
+      document.body.classList.add('sivora-consent-pending');
+      if (banner) banner.hidden = false;
+      if (manage) manage.hidden = true;
+    }
+  });
+})();
 </script>
 <style>
 
@@ -4739,6 +4821,97 @@ document.addEventListener("DOMContentLoaded", function () {
   start();
 })();
 </script>
+
+<!-- SİVORA çerez tercihleri: analiz izni varsayılan olarak kapalıdır. -->
+<style id="sivora-cookie-consent-styles">
+  /* İlk ziyaret ve henüz karar verilmemiş kullanıcılar için tam ekran izin katmanı. */
+  body.sivora-consent-pending { overflow:hidden !important; }
+  body.sivora-consent-pending::before {
+    content:""; position:fixed; inset:0; z-index:2147482998;
+    background:rgba(12,12,12,.68); backdrop-filter:blur(3px);
+    pointer-events:auto;
+  }
+  #sivora-cookie-banner, #sivora-cookie-preferences {
+    position:fixed; z-index:2147483000; left:50%; top:50%; bottom:auto;
+    transform:translate(-50%,-50%); width:calc(100% - 32px); max-width:760px;
+    max-height:calc(100dvh - 32px); overflow-y:auto; margin:0; padding:26px;
+    background:#f7f4ed; color:#222; border:1px solid rgba(185,151,91,.8);
+    box-shadow:0 18px 60px rgba(0,0,0,.4); border-radius:12px;
+    font-family:"DM Sans",Arial,sans-serif; box-sizing:border-box;
+  }
+  body.sivora-consent-pending > *:not(#sivora-cookie-consent-styles):not(#sivora-cookie-banner):not(#sivora-cookie-preferences):not(#sivora-cookie-manage) { pointer-events:none !important; }
+  #sivora-cookie-banner[hidden], #sivora-cookie-preferences[hidden], #sivora-cookie-manage[hidden] {display:none!important}
+  #sivora-cookie-banner h2, #sivora-cookie-preferences h2 {margin:0 0 9px;font-size:20px;line-height:1.3;color:#222}
+  #sivora-cookie-banner p, #sivora-cookie-preferences p {margin:0 0 14px;font-size:13px;line-height:1.65;color:#333}
+  .sivora-cookie-actions {display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+  .sivora-cookie-actions button, #sivora-cookie-manage {min-height:42px;padding:10px 16px;border-radius:7px;border:1px solid #9d7d42;font:600 13px "DM Sans",Arial,sans-serif;cursor:pointer}
+  .sivora-cookie-primary {background:#b9975b;color:#151515}
+  .sivora-cookie-secondary {background:transparent;color:#222}
+  .sivora-cookie-actions button:focus-visible, #sivora-cookie-manage:focus-visible {outline:3px solid #222;outline-offset:3px}
+  #sivora-cookie-manage {position:fixed;z-index:2147482999;left:14px;bottom:14px;background:#f7f4ed;color:#222;box-shadow:0 3px 14px rgba(0,0,0,.18)}
+  .sivora-cookie-setting {display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid rgba(34,34,34,.14)}
+  .sivora-cookie-setting input {margin-top:4px;width:18px;height:18px}
+  .sivora-cookie-setting strong {display:block;margin-bottom:4px}
+  #sivora-cookie-details {margin:10px 0 4px;border-top:1px solid rgba(34,34,34,.15);padding-top:10px}
+  #sivora-cookie-details summary {cursor:pointer;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;padding:5px 0;color:#5d4827}
+  #sivora-cookie-details-content {max-height:220px;overflow:auto;padding:10px 12px;margin-top:8px;border:1px solid rgba(34,34,34,.16);border-radius:7px;background:rgba(255,255,255,.62)}
+  #sivora-cookie-details-content h3 {font-size:14px;margin:10px 0 5px;color:#222}
+  #sivora-cookie-details-content p,#sivora-cookie-details-content li {font-size:12px;line-height:1.6;color:#333}
+  #sivora-cookie-details-content ul {padding-left:18px;margin:5px 0 10px}
+  .sivora-cookie-setting span {font-size:12px;line-height:1.55}
+  @media(max-width:600px) {#sivora-cookie-banner,#sivora-cookie-preferences{width:calc(100% - 20px);max-height:calc(100dvh - 20px);padding:18px}.sivora-cookie-actions{display:grid;grid-template-columns:1fr}.sivora-cookie-actions button{width:100%}}
+</style>
+<section id="sivora-cookie-banner" role="dialog" aria-modal="false" aria-labelledby="sivora-cookie-title" aria-describedby="sivora-cookie-description" hidden>
+  <h2 id="sivora-cookie-title">Çerez tercihlerin</h2>
+  <p id="sivora-cookie-description">SİVORA Mimarlık ve Gayrimenkul, sitenin temel işlevleri için gerekli teknolojileri kullanır. İzin verirsen ziyaret istatistiklerini ölçmek amacıyla Google Analytics de etkinleştirilir. Ayrıntıları görmek için aşağıdaki bölümü açabilirsin.</p>
+  <details id="sivora-cookie-details">
+    <summary>Çerezler hakkında ayrıntılı bilgi</summary>
+    <div id="sivora-cookie-details-content">
+      <h3>Çerezler nedir?</h3>
+      <p>Çerezler ve benzer teknolojiler, bir internet sitesinin düzgün çalışmasına yardımcı olmak veya ziyaretlerin nasıl kullanıldığını anlamak için tarayıcıda bilgi saklayabilir ya da bu bilgilere erişebilir.</p>
+      <h3>Gerekli teknolojiler</h3>
+      <p>Güvenlik, ağ iletişimi ve talep ettiğin temel site işlevleri için gereken teknolojiler kullanılır. Bu seçenek kapatılamaz; analitik amaçla kullanılmayan gerekli teknolojiler için ayrıca onay istenmeyebilir.</p>
+      <h3>İstatistik ve Google Analytics</h3>
+      <p>“Tümünü kabul et” seçeneğini tercih edersen Google Analytics, site kullanımına ilişkin istatistiklerin oluşturulması için etkinleştirilir. “Yalnızca gerekli çerezleri kabul et” seçeneğinde Google Analytics yüklenmemelidir.</p>
+      <h3>Tercihini değiştirme</h3>
+      <p>Seçimin bu tarayıcıda hatırlanır. Daha sonra sayfanın alt köşesindeki “Çerez tercihleri” düğmesini kullanarak tercihini değiştirebilir veya analitik iznini geri çekebilirsin.</p>
+      <h3>Gizlilik ve iletişim</h3>
+      <p>Çerez kullanımı, kişisel verilerin işlenmesi, saklama süreleri, veri alıcıları ve varsa yurt dışına aktarım hakkında ayrıntılar sitenin gizlilik ve çerez politikalarında açıklanmalıdır. Bu metin, yayımdan önce işletmenin gerçek uygulamaları ve iletişim bilgileriyle tamamlanmalıdır.</p>
+      <p><strong>Not:</strong> Bu açıklama genel bilgilendirme metnidir; tek başına hukuki uyumluluk garantisi vermez.</p>
+    </div>
+  </details>
+  <div class="sivora-cookie-actions">
+    <button type="button" class="sivora-cookie-secondary" id="sivora-cookie-reject">Yalnızca gerekli çerezleri kabul et</button>
+    <button type="button" class="sivora-cookie-primary" id="sivora-cookie-accept">Tümünü kabul et</button>
+  </div>
+</section>
+<section id="sivora-cookie-preferences" role="dialog" aria-modal="true" aria-labelledby="sivora-cookie-preferences-title" hidden>
+  <h2 id="sivora-cookie-preferences-title">Çerez tercihlerini yönet</h2>
+  <p>Zorunlu olmayan seçenekler varsayılan olarak kapalıdır. Seçimini kaydederek tercihlerini uygulayabilirsin.</p>
+  <div class="sivora-cookie-setting"><input type="checkbox" checked disabled aria-label="Zorunlu teknolojiler her zaman etkin"><span><strong>Zorunlu teknolojiler</strong>Site güvenliği ve temel işlevler için gereklidir; kapatılamaz.</span></div>
+  <div class="sivora-cookie-setting"><input type="checkbox" id="sivora-cookie-analytics-toggle"><span><strong>İstatistik / Google Analytics</strong>Ziyaret ve kullanım bilgilerini ölçmeye yardımcı olur. İzin verirsen Google Analytics yüklenir.</span></div>
+  <div class="sivora-cookie-actions"><button type="button" class="sivora-cookie-secondary" id="sivora-cookie-preferences-cancel">Geri dön</button><button type="button" class="sivora-cookie-primary" id="sivora-cookie-save-preferences">Seçimimi kaydet</button></div>
+</section>
+<button type="button" id="sivora-cookie-manage" hidden>Çerez tercihleri</button>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const banner = document.getElementById('sivora-cookie-banner');
+  const prefs = document.getElementById('sivora-cookie-preferences');
+  const toggle = document.getElementById('sivora-cookie-analytics-toggle');
+  const consent = window.sivoraCookieConsent;
+  if (!banner || !prefs || !consent) return;
+  document.getElementById('sivora-cookie-accept').addEventListener('click', function(){ consent.save(true); });
+  document.getElementById('sivora-cookie-reject').addEventListener('click', function(){ consent.save(false); });
+  // Bu iki seçenekli sürümde ayrı bir 'tercihleri yönet' bağlantısı yoktur.
+  // Eksik bir öğeye olay bağlamak diğer düğmelerin çalışmasını engelliyordu.
+  document.getElementById('sivora-cookie-preferences-cancel').addEventListener('click', function(){ prefs.hidden = true; });
+  document.getElementById('sivora-cookie-save-preferences').addEventListener('click', function(){ consent.save(toggle.checked); });
+  document.getElementById('sivora-cookie-manage').addEventListener('click', function(){
+    const current = consent.get(); toggle.checked = Boolean(current && current.analytics === true); consent.openPreferences();
+  });
+});
+</script>
+
 </body>
 </html>
 <style id="sivora-hero-no-dark-overlay">
