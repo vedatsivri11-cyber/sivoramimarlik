@@ -146,6 +146,7 @@
       prev.type = 'button';
       next.type = 'button';
       mainImg.draggable = false;
+      mainImg.decoding = 'async';
 
       mainImg.addEventListener('error', () => {
         mainImg.removeAttribute('src');
@@ -169,8 +170,13 @@
         const thumb = el('button', 'property-public-gallery-thumb');
         const thumbImg = el('img');
         thumb.type = 'button';
-        thumbImg.src = url;
+
+        // Galeri küçük görsellerini yalnızca ihtiyaç olduğunda yükle.
+        // Böylece çok fotoğraflı ilanlarda ilk açılıştaki ağ yükü azalır.
+        thumbImg.loading = 'lazy';
+        thumbImg.decoding = 'async';
         thumbImg.alt = `Fotoğraf ${index + 1}`;
+        thumbImg.src = url;
         thumbImg.addEventListener('error', () => {
           thumbImg.removeAttribute('src');
           thumbImg.alt = `Fotoğraf ${index + 1} yüklenemedi`;
@@ -288,6 +294,7 @@
         img.src = photos[0];
         img.alt = property.ilan_basligi || 'Gayrimenkul';
         img.loading = 'lazy';
+        img.decoding = 'async';
         img.addEventListener('error', () => {
           img.removeAttribute('src');
         });
