@@ -121,7 +121,7 @@ body.sivora-light #site-nav .language-switcher button {
       if (banner) banner.hidden = true;
       if (prefs) prefs.hidden = true;
       document.body.classList.remove('sivora-consent-pending');
-      const manage = document.getElementById('sivora-cookie-manage');
+      const manage = document.getElementById('sivora-cookie-settings-link');
       if (manage) manage.hidden = false;
       if (choice.analytics) {
         if (window.__sivoraAnalyticsLoaded && typeof window.gtag === 'function') {
@@ -146,7 +146,7 @@ body.sivora-light #site-nav .language-switcher button {
   document.addEventListener('DOMContentLoaded', function () {
     const saved = window.sivoraCookieConsent.get();
     const banner = document.getElementById('sivora-cookie-banner');
-    const manage = document.getElementById('sivora-cookie-manage');
+    const manage = document.getElementById('sivora-cookie-settings-link');
     if (saved && typeof saved.analytics === 'boolean') {
       document.body.classList.remove('sivora-consent-pending');
       if (banner) banner.hidden = true;
@@ -4839,16 +4839,16 @@ document.addEventListener("DOMContentLoaded", function () {
     box-shadow:0 18px 60px rgba(0,0,0,.4); border-radius:12px;
     font-family:"DM Sans",Arial,sans-serif; box-sizing:border-box;
   }
-  body.sivora-consent-pending > *:not(#sivora-cookie-consent-styles):not(#sivora-cookie-banner):not(#sivora-cookie-preferences):not(#sivora-cookie-manage) { pointer-events:none !important; }
-  #sivora-cookie-banner[hidden], #sivora-cookie-preferences[hidden], #sivora-cookie-manage[hidden] {display:none!important}
+  body.sivora-consent-pending > *:not(#sivora-cookie-consent-styles):not(#sivora-cookie-banner):not(#sivora-cookie-preferences):not(#sivora-cookie-settings-link):not(#sivora-cookie-settings-link) { pointer-events:none !important; }
+  #sivora-cookie-banner[hidden], #sivora-cookie-preferences[hidden], #sivora-cookie-settings-link[hidden] {display:none!important}
   #sivora-cookie-banner h2, #sivora-cookie-preferences h2 {margin:0 0 9px;font-size:20px;line-height:1.3;color:#222}
   #sivora-cookie-banner p, #sivora-cookie-preferences p {margin:0 0 14px;font-size:13px;line-height:1.65;color:#333}
   .sivora-cookie-actions {display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
-  .sivora-cookie-actions button, #sivora-cookie-manage {min-height:42px;padding:10px 16px;border-radius:7px;border:1px solid #9d7d42;font:600 13px "DM Sans",Arial,sans-serif;cursor:pointer}
+  .sivora-cookie-actions button {min-height:42px;padding:10px 16px;border-radius:7px;border:1px solid #9d7d42;font:600 13px "DM Sans",Arial,sans-serif;cursor:pointer}
   .sivora-cookie-primary {background:#b9975b;color:#151515}
   .sivora-cookie-secondary {background:transparent;color:#222}
-  .sivora-cookie-actions button:focus-visible, #sivora-cookie-manage:focus-visible {outline:3px solid #222;outline-offset:3px}
-  #sivora-cookie-manage {position:fixed;z-index:2147482999;left:14px;bottom:14px;background:#f7f4ed;color:#222;box-shadow:0 3px 14px rgba(0,0,0,.18)}
+  .sivora-cookie-actions button:focus-visible, #sivora-cookie-settings-link:focus-visible {outline:3px solid #222;outline-offset:3px}
+  #sivora-cookie-settings-link {display:block;width:max-content;max-width:100%;margin:28px auto 18px;padding:8px 12px;border:0;background:transparent;color:#9d7d42;font:500 12px "DM Sans",Arial,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer;position:relative;z-index:1}
   .sivora-cookie-setting {display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid rgba(34,34,34,.14)}
   .sivora-cookie-setting input {margin-top:4px;width:18px;height:18px}
   .sivora-cookie-setting strong {display:block;margin-bottom:4px}
@@ -4874,7 +4874,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <h3>İstatistik ve Google Analytics</h3>
       <p>“Tümünü kabul et” seçeneğini tercih edersen Google Analytics, site kullanımına ilişkin istatistiklerin oluşturulması için etkinleştirilir. “Yalnızca gerekli çerezleri kabul et” seçeneğinde Google Analytics yüklenmemelidir.</p>
       <h3>Tercihini değiştirme</h3>
-      <p>Seçimin bu tarayıcıda hatırlanır. Daha sonra sayfanın alt köşesindeki “Çerez tercihleri” düğmesini kullanarak tercihini değiştirebilir veya analitik iznini geri çekebilirsin.</p>
+      <p>Seçimin bu tarayıcıda hatırlanır. Sayfanın alt kısmındaki “Çerez Ayarları” bağlantısını kullanarak tercihini değiştirebilir veya analitik iznini geri çekebilirsin.</p>
       <h3>Gizlilik ve iletişim</h3>
       <p>Çerez kullanımı, kişisel verilerin işlenmesi, saklama süreleri, veri alıcıları ve varsa yurt dışına aktarım hakkında ayrıntılar sitenin gizlilik ve çerez politikalarında açıklanmalıdır. Bu metin, yayımdan önce işletmenin gerçek uygulamaları ve iletişim bilgileriyle tamamlanmalıdır.</p>
       <p><strong>Not:</strong> Bu açıklama genel bilgilendirme metnidir; tek başına hukuki uyumluluk garantisi vermez.</p>
@@ -4892,7 +4892,7 @@ document.addEventListener("DOMContentLoaded", function () {
   <div class="sivora-cookie-setting"><input type="checkbox" id="sivora-cookie-analytics-toggle"><span><strong>İstatistik / Google Analytics</strong>Ziyaret ve kullanım bilgilerini ölçmeye yardımcı olur. İzin verirsen Google Analytics yüklenir.</span></div>
   <div class="sivora-cookie-actions"><button type="button" class="sivora-cookie-secondary" id="sivora-cookie-preferences-cancel">Geri dön</button><button type="button" class="sivora-cookie-primary" id="sivora-cookie-save-preferences">Seçimimi kaydet</button></div>
 </section>
-<button type="button" id="sivora-cookie-manage" hidden>Çerez tercihleri</button>
+<button type="button" id="sivora-cookie-settings-link" hidden>Çerez Ayarları</button>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const banner = document.getElementById('sivora-cookie-banner');
@@ -4906,7 +4906,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Eksik bir öğeye olay bağlamak diğer düğmelerin çalışmasını engelliyordu.
   document.getElementById('sivora-cookie-preferences-cancel').addEventListener('click', function(){ prefs.hidden = true; });
   document.getElementById('sivora-cookie-save-preferences').addEventListener('click', function(){ consent.save(toggle.checked); });
-  document.getElementById('sivora-cookie-manage').addEventListener('click', function(){
+  document.getElementById('sivora-cookie-settings-link').addEventListener('click', function(){
     const current = consent.get(); toggle.checked = Boolean(current && current.analytics === true); consent.openPreferences();
   });
 });
