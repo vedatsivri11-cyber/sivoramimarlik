@@ -35,8 +35,7 @@ a{color:inherit}
       90deg,
       rgba(13,13,13,.20),
       rgba(13,13,13,0) 70%
-    ),
-    url("kentsel-donusum.jpg") center center / cover no-repeat;
+    );
 
   z-index:0;
 }
@@ -922,7 +921,6 @@ body.dark-mode #site-nav .logo-slogan{
 /* TELEFON İÇİN ÖZEL KENTSEL DÖNÜŞÜM GÖRSELİ */
 @media (max-width: 800px){
   .hero{
-    background-image: url("kentsel-donusum-mobil.jpg") !important;
     background-position: center center !important;
     background-size: cover !important;
   }
@@ -1966,7 +1964,6 @@ body.dark-mode #site-nav .logo-slogan{
 
     padding:0 7vw 7vh !important;
 
-    background-image:url("kentsel-donusum-mobil.jpg") !important;
     background-position:center center !important;
     background-size:cover !important;
   }
@@ -2024,9 +2021,7 @@ body.dark-mode #site-nav .logo-slogan{
 
   padding:0 5vw 8vh !important;
 
-  background:
-    url("kentsel-donusum.jpg")
-    center center / cover no-repeat !important;
+  background:none !important;
 }
 
 /* Fotoğrafın üzerine hafif karartma */
@@ -2113,7 +2108,6 @@ body.dark-mode #site-nav .logo-slogan{
 
     padding:0 7vw 7vh !important;
 
-    background-image:url("kentsel-donusum-mobil.jpg") !important;
     background-position:center center !important;
     background-size:cover !important;
   }
@@ -2163,7 +2157,6 @@ body.dark-mode #site-nav .logo-slogan{
   .hero .hero-image{
     height:70vh !important;
 
-    background-image:url("kentsel-donusum-mobil.jpg") !important;
     background-position:center center !important;
     background-size:cover !important;
   }
@@ -2204,9 +2197,7 @@ body.dark-mode #site-nav .logo-slogan{
 
     padding:0 5vw 8vh !important;
 
-    background:
-      url("kentsel-donusum.jpg")
-      center center / cover no-repeat !important;
+    background:none !important;
   }
 
   .hero::before{
@@ -2286,9 +2277,7 @@ body.dark-mode #site-nav .logo-slogan{
         rgba(0,0,0,.42) 0%,
         rgba(0,0,0,.16) 42%,
         rgba(0,0,0,0) 72%
-      ),
-      url("kentsel-donusum.jpg")
-      center center / cover no-repeat !important;
+      ) !important;
   }
 
 }
