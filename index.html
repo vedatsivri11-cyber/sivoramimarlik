@@ -395,14 +395,14 @@ body.sivora-light #site-nav .language-switcher button {
 <meta property="og:title" content="Sivora Mimarlık &amp; Gayrimenkul | Küçükçekmece Emlak, Mimarlık ve Kentsel Dönüşüm">
 <meta property="og:description" content="Küçükçekmece'de emlak, gayrimenkul, mimarlık, kentsel dönüşüm, mimari proje ve gayrimenkul danışmanlığı hizmetleri.">
 <meta property="og:url" content="https://sivoramimarlik.com/">
-<meta property="og:image" content="https://sivoramimarlik.com/sivora-logo.png">
+<meta property="og:image" content="https://sivoramimarlik.com/sivora-hero.jpg">
 <meta property="og:image:alt" content="Sivora Mimarlık">
 
 <!-- X / TWITTER -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Sivora Mimarlık &amp; Gayrimenkul | Küçükçekmece Emlak, Mimarlık ve Kentsel Dönüşüm">
 <meta name="twitter:description" content="Küçükçekmece'de emlak, gayrimenkul, mimarlık, kentsel dönüşüm, mimari proje ve gayrimenkul danışmanlığı hizmetleri.">
-<meta name="twitter:image" content="https://sivoramimarlik.com/sivora-logo.png">
+<meta name="twitter:image" content="https://sivoramimarlik.com/sivora-hero.jpg">
       
 
 <link rel="preconnect"
@@ -412,11 +412,25 @@ body.sivora-light #site-nav .language-switcher button {
       href="https://fonts.gstatic.com"
       crossorigin>
 
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://jfmldtumtnmuhzomujtm.supabase.co" crossorigin>
+
+<!-- İlk hero görseli: sayfa açılır açılmaz indirilmeye başlar (LCP) -->
+<link rel="preload" as="image" href="hero-01.webp"
+      imagesrcset="hero-01-960.webp 960w, hero-01.webp 1672w"
+      imagesizes="100vw" fetchpriority="high">
+
+<!-- Yazı tipleri sayfa çizimini engellemez -->
+<link rel="preload" as="style"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap"
       rel="stylesheet">
+</noscript>
 
 <!-- MEVCUT TASARIM -->
-<link rel="stylesheet" href="style.css?v=20261001">
+<link rel="stylesheet" href="style.css?v=20261027">
 
 <script>
 (function () {
@@ -2176,7 +2190,6 @@ body.sivora-dark #hizmetler .trust-icon{
     min-height:calc(100svh - 110px) !important;
     height:calc(100svh - 110px) !important;
     display:flex !important;
-    background-image:url("sivora-hero.jpg") !important;
     background-position:center center !important;
     background-size:cover !important;
     background-repeat:no-repeat !important;
@@ -4736,16 +4749,16 @@ document.addEventListener("DOMContentLoaded", function () {
   if(!hero || !slidesEl || !progressEl) return;
 
   const items = [
-    {url:'hero-01.jpg', title:'Sivora Mimarlık & Gayrimenkul'},
-    {url:'hero-02.jpg', title:'Kentsel Dönüşüm'},
-    {url:'hero-03.jpg', title:'Proje Çizimi ve Danışmanlığı'},
-    {url:'hero-04.jpg', title:'3D Modelleme ve Tadilat İşleri'},
-    {url:'hero-05.jpg', title:'Gayrimenkul Alım Satım ve Kiralama'},
-    {url:'hero-06.jpg', title:'Sivora Mimarlık - 06'},
-    {url:'hero-07.jpg', title:'Sivora Mimarlık - 07'},
-    {url:'hero-08.jpg', title:'Sivora Mimarlık - 08'},
-    {url:'hero-09.jpg', title:'Sivora Mimarlık - 09'},
-    {url:'hero-10.jpg', title:'Sivora Mimarlık - 10'}
+    {url:'hero-01.webp', title:'Sivora Mimarlık & Gayrimenkul'},
+    {url:'hero-02.webp', title:'Kentsel Dönüşüm'},
+    {url:'hero-03.webp', title:'Proje Çizimi ve Danışmanlığı'},
+    {url:'hero-04.webp', title:'3D Modelleme ve Tadilat İşleri'},
+    {url:'hero-05.webp', title:'Gayrimenkul Alım Satım ve Kiralama'},
+    {url:'hero-06.webp', title:'Sivora Mimarlık - 06'},
+    {url:'hero-07.webp', title:'Sivora Mimarlık - 07'},
+    {url:'hero-08.webp', title:'Sivora Mimarlık - 08'},
+    {url:'hero-09.webp', title:'Sivora Mimarlık - 09'},
+    {url:'hero-10.webp', title:'Sivora Mimarlık - 10'}
   ];
 
   let index = 0;
@@ -4767,7 +4780,11 @@ document.addEventListener("DOMContentLoaded", function () {
     img.draggable=false;
     img.decoding='async';
     img.dataset.src=item.url;
+    // Küçük ekranlar için 960px'lik sürüm, büyük ekranlar için tam boy.
+    img.dataset.srcset=item.url.replace('.webp','-960.webp')+' 960w, '+item.url+' 1672w';
+    img.sizes='100vw';
     if(i===0){
+      img.srcset=img.dataset.srcset;
       img.src=item.url;
       img.fetchPriority='high';
     }
@@ -4788,6 +4805,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const img=imageEls[i];
     if(!img.src){
       if(priority) img.fetchPriority='high';
+      img.srcset=img.dataset.srcset;
       img.src=img.dataset.src;
     }
   }
